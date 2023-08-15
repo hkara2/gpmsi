@@ -1,0 +1,3 @@
+Groovy PMSI est un ensemble de programmes permettant d'exécuter des scripts
+spécifiques au PMSI en utilisant le langage Groovy.
+
