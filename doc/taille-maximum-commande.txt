@@ -1,0 +1,25 @@
+
+La taille maximum d'une commande lancée via cmd.exe dans Windows 10 est de 8191 octets.
+https://learn.microsoft.com/fr-fr/troubleshoot/windows-client/shell-experience/command-line-string-limitation
+
+
+Pour cette raison il faut surveiller la taille totale de la commande.
+Par défaut gpmsi est installé dans C:\app\gpmsi qui est un chemin court.
+
+Voici un exemple typique de script gmpsi et la commande finale qui est lancée :
+
+java -classpath C:\app\gpmsi\v1.1\lib\gpmsi-1.1.1.jar;C:\app\gpmsi\v1.1\lib\pmsixml-2.0.2.jar;C:\app\gpmsi\v1.1\lib\log4j-core-2.13.0.jar;C:\app\gpmsi\v1.1\lib\log4j-api-2.13.0.jar;C:\app\gpmsi\v1.1\lib\log4j-1.2-api-2.13.0.jar;C:\app\gpmsi\v1.1\lib\groovy-4.0.8.jar;C:\app\gpmsi\v1.1\lib\groovy-ant-4.0.8.jar;C:\app\gpmsi\v1.1\lib\groovy-sql-4.0.8.jar;C:\app\gpmsi\v1.1\lib\groovy-swing-4.0.8.jar;C:\app\gpmsi\v1.1\lib\groovy-xml-4.0.8.jar;C:\app\gpmsi\v1.1\lib\opencsv-3.9.jar;C:\app\gpmsi\v1.1\lib\hamcrest-core-1.3.jar;C:\app\gpmsi\v1.1\lib\h2-1.4.200.jar;C:\app\gpmsi\v1.1\lib\commons-text-1.1.jar;C:\app\gpmsi\v1.1\lib\commons-beanutils-1.9.3.jar;C:\app\gpmsi\v1.1\lib\commons-lang3-3.6.jar;C:\app\gpmsi\v1.1\lib\junit-4.12.jar;C:\app\gpmsi\v1.1\lib\commons-codec-1.10.jar;C:\app\gpmsi\v1.1\lib\commons-collections4-4.1.jar;C:\app\gpmsi\v1.1\lib\commons-logging-1.2.jar;C:\app\gpmsi\v1.1\lib\poi-3.17.jar;C:\app\gpmsi\v1.1\lib\poi-ooxml-3.17.jar;C:\app\gpmsi\v1.1\lib\poi-ooxml-schemas-3.17.jar;C:\app\gpmsi\v1.1\lib\xbean-3.0.0.jar;C:\app\gpmsi\v1.1\lib\aagbl-1.0.jar;C:\app\gpmsi\v1.1\lib\commons-io-2.11.0.jar;C:\app\gpmsi\v1.1\lib\ant-1.10.13.jar;C:\app\gpmsi\v1.1\lib\ant-launcher-1.10.13.jar;C:\app\gpmsi\v1.1\lib\hapi-base-2.3.jar;C:\app\gpmsi\v1.1\lib\hapi-structures-v25-2.3.jar;C:\app\gpmsi\v1.1\lib\slf4j-api-1.7.10.jar;C:\app\gpmsi\v1.1\lib\slf4j-log4j12-1.7.10.jar;C:\Users\hkaradimas\.pmsixml\resources fr.karadimas.gpmsi.Groovy -script "C:\app\gpmsi\v1.1\scripts\groovy\rss_vers_csv.groovy" -a:input "C:\hkchse\qualite-risque\2023\HAS-ACCREDITATION\Certif-blanche-avril\MCO_RSSG_20230331102257.txt" -a:output "C:\hkchse\qualite-risque\2023\HAS-ACCREDITATION\Certif-blanche-avril\MCO_RSSG_20230331102257.csv"
+
+Total : 1728 caractères.
+
+Cependant si on choisit d'installer gpmsi dans un emplacement comme une
+installation locale, par ex. C:\Users\hkaradimas\AppData\Local\gpmsi cela va
+faire gonfler le classpath :
+
+java -classpath C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\gpmsi-1.1.1.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\pmsixml-2.0.2.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\log4j-core-2.13.0.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\log4j-api-2.13.0.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\log4j-1.2-api-2.13.0.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\groovy-4.0.8.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\groovy-ant-4.0.8.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\groovy-sql-4.0.8.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\groovy-swing-4.0.8.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\groovy-xml-4.0.8.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\opencsv-3.9.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\hamcrest-core-1.3.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\h2-1.4.200.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\commons-text-1.1.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\commons-beanutils-1.9.3.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\commons-lang3-3.6.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\junit-4.12.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\commons-codec-1.10.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\commons-collections4-4.1.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\commons-logging-1.2.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\poi-3.17.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\poi-ooxml-3.17.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\poi-ooxml-schemas-3.17.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\xbean-3.0.0.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\aagbl-1.0.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\commons-io-2.11.0.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\ant-1.10.13.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\ant-launcher-1.10.13.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\hapi-base-2.3.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\hapi-structures-v25-2.3.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\slf4j-api-1.7.10.jar;C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\lib\slf4j-log4j12-1.7.10.jar;C:\Users\hkaradimas\.pmsixml\resources fr.karadimas.gpmsi.Groovy -script "C:\Users\hkaradimas\AppData\Local\gpmsi\v1.1\scripts\groovy\rss_vers_csv.groovy" -a:input "C:\hkchse\qualite-risque\2023\HAS-ACCREDITATION\Certif-blanche-avril\MCO_RSSG_20230331102257.txt" -a:output "C:\hkchse\qualite-risque\2023\HAS-ACCREDITATION\Certif-blanche-avril\MCO_RSSG_20230331102257.csv"
+
+Total : 2619 caractères
+
+Pour l'instant même en cas d'installation locale on est encore bien en
+dessous de la limite.
+

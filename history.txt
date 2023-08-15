@@ -1,0 +1,21 @@
+version date    changements
+1.0.1   221122  Separation du code depuis pmsixml
+1.0.2   221231  Amelioration du chargement depuis StringTable (utilisation de Buffers)
+                Mise au point d'un mini moteur de règles
+                Chargement normalisé et partagé des codes CIM10 PMSI
+1.1.0   230129  Utilisation de Groovy 4.0.8
+1.1.1   230214  Ajout de la librairie ipf-modules-hl7 pour pouvoir analyser du HL7 avec Groovy.
+                L'intégration avec Gradle se passe bien mais le nombre de dépendances est
+                trop grand pour que je le distribue avec gpmsi.
+                Ajout de l'option -run qui permet d'exécuter des scripts Groovy précompilés
+                Ajout de la librairie hapi 2.3 ce qui permet d'analyser du HL7, cependant sans
+                utiliser de DSL Groovy.
+                Ajout de la librairie groovy sql qui avait été oubliée
+        230310  Modification formatAsFrenchDate en formatLocalAsFrenchDate pour LocalDate
+1.1.2   230502  Ajout de groovy json dans le chemin de démarrage
+1.2.0   230512  Passage à pmsixml 2.2.0
+1.2.1   230627  Ajout de la classe SharedCcam
+1.2.2   230710  Ajout dans le path de apache commons net
+                Passage de apache poi en version 5.2.3 avec changement/ajout
+                de toutes les librairies qui vont avec
+1.2.3   230809  Ajout de ...

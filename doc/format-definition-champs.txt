@@ -1,0 +1,72 @@
+﻿
+La definition des champs est faite pour coller aux informations donnees par
+l'ATIH et recuperees par copier-coller.
+La colonne de type doit etre dupliquee, pour choisir quel format preferentiel est voulu
+en sortie.
+
+Attention les fichiers doivent être edites avec Libre Office Calc, puis 
+exportés en .csv avec l'encodage UTF-8. Attention Excel ne sait pas le faire !
+
+Chaque nom de fichier inclut le numero de version, derriere le signe moins '-'.
+
+RUM : Résumé d'Unité Médicale
+RUMG : RUM Groupé
+RSS : Résumé de Sortie Standardisé
+RSA : Résumé de Sortie Anonymisé
+
+
+01 Typ : P, DA*, DAD*, ZA*, 
+02 Libellé : nom du champ donne par l'ATIH
+03 Nomc : nom unique du champ pour bases de données et XML (local, n'est pas déterminé par l'ATIH)
+04 Taille : nombre fixe de caracteres
+05 Début : distance depuis le debut du fichier du debut du champ. demarre a 1 et pas à 0 (convention ATIH)  (si inconnu : '*')
+06 Fin : début + taille (si inconnu : '*')
+07 Obligatoire[1] : O (obligatoire) ou F (facultatif)
+08 Type[2] : A (alphanumérique), N (numérique)
+09 Typepref : A (alphanumerique), N (numerique), D (date)
+10 Cadrage/Remplissage[3] : informations de cadrage, '/', informations de remplissage
+11 Remarques : remarques sur le champ
+12 Compteur : si non vide, indique le "Typ" pour lequel le nombre est à utiliser
+
+Pour "01 Typ" les groupes de champs en nombre variable finissent par "*"; leur 
+nom est utilise dans la colonne "11 Compteur" pour dire quel champ contient le 
+nombre attendu de groupes de ce type.
+
+Informations de cadrage :
+NA : non applicable
+Gauche : aligné à gauche
+Droite : aligné à droite
+
+Informations de remplissage :
+NA  : non applicable
+Espace : remplissage avec des espaces 
+Zéro : remplissage avec des zéros
+
+Le plus souvent, pour de l'alphanumérique on a Gauche/Espace, et pour
+du numérique, on a Droite/Zéro
+
+En derniere ligne, la strategie de lecture doit etre indiquee.
+Pour cela, il faut mettre en premiere colonne S:
+et en deuxieme colonne le nom de la strategie a charger.
+Les noms possibles sont RSS1, RSA1 et MONO.
+
+Pour un fichier simple monoaxial (sans subdivisions telles que diagnostics, 
+groupes, etc. voici une convention simple :
+
+01 Typ : X ou le nom utilisé (par ex. TRA)
+02 Libellé : nom du champ
+03 Nomc : nom unique du champ pour bases de données et XML
+04 Taille : nombre fixe de caracteres
+05 Début : distance depuis le debut du fichier du debut du champ. demarre a 1 et pas à 0 (convention ATIH)
+06 Fin : début + taille (si inconnu : '*')
+07 Obligatoire[1] : O (obligatoire) ou F (facultatif)
+08 Type[2] : A
+09 Typepref : A
+10 Cadrage/Remplissage[3] : Gauche/Espace
+11 Remarques : remarques sur le champ
+12 Compteur : doit etre vide
+
+En dernière ligne indiquer la strategie MONO
+S:	MONO
+
+Voir pour un exemple dans les ressources le fichier tra2016.ods

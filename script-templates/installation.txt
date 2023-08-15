@@ -1,0 +1,59 @@
+
+                              Installation de gpmsi
+
+Introduction
+============
+
+gpmsi est sans installeur. Il suffit pour l'installer de faire du copier coller.
+
+Copie des fichiers
+==================
+
+La facon standard de l'installer est de creer dans la machine cible sur
+laquelle on veut installer gpmsi :
+
+Dans le lecteur C: , un repertoire "app".
+
+Dans ce repertoire C:\app , un repertoire "gpmsi".
+
+Ouvrir le fichier zip dans lequel gpmsi-v@PROJECT_VERSION@ est distribue, et 
+copier le repertoire v@PROJECT_VERSION@ dans le repertoire C:\app\gpmsi .
+
+On peut faire cohabiter plusieurs versions dans le repertoire C:\app\gpmsi.
+
+Creation du script de lancement
+===============================
+
+Pour pouvoir lancer plus facilement gmpsi, on peut faire une commande de
+lancement facilement accessible :
+
+Dans le repertoire C:\app\gpmsi creer un fichier gpmsi.bat qui contiendra
+juste la ligne suivante :
+
+C:\app\gpmsi\v@PROJECT_VERSION@\scripts\gpmsi.bat %*
+
+
+Reglage de l'environnement systeme
+==================================
+
+Ouvrir les proprietes systeme :
+
+clic droit dans le menu demarrer
+Systeme
+Dans la fenetre Systeme, a droite cliquer sur "Informations Systeme"
+Ensuite "Parametres systeme avances"
+Variables d'environnement
+
+Dans les variables utilisateur, ajouter une variable GPMSI_HOME qui aura pour
+contenu :
+C:\app\gpmsi\v@PROJECT_VERSION@
+
+Version de java
+===============
+
+Java 1.8 ou superieur doit etre installe.
+S'il y a plusieurs versions de java, creer la variable JAVA_HOME qui 
+contiendra le chemin de java a utiliser (par exemple si java a ete installe
+dans C:\jdk1.8 mettre comme valeur pour JAVA_HOME C:\jdk1.8)
+
+

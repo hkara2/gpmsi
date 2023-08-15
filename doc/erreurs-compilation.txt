@@ -1,0 +1,19 @@
+
+
+Certaines erreurs de compilation sont difficiles à trouver.
+
+Exemple :
+
+   csv {
+       ^
+
+1 error
+
+est dû en fait à une expression 100 lignes plus bas :
+nip <> rec.nip
+
+qui aurait dû être écrite :
+nip != rec.nip
+
+
+

@@ -1,0 +1,15 @@
+
+select count(*), mnfam 
+from rsfacea 
+where sfa=0
+group by mnfam
+
+Note 2 : cette variable doit être renseignée lorsque la variable « Séjour facturable à l'assurance maladie » est égale à 0 (séjour non facturable à l’assurance maladie).
+Dans les autres cas, laisser cette variable à vide (caractère espace).
+1 : patient en AME
+2 : patient sous convention internationale
+3 : patient payant
+4 : patient pris en charge dans le cadre du dispositif des soins urgents (article L. 254-1 du CASF)
+5 : patient hospitalisé dans un autre établissement
+6 : acte ou consultation externe réalisé dans le cadre de l’activité libérale d’un praticien hospitalier
+9 : autres situations

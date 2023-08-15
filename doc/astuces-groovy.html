@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Astuces utiles en Groovy (et Java)</title>
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <!-- <script type="text/javascript" src="script.js"></script> -->
+</head>
+<body>
+<h1>Astuces utiles en Groovy (et Java)</h1>
+<h2>Formatage de nombres avec des zéros initiaux</h2>
+Il suffit d'utiliser la classe java DecimalFormat (<a href="https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html">cf. javadoc</a>)
+<p>
+Exemple :
+<pre>
+import java.text.DecimalFormat
+...
+		df = new DecimalFormat("0000000000") //le nombre total de chiffre sera de 10
+...
+		df.format(n)
+</pre>
+
+</p>
+<h2>Formatage de nombre au format français</h2>
+Notamment lorsque l'on veut avoir les nombres avec la virgule au lieu du point.
+<p>
+Exemple :
+<pre>
+import java.text.NumberFormat
+
+fnf = NumberFormat.getInstance(); //format de la 'locale' du système (français sur un PC français)
+
+r = fnf.format(0.1) //r == "0,1"
+
+</pre>
+</p>
+
+<h2>Manipulation de tableaux de caractères</h2>
+Groovy permet de manipuler des chaînes de caractères comme tableaux de
+caractères, ce qui est extrêmement pratique.
+Il y a deux chose à se rappeler :
+<ul>
+<li>Le caractère initial est le caractère 0 (zéro) et pas 1
+<li>Les numéros négatifs peuvent être utilisés, ils sont comptés depuis la fin.
+Par exemple -1 désigne le dernier caractère. 
+</ul>
+Par exemple si dans une ligne on veut remplacer les dix caractères qui vont de
+la colonne 12 à la colonne 27 (incluse) par la chaîne "bonjour les amis"
+<pre>
+line = "0123456789012345678901234567890123456789012345678901234567890123456789"
+l2 = line[0..11] + "bonjour les amis" + line[28..-1]
+//->    012345678901bonjour les amis890123456789012345678901234567890123456789
+println l2
+</pre>
+Une autre astuce est l'utilisation de StringBuffer qui rend les chaînes
+modifiables. Par exemple :
+<pre>
+foo = new StringBuffer("0123456789")
+foo[2..4] = "bar"
+//-> 01bar56789
+</pre>
+On peut concaténer les chaînes soit avec "+", comme en java, soit avec l'opérateur
+"&lt;&lt;", qui en fait renvoie un StringBuffer. Ex :
+<pre>
+s = "foo" &lt;&lt; "bar" &lt;&lt; "baz"
+//-> foobarbaz
+</pre>
+C'est aussi une astuce pour transformer rapidement une chaîne en StringBuffer.
+Notre exemple précédent devient alors :
+<pre>
+foo = "0123456789" &lt;&lt; ""
+foo[2..4] = "bar"
+//-> 01bar56789
+</pre>
+
+Il faut noter que lorsque l'on assigne une chaîne de caractère à un sous-tableau,
+ce qui se passe c'est que le sous-tableau est remplacé par le contenu de la
+chaîne, mais la longueur de ce qui est remplacé s'adapte. Ex :
+<pre>
+foo = "0123456789" &lt;&lt; ""
+foo[2..4] = "bonjour"
+//-> 01bonjour56789
+</pre>
+
+<pre>
+foo = "0123456789" &lt;&lt; ""
+foo[2..4] = "b"
+//-> 01b56789
+</pre>
+
+<h2>Améliorations de la classe String</h2>
+Groovy apporte de très nombreuses améliorations de la classe String.
+En voici quelques-unes qui sont bien utiles.
+<p>
+Découpage en tableau sur un caractère particulier. Ex :
+<pre>
+foo = "a,b,c,d".tokenize(",")
+//-> [a, b, c, d]
+</pre>
+<p>
+Replacement de caractères par d'autres. Ex : 
+<pre>
+//remplacer caractères accentués par leur équivalent non accentué
+foo = "à été où ? Près d'ici.".tr("àéèù", "aeeu")
+//->a ete ou ? Pres d'ici.
+</pre>
+
+<h2>Gestion des arguments de ligne de commande</h2>
+Si un argument de ligne de commande est absent, l'expression <code>args.&lt;NOM&gt;</code> 
+est null. Par ex. pour <code>'fichierpharm'</code>, l'expression <code>args.fichierpharm</code> renvoie <code>null</code>.
+Exemple d'utilisation :
+<pre>
+if (args.fichierpharm != null) {
+    ...
+}
+</pre>
+
+</body>
+</html>

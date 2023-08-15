@@ -1,0 +1,204 @@
+//:encoding=UTF-8:
+
+plugins {
+  id 'java'
+  id 'groovy'
+  id 'distribution'
+}
+
+//apply plugin: 'java'
+//apply plugin: 'groovy'
+
+apply plugin: 'distribution'
+
+java {
+  //pour java, nous voulons que l'exécution puisse se faire sur java 8
+  targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+//Si il y a des problèmes de fichiers non trouvés à la compilation, essayer : gradle build --refresh-dependencies
+
+Properties antprops = new Properties()
+antprops.load(new FileReader("ant-build.properties"))
+
+ext.PROJECT_VERSION = antprops.PROJECT_VERSION //ex : 1.1
+ext.PROJECT_SUB_VERSION = antprops.PROJECT_SUB_VERSION //ex : .0
+
+version = ext.PROJECT_VERSION + ext.PROJECT_SUB_VERSION
+
+repositories {
+    flatDir {
+        dirs 'lib'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.groovy:groovy-all:4.0.8'
+    
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    // on garde la version qui va avec hapi 2.3
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.10'
+    
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
+    // on garde la version qui va avec hapi 2.3 (il y a des vulnérabilités, donc toujours exécuter localement, jamais en serveur avec un accès à distance quelconque)
+    testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.10'
+    
+    // https://mvnrepository.com/artifact/org.openehealth.ipf.modules/ipf-modules-hl7
+    runtimeOnly(group: 'org.openehealth.ipf.modules', name: 'ipf-modules-hl7', version: '3.4.3') {
+      transitive = true
+    }
+    //implementation group: 'org.openehealth.ipf.modules', name: 'ipf-modules-hl7', version: '3.4.3'
+    
+    compile fileTree(include: ['*.jar'], dir: 'lib')
+
+}
+
+sourceSets {
+    main {
+        groovy {
+           //srcDirs = ['src/main/groovy', 'src/main/java']
+        }
+        java {
+           // srcDirs = ['src/main/groovy', 'src/main/java']
+          // srcDir 'src/main/groovy'
+          //srcDirs = [] // tout doit être compilé par le plug-in groovy, rien par java (sinon le compilateur java ne trouve pas le groovy qui a été compilé)
+        }
+        resources {
+            srcDir "src/main/resources"
+            srcDir "src/main/groovy"
+        }
+    }
+    test {
+        resources {
+          //adding dir to existing source dirs
+            srcDir "src/main/resources"
+        }
+    }
+}
+
+//distributions {
+//  main {
+//    contents {
+//      from libsDir
+//      (jar) .each { item ->
+//        from item
+//      }
+//    }//contents
+//  }//main
+//}//distributions
+
+//preparation à la compilation
+task prebuild {
+  ant {
+    mkdir(dir: "src/main/resources/fr/karadimas/gpmsi/")
+    //copier ce fichier en tant que ressource car fr.karadimas.gpmsi.Groovy va l'utiliser pour initialiser le "binding"
+    copy(file: "src/main/groovy/fr/karadimas/gpmsi/inits.groovy", tofile: "src/main/resources/fr/karadimas/gpmsi/inits.groovytxt") {
+    }
+  }
+}
+
+build.dependsOn prebuild //executer prebuild avant build
+
+//Construire la distribution
+//Faire un distclean avant une distribution finale, pour effacer d'éventuels fichiers obsolètes
+task dist {
+    doLast {
+        ant {
+            filter(filtersfile: "ant-build.properties")
+            filter(token: "GPMSILIB", value: "gpmsi-" + version)
+
+            destdir = "v$PROJECT_VERSION"
+
+            //copier les librairies y compris bien sur gpmsi
+            mkdir(dir: "dist/$destdir")
+
+            copy(todir: "dist/$destdir/lib", preservelastmodified: true) {
+                fileset(dir: "lib")
+            }
+            copy(file: "build/libs/gpmsi-${version}.jar", todir: "dist/$destdir/lib", preservelastmodified: true)
+
+            //copier les scripts, en les adaptant a la version actuelle
+            mkdir(dir: "dist/$destdir/scripts")
+
+            //"toucher" gpmsi.bat pour le forcer à être régénéré
+            touch(file: "script-templates/gpmsi.bat")
+
+            copy(todir: "dist/$destdir/scripts", filtering: "true", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "script-templates")
+            }
+
+            //bouger le script gpmsi.bat a la racine de la distrib
+            move(file: "dist/$destdir/scripts/gpmsi.bat", todir: "dist/$destdir")
+
+            //copier les fichiers de reference
+            mkdir(dir: "dist/$destdir/fichiers-ref")
+
+            copy(todir: "dist/$destdir/fichiers-ref", filtering: "false", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "fichiers-ref")
+            }
+
+            //copier le repertoire de docs
+            mkdir(dir: "dist/$destdir/docs")
+
+            copy(todir: "dist/$destdir/docs", filtering: "true", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "doc")
+            }
+
+            //copier le repertoire des javadocs dans les docs de sortie
+            mkdir(dir: "dist/$destdir/docs/javadoc")
+
+            //le créer au cas où il n'existerait pas encore (si "javadoc" n'a pas été lancé)
+            mkdir(dir: "build/docs/javadoc/")
+
+            copy(todir: "dist/$destdir/docs/javadoc", filtering: "false", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "build/docs/javadoc/")
+            }
+
+            //Effacer tous les fichiers temporaires des exemples groovy pour etre propre
+            mkdir(dir: "dist/$destdir/exemples-groovy")
+            copy(todir: "dist/$destdir/exemples-groovy", filtering: "true", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "exemples-groovy")
+            }
+
+            copy(todir: "dist/$destdir/", file: "dist/$destdir/docs/a-lire.txt", preservelastmodified: true)
+        }
+    }
+}
+
+task zip(type:Zip, dependsOn :[dist]) {
+    String zipName = "gpmsi-${PROJECT_VERSION}.zip"
+
+    from "dist" //la distribution inclut le repertoire avec la version, c'est normal.
+
+    version = "$PROJECT_VERSION"
+    baseName = "gpmsi"
+}
+
+//nettoyer un peu la distribution
+task cleandist {
+    doLast {
+        ant {
+            filter(filtersfile: "ant-build.properties")
+
+            destdir = "v$PROJECT_VERSION"
+
+            delete(dir: "dist/$destdir/scripts")
+            delete(dir: "dist/$destdir/fichiers-ref")
+            delete(dir: "dist/$destdir/docs")
+            //Effacer tous les fichiers temporaires des exemples groovy pour etre propre
+            delete {
+                fileset(dir: "exemples-groovy/tmp")
+            }
+            delete(dir: "dist/$destdir/exemples-groovy")
+        }
+    }
+}
+
+//essai pour distribuer les dependances mais pas terrible pour l'instant
+task libs(type: Sync) {
+  from configurations.runtime
+  into "${buildDir}/libs"
+}
+
+

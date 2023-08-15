@@ -1,0 +1,93 @@
+:encoding=UTF-8:
+Ce repertoire contient des scripts groovy (qui finissent par .groovy), ainsi 
+que des  commandes batch (qui finissent par .bat). Les commandes batch
+appellent les scripts groovy qui sont executes via gpmsi.
+Les commandes sont rangees par domaine concerne (RSS, RHS, VH, etc.)
+
+Ce repertoire doit absolument s'appeler "scripts". Ne jamais le renommer.
+
+Le contenu de ce repertoire ne doit jamais etre modifie, (sauf si cela est
+expressement demande, par exemple pour une correction de bug eventuellement).
+Si l'on veut reutiliser ces fichiers, il faut les copier-coller ailleurs
+(par exemple dans C:\app\gpmsi\scripts-locaux) puis les adapter.
+
+Le sous-repertoire "groovy" contient les scripts groovy proprement dit.
+Les scripts sont tous dans le repertoire "groovy". Les sous-repertoires
+contiennent soit des scripts plus specialises comme des regles de detection,
+soit des objets qui peuvent etre inclus par les scripts.
+
+Le sous-repertoire "drag-and-drop" contient des commandes batch qui sont
+destinees au "drag and drop" (glisser-deposer) des fichiers.
+Il suffit dans un explorateur windows de selectionner puis de faire "glisser"
+puis "deposer" sur le fichier batch voulu les fichiers concernes par la
+commande.
+
+Le sous-repertoire "a-copier-coller" contient des fichiers batch que l'on
+peut copier et coller a cote des fichiers a traiter, puis on les adapte.
+Cela permet :
+
+1) d'eviter les erreurs de frappe car on peut verifier ce qui est entre
+2) de pouvoir faire du copier-coller plus facilement que sur une ligne de commande
+3) de garder une trace de la commande qui a ete lancee
+
+Le sous-repertoire "gui" contient des commandes qui lancent une interface
+graphique ("graphic user interface") lorsqu'on les execute.
+
+Le sous-repertoire "xlsx" contient des fichiers Excel que l'on peut copier
+pour importer plus facilement le csv produit par certaines commandes (par ex.
+rss_vers_csv)
+
+Les scripts groovy doivent imperativement posseder l'encodage UTF-8.
+Ce n'est pas l'encodage par defaut dans windows, en France l'encodage par
+defaut dans Windows est le windows-1252 (appele aussi cp1252).
+Pour cette raison, il ne faut jamais utiliser le bloc note de windows pour 
+modifier ces scripts ! Il faut utiliser un editeur qui supporte l'encodage UTF-8.
+L'editeur que j'utilise est jEdit, qui detecte l'encodage grace a la directive
+:encoding=xxx: placee en debut de fichier.
+Si on utilise un autre editeur, veiller qu'il soit par defaut en encodage UTF-8,
+sinon surveiller l'encodage selectionne !
+
+Le fonctionnement general des scripts (a faire si nouveau script) :
+
+- L'encodage doit etre UTF-8
+
+- Le script commence par la ligne
+  setlocal enableextensions
+  qui permet que les changements de variable ne soient pas repercutes dans
+  l'environnement de l'utilisateur
+
+- Les scripts recherchent une variable GPMSI_HOME pour savoir si l'utilisateur
+  veut utiliser un endroit bien defini. Si ce n'est pas le cas, il definit
+  la variable systeme GPMSI_HOME qui pointera sur le repertoire
+  ou est installe le gpmsi le plus recent (ici c'est a priori 
+  C:\app\gpmsi\v@PROJECT_VERSION@
+  mais regarder dans C:\app\gpmsi quelle est la derniere version pour etre sur)
+  Ligne de script qui permet de gerer la definition de la variable :
+  if not defined GPMSI_HOME set GPMSI_HOME=C:\app\gpmsi\v@PROJECT_VERSION@
+
+- Il y a dans chaque distribution, a la racine, une commande batch "gpmsi.bat",
+  qui est appelee pour lancer l'interpreteur de commande Groovy avec 
+  l'environnement d'execution de gpmsi. Cette commande est a
+  %GPMSI_HOME%\gpmsi.bat
+  On peut creer une commande exec.bat a un endroit predefini, je preconise
+  C:\app\gpmsi\exec.bat
+  Dans ce fichier de commande, on definit en dur l'environnement gpmsi a 
+  utiliser, exemple de fichier C:\app\gpmsi\exec.bat :
+--------------------------------------------------------------------------------
+  setlocal enableextensions
+  GPMSI_HOME=C:\app\gpmsi\v@PROJECT_VERSION@
+  %GPMSI_HOME%\gpmsi.bat %*
+--------------------------------------------------------------------------------
+
+Si on ajoute le repertoire C:\app\gpmsi\v@PROJECT_VERSION@ dans le PATH, il 
+suffira de taper la commande gpmsi pour executer un script
+groovy pour gpmsi, et cela quel que soit le repertoire dans lequel on se 
+trouve.
+
+
+Note : les scripts locaux au site doivent se trouver de preference dans le 
+repertoire C:\app\gpmsi\scripts-locaux
+
+
+
+

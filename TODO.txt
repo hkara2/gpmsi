@@ -1,0 +1,11 @@
+:encoding=UTF-8:
+TODO list et idees
+
+230418 hk
+OK  Construire une StringTable à partir d'un ResultSet JDBC. Donner la
+    possibilité de fournir des formats pour les nombres, les dates, les heures.
+    On ne gèrera que String,Date,Heure,Timestamp,Nombres. Pas de CLOB ou autre
+    arrays de byte.
+
+
+

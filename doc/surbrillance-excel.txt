@@ -1,0 +1,17 @@
+Quelques règles Excel pour mettre en surbrillance les cellules différentes.
+
+
+=et(indirect(adresse(ligne();colonne())) = indirect(adresse(ligne()+1;colonne()));indirect(adresse(ligne();colonne()-2)) = "_s";indirect(adresse(ligne()+1;colonne()-2)) = "c_")
+
+=et(
+(indirect(adresse(ligne();colonne()-2)) = "_s");
+(indirect(adresse(ligne()+1;colonne()-2)) = "c_")
+)
+
+=et( (indirect(adresse(ligne()+1;colonne()-2)) = "c_") ; vrai) 
+
+Surbrillance sur cellule C270 :
+=ET(A270="_s";A271="c_";C270=C271)
+
+=et(C2=C3;A2="c_";A3="_s")
+
