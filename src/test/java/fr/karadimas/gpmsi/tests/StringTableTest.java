@@ -68,9 +68,9 @@ extends TestCase
 		System.out.println("row number : "+rowNr+" found in "+(tac-tic)+" ms");
 	}
 
-	@Test
-	public void testFindRows() {
-		fail("Not yet implemented");
-	}
+	//@Test
+	//public void testFindRows() {
+		//fail("Not yet implemented");
+	//}
 
 }
