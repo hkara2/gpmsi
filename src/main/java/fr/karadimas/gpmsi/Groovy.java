@@ -348,7 +348,7 @@ public class Groovy {
             bnd.setVariable("isoDateFormat", isoDateFormat);
             //problem : The script fr/karadimas/gpmsi/inits.groovy can't be found.
             //This works when hardcoded : 'jar:file:/C:/app/pmsixml/1.6/lib/pmsixml-1.6.jar!/fr/karadimas/pmsixml/inits.groovy'
-            gse.run("fr/karadimas/gpmsi/inits.groovytxt", bnd); //start with init script
+            gse.run("fr/karadimas/gpmsi/initengine.gtxt", bnd); //start with init script (inits.groovy copied to initengine.gtxt)
             if (scriptFile != null) lg.debug("running script file '"+scriptFile+"'");
             if (scriptUri != null) lg.debug("running script uri : '"+scriptUri+"'");
             Object returnedObject;
