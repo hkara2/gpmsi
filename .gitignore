@@ -1,6 +1,9 @@
 # jEdit backup files
 *~
 
+# Emacs (and others) autosave files
+\#*\#
+
 # Eclipse settings
 .settings
 
