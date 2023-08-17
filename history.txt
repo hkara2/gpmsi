@@ -18,4 +18,16 @@ version date    changements
 1.2.2   230710  Ajout dans le path de apache commons net
                 Passage de apache poi en version 5.2.3 avec changement/ajout
                 de toutes les librairies qui vont avec
-1.2.3   230809  Ajout de ...
+1.2.3   230809  Ajout de quelques tests
+1.3.0   230817  Passage sous Git.
+                Développement du .gitignore pour couvrir la majorité des cas.
+                Améliorations pour travail avec Gradle+Eclipse
+                Beaucoup de changements dans build.gradle, gradle 8.2.1 devient la version minimum.
+                Utilisation pour la compilation de openjdk 19.
+                Déclaration de toutes les dépendances sauf deux (aagbl, pmsixml) dans Gradle.
+                Correction d'un bug de apache poi qui ne codait pas bien les caractères accentués.
+                Correction des tests pour qu'ils s'exécutent correctement quel que soit le
+                répertoire de base, et pour qu'ils envoient leur sortie dans le répertoire
+                test-files/tmp-out qui est ignoré par Git.
+                
+                

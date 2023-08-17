@@ -4,17 +4,20 @@
 
 plugins {
   id 'java'
+  id 'application'
   id 'groovy'
   id 'distribution'
+  id 'eclipse'
 }
 
 //apply plugin: 'java'
 //apply plugin: 'groovy'
 
-apply plugin: 'distribution'
+//apply plugin: 'distribution'
 
 java {
   //pour java, nous voulons que l'exécution puisse se faire sur java 8
+  sourceCompatibility = JavaVersion.VERSION_1_8
   targetCompatibility = JavaVersion.VERSION_1_8
 }
 
@@ -24,7 +27,7 @@ processResources.duplicatesStrategy='include'
 //Si il y a des problèmes de fichiers non trouvés à la compilation, essayer : gradle build --refresh-dependencies
 
 Properties antprops = new Properties()
-antprops.load(new FileReader("ant-build.properties"))
+antprops.load(new FileReader(layout.projectDirectory.file("ant-build.properties").asFile))
 
 ext.PROJECT_VERSION = antprops.PROJECT_VERSION //ex : 1.1
 ext.PROJECT_SUB_VERSION = antprops.PROJECT_SUB_VERSION //ex : .0
@@ -70,13 +73,16 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
     
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-1.2-api
-    testImplementation 'org.apache.logging.log4j:log4j-1.2-api:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-1.2-api:2.20.0'
     
     // https://mvnrepository.com/artifact/com.h2database/h2
-    testImplementation 'com.h2database:h2:1.4.200'
+    //implementation 'com.h2database:h2:1.4.200'
+    
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    implementation 'com.h2database:h2:2.1.214'
     
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-    testImplementation 'org.slf4j:slf4j-simple:2.0.6'
+    implementation 'org.slf4j:slf4j-simple:2.0.6'
     
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation 'org.slf4j:slf4j-api:2.0.6'
@@ -100,13 +106,13 @@ dependencies {
     implementation 'ca.uhn.hapi:hapi-structures-v251:2.3'
     
     // https://mvnrepository.com/artifact/junit/junit
-    testImplementation 'junit:junit:4.12'
+    implementation 'junit:junit:4.12'
     
     // https://mvnrepository.com/artifact/com.opencsv/opencsv
     implementation 'com.opencsv:opencsv:3.9'
     
     // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core
-    testImplementation 'org.hamcrest:hamcrest-core:1.3'
+    implementation 'org.hamcrest:hamcrest-core:1.3'
     
     // https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans
     implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
@@ -151,11 +157,11 @@ dependencies {
     implementation 'org.apache.commons:commons-text:1.1'
     
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy
-    implementation('org.apache.groovy:groovy') {
-      version {
-        strictly '4.0.8'
-      }
-    }
+    //implementation('org.apache.groovy:groovy') {
+    //  version {
+    //    strictly '4.0.8'
+    //  }
+    //}
     
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-ant
     implementation 'org.apache.groovy:groovy-ant:4.0.8'
@@ -213,12 +219,12 @@ dependencies {
     // on garde la version qui va avec hapi 2.3 (il y a des vulnérabilités, donc toujours exécuter localement, jamais en serveur avec un accès à distance quelconque)
     testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.10'
     
-    constraints {
-      // https://mvnrepository.com/artifact/org.apache.groovy/groovy
-      implementation('org.apache.groovy:groovy:4.0.8') {
-        because 'specific dependencies declared for ipf'
-      }
-    }
+    //constraints {
+    //  // https://mvnrepository.com/artifact/org.apache.groovy/groovy
+    //  implementation('org.apache.groovy:groovy:4.0.8') {
+    //    because 'specific dependencies declared for ipf'
+    //  }
+    //}
     
     // https://mvnrepository.com/artifact/org.openehealth.ipf.modules/ipf-modules-hl7
 //    runtimeOnly(group: 'org.openehealth.ipf.modules', name: 'ipf-modules-hl7', version: '3.4.3') {
@@ -271,12 +277,32 @@ sourceSets {
 //  }//main
 //}//distributions
 
-//preparation à la compilation -> désactivé pour l'instant
+//nettoyer un peu la distribution
+task cleandist {
+    doLast {
+        ant {
+            filter(filtersfile: "ant-build.properties")
+
+            destdir = "v$PROJECT_VERSION"
+
+            delete(dir: "dist/$destdir/scripts")
+            delete(dir: "dist/$destdir/fichiers-ref")
+            delete(dir: "dist/$destdir/docs")
+            //Effacer tous les fichiers temporaires des exemples groovy pour etre propre
+            delete {
+                fileset(dir: "exemples-groovy/tmp")
+            }
+            delete(dir: "dist/$destdir/exemples-groovy")
+        }
+    }
+}
+
+//preparation à la compilation -> met le script d'initialisation en tant que ressource texte
 //task prebuild {
 //  ant {
 //    mkdir(dir: "src/main/resources/fr/karadimas/gpmsi/")
-    //copier ce fichier en tant que ressource car fr.karadimas.gpmsi.Groovy va l'utiliser pour initialiser le "binding"
-    //copy(file: "src/main/groovy/fr/karadimas/gpmsi/inits.groovy", tofile: "src/main/resources/fr/karadimas/gpmsi/initengine.gtxt") {
+//    //copier ce fichier en tant que ressource car fr.karadimas.gpmsi.Groovy va l'utiliser pour initialiser le "binding"
+//    copy(file: "src/main/groovy/fr/karadimas/gpmsi/inits.groovy", tofile: "src/main/resources/fr/karadimas/gpmsi/initengine.gtxt") {
 //    }
 //  }
 //}
@@ -285,12 +311,18 @@ tasks.register('copyInits', Copy) {
   //from "src/main/groovy/fr/karadimas/gpmsi/inits.groovy"
   //into "src/main/resources/fr/karadimas/gpmsi/initengine.gtxt"
   from layout.projectDirectory.file("src/main/groovy/fr/karadimas/gpmsi/inits.groovy")
-  to layout.buildDirectory.file("resources/main/resources/fr/karadimas/gpmsi/initengine.gtxt")
+  into layout.buildDirectory.file("src/main/resources/fr/karadimas/gpmsi/initengine.gtxt")
 }
 
 task('copyResources', dependsOn: ['copyInits'])
 
-//build.dependsOn prebuild //executer prebuild avant build
+//Copie des librairies
+task copyToLib(type: Copy) {
+    into "${buildDir}/extlibs"
+    from configurations.runtimeClasspath
+}
+
+build.dependsOn copyToLib //executer prebuild et copyToLib avant build
 
 //Construire la distribution
 //Faire un cleandist avant une distribution finale, pour effacer d'éventuels fichiers obsolètes
@@ -308,6 +340,9 @@ task dist {
             copy(todir: "dist/$destdir/lib", preservelastmodified: true) {
                 fileset(dir: "lib")
             }
+            copy(todir: "dist/$destdir/lib", preservelastmodified: true) {
+                fileset(dir: "build/extlibs")
+            }            
             copy(file: "build/libs/gpmsi-${version}.jar", todir: "dist/$destdir/lib", preservelastmodified: true)
 
             //copier les scripts, en les adaptant a la version actuelle
@@ -354,9 +389,10 @@ task dist {
             }
 
             copy(todir: "dist/$destdir/", file: "dist/$destdir/docs/a-lire.txt", preservelastmodified: true)
-        }
-    }
-}
+        }//ant
+        
+    }//doLast
+}//dist
 
 task zip(type:Zip, dependsOn :[dist]) {
     String zipName = "gpmsi-${PROJECT_VERSION}.zip"
@@ -367,25 +403,7 @@ task zip(type:Zip, dependsOn :[dist]) {
     archiveBaseName = "gpmsi"
 }
 
-//nettoyer un peu la distribution
-task cleandist {
-    doLast {
-        ant {
-            filter(filtersfile: "ant-build.properties")
-
-            destdir = "v$PROJECT_VERSION"
-
-            delete(dir: "dist/$destdir/scripts")
-            delete(dir: "dist/$destdir/fichiers-ref")
-            delete(dir: "dist/$destdir/docs")
-            //Effacer tous les fichiers temporaires des exemples groovy pour etre propre
-            delete {
-                fileset(dir: "exemples-groovy/tmp")
-            }
-            delete(dir: "dist/$destdir/exemples-groovy")
-        }
-    }
-}
+zip.dependsOn dist
 
 //essai pour distribuer les dependances mais pas terrible pour l'instant
 // task libs(type: Sync) {
