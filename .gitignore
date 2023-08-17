@@ -7,8 +7,15 @@
 # Eclipse settings
 .settings
 
-# Gradle settings
+# Gradle settings and wrapper(s)
 .gradle
+gradlew*
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
 
 # Eclipse Gradle plugin generated files
 # Eclipse Core
