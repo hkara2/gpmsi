@@ -1,0 +1,7 @@
+
+Pour le développement :
+
+Aller dans le répertoire "fichiers-ref" et exécuter le script "installer-fichiers-ref.bat".
+Cela va créer un répertoire ".gpmsi" dans le répertoire de base de l'utilisateur.
+Dans ce répertoire .gpmsi il va copier les deux répertoires ccam et cim.
+
