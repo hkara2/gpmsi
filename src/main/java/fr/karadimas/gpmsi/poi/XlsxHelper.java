@@ -11,8 +11,8 @@ import java.sql.Types;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
-import org.apache.commons.beanutils.converters.NumberConverter;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -57,6 +57,8 @@ public class XlsxHelper {
   private int curRow = 0;
   private int curCol = 0;
   
+  private Pattern escapedUtfPattern = Pattern.compile("_x[\\da-fA-F]{4}_");
+  
   /**
    * Crée un nouveau classeur Excel Xlsx en mémoire / sur disque, avec un seul onglet
    * @param sheetName Nom de l'onglet
@@ -66,6 +68,54 @@ public class XlsxHelper {
     _sheet = _workbook.createSheet(sheetName);
   }
 
+  /**
+   * D'après la doc Microsoft des caractères d'échappement sont utilisés pour les
+   * caractères interdits dans XML.
+   * https://en.wikipedia.org/wiki/Valid_characters_in_XML
+   * En pratique dans POI si on n'échappe pas ça donne des caractères invalides.
+   * @param c
+   * @return true si le caractère est un caractère valide pour xml 1.0
+   */
+  private static final boolean isValidMs(char c) {
+    if (c < 0x0020) return c == 0x0009 || c == 0x000A || c == 0x000D;
+    //U+0020–U+D7FF, U+E000–U+FFFD: this excludes some (not all) non-characters in the BMP (all surrogates, U+FFFE and U+FFFF are forbidden);
+    if (c <= 0x00FF) return true;
+    if (c >= 0xE000 && c <= 0xFFFD) return true;
+    //U+10000–U+10FFFF: this includes all code points in supplementary planes, including non-characters.
+    //java char is only 16 bit, we don't support U+10000 and above here.
+    return false;
+  }
+  /**
+   * Microsoft stocke les caractères unicode de manière spéciale.
+   * https://stackoverflow.com/questions/48222502/xssfcell-in-apache-poi-encodes-certain-character-sequences-as-unicode-character
+   * https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.varianttypes.vtbstring?view=openxml-2.8.1&redirectedfrom=MSDN
+   * Malheureusement apache poi ne fait pas cette conversion ce qui fait
+   * que les caractères accentués ne sont pas bien stockés si on ne fait pas cette
+   * conversion avant.
+   * Cette fonction fait la conversion.
+   * Attention, il y a un traitement spécial avec _x005F_ qui est fait aussi ici (cf. liens ci-dessus).
+   * @param rawString
+   * @return une string avec les caractères unicode bien traduits de façon "microsoftienne".
+   */
+  public String msUtfEncode(String rawString) {
+    //Faire l'échappement des séquences qui peuvent représenter un échappement.
+    String escaped1 = escapedUtfPattern.matcher(rawString).replaceAll("_x005F$0");
+    //maintenant faire l'échappement des caractères "interdits" dans XML 1.0.
+    StringBuilder sb = new StringBuilder();
+    int len = escaped1.length();
+    for (int i = 0; i < len; i++) {
+      char c = escaped1.charAt(i);
+      if (isValidMs(c)) sb.append(c);
+      else {
+        sb.append('_');
+        sb.append('x');
+        String.format("%04X", c);
+        sb.append('_');
+      }
+    }
+    return escaped1;
+  }
+  
   /**
    * Donner le flux de destination des données xlsx.
    * @param pFos Le flux de destination
@@ -92,7 +142,9 @@ public class XlsxHelper {
   public Sheet getSheet() { return _sheet; }
   
   /**
-   * Mettre une cellule texte dans Excel (si null, sera remplacée par "")
+   * Mettre une cellule texte dans Excel (si null, sera remplacée par "").
+   * Une transformation via {@link #msUtfEncode(String)} est faite pour traiter les caractères
+   * unicode de façon appropriée.
    * @param value La valeur
    * @param rowNr le numéro de rangée (commence à 0)
    * @param colNr le numéro de colonne (commence à 0)
@@ -101,7 +153,9 @@ public class XlsxHelper {
   public SXSSFCell setCell(String value, int rowNr, int colNr) {
     SXSSFRow row = getOrMakeRow(rowNr);
     SXSSFCell cell = row.createCell(colNr);
-    cell.setCellValue(value == null ? "" : value); //setCellValue surchargé pour : String boolean Calendar Date Double RichTextString
+    String v = value == null ? "" : value;
+    v = msUtfEncode(v); //remplacer v par sa valeur transformée avec des séquences d'échappement pour les caractères non ASCII
+    cell.setCellValue(v); //setCellValue surchargé pour : String boolean Calendar Date Double RichTextString
     return cell;
   }
   
@@ -213,6 +267,7 @@ public class XlsxHelper {
   /**
    * Mettre une cellule de texte "riche" dans Excel.
    * Cf. <a href="https://poi.apache.org/apidocs/dev/org/apache/poi/xssf/usermodel/XSSFRichTextString.html">XSSFRichTextString</a>
+   * TODO voir comment se comportent les caractères Unicode. 
    * @param value La valeur numérique
    * @param rowNr le numéro de rangée (commence à 0)
    * @param colNr le numéro de colonne (commence à 0)

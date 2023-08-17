@@ -17,6 +17,8 @@ public class XlsxHelperTests {
   /**
    * Test création et remplissage d'un fichier xlsx de 3 lignes avec en-tête,
    * et utilisation de divers formats, à l'aide de {@link XlsxHelper}.
+   * Permet aussi de voir si les caractères accentués et les séquences codées de type '_x00EA_'
+   * sont bien protégées et pas transformées en caractère unicode.
    * @throws Exception Si il y a un problème
    */
   @Test
@@ -26,7 +28,7 @@ public class XlsxHelperTests {
     //Créer et remplir le classeur
     XlsxHelper classeur = new XlsxHelper("Classeur test");
     classeur.addCell("Nom");
-    classeur.addCell("Prénom");
+    classeur.addCell("Prénom_x00EA_.");
     classeur.addCell("Date de naissance");
     classeur.addCell("Taille (m)");
     classeur.addCell("Décédé");
@@ -58,18 +60,27 @@ public class XlsxHelperTests {
     //maintenant, écrire le classeur dans le fichier de destination
     File testFilesDir = new File("test-files");
     if (!testFilesDir.exists()) throw new FileNotFoundException("Repertoire test-files n'existe pas");
-    File poiDir = new File(testFilesDir, "poi");
-    if (!poiDir.exists()) {
-      boolean ok = poiDir.mkdir();
-      if (!ok) throw new IOException("Impossible de creer le repertoire test-files/poi");
+    File tmpOutDir = new File(testFilesDir, "tmp-out");
+    if (!tmpOutDir.exists()) {
+      boolean ok = tmpOutDir.mkdir();
+      if (!ok) throw new IOException("Impossible de creer le repertoire " + tmpOutDir);
     }
-    if (!poiDir.isDirectory()) throw new IOException("'poi' n'est pas un repertoire");
-    File destFile = new File(poiDir, "XlsxHelperTestsOutput1.xlsx");
+    if (!tmpOutDir.isDirectory()) throw new IOException("'tmp-out' n'est pas un repertoire");
+    File destFile = new File(tmpOutDir, "XlsxHelperTestsOutput1.xlsx");
     classeur.setOutput(destFile);
     classeur.writeFileAndClose();
     assertTrue(destFile.exists());
     assertFalse(destFile.isDirectory());
     assertTrue(destFile.length() > 2000);
+  }
+  
+  @Test
+  public void testEscaping() {
+    XlsxHelper classeur = new XlsxHelper("Classeur test");
+    System.out.println();
+    String expected = "Sp_x005F_x00EA_cialité de la maison _x005F_x00eb_.";
+    String encoded = classeur.msUtfEncode("Sp_x00EA_cialité de la maison _x00eb_.");
+    assertEquals("Les caractères auraient dû être échappés", expected, encoded);
   }
 
 }
