@@ -87,7 +87,7 @@ public class ObjectFormatterTests {
   @Test
   public void testFormatSql() {
     ObjectFormatter of = new ObjectFormatter();
-    String i123 = of.formatSql(new Integer(123), Types.INTEGER);
+    String i123 = of.formatSql(Integer.valueOf(123), Types.INTEGER);
     assertEquals("123", i123);
   }
 
