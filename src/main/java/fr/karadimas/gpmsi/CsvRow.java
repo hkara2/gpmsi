@@ -109,4 +109,13 @@ public class CsvRow {
     return true;
   }
   
+  /**
+   * Pour toutes les cellules, remplacer la valeur par une nouvelle valeur dans laquelle
+   * les éventuelles fin de lignes ont été remplacées par une séquence particulière.
+   * {@link CsvUtils#replaceNewlines(String, String)} pour plus d'informations.
+   * @param newSequence
+   */
+  public void replaceNewlines(String newSequence) {
+    CsvUtils.replaceNewlines(row, newSequence);
+  }
 }
