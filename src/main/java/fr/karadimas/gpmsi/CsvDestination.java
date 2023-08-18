@@ -30,6 +30,8 @@ import com.opencsv.CSVWriter;
  * qui est plus simple pour le peu qui est utilisé ici.
  * Il se peut qu'à l'avenir une nouvelle version sera utilisée.
  * 
+ * Si on veut d'autres valeurs pour les séparateurs, utiliser un CSVWriter directement.
+ * 
  * @author hkaradimas
  *
  */
@@ -43,9 +45,6 @@ public class CsvDestination
   CSVWriter csvw;
   ArrayList<String> fieldBuffer = new ArrayList<>();
   
-	public CsvDestination() {
-	}
-
 	public CsvDestination(OutputStream os, String encoding, char fieldSeparator)
 			throws UnsupportedEncodingException
 	{
@@ -66,12 +65,36 @@ public class CsvDestination
       this(w, ';');
     }
     
+    /**
+     * Destination csv avec le séparateur donné.
+     * Le reste des paramètres est :
+     * <ul>
+     * <li> quote character : "
+     * <li> escape quote character : "
+     * <li> line end : \r\n
+     * <ul>
+     * @param w
+     * @param fieldSeparator
+     */
 	public CsvDestination(Writer w, char fieldSeparator) {
       //this.os = null;
       this.fieldSeparator = fieldSeparator;
       //OutputStreamWriter osw = new OutputStreamWriter(os, encoding);
       bw = new BufferedWriter(w);
-      csvw = new CSVWriter(bw, fieldSeparator);
+      /*
+       * @param writer     The writer to an underlying CSV source.
+       * @param separator  The delimiter to use for separating entries
+       * @param quotechar  The character to use for quoted elements
+       * @param escapechar The character to use for escaping quotechars or escapechars
+       * @param lineEnd    The line feed terminator to use
+       * On met tout par défaut, sauf la fin de ligne que l'on force à \r\n
+       */
+      csvw = new CSVWriter(
+          bw, 
+          fieldSeparator, 
+          CSVWriter.DEFAULT_QUOTE_CHARACTER, 
+          CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
+          CSVWriter.RFC4180_LINE_END);
 	}
 	
     public CsvDestination(File f, String encoding, char fieldSeparator)
