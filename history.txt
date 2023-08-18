@@ -29,5 +29,15 @@ version date    changements
                 Correction des tests pour qu'ils s'exécutent correctement quel que soit le
                 répertoire de base, et pour qu'ils envoient leur sortie dans le répertoire
                 test-files/tmp-out qui est ignoré par Git.
+                constructeur CsvDestination() enlevé.
+                Mis le caractère csvEscape à 0 pour éviter des bugs particuliers de Excel.
+                Pour éviter des problèmes d'import de csv qui contiennent des retours chariot
+                dans les valeurs de cellule, ajouté une méthode utilitaire CsvUtils.replaceNewlines
+                et une méthode CsvRow.replaceNewlines.
+                (A voir si peut être on peut passer à la version OpenCSV 5 qui apporte beaucoup de
+                possibilités supplémentaire dont ont peut avoir besoin pour des cas spécifiques.
+                Comme l'ensemble des librairies fait maintenant 60MO ce n'est pas ça qui va faire
+                la différence.)
+                
                 
                 
