@@ -94,6 +94,12 @@ import groovy.lang.Closure;
  * <p>
  * La librairie utilisée pour lire les données csv est <a href="https://opencsv.sourceforge.net/">OpenCsv</a>.
  * S'y référer pour voir tout ce que fait cette librairie qui permet d'analyser fiablement le csv.
+ * Cette librairie peut utiliser un caractère d'échappement pour représenter le
+ * caractère de "quotation" (habituellement le guillemet : ").
+ * Cependant ici on met par défaut ce caractère d'échappement à 0 car ce mécanisme n'est
+ * pas utilisé couramment par Excel et cela cause plus de bugs que d'autres choses.
+ * Si vous en avez besoin, remettez le caractère de votre choix à l'aide de la méthode
+ * {@link #setCsvEscapeCharacter(char)}.
  * 
  * 
  * @author hkaradimas
@@ -154,7 +160,7 @@ public class ScriptStep {
     
     char csvSeparator = ';'; //default csv separator for France (fixed because PMSI is mainly for France)
     char csvQuoteCharacter = ICSVParser.DEFAULT_QUOTE_CHARACTER;
-    char csvEscapeCharacter = ICSVParser.DEFAULT_ESCAPE_CHARACTER;
+    char csvEscapeCharacter = 0; //auparavant c'était ICSVParser.DEFAULT_ESCAPE_CHARACTER mais ce mécanisme est inutile et cause des bugs.
     
     boolean truncatedInputAccepted = true;
 
