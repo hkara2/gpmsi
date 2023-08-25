@@ -2,15 +2,18 @@ package fr.karadimas.gpmsi.poi;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Méthodes utilitaires pour l'utilisation de fonctions Apache POI pour Excel.
+ * Classe avec méthodes utilitaires pour l'utilisation de fonctions Apache POI pour Excel.
  * @author hkaradimas
  *
  */
@@ -18,22 +21,27 @@ public class PoiHelper {
   
   static Logger lg = LoggerFactory.getLogger(PoiHelper.class);
   
+  DataFormatter formatter = new DataFormatter();
+  
+  boolean newJavaTimeUsed = false;
+  
   /**
-   * Constructeur private car il n'y a que des méthodes statiques ici.
+   * Constructeur
    */
-  private PoiHelper() {}
+  public PoiHelper() {
+    formatter.setUseCachedValuesForFormulaCells(true);
+  }
 
   /**
    * Prendre la valeur de la cellule, garantit qu'aucune valeur null ne sera retournée.
    * A noter que ici les valeurs apparaîtront telles qu'elles sont visible dans Excel.
+   * Pour les cellules qui contiennent des formules, c'est la dernière valeur qui a été stockée
+   * par Excel qui sera retournée.
    * @param c La cellule à lire, peut être null.
-   * @return La valeur textuelle de la cellule. Au lieu de null si c'est le cas, retourne la chaîne vide "".
+   * @return La valeur textuelle de la cellule. N'est jamais null.
    */
-  public static final String getCellValueAsString(Cell c) {
-    if (c == null) return "";
-    String str = c.getStringCellValue();
-    if (str == null) return "";
-    else return str;
+  public String getCellValueAsString(Cell c) {
+    return formatter.formatCellValue(c);
   }
   
   /**
@@ -45,7 +53,7 @@ public class PoiHelper {
    * @param df Le format de nombre à utiliser, s'il est null, le format par défaut de java sera utilisé.
    * @return La valeur textuelle de la cellule. Au lieu de null si c'est le cas, retourne la chaîne vide "".
    */
-  public static final String getCellValueAsString(Cell c, DateFormat df, NumberFormat nf) {
+  public final String getCellValueAsString(Cell c, DateFormat df, NumberFormat nf) {
     if (c == null) return "";
     CellType ct = c.getCellType();
     String str = null;
@@ -107,7 +115,7 @@ public class PoiHelper {
    * @param c La cellule à lire, peut être null.
    * @return La valeur objet de la cellule. Peut retourner null. 
    */
-  public static final Object getCellValueAsObject(Cell c) {
+  public final Object getCellValueAsObject(Cell c) {
     if (c == null) return null;
     CellType ct = c.getCellType();
     Object obj = null;
@@ -124,7 +132,12 @@ public class PoiHelper {
       break;
     case NUMERIC: //nombres et dates
       if (DateUtil.isCellDateFormatted(c)) {
-        obj = c.getDateCellValue();
+        if (newJavaTimeUsed) {
+          obj = c.getLocalDateTimeCellValue();
+        }
+        else {
+          obj = c.getDateCellValue();
+        }
       }
       else {
         //c'est un nombre
@@ -144,4 +157,26 @@ public class PoiHelper {
     return obj;
   }
 
+  /**
+   * Retourner le DataFormatter qui est utilisé par cet objet.
+   * Utile pour éviter d'avoir à en recréer plusieurs.
+   * Attention ne pas changer cet objet.
+   * @return
+   */
+  public DataFormatter getDataFormatter() { return formatter; }
+
+  /**
+   * Si true, les objets Date sont les nouveaux objets {@link LocalDateTime} de java. Sinon,
+   * des objets {@link Date} traditionnels sont utilisés.
+   * false par défaut.
+   * @return true si les nouveaux objets {@link LocalDateTime} de java sont utilisés. Défaut : false
+   */
+  public boolean isNewJavaTimeUsed() {
+    return newJavaTimeUsed;
+  }
+
+  public void setNewJavaTimeUsed(boolean newJavaTimeUsed) {
+    this.newJavaTimeUsed = newJavaTimeUsed;
+  }
+  
 }
