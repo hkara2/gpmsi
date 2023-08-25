@@ -1,6 +1,10 @@
 package fr.karadimas.gpmsi;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -15,6 +19,9 @@ import fr.karadimas.gpmsi.poi.PoiHelper;
  * Mais il y a accès à toute la rangée via {@link #getPoiRow()}, voire même à tout le classeur 
  * via {@link #getPoiSheet()} donc il est possible par ce biais de faire ce que l'on veut avec
  * la rangée, l'onglet (et même le classeur car à travers {@link Sheet} on a accès à {@link Workbook}).
+ * <b>Attention</b> dans apache POI les numéros commencent tous à 0 (pour lignes et colonnes).
+ * Ici les numéros de colonne commencent à 0, mais les numéros de ligne commencent à 1 (comme pour
+ * les autres scriptstep, et aussi comme dans Excel.
  * @author hkaradimas
  */
 public class XlRow {
@@ -42,9 +49,9 @@ public class XlRow {
   public String getStringValue(Integer colNrObj) {
     int colNr = 0;
     if (colNrObj != null) colNr = colNrObj.intValue();
-    Row row = owner.sh.getRow(owner.linenr);
+    Row row = owner.sh.getRow(owner.linenr-1); //linenr commence à 1 et pour poi ça commence à 0
     if (row == null) return "";
-    return PoiHelper.getCellValueAsString(row.getCell(colNr));
+    return owner.poiHelper.getCellValueAsString(row.getCell(colNr));
   }
   
   /**
@@ -57,7 +64,7 @@ public class XlRow {
   public Cell getCell(Integer colNrObj) {
     int colNr = 0;
     if (colNrObj != null) colNr = colNrObj.intValue();
-    Row row = owner.sh.getRow(owner.linenr);
+    Row row = owner.sh.getRow(owner.linenr-1); //linenr commence à 1 et pour poi ça commence à 0
     if (row == null) return null;
     return row.getCell(colNr);    
   }
@@ -85,9 +92,9 @@ public class XlRow {
   public Object getCellObject(Integer colNrObj) {
     int colNr = 0;
     if (colNrObj != null) colNr = colNrObj.intValue();
-    Row row = owner.sh.getRow(owner.linenr);
+    Row row = owner.sh.getRow(owner.linenr-1); //linenr commence à 1 et pour poi ça commence à 0
     if (row == null) return null;
-    return PoiHelper.getCellValueAsObject(row.getCell(colNr));        
+    return owner.poiHelper.getCellValueAsObject(row.getCell(colNr));        
   }
   
   /**
@@ -151,7 +158,7 @@ public class XlRow {
    * @return l'objet {@link Row} ou null s'il n'y a pas d'objet à cette ligne.
    */
   public Row getPoiRow() {
-    Row row = owner.sh.getRow(owner.linenr);
+    Row row = owner.sh.getRow(owner.linenr-1); //linenr commence à 1 et pour poi ça commence à 0
     if (row == null) return null; else return row;    
   }
   
@@ -199,5 +206,24 @@ public class XlRow {
     for (String val:vals) { if (val.trim().length() > 0) empty = false; }
     return empty;
   }
+  
+  /**
+   * Méthode de confort pour retourner le DataFormatter sans avoir à en recréer un nouveau.
+   * @return
+   */
+  public DataFormatter getDataFormatter() { return owner.poiHelper.getDataFormatter(); }
+  
+  public int getColumnCount() { return owner.getXlpoiColumnCount(); }
+  
+  /**
+   * Contrôle si les cellules date sont retournées en {@link Date} ou en {@link LocalDateTime}.
+   * @param b true si ce sont des {@link LocalDateTime} qui doivent être retournés, false si ce sont
+   * des {@link Date} qui doivent être retournés.
+   * Par défaut false.
+   * Si on veut mettre la valeur à true, il suffit de le faire à la première ligne, ce réglage
+   * reste actif pour les lignes suivantes.
+   * Si on met cette valeur à chaque ligne, ce n'est pas grave, l'exécution est très rapide.
+   */
+  public void setNewJavaTimeUsed(boolean b) { owner.poiHelper.setNewJavaTimeUsed(b); }
   
 }
