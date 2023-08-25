@@ -170,6 +170,7 @@ public class ScriptStep {
     CSVReader csvr = null;
     Workbook wb = null; //le classeur dans le cadre d'une étape XLPOI
     Sheet sh = null; //l'onglet dans le cadre d'une étape XLPOI
+    int shLastRowNr = 0; //la dernière ligne d'un onglet XLPOI, mis à jour lors de l'ouverture
     String line = null;
     String[] csvRow = null;
     CsvRow csvRowHelper = new CsvRow(this);
@@ -177,6 +178,7 @@ public class ScriptStep {
     InputString instr = new InputString();
     HashMap<String, Object> itm = new HashMap<String, Object>();
     //-- fin variables utilisees dans chaque traitement d'un item
+    PoiHelper poiHelper = new PoiHelper();
 
     private static SimpleDateFormat frenchDate = new SimpleDateFormat("dd/MM/yyyy");
     
@@ -463,12 +465,14 @@ public class ScriptStep {
           else sh = wb.getSheetAt(0);
           //la première ligne doit être a priori une ligne d'en-têtes. Essayer de la lire
           Row firstRow = sh.getRow(linenr-1);
-          int ncols = firstRow.getLastCellNum()+1;
-          csvHeaderRow = new String[ncols];
+          int ncols = firstRow.getLastCellNum(); //attention bien lire la doc POI c'est bien getLastCellNum et pas +1
+          String[] _tmpCsvHeaderRow = new String[ncols];
           for (int i = 0; i < ncols; i++) {
-            if (firstRow == null) csvHeaderRow[i] = "";
-            else csvHeaderRow[i] = PoiHelper.getCellValueAsString(firstRow.getCell(i));
+            if (firstRow == null) _tmpCsvHeaderRow[i] = "";
+            else _tmpCsvHeaderRow[i] = poiHelper.getCellValueAsString(firstRow.getCell(i));
           }
+          setCsvHeaderRow(_tmpCsvHeaderRow);
+          shLastRowNr = sh.getLastRowNum()+1; //maj numéro de ligne (commence à 1) pour pouvoir boucler
         }
         else {
           if (inputReader == null && inputFilePath != null) {
@@ -515,7 +519,7 @@ public class ScriptStep {
     if (onItem == null) return;
 
     try {
-      while (line != null || csvRow != null) {
+      while (line != null || csvRow != null || linenr <= shLastRowNr) {
         processNextItem();
       }
     }
@@ -816,7 +820,29 @@ public class ScriptStep {
     this.truncatedInputAccepted = truncatedInputAccepted;
   }
   
+  /**
+   * 
+   * @return Le tableau des titres de colonne
+   */
   public String[] getCsvHeaderRow() { return csvHeaderRow; }
+  
+  /**
+   * 
+   * @return Le nombre de colonnes
+   */
+  public int getCsvColumnCount() { return csvHeaderRow.length; }
+  
+  /**
+   * 
+   * @return Le nombre de colonnes
+   */
+  public int getXlpoiColumnCount() { return csvHeaderRow.length; }
+  
+  /**
+   * 
+   * @return Le tableau des titres de colonne
+   */
+  public String[] getXlpoiHeaderRow() { return csvHeaderRow; }
   
   public void setCsvHeaderRow(String[] newRow) {
     if (newRow == null) throw new NullPointerException("newRow ne peut pas être null");
@@ -837,6 +863,13 @@ public class ScriptStep {
     if (!csvColumnIndexesByName.containsKey(name)) return -1;
     else return csvColumnIndexesByName.get(name); 
   }
+  
+  /**
+   * Synonyme de {@link #getCsvColumnIndex(String)}
+   * @param name Le nom de la colonne
+   * @return le numéro de colonne (commence à 0), -1 si non trouvé
+   */
+  public int getXlpoiColumnIndex(String name) { return getCsvColumnIndex(name); }
   
   /**
    * Nom plus court pour {@link #getCsvColumnIndex(String)}
