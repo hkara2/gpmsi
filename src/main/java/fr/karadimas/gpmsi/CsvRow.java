@@ -118,4 +118,7 @@ public class CsvRow {
   public void replaceNewlines(String newSequence) {
     CsvUtils.replaceNewlines(row, newSequence);
   }
+  
+  public int getColumnCount() { return owner.getCsvColumnCount(); }
+  
 }
