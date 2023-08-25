@@ -123,6 +123,7 @@ public class Groovy {
     String scriptPath; //chemin de fichier pour le script
     String scriptUri; //uri pour le script si on définit un chemin relatif 
     String runClass; //si on veut executer une classe directement, sans passer par le script engine ; scriptPath sera à "" dans ce cas.
+    Object returnedObject; //l'objet retourné par le script
     HashMap<String, String> scriptArgs = new HashMap<>();
     HashSet<String> scriptFlags = new HashSet<>();
     ArrayList<String> extraCps = new ArrayList<>();
@@ -350,7 +351,6 @@ public class Groovy {
             gse.run("fr/karadimas/gpmsi/initengine.gtxt", bnd); //start with init script (inits.groovy copied to initengine.gtxt)
             if (scriptFile != null) lg.debug("running script file '"+scriptFile+"'");
             if (scriptUri != null) lg.debug("running script uri : '"+scriptUri+"'");
-            Object returnedObject;
             if (runClass != null) {
               //execution directe d'une classe déjà compilée en tant que script (interne) distribuée dans le jar
               @SuppressWarnings("unchecked")
@@ -363,11 +363,11 @@ public class Groovy {
               if (scriptUri == null) returnedObject = gse.run(scriptFile.getName(), bnd); //appel avec un chemin normal de fichier 
               else returnedObject = gse.run(scriptUri, bnd); //un classpath différent a été donné, utiliser le scriptUri car il doit donner un chemin relatif pour trouver le script
             }
-            if (returnedObject instanceof Number) {
-              //si le script a retourné un nombre, renvoyer la partie entière de celui-ci
-              return ((Number)returnedObject).intValue();
-            }
-            else return 0; //sinon on considère que tout s'est bien passé et on envoie 0
+            //dans les versions précédentes on renvoyait la valeur entière si le script retournait une valeur numérique
+            //Ce n'est pas très clair, et maintenant on renvoie toujours 0.
+            //S'il y a eu une erreur, on considère que le script va déclencher une exception.
+            //L'objet qui a été retourné par le script peut être consulté via getReturnedObject().
+            return 0; //sinon on considère que tout s'est bien passé et on envoie 0. L'objet lui-même peut être accédé via getReturnedObject().
         } catch (ResourceException e) {
           lg.error("Erreur d'execution", e); throw e;
         } catch (ScriptException e) {
@@ -447,6 +447,14 @@ public class Groovy {
 
         @Override
         public void ancestorRemoved(AncestorEvent e) {}
+    }
+
+    public Object getReturnedObject() {
+      return returnedObject;
+    }
+
+    public void setReturnedObject(Object returnedObject) {
+      this.returnedObject = returnedObject;
     }
     
 }
