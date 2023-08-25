@@ -43,201 +43,204 @@ repositories {
 
 dependencies {
     //implementation 'org.apache.groovy:groovy-all:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    // on garde la version qui va avec hapi 2.3
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.10'
-    
+    // on garde la version qui va avec hapi 2.3 -> a verifier
+    // implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.10'
+
     // https://mvnrepository.com/artifact/org.apache.poi/poi
     implementation 'org.apache.poi:poi:5.2.3'
-    
+
     // https://mvnrepository.com/artifact/org.apache.poi/poi-scratchpad
     implementation 'org.apache.poi:poi-scratchpad:5.2.3'
-    
+
     // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
     implementation 'org.apache.poi:poi-ooxml:5.2.3'
-    
+
     // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-lite
     implementation 'org.apache.poi:poi-ooxml-lite:5.2.3'
-    
+
     // https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils
     implementation 'commons-beanutils:commons-beanutils:1.9.3'
-    
+
     // https://mvnrepository.com/artifact/commons-cli/commons-cli
     implementation 'commons-cli:commons-cli:1.5.0'
-    
-    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-    
-    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api
-    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
-    
-    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-1.2-api
-    implementation 'org.apache.logging.log4j:log4j-1.2-api:2.20.0'
-    
-    // https://mvnrepository.com/artifact/com.h2database/h2
-    //implementation 'com.h2database:h2:1.4.200'
-    
-    // https://mvnrepository.com/artifact/com.h2database/h2
-    implementation 'com.h2database:h2:2.1.214'
-    
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-    implementation 'org.slf4j:slf4j-simple:2.0.6'
-    
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    implementation 'org.slf4j:slf4j-api:2.0.6'
-    
-    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-base
-    implementation 'ca.uhn.hapi:hapi-base:2.3'
-    
-    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v23
-    implementation 'ca.uhn.hapi:hapi-structures-v23:2.3'
-    
-    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v231
-    implementation 'ca.uhn.hapi:hapi-structures-v231:2.3'
-    
-    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v24
-    implementation 'ca.uhn.hapi:hapi-structures-v24:2.3'
-    
-    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v25
-    implementation 'ca.uhn.hapi:hapi-structures-v25:2.3'
-    
-    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v251
-    implementation 'ca.uhn.hapi:hapi-structures-v251:2.3'
-    
-    // https://mvnrepository.com/artifact/junit/junit
-    implementation 'junit:junit:4.12'
-    
-    // https://mvnrepository.com/artifact/com.opencsv/opencsv
-    implementation 'com.opencsv:opencsv:3.9'
-    
-    // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core
-    implementation 'org.hamcrest:hamcrest-core:1.3'
-    
-    // https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans
-    implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
-    
-    // https://mvnrepository.com/artifact/com.zaxxer/SparseBitSet
-    implementation 'com.zaxxer:SparseBitSet:1.2'
-    
-    // https://mvnrepository.com/artifact/org.apache.ant/ant
-    implementation 'org.apache.ant:ant:1.10.13'
-    
-    // https://mvnrepository.com/artifact/org.apache.ant/ant-antlr
-    runtimeOnly 'org.apache.ant:ant-antlr:1.10.13'
-    
-    // https://mvnrepository.com/artifact/org.apache.ant/ant-launcher
-    implementation 'org.apache.ant:ant-launcher:1.10.13'
-    
+
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation 'commons-codec:commons-codec:1.15'
-    
+
     // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
     implementation 'org.apache.commons:commons-collections4:4.4'
-    
+
     // https://mvnrepository.com/artifact/org.apache.commons/commons-compress
     implementation 'org.apache.commons:commons-compress:1.23.0'
-    
+
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation 'commons-io:commons-io:2.11.0'
-    
+
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation 'org.apache.commons:commons-lang3:3.6'
-    
+
     // https://mvnrepository.com/artifact/commons-logging/commons-logging
     implementation 'commons-logging:commons-logging:1.2'
-    
+
     // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
     implementation 'org.apache.commons:commons-math3:3.6.1'
-    
+
     // https://mvnrepository.com/artifact/commons-net/commons-net
     implementation 'commons-net:commons-net:3.9.0'
-    
+
     // https://mvnrepository.com/artifact/org.apache.commons/commons-text
     implementation 'org.apache.commons:commons-text:1.1'
-    
+
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-1.2-api
+    implementation 'org.apache.logging.log4j:log4j-1.2-api:2.20.0'
+
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    //implementation 'com.h2database:h2:1.4.200'
+
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    implementation 'com.h2database:h2:2.1.214'
+
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    implementation 'org.slf4j:slf4j-simple:2.0.6'
+
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation 'org.slf4j:slf4j-api:2.0.6'
+
+    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-base
+    implementation 'ca.uhn.hapi:hapi-base:2.3'
+
+    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v23
+    implementation 'ca.uhn.hapi:hapi-structures-v23:2.3'
+
+    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v231
+    implementation 'ca.uhn.hapi:hapi-structures-v231:2.3'
+
+    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v24
+    implementation 'ca.uhn.hapi:hapi-structures-v24:2.3'
+
+    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v25
+    implementation 'ca.uhn.hapi:hapi-structures-v25:2.3'
+
+    // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v251
+    implementation 'ca.uhn.hapi:hapi-structures-v251:2.3'
+
+    // https://mvnrepository.com/artifact/junit/junit
+    implementation 'junit:junit:4.12'
+
+    // https://mvnrepository.com/artifact/com.opencsv/opencsv
+    implementation 'com.opencsv:opencsv:3.9'
+
+    // https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core
+    implementation 'org.hamcrest:hamcrest-core:1.3'
+
+    // https://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans
+    implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
+
+    // https://mvnrepository.com/artifact/com.zaxxer/SparseBitSet
+    implementation 'com.zaxxer:SparseBitSet:1.2'
+
+    // https://mvnrepository.com/artifact/org.apache.ant/ant
+    implementation 'org.apache.ant:ant:1.10.13'
+
+    // https://mvnrepository.com/artifact/org.apache.ant/ant-antlr
+    runtimeOnly 'org.apache.ant:ant-antlr:1.10.13'
+
+    // https://mvnrepository.com/artifact/org.apache.ant/ant-launcher
+    implementation 'org.apache.ant:ant-launcher:1.10.13'
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy
     //implementation('org.apache.groovy:groovy') {
     //  version {
     //    strictly '4.0.8'
     //  }
     //}
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-ant
     implementation 'org.apache.groovy:groovy-ant:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-astbuilder
     implementation 'org.apache.groovy:groovy-astbuilder:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-cli-commons
     implementation 'org.apache.groovy:groovy-cli-commons:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-cli-picocli
     implementation 'org.apache.groovy:groovy-cli-picocli:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-console
     implementation 'org.apache.groovy:groovy-console:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-datetime
     implementation 'org.apache.groovy:groovy-datetime:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-dateutil
     implementation 'org.apache.groovy:groovy-dateutil:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-groovysh
     implementation 'org.apache.groovy:groovy-groovysh:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-json
     implementation 'org.apache.groovy:groovy-json:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-macro
     implementation 'org.apache.groovy:groovy-macro:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-macro-library
     implementation 'org.apache.groovy:groovy-macro-library:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-nio
     implementation 'org.apache.groovy:groovy-nio:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-sql
     implementation 'org.apache.groovy:groovy-sql:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-swing
     implementation 'org.apache.groovy:groovy-swing:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-templates
     implementation 'org.apache.groovy:groovy-templates:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-xml
     implementation 'org.apache.groovy:groovy-xml:4.0.8'
-    
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-yaml
     implementation 'org.apache.groovy:groovy-yaml:4.0.8'
-    
-    
+
+    // https://mvnrepository.com/artifact/org.apache.groovy/groovy-yaml
+    implementation 'org.apache.groovy:groovy-ant:4.0.8'
+
+
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
     // on garde la version qui va avec hapi 2.3 (il y a des vulnérabilités, donc toujours exécuter localement, jamais en serveur avec un accès à distance quelconque)
     testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.10'
-    
+
     //constraints {
     //  // https://mvnrepository.com/artifact/org.apache.groovy/groovy
     //  implementation('org.apache.groovy:groovy:4.0.8') {
     //    because 'specific dependencies declared for ipf'
     //  }
     //}
-    
+
     // https://mvnrepository.com/artifact/org.openehealth.ipf.modules/ipf-modules-hl7
 //    runtimeOnly(group: 'org.openehealth.ipf.modules', name: 'ipf-modules-hl7', version: '3.4.3') {
 //      transitive = true
 //    }
     //implementation group: 'org.openehealth.ipf.modules', name: 'ipf-modules-hl7', version: '3.4.3'
-    
+
     //desactivé car dépend de org.codehaus.groovy:groovy:3.0.18
     // https://mvnrepository.com/artifact/org.openehealth.ipf.modules/ipf-modules-hl7
 //    runtimeOnly ('org.openehealth.ipf.modules:ipf-modules-hl7:4.7.0') {
 //      //exclude group: 'org.apache.groovy', name: 'groovy'
 //    }
-    
+
     implementation fileTree(include: ['*.jar'], dir: 'lib')
 
     testImplementation fileTree(include: ['*.jar'], dir: 'lib')
@@ -342,7 +345,7 @@ task dist {
             }
             copy(todir: "dist/$destdir/lib", preservelastmodified: true) {
                 fileset(dir: "build/extlibs")
-            }            
+            }
             copy(file: "build/libs/gpmsi-${version}.jar", todir: "dist/$destdir/lib", preservelastmodified: true)
 
             //copier les scripts, en les adaptant a la version actuelle
@@ -390,7 +393,7 @@ task dist {
 
             copy(todir: "dist/$destdir/", file: "dist/$destdir/docs/a-lire.txt", preservelastmodified: true)
         }//ant
-        
+
     }//doLast
 }//dist
 
