@@ -3,6 +3,7 @@ package fr.karadimas.gpmsi
 import fr.karadimas.pmsixml.FszGroup
 import fr.karadimas.gpmsi.StringTableRow
 import fr.karadimas.gpmsi.CsvRow
+import fr.karadimas.gpmsi.DbfRow
 
 //
 // Scripts Groovy utilisés lors de l'initialisation de l'environnement de script.
@@ -107,4 +108,17 @@ XlRow.metaClass.getProperty = {String propName ->
         delegate.getStringValue(propName)
     }
 } //XlRow.metaClass.getProperty
+
+/**
+ * Spécialisation de l'accès à un objet contenu dans un champ pour DbfRow, de manière
+ * à avoir accès à une valeur (Object) via le nom de colonne
+ */
+DbfRow.metaClass.getProperty = {String propName ->
+    def meta = DbfRow.metaClass.getMetaProperty(propName)
+    if (meta) {
+        meta.getProperty(delegate)
+    } else {
+        delegate.getValue(propName)
+    }
+} //DbfRow.metaClass.getProperty
 

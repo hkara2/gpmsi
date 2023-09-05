@@ -26,6 +26,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import com.linuxense.javadbf.DBFReader;
+import com.linuxense.javadbf.DBFRow;
 import com.opencsv.CSVReader;
 import com.opencsv.ICSVParser;
 
@@ -59,6 +61,7 @@ import groovy.lang.Closure;
  *   <li>RSFACE : 'RSF' (ou 'rsf'), 'line', 'linenr'
  *   <li>MONO : 'MONO' (ou 'mono'), 'line', 'linenr'
  *   <li>XLPOI : 'row' , 'linenr' (EN COURS DE DEV)
+ *   <li>DBF : 'row', 'linenr' (EN COURS DE DEV)
  * </ul>
  * En entrée on déclare soit un <code>inputReader</code>, soit un <code>inputFilePath</code>. Le 
  * <code>inputReader</code> a priorité sur le <code>inputFilePath</code>.
@@ -117,6 +120,7 @@ public class ScriptStep {
     public static final int ST_RSFACE = 9; //RSFACE. Nécessite l'année comme "metaHint"
     public static final int ST_MONO = 10; //fichier a un seul niveau (mono-niveau) 
     public static final int ST_XLPOI = 11; //fichier excel lu par Apache POI 
+    public static final int ST_DBF = 12; //fichier dbf lu par javadbf 
     static Logger lg = LogManager.getLogger(ScriptStep.class);
     static String[] emptyRow = {};
     
@@ -171,10 +175,13 @@ public class ScriptStep {
     Workbook wb = null; //le classeur dans le cadre d'une étape XLPOI
     Sheet sh = null; //l'onglet dans le cadre d'une étape XLPOI
     int shLastRowNr = 0; //la dernière ligne d'un onglet XLPOI, mis à jour lors de l'ouverture
+    DBFReader dbfrdr = null; //le lecteur de dbf dans le cadre d'une étape dbf
     String line = null;
     String[] csvRow = null;
+    Object[] dbfRow = null;
     CsvRow csvRowHelper = new CsvRow(this);
     XlRow xlRowHelper = new XlRow(this);
+    DbfRow dbfRowHelper = new DbfRow(this);
     InputString instr = new InputString();
     HashMap<String, Object> itm = new HashMap<String, Object>();
     //-- fin variables utilisees dans chaque traitement d'un item
@@ -186,7 +193,7 @@ public class ScriptStep {
             throws FieldParseException, IOException, MissingMetafileException 
     {
         this.owner = owner;
-        //initialisations communes pour éviter les bugs. Inefficace, sera amélioré dans le futur
+        //initialisations communes pour éviter les bugs. Un peu inefficace, mais sûr.
         rssRdr = new RssReader();
         rsaRdr = new RsaReader();
         rhsRdr = new RhsReader();
@@ -453,7 +460,7 @@ public class ScriptStep {
         // plus facilement les erreurs dans un éditeur de texte
         instr.acceptTruncated = truncatedInputAccepted;
         if (onInit != null) onInit.call(); //appeler la closure onInit pour préparations supplémentaires avant l'initialisation proprement dite
-        //on distingue maintenant l'initialisation pour des fichiers binaires (Excel) et l'initialisation pour de fichiers orientés ligne/texte qui était le mode traditionnel pour gpmsi
+        //on distingue maintenant l'initialisation pour des fichiers binaires (Excel, Dbf) et l'initialisation pour de fichiers orientés ligne/texte qui était le mode traditionnel pour gpmsi
         if (stepType == ST_XLPOI) {
           if (inputStream == null) {
             if (inputFilePath == null) throw new FileNotFoundException("Erreur lors de l'ouverture de xlpoi : ni input, ni inputStream trouve.");
@@ -473,6 +480,21 @@ public class ScriptStep {
           }
           setCsvHeaderRow(_tmpCsvHeaderRow);
           shLastRowNr = sh.getLastRowNum()+1; //maj numéro de ligne (commence à 1) pour pouvoir boucler
+        }
+        else if (stepType == ST_DBF) {
+          if (inputStream == null) {
+            if (inputFilePath == null) throw new FileNotFoundException("Erreur lors de l'ouverture de dbf : ni input, ni inputStream trouve.");
+            inputStream = new FileInputStream(inputFilePath);
+          }
+          dbfrdr = new DBFReader(inputStream);
+          int ncols = dbfrdr.getFieldCount();
+          String[] _tmpCsvHeaderRow = new String[ncols];
+          for (int i = 0; i < ncols; i++) { 
+            _tmpCsvHeaderRow[i] = dbfrdr.getField(i).getName();
+          }
+          setCsvHeaderRow(_tmpCsvHeaderRow);
+          //on met aussi cette ligne d'en-tête en tant que première ligne dbf retournée
+          dbfRow = _tmpCsvHeaderRow;
         }
         else {
           if (inputReader == null && inputFilePath != null) {
@@ -519,7 +541,7 @@ public class ScriptStep {
     if (onItem == null) return;
 
     try {
-      while (line != null || csvRow != null || linenr <= shLastRowNr) {
+      while (line != null || csvRow != null || linenr <= shLastRowNr || dbfRow != null) {
         processNextItem();
       }
     }
@@ -664,6 +686,13 @@ public class ScriptStep {
       itm.put("row", xlRowHelper);
       itm.put("linenr", linenr);
       onItem.call(itm);
+      linenr++;
+      break;
+    case ST_DBF:
+      itm.put("row", dbfRowHelper);
+      itm.put("linenr", linenr);
+      onItem.call(itm);
+      dbfRow = dbfrdr.nextRecord(); //passer à la rangée suivante
       linenr++;
       break;
     default:
@@ -840,9 +869,15 @@ public class ScriptStep {
   
   /**
    * 
-   * @return Le tableau des titres de colonne
+   * @return Le tableau des titres de colonne pour XlPoi 
    */
   public String[] getXlpoiHeaderRow() { return csvHeaderRow; }
+  
+  /**
+   * 
+   * @return Le tableau des titres de colonne pour Dbf 
+   */
+  public String[] getDbfHeaderRow() { return csvHeaderRow; }
   
   public void setCsvHeaderRow(String[] newRow) {
     if (newRow == null) throw new NullPointerException("newRow ne peut pas être null");

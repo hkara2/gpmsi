@@ -132,6 +132,9 @@ dependencies {
     // https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v251
     implementation 'ca.uhn.hapi:hapi-structures-v251:2.3'
 
+    // https://mvnrepository.com/artifact/com.github.albfernandez/javadbf
+    implementation 'com.github.albfernandez:javadbf:1.14.0'
+
     // https://mvnrepository.com/artifact/junit/junit
     implementation 'junit:junit:4.12'
 
@@ -269,17 +272,6 @@ sourceSets {
     }
 }
 
-//distributions {
-//  main {
-//    contents {
-//      from libsDir
-//      (jar) .each { item ->
-//        from item
-//      }
-//    }//contents
-//  }//main
-//}//distributions
-
 //nettoyer un peu la distribution
 task cleandist {
     doLast {
@@ -300,24 +292,17 @@ task cleandist {
     }
 }
 
-//preparation à la compilation -> met le script d'initialisation en tant que ressource texte
-//task prebuild {
-//  ant {
-//    mkdir(dir: "src/main/resources/fr/karadimas/gpmsi/")
-//    //copier ce fichier en tant que ressource car fr.karadimas.gpmsi.Groovy va l'utiliser pour initialiser le "binding"
-//    copy(file: "src/main/groovy/fr/karadimas/gpmsi/inits.groovy", tofile: "src/main/resources/fr/karadimas/gpmsi/initengine.gtxt") {
-//    }
-//  }
-//}
-
+//Tâche spéciale de copie + renommage, car le script "inits.groovy" doit être aussi disponible en
+//tant que ressource mais avec le nom "initengine.gtxt" 
 tasks.register('copyInits', Copy) {
-  //from "src/main/groovy/fr/karadimas/gpmsi/inits.groovy"
-  //into "src/main/resources/fr/karadimas/gpmsi/initengine.gtxt"
   from layout.projectDirectory.file("src/main/groovy/fr/karadimas/gpmsi/inits.groovy")
-  into layout.buildDirectory.file("src/main/resources/fr/karadimas/gpmsi/initengine.gtxt")
+  into layout.projectDirectory.file("src/main/resources/fr/karadimas/gpmsi")
+  rename 'inits.groovy', 'initengine.gtxt'
 }
 
-task('copyResources', dependsOn: ['copyInits'])
+//dire que le traitement des ressources dépend de la tâche copyInits, qui sera donc appelée avant
+processResources.dependsOn 'copyInits'
+processTestResources.dependsOn 'copyInits'
 
 //Copie des librairies
 task copyToLib(type: Copy) {
@@ -325,7 +310,7 @@ task copyToLib(type: Copy) {
     from configurations.runtimeClasspath
 }
 
-build.dependsOn copyToLib //executer prebuild et copyToLib avant build
+build.dependsOn 'copyToLib'
 
 //Construire la distribution
 //Faire un cleandist avant une distribution finale, pour effacer d'éventuels fichiers obsolètes
@@ -407,11 +392,5 @@ task zip(type:Zip, dependsOn :[dist]) {
 }
 
 zip.dependsOn dist
-
-//essai pour distribuer les dependances mais pas terrible pour l'instant
-// task libs(type: Sync) {
-  // from configurations.runtime
-  // into "${buildDir}/libs"
-// }
 
 

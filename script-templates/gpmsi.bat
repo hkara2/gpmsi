@@ -22,6 +22,7 @@
 @set CP=%CP%;%GPMSI_HOME%\lib\@POIOOXMLLITLIB@.jar
 @rem set CP=%CP%;%GPMSI_HOME%\lib\@POIOOXMLSCHLIB@.jar
 @rem set CP=%CP%;%GPMSI_HOME%\lib\@OOXMLSCHEMASLIB@.jar
+@set CP=%CP%;%GPMSI_HOME%\lib\@JAVADBFLIB@.jar
 @set CP=%CP%;%GPMSI_HOME%\lib\@CBEANLIB@.jar
 @set CP=%CP%;%GPMSI_HOME%\lib\@CCLILIB@.jar
 @set CP=%CP%;%GPMSI_HOME%\lib\@CCODECLIB@.jar

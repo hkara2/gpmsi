@@ -150,6 +150,20 @@ extends Script
   }
   
   /**
+   * Traitement d'un fichier dbf au travers de javadbf
+   * @param taksClosure La closure à passer
+   * @return un objet ScriptStep qui représente l'étape de script créée
+   * @throws FieldParseException _
+   * @throws IOException _
+   * @throws MissingMetafileException _
+   */
+  public ScriptStep dbf(Closure<?> taksClosure) 
+          throws FieldParseException, IOException, MissingMetafileException 
+  {
+    return task(taksClosure, ScriptStep.ST_DBF); 
+  }
+  
+  /**
    * 
    * @param taksClosure La closure de la tâche 
    * @return un objet ScriptStep qui représente l'étape de script créée
