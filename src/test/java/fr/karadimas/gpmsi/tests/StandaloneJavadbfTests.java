@@ -1,6 +1,6 @@
 package fr.karadimas.gpmsi.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +9,6 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.linuxense.javadbf.DBFBase;
 import com.linuxense.javadbf.DBFDataType;
 import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFReader;
@@ -52,7 +51,8 @@ public class StandaloneJavadbfTests {
           break;
         }
       }
-    }
+      drdr.close();
+    }//try
   }
 
 }
