@@ -40,6 +40,11 @@ version date    changements
                 la différence.)
 1.3.1   230905  Ajout de la librairie javadbf qui permet de lire des fichiers dbf. Ajout d'une étape
                 dbf pour parcourir un fichier dbf.
+                Définition de la propriété file.encoding à UTF-8, sinon les scripts groovy étaient
+                parfois lus en windows-1252.
+                Détection de la plateforme, et si c'est windows, on met par défaut (dans le ScriptStep)
+                inputEncoding à windows-1252.
+                
                               
                 
                 
