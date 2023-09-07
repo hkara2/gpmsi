@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ import fr.karadimas.pmsixml.Log4j2Utils;
 import groovy.lang.Binding;
 import groovy.lang.Script;
 import groovy.util.GroovyScriptEngine;
+import groovy.util.ResourceConnector;
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;
 
@@ -241,8 +244,8 @@ public class Groovy {
                   throw new Exception("Argument manquant pour -enc");
               }
               arg = args.next();
-              //Charset dummy = Charset.forName(arg);
-              lg.debug("Verification de l'encodage '"+arg+"' : chargement correct.");
+              Charset dummy = Charset.forName(arg);
+              if (dummy != null) lg.debug("Verification de l'encodage '"+arg+"' : chargement correct.");
               encoding = arg;
             }
             else if (arg.equals("-help") || arg.equals("-h") || arg.equals("--help")) {
@@ -287,6 +290,8 @@ public class Groovy {
     {
         if (scriptPath == null && scriptUri == null && runClass == null) return 99; //error -99 pas de script specifie
         try {
+            //(hk 230907 v1.3.1) avant toute chose mettre l'encodage en propriété système partout (sinon problèmes avec GroovyScriptEngine !)
+            System.setProperty("file.encoding", encoding); //-> par défaut c'est UTF-8 maintenant
             URL parentURL = null;
             File scriptFile = null;
             if (scriptPath != null) {
