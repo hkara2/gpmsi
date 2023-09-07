@@ -200,6 +200,9 @@ public class ScriptStep {
         mlRdr = new MonoLevelReader();
         vidhospRdr = new FszReader(mfl, "vidhosp");
         rsfaceRdr = new RsfaceReader();
+        //(hk 230907 1.3.1) si on est sous windows, mettre par défaut l'encodage windows-1252 pour les fichiers texte (cela comprend le csv).
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.indexOf("win") >= 0) { inputEncoding = "windows-1252"; } 
     }
     
     public void input(String path) { inputFilePath = path; }
