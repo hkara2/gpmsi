@@ -1,4 +1,4 @@
-/**
+/**:encoding=UTF-8:
  * Pour deux fichiers Excel A et B, ne garde dans B que les lignes qui ne sont pas dans A.
  * Ecrit le resultat dans le nom de B avec "_new" à la fin.
  * Ignore la première ligne de chaque fichier (s'assurer qu'elles sont identiques)
@@ -7,7 +7,7 @@
  * cela permet de comparer le avant-après,
  * donc si besoin refaire un tri de tout le classeur avant de continuer le
  * traitement pour éliminer ces lignes vides.
- * Ex : 
+ * Ex :
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2023\M06\fichcomp-transports
  * c:\app\gpmsi\gpex -script C:\hkchse\dev\gpmsi\script-templates\groovy\excel_diffs.groovy -a:input_a C:\Local\e-pmsi\fichiers-rss-mco\2023\M05\fichcomp-transports\liste_transports_mod_hk_v1.xlsx -a:input_b liste_transports_mod_hk_v1.xlsx
  */
@@ -25,6 +25,25 @@ def getValue(sheet, rowIndex, columnIndex, dataFormatter) {
     Cell c = r.getCell(columnIndex)
     if (c == null) return ''
     else return dataFormatter.formatCellValue(c);
+}
+
+/**
+ * Remove a row by its index
+ * (cf. https://stackoverflow.com/questions/1834971/removing-a-row-from-an-excel-sheet-with-apache-poi-hssf)
+ * @param sheet a Excel sheet
+ * @param rowIndex a 0 based index of removing row
+ */
+def removeRow(sheet, int rowIndex) {
+    int lastRowNum=sheet.getLastRowNum()
+    if (rowIndex >= 0 && rowIndex < lastRowNum) {
+        sheet.shiftRows(rowIndex+1, lastRowNum, -1)
+    }
+    if (rowIndex == lastRowNum){
+        def removingRow = sheet.getRow(rowIndex)
+        if (removingRow != null) {
+            sheet.removeRow(removingRow);
+        }
+    }
 }
 
 fA = args['input_a']
@@ -79,7 +98,10 @@ while (i > 0) {
         sbRow << '|' << val
         //println sbRow.toString()
     }
-    if (allARows.contains(sbRow.toString())) shB.removeRow(row) //effacer la rangée si elle existe déjà
+    if (allARows.contains(sbRow.toString())) {
+        removeRow(shB, i)  //effacer la rangée si elle existe déjà
+        //shB.removeRow(row) //attention ce code efface la rangée mais ne la supprime pas
+    }
     i--
 }
 
