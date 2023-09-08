@@ -776,7 +776,7 @@ public class ScriptStep {
      * Formater au format français (dd/MM/yyyy)
      * @param ld La date (de type LocalDate) à formater. si null retourne une chaîne vide.
      * @return Une String de ld au format français
-     * @apiNote Obligé de renommer de formatAsFrenchDate en formatLocalAsFrenchDate car
+     * <b>Note</b> Obligé de renommer de formatAsFrenchDate en formatLocalAsFrenchDate car
      *          malgré mes efforts lorsque ld est null j'ai une erreur <code>Ambiguous method overloading</code>
      *          même en faisant des casts en LocalDate. 
      */

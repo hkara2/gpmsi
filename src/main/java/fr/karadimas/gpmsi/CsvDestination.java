@@ -72,7 +72,7 @@ public class CsvDestination
      * <li> quote character : "
      * <li> escape quote character : "
      * <li> line end : \r\n
-     * <ul>
+     * </ul>
      * @param w
      * @param fieldSeparator
      */

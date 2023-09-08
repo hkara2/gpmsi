@@ -87,8 +87,11 @@ public class XlsxHelper {
   }
   /**
    * Microsoft stocke les caractères unicode de manière spéciale.
+   *
    * https://stackoverflow.com/questions/48222502/xssfcell-in-apache-poi-encodes-certain-character-sequences-as-unicode-character
-   * https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.varianttypes.vtbstring?view=openxml-2.8.1&redirectedfrom=MSDN
+   *
+   * https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.varianttypes.vtbstring?view=openxml-2.8.1&amp;redirectedfrom=MSDN
+   *
    * Malheureusement apache poi ne fait pas cette conversion ce qui fait
    * que les caractères accentués ne sont pas bien stockés si on ne fait pas cette
    * conversion avant.
