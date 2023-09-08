@@ -1,4 +1,4 @@
-:encoding=UTF-8:
+☺:encoding=UTF-8:
                                     GPmsi
 
 GPmsi est une boite a outils qui comprend des scripts prets a l'emploi ainsi
@@ -22,6 +22,10 @@ Pour cette raison, il y a sur la plupart des fichiers la chaîne de caractères 
 :encoding=UTF-8:
 qui permet à l'éditeur jEdit (http://www.jedit.org/) d'ouvrir les fichiers en 
 mode UTF-8 automatiquement.
+Je rajoute avant le caractère "smiley" ☺ (code Ux263A, on le trouve par ex.
+dans la table des caractères des accessoires windows).
+Cela permet au premier coup d'oeil de voir si les caractères unicodes sont
+pris en compte correctement.
 UTF-8 est de plus en plus utilisé, car il apporte une unité des fichiers sur
 Internet. Le langage R, le langage Python, java, tous ces environnements 
 utilisent de plus en plus UTF-8 pour garder une harmonie des documents entre

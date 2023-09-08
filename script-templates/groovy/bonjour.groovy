@@ -1,4 +1,4 @@
-//:encoding=UTF-8:
+//☺:encoding=UTF-8:
 
 /**
  * Dire bonjour, histoire de montrer que l'environnement de script fonctionne.
