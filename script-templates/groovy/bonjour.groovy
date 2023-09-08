@@ -9,8 +9,10 @@
 gpmsi_home = System.getenv('GPMSI_HOME') ?: 'Non défini'
 groovy_ver = GroovySystem.version
 java_ver = System.getProperty('java.version')
+//le "à" s'affiche correctement dans la fenêtre CMD, mais pas le smiley ☺ car la
+//fenêtre de terminal ne gère pas l'Unicode
 println ""
-println "Un petit bonjour depuis le script bonjour.groovy, dans l'environnement GPMSI / Groovy."
+println "Un petit bonjour à tous ☺ depuis le script bonjour.groovy, dans l'environnement GPMSI / Groovy."
 println ""
 if (flags.contains('details')) {
     println "Détails d'exécution :"

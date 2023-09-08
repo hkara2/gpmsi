@@ -44,6 +44,8 @@ version date    changements
                 parfois lus en windows-1252.
                 Détection de la plateforme, et si c'est windows, on met par défaut (dans le ScriptStep)
                 inputEncoding à windows-1252.
+                Ajouts de caractères smileys pour avoir une confirmation visuelle
+                de la prise en charge de l'Unicode par l'éditeur.
                 
                               
                 
