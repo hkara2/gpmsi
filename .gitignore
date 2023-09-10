@@ -7,11 +7,8 @@
 # Eclipse settings
 .settings
 
-# Gradle settings and wrapper(s)
+# Gradle settings (we let wrappers so it's easier to set up the client repo)
 .gradle
-gradlew*
-/gradle/
-gradle/**
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
@@ -37,15 +34,8 @@ gradle/**
 # Ignore Gradle GUI config
 gradle-app.setting
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
-
-# Avoid ignore Gradle wrappper properties
-!gradle-wrapper.properties
-
 # Cache of project
 .gradletasknamecache
-
 
 /test-files/tmp-out/
 
