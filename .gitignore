@@ -10,6 +10,7 @@
 # Gradle settings and wrapper(s)
 .gradle
 gradlew*
+/gradle/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
@@ -46,3 +47,6 @@ gradle-app.setting
 
 
 /test-files/tmp-out/
+
+# local (pc - dependent) notes or scripts
+/local/
