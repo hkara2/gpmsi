@@ -1,3 +1,5 @@
+☺:encoding=UTF-8:
+
 Groovy PMSI est un ensemble de programmes permettant d'exécuter des scripts
 spécifiques au PMSI en utilisant le langage Groovy.
 Il a été conçu en 2016 par Harry KARADIMAS après qu'il ait quitté l'APHP,
