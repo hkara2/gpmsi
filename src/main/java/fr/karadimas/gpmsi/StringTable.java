@@ -297,6 +297,15 @@ implements Iterable<StringTableRow>
 	}
 	
 	/**
+	 * Identique à getRow(int) mais permet d'utiliser l'opérateur [] dans Groovy
+     * @param r Le numéro de la rangée
+     * @return Un tableau de String ou null si la rangée n'existe pas
+	 */
+	public String[] getAt(int r) {
+	    return getRow(r);
+	}
+	
+	/**
 	 * 
 	 * @return le nombre de rangées de la table
 	 */

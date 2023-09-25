@@ -1,5 +1,7 @@
 package fr.karadimas.gpmsi;
 
+import java.util.Iterator;
+
 /**
  * Rangée dans une {@link StringTable}
  * @author hkaradimas
@@ -32,5 +34,25 @@ public class StringTableRow {
    * @return la valeur à la rangée/colonne donnée
    */
   public String getAt(int colNr) { return owner.getValue(rowNr, colNr); }
+  
+  /**
+   * Iterateur pour parcourir toutes les colonnes
+   * @return Un iterateur sur toutes les colonnes
+   */
+  public Iterator<String> iterator() {
+    return new Iterator<String>() {
+      int i = 0;
+
+      @Override
+      public boolean hasNext() {
+        return owner.getColumnCount() > i;
+      }
+
+      @Override
+      public String next() {
+        return owner.getValue(rowNr, i++);
+      }
+    };
+  }
   
 }
