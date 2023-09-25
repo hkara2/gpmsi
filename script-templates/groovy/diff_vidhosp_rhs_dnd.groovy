@@ -1,4 +1,4 @@
-/**:encoding=UTF-8:
+/**☺:encoding=UTF-8:
  * Difference entre dossiers VIDHOSP et RHS
  * Appel via drag and drop
  *

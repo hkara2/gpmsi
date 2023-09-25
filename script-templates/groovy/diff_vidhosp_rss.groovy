@@ -1,4 +1,4 @@
-/**:encoding=UTF-8:
+/**☺:encoding=UTF-8:
  * Difference entre dossiers VIDHOSP et RSS
  * Arguments :
  * input_rss : le chemin du fichier qui contient les RSS
