@@ -343,8 +343,10 @@ task dist {
                 fileset(dir: "script-templates")
             }
 
-            //bouger le script gpmsi.bat a la racine de la distrib
+            //bouger les scripts gpmsi.bat, menu.bat et menu.html a la racine de la distrib
             move(file: "dist/$destdir/scripts/gpmsi.bat", todir: "dist/$destdir")
+            move(file: "dist/$destdir/scripts/menu.bat", todir: "dist/$destdir")
+            move(file: "dist/$destdir/scripts/menu.html", todir: "dist/$destdir")
 
             //copier les fichiers de reference
             mkdir(dir: "dist/$destdir/fichiers-ref")
@@ -357,7 +359,25 @@ task dist {
             mkdir(dir: "dist/$destdir/docs")
 
             copy(todir: "dist/$destdir/docs", filtering: "true", overwrite: "true", preservelastmodified: true) {
-                fileset(dir: "doc")
+                fileset(dir: "doc") {
+                    exclude(name: "**/*.pdf")
+                    exclude(name: "**/*.jpg")
+                    exclude(name: "**/*.png")
+                    exclude(name: "**/*.pdf")
+                    exclude(name: "**/*.svg")
+                    exclude(name: "**/*.xlsx")
+                }
+            }
+
+            copy(todir: "dist/$destdir/docs", filtering: "false", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "doc") {
+                    include(name: "**/*.pdf")
+                    include(name: "**/*.jpg")
+                    include(name: "**/*.png")
+                    include(name: "**/*.pdf")
+                    include(name: "**/*.svg")
+                    include(name: "**/*.xlsx")
+                }
             }
 
             //copier le repertoire des javadocs dans les docs de sortie
