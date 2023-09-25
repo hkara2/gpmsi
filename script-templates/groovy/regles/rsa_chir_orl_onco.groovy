@@ -1,4 +1,4 @@
-/**:encoding=UTF-8:
+/**☺:encoding=UTF-8:
  * Recherche des RSAs qui concernent de la chirurgie ORL critères INCA 2011
  * Ex :
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2022\M10\RSA

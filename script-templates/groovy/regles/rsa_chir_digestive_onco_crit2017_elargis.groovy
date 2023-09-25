@@ -1,13 +1,18 @@
-/**:encoding=UTF-8:
- * Recherche des RSAs qui concernent de la chirurgie Oncologique critères INCA 2017
+/**☺:encoding=UTF-8:
+ * Recherche des RSAs qui concernent de la chirurgie digestive Oncologique critères INCA 2017
  * Mais avec critères élargis pour rechercher des diagnostics oncologiques qui
  * auraient été mal classés.
+ * Arguments :
+ * -a:input chemin_du_fichier_des_RSA
+ * -a:output chemin_du_fichier_a_produire
+ * -a:tra chemin du fichier TRA (optionnel, ne marche que pour les TRA 2023 (DRUIDES))
  * Ex :
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2021\M12\RSA
  * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.0\scripts\groovy\regles\rsa_chir_digestive_onco_crit2017_elargis.groovy -a:input 910019447.2021.12.rsa -a:output NRSAs_chir_dig_onco_criteres_elargis.csv
  */
 package regles
 import fr.karadimas.gpmsi.DateUtils
+import fr.karadimas.gpmsi.StringTable
 import fr.karadimas.gpmsi.pmsi_rules.*
 import fr.karadimas.gpmsi.pmsi_rules.cim.*
 import fr.karadimas.gpmsi.pmsi_rules.ghm.*
@@ -45,7 +50,15 @@ regleCanceroChirDig = new PmsiCriterionRule(criteres)
 eng = new PmsiRuleEngine()
 eng.add(regleCanceroChirDig)
 
-nrsas = [] as Set
+results = [] as Set
+
+tra = null
+
+if (args.containsKey("tra")) {
+    tra = new StringTable("TRA")
+    //lire le TRA dans la StringTable
+    tra.readFrom(new File(args.tra), ["nrsa", "nrss", "nadl", "ddsej", "dfsej", "ghm", "hash_tra"] as String[], "ISO-8859-1", ';' as char)
+}
 
 rsa {
     input args.input
@@ -53,18 +66,25 @@ rsa {
 
     onInit {
         outf = new FileWriter(outputFilePath)
-        outf << 'NRSA\r\n'
+        outf << 'nrsa'
+        if (tra != null) {
+            outf << ';nadl'
+        }
+        outf << '\r\n'
     }
 
     onItem {item->
         rsa = item.rsa
         int n = eng.evalRsa(rsa)
         def nrsa = rsa.txtNRSA
-        if (n > 0) nrsas << (nrsa)
+        if (n > 0) {
+            def nadl = tra.find('nrsa', nrsa, 'nadl')
+            results << (nrsa + ';' + nadl)
+        }
     }
 
     onEnd {
-        outf << nrsas.join('\r\n')
+        outf << results.join('\r\n')
         outf.close()
     }
 }
