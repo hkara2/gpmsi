@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 
+import fr.karadimas.gpmsi.pmsi_rules.AoeNode
 import fr.karadimas.gpmsi.pmsi_rules.PmsiCriterion;
 import fr.karadimas.pmsixml.FszGroup;
 
@@ -27,8 +28,17 @@ import fr.karadimas.pmsixml.FszGroup;
  * 
  * Donc pour les expressions régulières. 
  * 
- * Il y a une syntaxe simplifiée (non encore implémentée) :
- * <code>/a:<expression attributs>/m:<expression modificateurs>
+ * Il y a une syntaxe simplifiée (non encore implémentée) :<br>
+ * <ul>
+ * <li><code>/a:&lt;expression activité&gt;</code>
+ * <li><code>/m:&lt;expression modificateurs&gt;</code>
+ * <li><code>/p:&lt;expression phase&gt;</code></code>
+ * <li><code>/d:&lt;expression extension documentaire&gt;</code>
+ * <li><code>/x:&lt;expression association non prévue&gt;</code>
+ * <li><code>/r:&lt;expression remboursement exceptionnel&gt;</code>
+ * <li><code>/n:&lt;expression nombre de réalisations de l'acte&gt;</code>
+ * </ul>
+ * <br>
  * L'expression est :
  * <expression valeur>[, <expression valeur>]
  * L'expression valeur est :
@@ -38,11 +48,18 @@ import fr.karadimas.pmsixml.FszGroup;
  * avec à la fois le modificateur P et le modificateur U, on écrit :
  * HHFA016/m:P&U
  *
- * Idée future : on fait une simulation de critère corrélé en utilisant le contexte.
- * Par exemple, le premier critère évalue la présence d'une liste d'actes avec activité 1,
- * et range les actes retrouvés dans un ensemble stocké dans la HashMap.
- * Le deuxième critère, qui doit donc être exécuté après le 1er, reprend les actes stockés,
- * et vérifie qu'ils ont tous une activité 4.
+ * Pour les modificateurs, l'expression concerne la zone d'acte courante.
+ * 
+ * Pour les autres critères, ils concernent le RUM courant, et les actes qui ont le même délai
+ * à partir de l'entrée du séjour (lorsque la condition est '&').
+ * 
+ * Exemple : on veut vérifier qu'il y a bien dans le RUM un acte JAFA002 qui est une fois avec une
+ * activité 1 et une autre fois avec une activité 4, avec le même délai à partir de l'entrée du séjour :
+ * <br>
+ * 
+ *  <code>JAFA002/a:1&4</code>
+ *  
+ *  <br>
  *  
  * 
  * @author hkaradimas
@@ -50,9 +67,19 @@ import fr.karadimas.pmsixml.FszGroup;
 public class CcamCodePresence
     implements PmsiCriterion 
 {
-  final static Logger lg = LoggerFactory.getLogger(CcamCodePresence.class)
+  final static Logger lg = LogManager.getLogger(CcamCodePresence.class)
  
   public static Pattern ccamPattern =  Pattern.compile(/[A-Z][A-Z][A-Z][A-Z]\d\d\d(-\d\d)?/) //pattern pour un code CCAM (avec extention PMSI) autorisé
+  
+  /**
+   * Classe interne pour stocker les critères de sélection d'un code avec les expressions qui vont avec
+   */
+  class SelCriteria {
+    String code
+    Pattern pattern
+    AoeNode exprActivites
+    AoeNode exprModificateurs
+  }
   
   List<String> includedCodes = new ArrayList<>();
   List<Pattern> includedPatterns = new ArrayList<>();
@@ -110,6 +137,9 @@ public class CcamCodePresence
    * Remboursement exceptionnel
    * Association non prévue
    * Nombre de réalisations de l'acte n° nZA pendant le séjour
+   * Effectue la recherche selon ce qu'il y a dans le contexte.
+   * Si il y a 'rum' dans le contexte, recherche dans le rum.
+   * Si il y a 'rsa' dans le contexte, recherche dans tous les rums du rsa.
    */
   @Override
   public boolean eval(HashMap context) {
@@ -125,9 +155,13 @@ public class CcamCodePresence
         def ccam = za.txtCCCAM
         //println "ccam:$ccam"
         def xtpmsi = za.txtXTPMSI
-        if (xtpmsi == '') ccamCodes.add(ccam)
-        else ccamCodes.add(ccam + '-' + xtpmsi)
-        
+        def codeToAdd
+        if (xtpmsi == '') codeToAdd = ccam
+        else codeToAdd = ccam + '-' + xtpmsi
+        //si le code finit par -00 on enlève le -00 qui n'est pas pertinent
+        if (codeToAdd.endsWith('-00')) codeToAdd = codeToAdd[0..-4]
+        lg.debug("ccam '$codeToAdd'")
+        ccamCodes.add(codeToAdd)
       }
       //si rsa présent, il a priorité
       //ccamCodes.addAll(rsa.RU.ZA.txtCCCA)
@@ -135,7 +169,8 @@ public class CcamCodePresence
     else if (rum != null) {
       //println "rum:$rum"
       rum.ZA.txtCCCA.each { code -> 
-        if (code.endsWith('-00')) code = code[0..-4] //enlever les 3 derniers caractères
+        if (code.endsWith('-00')) code = code[0..-4] //enlever les 3 derniers caractères -00 qui ne sont pas pertinents
+        lg.debug("ccam '$code'")
         ccamCodes.add(code)
       }
       //println "ccamCodes:$ccamCodes"
