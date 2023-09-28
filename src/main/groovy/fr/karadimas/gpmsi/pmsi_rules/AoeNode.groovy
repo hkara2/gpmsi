@@ -1,11 +1,11 @@
 package fr.karadimas.gpmsi.pmsi_rules;
 
 /**
- * And-Or expression node
+ * And-Or expression node (abstract class)
  * @author hkaradimas
  *
  */
-public class AoeNode {
+public abstract class AoeNode {
   
   void dump(String indent, StringBuilder sb) {}
   
