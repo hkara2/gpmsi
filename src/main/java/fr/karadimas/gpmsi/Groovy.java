@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
+//import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,11 +27,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.codehaus.groovy.control.CompilerConfiguration;
 
-import fr.karadimas.pmsixml.Log4j2Utils;
 import groovy.lang.Binding;
 import groovy.lang.Script;
 import groovy.util.GroovyScriptEngine;
-import groovy.util.ResourceConnector;
+//import groovy.util.ResourceConnector;
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;
 
@@ -161,7 +160,8 @@ public class Groovy {
             else if (arg.equals("-debug")) {
               //LogManager.getRootLogger().setLevel(Level.DEBUG);
               //equivalent en log4j2
-              Log4j2Utils.changeRootLogLevel(Level.DEBUG);
+              //Log4j2Utils.changeRootLogLevel(Level.DEBUG);
+              Log4jUtils.setRootLogLevel(Level.DEBUG);
             }
             else if (arg.startsWith("-f:")) {
                 String flagName = arg.substring(3);
