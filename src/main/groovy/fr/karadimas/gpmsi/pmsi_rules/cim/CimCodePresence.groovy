@@ -4,6 +4,9 @@ import fr.karadimas.gpmsi.pmsi_rules.PmsiCriterion
 import fr.karadimas.pmsixml.FszGroup
 import java.util.regex.Pattern
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 /**
  * Recherche de codes cim 10 dans différents endroits.
  * Les endroits à rechercher sont :
@@ -38,6 +41,8 @@ import java.util.regex.Pattern
 class CimCodePresence
     implements PmsiCriterion 
 {
+    final static Logger lg = LoggerFactory.getLogger(CimCodePresence.class);
+    
     static Pattern cimPattern =  Pattern.compile(/[A-Z][0-9\+]+/) //pattern pour un code CIM10 autorisé
 
     String locations
@@ -111,38 +116,38 @@ class CimCodePresence
         FszGroup rsa = null
         def rhs = null
         def locs = locations.split(',')
-        def usercodes = []
+        def readcodes = [] //les codes lus. Il seront normalisés plus tard.
         locs.each() {loc ->
             def locn = loc.trim().toUpperCase() //normaliser
             switch (locn) {
                 case 'DP':
                   if (rum == null) { rum = context['rum'] }
-                  if (rum != null) { usercodes << rum.getChildField('DP').value }
+                  if (rum != null) { readcodes << rum.getChildField('DP').value }
                   break
                 case 'DPA':
                   if (rsa == null) { rsa = context['rsa'] }
-                  if (rsa != null) { usercodes << rsa.getChildField('DP').value }
+                  if (rsa != null) { readcodes << rsa.getChildField('DP').value }
                   break
                 case 'RADP': //DPs des RUMs du RSA
                   if (rsa == null) { rsa = context['rsa'] }
-                  if (rsa != null) { usercodes.addAll(rsa.RU.txtDP) }
+                  if (rsa != null) { readcodes.addAll(rsa.RU.txtDP) }
                 break
                 case 'DR':
                   if (rum == null) { rum = context['rum'] }
-                  if (rum != null) { usercodes << rum.getChildField('DR').value }
+                  if (rum != null) { readcodes << rum.getChildField('DR').value }
                   break
                 case 'DRA':
                   if (rsa == null) { rsa = context['rsa'] }
-                  if (rsa != null) { usercodes << rsa.getChildField('DR').value }
+                  if (rsa != null) { readcodes << rsa.getChildField('DR').value }
                   break
                 case 'RADR': //DRs des RUMSs du RSA
                   if (rsa == null) { rsa = context['rsa'] }
-                  if (rsa != null) { usercodes.addAll(rsa.RU.txtDR) }
+                  if (rsa != null) { readcodes.addAll(rsa.RU.txtDR) }
                   break
                 case 'DAS':
                   if (rum == null) { rum = context['rum'] }
                   if (rhs == null) { rhs = context['rhs'] }
-                  if (rum != null) { usercodes.addAll(rum.DA.txtTDA) }
+                  if (rum != null) { readcodes.addAll(rum.DA.txtTDA) }
                   //TODO faire pareil pour rhs
                   break
                 case 'RADAS': //DAs des RUMs du RSA
@@ -150,14 +155,13 @@ class CimCodePresence
                   if (rsa != null) { 
                     def radasCodes = (rsa.RU.DA.txtTDA).flatten()
                     //println("radasCodes:$radasCodes")
-                    usercodes.addAll(radasCodes)                     
+                    readcodes.addAll(radasCodes)                     
                   }
                   break
             }
         }
-        System.out.println("usercodes: $usercodes")
-        normalizeCodes(usercodes)
-        //System.out.println("usercodes: $usercodes")
+        if (lg.debugEnabled) lg.debug("usercodes: $readcodes");
+        normalizeCodes(readcodes)
         if (searchType == 0) {
             if (codeExprs == null) {
                 //initialiser les expressions de recherche
@@ -169,17 +173,17 @@ class CimCodePresence
                     !isRegular //si code est une regexp elle sera enlevee des codes normaux
                 }
             }
-            def tmp = usercodes.any { codes.contains(it) }
+            def tmp = readcodes.any { codes.contains(it) }
             //System.out.println("codes:$codes")
             //System.out.println("codesExprs:$codeExprs")
             //System.out.println("tmp:$tmp")
             //1) rechercher parmi les codes normaux si un des codes est parmi eux
             //   Comme "codes" est un HashSet la recherche est rapide
-            if (usercodes.any { codes.contains(it) }) true
+            if (readcodes.any { codes.contains(it) }) true
             else {
                 //2) si ce n'est pas le cas, rechercher parmi les regexp et retourner le resultat
                 codeExprs.any { pattern ->
-                    usercodes.any { it =~ pattern }
+                    readcodes.any { it =~ pattern }
                 }
             }
         }
