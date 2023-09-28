@@ -46,7 +46,9 @@ public class AndOrExpr {
   private final void skipWs() { while (isWs(cc)) next() }
   
   /* 
-   * un caractere de valeur est tout caractere (y compris un espace) qui n'est pas zéro,
+   * un caractere de valeur est tout caractere (y compris un espace) qui n'est pas zéro 
+   * (attention : la valeur zéro, pas le caractère '0' (qui est le caractère N° 48) !)
+   * ,
    * et pas !,&()
    */
   private boolean isValChar(char c) {
