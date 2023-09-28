@@ -5,12 +5,12 @@ import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Classe avec méthodes utilitaires pour l'utilisation de fonctions Apache POI pour Excel.
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PoiHelper {
   
-  static Logger lg = LoggerFactory.getLogger(PoiHelper.class);
+  static Logger lg = LogManager.getLogger(PoiHelper.class);
   
   DataFormatter formatter = new DataFormatter();
   
