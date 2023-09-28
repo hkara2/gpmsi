@@ -1,12 +1,12 @@
 package fr.karadimas.gpmsi.pmsi_rules
 
 /**
- * Ensemble de criteres logiques PMSI (qui est lui-m�me un crit�re).
- * Est �valu� � "true" si au moins un des crit�res est �valu� � "true".
- * Si tous les crit�res sont faux, est �valu� � "false".
- * Est �quivalent � "OR".
- * Evalue tous les crit�res dans l'ordre o� ils ont �t� ajout�s, et arr�te
- * l'�valuation d�s qu'un crit�re est �valu� � "true".
+ * Ensemble de critères logiques PMSI (qui est lui-même un critère).
+ * Est évalué à "true" si au moins un des critères est évalué à "true".
+ * Si tous les critères sont faux, est évalué à "false".
+ * Est équivalent à "OR".
+ * Evalue tous les critères dans l'ordre où ils ont été ajoutés, et arrête
+ * l'évaluation dès qu'un critère est évalué à "true".
  */
 class PmsiAnyCriterion 
     extends ArrayList<PmsiCriterion> 
@@ -19,7 +19,7 @@ class PmsiAnyCriterion
             PmsiCriterion crit = get(i)
             if (crit.eval(context) == true) return true
         }
-        //aucun crit�re n'est vrai, le r�sultat de l'�valuation est "false"
+        //aucun critère n'est vrai, le résultat de l'évaluation est "false"
         return false
     }
 
