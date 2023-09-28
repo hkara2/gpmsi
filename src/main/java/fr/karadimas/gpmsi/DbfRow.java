@@ -1,7 +1,7 @@
 package fr.karadimas.gpmsi;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.linuxense.javadbf.DBFField;
 
@@ -12,7 +12,7 @@ import com.linuxense.javadbf.DBFField;
  * @author hkaradimas
  */
 public class DbfRow {
-  static Logger lg = LoggerFactory.getLogger(DbfRow.class);
+  static Logger lg = LogManager.getLogger(DbfRow.class);
   
   ScriptStep owner;
   
