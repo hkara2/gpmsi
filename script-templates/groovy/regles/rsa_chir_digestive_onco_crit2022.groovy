@@ -94,14 +94,12 @@ estCcamExerese = new CcamCodePresence(CCAM_exerese_abdominopelvienne)
 
 criteres = new PmsiAllCriteria()
 //criteres << estCimChirDig << age18 << ghmC << estCcamExerese
-criteres << estCcamExerese <<estCimChirDig << age18 << ghmC
+criteres  << age18 << ghmC << estCimChirDig << estCcamExerese
 
 regleCanceroChirDig = new PmsiCriterionRule(criteres)
 
 eng = new PmsiRuleEngine()
 eng.add(regleCanceroChirDig)
-
-nrsas = [] as Set
 
 tra = null
 
@@ -116,7 +114,7 @@ if (args.containsKey("tracsv")) {
 //lire les TRA au format TRA2016 et les convertir aux nouveaux noms
 if (args.containsKey("tra")) {
     def traFile = new File(args.tra)
-    //créer une StringTable pour lire le contenu du TRA
+    //créer une StringTable intermédiaire pour lire le contenu du TRA
     def traTbl = new StringTable('TRA')
     MonoLevelReader trar = new MonoLevelReader()
     trar.setMetaName("tra2016");
@@ -140,7 +138,7 @@ if (tra != null) {
     tra.transform('nadl') {s-> s?.trim()}
     //idem pour les nrss
     tra.transform('nrss') {s-> s?.trim()}
-    
+
     //ajouter un index sur le nrsa pour retrouver plus vite les nadl
     tra.addIndex('nrsa')
 }
@@ -159,8 +157,8 @@ rsa {
         int n = eng.evalRsa(rsa)
         def nrsa = rsa.txtNRSA
         def nadl = ''
-        if (tra != null) tra.find('nrsa', rsa.txtNRSA, 'nadl') //recuperer le numero de dossier grace a la table des tra
-        if (n > 0) nrsas << "$nrsa;${nadl}\r\n"
+        if (tra != null) nadl = tra.find('nrsa', rsa.txtNRSA, 'nadl') //recuperer le numero de dossier grace a la table des tra
+        if (n > 0) outf << "$nrsa;${nadl}\r\n"
     }
 
     onEnd {
