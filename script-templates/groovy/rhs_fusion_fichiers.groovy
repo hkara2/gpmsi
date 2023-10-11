@@ -1,4 +1,4 @@
-/**:encoding=UTF-8:
+/**☺:encoding=UTF-8:
  * fusionner ensemble deux fichiers de RHS A et B
  * On importe d'abord tous les RHS de A et on les ajoute à la sortie
  * Puis on parcourt les RHS de B, et on les ajoute à la sortie s'ils ne sont pas dans A
