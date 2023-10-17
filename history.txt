@@ -46,6 +46,12 @@ version date    changements
                 inputEncoding à windows-1252.
                 Ajouts de caractères smileys pour avoir une confirmation visuelle
                 de la prise en charge de l'Unicode par l'éditeur.
+1.3.2   231016  Ajout de nombreux commentaires javadoc pour ne plus avoir de warning.
+                changement de l'instanciation de scripts pour ne plus avoir l'avertissement
+                de dépréciation lors de la compilation de Groovy.java
+                Ajout de scripts groovy pour la reparation des lundis sans RHS (DxCare)
+                et pour le comptage par jour des occupation de UM.
+                                
                 
                               
                 
