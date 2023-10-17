@@ -3,6 +3,8 @@ package fr.karadimas.gpmsi;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 //import java.net.URLConnection;
@@ -112,8 +114,6 @@ import groovy.util.ScriptException;
  * <br>
  * La classe doit étendre {@link Script}
  * 
- * <p>
- * 
  * 
  * 
  * @author hkaradimas
@@ -132,6 +132,19 @@ public class Groovy {
     
     String encoding = "UTF-8"; //encodage des scripts, par défaut UTF-8
 
+    /**
+     * Constructeur par défaut
+     */
+    public Groovy() {
+    }
+    
+    /**
+     * Traitement d'un argument obligatoire
+     * @param args Arguments
+     * @param errorMessage Message d'erreur au cas où l'argument est absent
+     * @return La valeur de l'argument
+     * @throws Exception Si l'argument est absent
+     */
     public String mandatory(Args args, String errorMessage)
     throws Exception
     {
@@ -141,6 +154,11 @@ public class Groovy {
         return args.next();
     }
 
+    /**
+     * Initialisation
+     * @param argsp Arguments
+     * @throws Exception -
+     */
     public void init(String[] argsp) 
             throws Exception 
     {
@@ -285,8 +303,22 @@ public class Groovy {
         if (runClass != null) scriptPath = ""; //runClass a priorité sur scriptPath
     }
     
+    /**
+     * Lancer l'exécution.
+     * @return Renvoie toujours 0 (auparavant une valeur d'erreur était renvoyée, mais maintenant en
+     * cas d'erreur ce sont des exceptions qui sont déclenchées)
+     * @throws ResourceException -
+     * @throws ScriptException -
+     * @throws IOException -
+     * @throws ClassNotFoundException -
+     * @throws InstantiationException -
+     * @throws IllegalAccessException -
+     * @throws NoSuchMethodException -
+     * @throws InvocationTargetException -
+     * @throws IllegalArgumentException -
+     */
     public int run() 
-        throws ResourceException, ScriptException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException
+        throws ResourceException, ScriptException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException
     {
         if (scriptPath == null && scriptUri == null && runClass == null) return 99; //error -99 pas de script specifie
         try {
@@ -360,7 +392,9 @@ public class Groovy {
               //execution directe d'une classe déjà compilée en tant que script (interne) distribuée dans le jar
               @SuppressWarnings("unchecked")
               Class<Script> scriptClass = (Class<Script>) Class.forName(runClass);
-              Script scriptObj = scriptClass.newInstance(); 
+              Constructor<Script> cons = scriptClass.getConstructor();
+              //Script scriptObj = scriptClass.newInstance(); //deprecated
+              Script scriptObj = cons.newInstance();
               scriptObj.setBinding(bnd);
               returnedObject = scriptObj.run();
             }
@@ -390,6 +424,11 @@ public class Groovy {
         }        
     }
     
+    /**
+     * main
+     * @param argsp Arguments
+     * @throws Exception -
+     */
     public static void main(String[] argsp) 
             throws Exception 
     {
@@ -422,13 +461,13 @@ public class Groovy {
     {
         private boolean removeListener;
 
-        /*
+        /**
          *  Convenience constructor. The listener is only used once and then it is
          *  removed from the component.
          */
         public RequestFocusListener() { this(true); }
 
-        /*
+        /**
          *  Constructor that controls whether this listen can be used once or
          *  multiple times.
          *
@@ -454,10 +493,19 @@ public class Groovy {
         public void ancestorRemoved(AncestorEvent e) {}
     }
 
+    /**
+     * Accès à l'objet qui a été retourné par le script
+     * @return l'objet retourné par le script
+     */
     public Object getReturnedObject() {
       return returnedObject;
     }
 
+    /**
+     * Définir l'objet retourné par le script.
+     * Pas à utiliser de manière courante.
+     * @param returnedObject Objet retourné par le script
+     */
     public void setReturnedObject(Object returnedObject) {
       this.returnedObject = returnedObject;
     }
