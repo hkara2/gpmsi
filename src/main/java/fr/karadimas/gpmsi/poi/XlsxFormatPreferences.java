@@ -13,13 +13,21 @@ package fr.karadimas.gpmsi.poi;
  *
  */
 public class XlsxFormatPreferences {
+  /** Le format numérique (null par défaut) */
   public String numberFormat = null;
+  /** Le format de date (par défaut "dd/mm/yyyy") */
   public String dateFormat = "dd/mm/yyyy";
+  /** Le format de temps (par défaut "hh:mm:ss") */
   public String timeFormat = "hh:mm:ss";
+  /** Le format date+temps (par défaut "dd/mm/yyyy hh:mm:ss") */
   public String dateTimeFormat = "dd/mm/yyyy hh:mm:ss";
 
+  /**
+   * Préférences par défaut
+   */
   public static final XlsxFormatPreferences defaultPreferences = new XlsxFormatPreferences();
   
+  /** constructeur par défaut (ne rajoute rien par rapport aux valeurs par défaut) */
   public XlsxFormatPreferences() {
   }
 

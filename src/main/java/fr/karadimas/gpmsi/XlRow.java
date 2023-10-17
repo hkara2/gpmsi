@@ -36,7 +36,7 @@ public class XlRow {
   }
 
   /**
-   * 
+   * Retourner le propriétaire
    * @return Le propriétaire
    */
   public ScriptStep getOwner() { return this.owner; }
@@ -86,7 +86,7 @@ public class XlRow {
   /**
    * Renvoyer la cellule sous forme d'objet.
    * Cf. {@link PoiHelper}
-   * @param colNrObj
+   * @param colNrObj Le numéro de colonne ou null (null est considéré ici comme 0).
    * @return l'objet qui est dans la colonne (peut retourner null)
    */
   public Object getCellObject(Integer colNrObj) {
@@ -209,10 +209,14 @@ public class XlRow {
   
   /**
    * Méthode de confort pour retourner le DataFormatter sans avoir à en recréer un nouveau.
-   * @return
+   * @return Le {@link DataFormatter}
    */
   public DataFormatter getDataFormatter() { return owner.poiHelper.getDataFormatter(); }
   
+  /**
+   * Nombre de colonnes
+   * @return Le nombre de colonnes
+   */
   public int getColumnCount() { return owner.getXlpoiColumnCount(); }
   
   /**

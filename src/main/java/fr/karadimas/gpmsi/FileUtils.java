@@ -17,6 +17,9 @@ import java.nio.file.Files;
  */
 public class FileUtils {
 
+  /**
+   * Constructeur par défaut
+   */
   public FileUtils() {
   }
 

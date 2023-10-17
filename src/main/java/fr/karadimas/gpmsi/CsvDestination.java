@@ -45,12 +45,25 @@ public class CsvDestination
   CSVWriter csvw;
   ArrayList<String> fieldBuffer = new ArrayList<>();
   
+  /**
+   * Constructeur avec flux brut, encodage et séparateur de champs
+   * @param os flux brut ( {@link OutputStream}
+   * @param encoding Encodage
+   * @param fieldSeparator Séparateur de champs
+   * @throws UnsupportedEncodingException -
+   */
 	public CsvDestination(OutputStream os, String encoding, char fieldSeparator)
 			throws UnsupportedEncodingException
 	{
 	  this(new OutputStreamWriter(os, encoding), fieldSeparator);
 	}
 	
+	/**
+	 * Constructeur avec flux brut et encodage
+	 * @param os flux brut ( {@link OutputStream}
+	 * @param encoding Encodage 
+	 * @throws UnsupportedEncodingException -
+	 */
 	public CsvDestination(OutputStream os, String encoding)
 			throws UnsupportedEncodingException
 	{
@@ -73,8 +86,8 @@ public class CsvDestination
      * <li> escape quote character : "
      * <li> line end : \r\n
      * </ul>
-     * @param w
-     * @param fieldSeparator
+     * @param w Le Writer de destination
+     * @param fieldSeparator Le séparateur de champs
      */
 	public CsvDestination(Writer w, char fieldSeparator) {
       //this.os = null;
@@ -96,25 +109,51 @@ public class CsvDestination
           CSVWriter.DEFAULT_ESCAPE_CHARACTER, 
           CSVWriter.RFC4180_LINE_END);
 	}
-	
+
+	/**
+	 * Constructeur avec fichier, encodage et séparateur de champ
+	 * @param f fichier
+	 * @param encoding encodage
+	 * @param fieldSeparator caractère séparateur de champ
+	 * @throws UnsupportedEncodingException -
+	 * @throws FileNotFoundException -
+	 */
     public CsvDestination(File f, String encoding, char fieldSeparator)
         throws UnsupportedEncodingException, FileNotFoundException
-{
-    this(new FileOutputStream(f), encoding, fieldSeparator);
-}
+    {
+        this(new FileOutputStream(f), encoding, fieldSeparator);
+    }
 
+    /**
+     * Constructeur avec fichier + encodage
+     * @param f fichier
+     * @param encoding encodage
+     * @throws UnsupportedEncodingException -
+     * @throws FileNotFoundException -
+     */
     public CsvDestination(File f, String encoding)
         throws UnsupportedEncodingException, FileNotFoundException
-{
-    this(new FileOutputStream(f), encoding);
-}
+    {
+        this(new FileOutputStream(f), encoding);
+    }
 
+    /**
+     * Constructeur avec un fichier
+     * @param f le fichier
+     * @throws UnsupportedEncodingException -
+     * @throws FileNotFoundException -
+     */
 	public CsvDestination(File f) 
 			throws UnsupportedEncodingException, FileNotFoundException 
 	{
 		this(f, Charset.defaultCharset().name());
 	}
 	
+    /**
+     * Envoi d'une valeur de champ ( f pour Field)
+     * @param fieldValue la valeur à envoyer pour le champ
+     * @throws IOException -
+     */
 	public void f(String fieldValue)
 			throws IOException 
 	{
@@ -129,6 +168,11 @@ public class CsvDestination
 		//fieldNumber++;
 	}
 	
+	/**
+	 * Envoi d'une valeur de champ ( f pour Field)
+	 * @param obj la valeur à envoyer pour le champ
+	 * @throws IOException -
+	 */
 	public void f(Object obj) throws IOException {
 		f(obj == null ? "" : obj.toString());
 	}
@@ -157,7 +201,13 @@ public class CsvDestination
 		csvw.writeAll(allLines);
 	}
 	
-	public void flush() throws IOException {
+	/**
+	 * Finir les envois du flux
+	 * @throws IOException -
+	 */
+	public void flush()
+	    throws IOException 
+	{
 		csvw.flush();
 		bw.flush();
 		//os.flush();
@@ -167,16 +217,26 @@ public class CsvDestination
 	 * Ferme la destination en fermant tous les flux internes et le flux de sortie qui a été fourni au départ.
 	 * @throws IOException Si erreur E/S
 	 */
-	public void close() throws IOException {
+	public void close()
+	    throws IOException 
+	{
 		csvw.close();
 		bw.close();
 		//os.close();
 	}
 
-  public char getFieldSeparator() {
+	/**
+	 * Retourner le séparateur de champs
+	 * @return le séparateur de champs
+	 */
+    public char getFieldSeparator() {
 		return fieldSeparator;
 	}
 
+    /**
+     * Définir le séparateur de champs
+     * @param fieldSeparator séparateur de champs (défaut : ';')
+     */
 	public void setFieldSeparator(char fieldSeparator) {
 		this.fieldSeparator = fieldSeparator;
 		this.fieldSeparatorStr = String.valueOf(fieldSeparator);

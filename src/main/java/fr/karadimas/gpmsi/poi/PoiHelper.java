@@ -50,7 +50,7 @@ public class PoiHelper {
    * Si la cellule est de type Number, utiliser le NumberFormat fourni.
    * @param c La cellule à lire, peut être null.
    * @param df Le format de date à utiliser, s'il est null, le format par défaut de java sera utilisé.
-   * @param df Le format de nombre à utiliser, s'il est null, le format par défaut de java sera utilisé.
+   * @param nf Le format de nombre à utiliser, s'il est null, le format par défaut de java sera utilisé.
    * @return La valeur textuelle de la cellule. Au lieu de null si c'est le cas, retourne la chaîne vide "".
    */
   public final String getCellValueAsString(Cell c, DateFormat df, NumberFormat nf) {
@@ -161,7 +161,7 @@ public class PoiHelper {
    * Retourner le DataFormatter qui est utilisé par cet objet.
    * Utile pour éviter d'avoir à en recréer plusieurs.
    * Attention ne pas changer cet objet.
-   * @return
+   * @return Le DataFormatter
    */
   public DataFormatter getDataFormatter() { return formatter; }
 
@@ -175,6 +175,10 @@ public class PoiHelper {
     return newJavaTimeUsed;
   }
 
+  /**
+   * Définit si on utilise la nouvelle api java.time
+   * @param newJavaTimeUsed true si la nouvelle api est à utiliser
+   */
   public void setNewJavaTimeUsed(boolean newJavaTimeUsed) {
     this.newJavaTimeUsed = newJavaTimeUsed;
   }

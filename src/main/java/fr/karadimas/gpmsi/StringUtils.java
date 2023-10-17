@@ -8,7 +8,8 @@ package fr.karadimas.gpmsi;
  */
 public class StringUtils {
 
-
+  private StringUtils() {}
+  
   /**
    * Retourne vrai si str est null ou de longueur 0
    * @param str Une chaîne de caractères (peut être null)

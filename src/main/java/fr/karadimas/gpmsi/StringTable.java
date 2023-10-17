@@ -168,6 +168,7 @@ implements Iterable<StringTableRow>
 		return fielda;
 	}
 	
+	/** Constructeur par défaut */
 	public StringTable() {
 	}
 
@@ -220,7 +221,7 @@ implements Iterable<StringTableRow>
 	}
 	
 	/**
-	 * 
+	 * Retourne le nombre de colonnes
 	 * @return Le nombre de colonnes
 	 */
 	public int getColumnCount() {
@@ -234,7 +235,7 @@ implements Iterable<StringTableRow>
 	}
 	
 	/**
-	 * 
+	 * Retourne les noms de colonne
 	 * @return Un tableau avec les noms de colonne
 	 */
 	public String[] getColumnNames() {
@@ -306,7 +307,7 @@ implements Iterable<StringTableRow>
 	}
 	
 	/**
-	 * 
+	 * Retourne le nombre de rangées de la table
 	 * @return le nombre de rangées de la table
 	 */
 	public int getRowCount() { return rows.size(); }
@@ -380,7 +381,7 @@ implements Iterable<StringTableRow>
         
     /**
      * Ajouter une rangée vide (un tableau de String qui ne contient que des null) à la table
-     * @param lst
+     * @param lst Liste de String
      */
 	public void addRow(List<String> lst) {
 		if (lst == null) return;
@@ -456,16 +457,22 @@ implements Iterable<StringTableRow>
 	
 	/**
 	 * Regarder si la colonne contient la valeur donnée.
-	 * @param colName
-	 * @param value
+	 * @param colName nom de la colonne
+	 * @param value Valeur à tester
 	 * @return true si la colonne contient la valeur
-	 * @throws ColumnNotFoundException
+	 * @throws ColumnNotFoundException Si la colonne n'a pas été trouvée
 	 */
 	public boolean contains(String colName, String value) 
 	    throws ColumnNotFoundException {
       return findRow(colName, value) >= 0;
     }
 	
+	/**
+	 * Trouver les rangées pour lesquelles la colonne contient la valeur
+	 * @param colNr Le numéro de la colonne à interroger
+	 * @param value La valeur recherchée
+	 * @return Un tableau d'entiers avec les numéros des lignes trouvées
+	 */
 	public Integer[] findRows(int colNr, String value) {
 		//regarder si un index existe
 		ArrayList<Integer> rowIndexes = new ArrayList<>();
@@ -489,6 +496,13 @@ implements Iterable<StringTableRow>
 		return rowIndexes.toArray(new Integer[0]);
 	}
 	
+	/**
+	 * Trouver les rangées pour lesquelles la colonne contient la valeur
+	 * @param colName Le nom de la colonne à interroger
+	 * @param value La valeur recherchée
+	 * @return Un tableau d'entiers avec les numéros des lignes trouvées
+	 * @throws ColumnNotFoundException Si la colonne n'a pas été trouvée
+	 */
 	public Integer[] findRows(String colName, String value)
 	    throws ColumnNotFoundException 
 	{
@@ -572,6 +586,12 @@ implements Iterable<StringTableRow>
       return rowIndexes.toArray(new Integer[0]);
     }
 	
+	/**
+	 * Créer une nouvelle sélection qui inclut toutes les rangées pour lesquelles l'exécution de
+	 * la closure (fonction) de sélection renvoie true
+	 * @param selectionClosure La closure à utiliser pour la sélection
+	 * @return La sélection ( {@link StringTableSelection} ) trouvée
+	 */
 	public StringTableSelection selectRows(Closure<Boolean> selectionClosure) {
 	  return new StringTableSelection(this, findRows(selectionClosure));
 	}
@@ -834,7 +854,8 @@ implements Iterable<StringTableRow>
 	 * Tous les résultats JDBC sont lus, donc faire attention car si il y a trop de résultats,
 	 * cela peut planter tout le programme...
 	 * @param rs Le ResultSet a utiliser. N'est pas refermé ici, normalement c'est automatique avec la fermeture du Statement qui a exécuté la requête.
-	 * @throws SQLException
+	 * @param ofmt Le formateur d'objet ( {@link ObjectFormatter} ) à utiliser 
+	 * @throws SQLException Si erreur sql lors de la lecture des résultats
 	 */
 	public void readFrom(ResultSet rs, ObjectFormatter ofmt)
 	    throws SQLException
@@ -862,13 +883,18 @@ implements Iterable<StringTableRow>
 	/**
 	 * Lire les rangées depuis le ResultSet en utilisant le formateur objet par défaut.
 	 * @param rs Le ResultSet
-	 * @throws SQLException 
+	 * @throws SQLException -
 	 */
 	public void readFrom(ResultSet rs) throws SQLException
 	{
 	  readFrom(rs, ObjectFormatter.defaultFormatter);
 	}
 	
+	/**
+	 * Regarde si le tableau est vide
+	 * @param sa le tableau à analyser (null autorisé)
+	 * @return true si sa est null ou si le tableau ne contient que des nulls ou des string vides (longueur 0 après trim())
+	 */
 	boolean isEmpty(String[] sa) {
 	  if (sa == null || sa.length == 0) return true;
 	  for (int i = 0; i < sa.length; i++) {
@@ -877,7 +903,15 @@ implements Iterable<StringTableRow>
       }
 	  return true;
 	}
-	
+
+	/**
+	 * Trouver une valeur dans une colonne donnée, et retourner une autre valeur de colonne, dans la même rangée.
+     * Utile pour retrouver rapidement une valeur, comme on le ferait avec le <a href="https://support.microsoft.com/fr-fr/office/fonction-recherchev-0bbc8083-26fe-4963-8ab8-93a18ad188a1">RECHERCHEV</a> de Excel.
+	 * @param nrOfColNrToSearch Numéro de la colonne dans laquelle rechercher
+	 * @param valToSearch Valeur à rechercher
+	 * @param nrOfColToRetrieve Numéro de la colonne où l'on prend la valeur à retourner
+	 * @return La valeur retournée ou null si rien n'a été trouvé
+	 */
     public String find(int nrOfColNrToSearch, String valToSearch, int nrOfColToRetrieve) {
       int rowIx = findRow(nrOfColNrToSearch, valToSearch);
       if (rowIx < 0) return null;
@@ -905,6 +939,11 @@ implements Iterable<StringTableRow>
 		return find(colToSearchIx, valToSearch, colToRetrieveIx);
 	}
 
+	/**
+	 * Calculer la taille maximale de la colonne
+	 * @param colNr Le numéro de la colonne
+	 * @return la taille maximale de la colonne
+	 */
 	public int calcMaxSize(int colNr)
 	{
 		int maxSize = 0;
@@ -923,7 +962,7 @@ implements Iterable<StringTableRow>
 	/**
 	 * Déterminer la taille maximum utilisée par la colonne.
 	 * @param colName Le nom de la colonne 
-	 * @return La taille maximum (sup ou égal à 0) ou -1 si la colonne n'a pas été trouvée
+	 * @return La taille maximum (sup ou égal à 0)
 	 * @throws ColumnNotFoundException Si la colonne n'existe pas
 	 */
 	public int calcMaxSize(String colName)
@@ -934,6 +973,11 @@ implements Iterable<StringTableRow>
       return calcMaxSize(colNr);
 	}
 	
+	/**
+	 * Compter le nombre de valeurs vides (null ou longueur = 0)
+	 * @param colNr La colonne sur laquelle compter
+	 * @return le nombre de valeurs vides
+	 */
 	public int countEmptyValues(int colNr)
 	{
 		int emptyValuesNr = 0;
@@ -964,6 +1008,12 @@ implements Iterable<StringTableRow>
       return countEmptyValues(colNr);
     }
 	
+    /**
+     * La colonne ne contient-elle que des nombres entiers ?
+     * @param colNr Le numéro de la colonne
+     * @return vrai si la colonne ne contient que des entiers ou est vide, faux
+     *     si il y a des valeurs dans la colonne qui ne sont pas des entiers
+     */
 	public boolean containsOnlyIntegers(int colNr)
 	{
 		int rowNr = 0;
@@ -995,6 +1045,12 @@ implements Iterable<StringTableRow>
       return containsOnlyIntegers(colNr);
     }
 	
+	/**
+	 * Regarder si la colonne ne contient que des nombres au format donné
+	 * @param colNr Le numéro de la colonne à regarder
+	 * @param nf Le format de nombre
+	 * @return true si la colonne ne contient que des nombres
+	 */
 	public boolean containsOnlyNumbers(int colNr, NumberFormat nf)
 	{
 		int rowNr = 0;
@@ -1010,6 +1066,13 @@ implements Iterable<StringTableRow>
 		return true;
 	}
 	
+    /**
+     * Regarder si la colonne ne contient que des nombres au format donné
+     * @param colName Le nom de la colonne à regarder
+     * @param nf Le format de nombre
+     * @return true si la colonne ne contient que des nombres
+     * @throws ColumnNotFoundException Si la colonne n'a pas été trouvée
+     */	
     public boolean containsOnlyNumbers(String colName, NumberFormat nf) 
         throws ColumnNotFoundException
     {
@@ -1018,6 +1081,12 @@ implements Iterable<StringTableRow>
       return containsOnlyNumbers(colNr, nf);
     }
     
+    /**
+     * Regarder si la colonne ne contient que des dates au format donné.
+     * @param colNr Le numéro de la colonne à analyser
+     * @param df Le format de date
+     * @return true si la colonne ne contient que des dates
+     */
 	public boolean containsOnlyDates(int colNr, DateFormat df)
 	{
 		int rowNr = 0;
@@ -1033,6 +1102,13 @@ implements Iterable<StringTableRow>
 		return true;
 	}
 	
+	/**
+	 * Regarder si la colonne ne contient que des dates au format donné.
+	 * @param colName Le nom de la colonne à analyser
+	 * @param df Le format de date
+	 * @return true si la colonne ne contient que des dates
+	 * @throws ColumnNotFoundException Si la colonne n'existe pas
+	 */
 	public boolean containsOnlyDates(String colName, DateFormat df) 
 	    throws ColumnNotFoundException
     {
@@ -1064,6 +1140,14 @@ implements Iterable<StringTableRow>
 		}//while		
 	}
 	
+    /**
+     * Transformer les dates pour qu'elles passent d'un format à l'autre.
+     * @param colName Nom de la colonne à ajuster
+     * @param from Format de départ (sert à analyser le texte existant)
+     * @param to Format de destination (sert à produire le nouveau texte)
+     * @throws ParseException Si il y a une erreur de format de date
+     * @throws ColumnNotFoundException Si la colonne n'existe pas
+     */
     public void transformDates(String colName, DateFormat from, DateFormat to)
         throws ParseException, ColumnNotFoundException
     {
@@ -1092,6 +1176,13 @@ implements Iterable<StringTableRow>
 		}//while		
 	}
 	
+	/**
+	 * Transformer la colonne en utilisant le transformateur donné
+	 * @param colName Le nom de la colonne à transformer
+	 * @param transformer L'objet transformateur
+	 * @throws ParseException -
+	 * @throws ColumnNotFoundException -
+	 */
     public void transform(String colName, StringTransformable transformer)
         throws ParseException, ColumnNotFoundException
     {
@@ -1181,6 +1272,10 @@ implements Iterable<StringTableRow>
 		return name;
 	}
 
+	/**
+	 * Définir le nom de la table
+	 * @param name Le nom de la table
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -1235,17 +1330,27 @@ implements Iterable<StringTableRow>
     return truncatedInputAccepted;
   }
 
+  /**
+   * Définir si l'on accepte des lignes tronquées lorsque l'on lit depuis
+   * des lignes à position de champs fixes. Par défaut : true.
+   * @param truncatedInputAccepted true si on accepte des lignes tronquées
+   */
   public void setTruncatedInputAccepted(boolean truncatedInputAccepted) {
     this.truncatedInputAccepted = truncatedInputAccepted;
   }
 
   /**
+   * Retourner le caractère séparateur de Csv
    * @return Le séparateur utilisé pour lire des fichiers .csv (par défaut : ';')
    */
   public char getCsvSeparatorChar() {
     return csvSeparatorChar;
   }
 
+  /**
+   * Définir le séparateur csv
+   * @param csvSeparatorChar Le caractère séparateur csv
+   */
   public void setCsvSeparatorChar(char csvSeparatorChar) {
     this.csvSeparatorChar = csvSeparatorChar;
   }
@@ -1258,6 +1363,10 @@ implements Iterable<StringTableRow>
     return namesCaseSensitive;
   }
 
+  /**
+   * Définir si les noms sont sensibles à la casse.
+   * @param namesCaseSensitive true si les noms sont sensibles à la casse (par défaut : false)
+   */
   public void setNamesCaseSensitive(boolean namesCaseSensitive) {
     this.namesCaseSensitive = namesCaseSensitive;
   }

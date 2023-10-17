@@ -109,17 +109,29 @@ import groovy.lang.Closure;
  *
  */
 public class ScriptStep {
+    /** Etape RSS */
     public static final int ST_RSS = 1;
+    /** Etape RSA */
     public static final int ST_RSA = 2;
-    public static final int ST_RHS = 3; //a implementer
+    /** Etape RHS */
+    public static final int ST_RHS = 3;
+    /** Etape RHA (pas encore implémentée) */
     public static final int ST_RHA = 4; //a implementer
+    /** Etape CSV */
     public static final int ST_CSV = 5;
+    /** Etape avec une seule exécution, peu utilisé */
     public static final int ST_SINGLE = 6;
+    /** Etape traitement des lignes d'un fichier */
     public static final int ST_LINE = 7; //traitement ligne par ligne
-    public static final int ST_VIDHOSP = 8; 
+    /** Etape VIDHOSP */
+    public static final int ST_VIDHOSP = 8;
+    /** Etape RSF-ACE */
     public static final int ST_RSFACE = 9; //RSFACE. Nécessite l'année comme "metaHint"
+    /** Etape MONO pour tous les fichiers mono-niveau, comme les FICHCOMP, FICHSUP, etc. */
     public static final int ST_MONO = 10; //fichier a un seul niveau (mono-niveau) 
+    /** Etape XLPOI pour les fichiers Excel simples (qui sont comme des fichiers csv) lus par Apache POI */
     public static final int ST_XLPOI = 11; //fichier excel lu par Apache POI 
+    /** Etape DBF pour lecture d'un fichier DBF enregistrement par enregistrement */
     public static final int ST_DBF = 12; //fichier dbf lu par javadbf 
     static Logger lg = LogManager.getLogger(ScriptStep.class);
     static String[] emptyRow = {};
@@ -189,6 +201,13 @@ public class ScriptStep {
 
     private static SimpleDateFormat frenchDate = new SimpleDateFormat("dd/MM/yyyy");
     
+    /**
+     * Constructeur
+     * @param owner Propriétaire de cette étape, une {@link GroovyScriptsBase}
+     * @throws FieldParseException -
+     * @throws IOException -
+     * @throws MissingMetafileException -
+     */
     public ScriptStep(GroovyScriptsBase owner) 
             throws FieldParseException, IOException, MissingMetafileException 
     {
@@ -205,27 +224,69 @@ public class ScriptStep {
         if (os.indexOf("win") >= 0) { inputEncoding = "windows-1252"; } 
     }
     
+    /**
+     * Définir le chemin du fichier d'entrée
+     * Fait la même chose que {@link #setInputFilePath(String)}
+     * @param path Le chemin
+     */
     public void input(String path) { inputFilePath = path; }
     
+    /**
+     * Définir le chemin du fichier d'entrée et l'encodage dans le même temps.
+     * @param path Le chemin
+     * @param encoding L'encodage
+     */
     public void input(String path, String encoding) {
         inputFilePath = path;
         inputEncoding = encoding;
     }
     
+    /**
+     * définir l'encodage. Synonyme de {@link #setInputEncoding(String)}
+     * @param enc L'encodage
+     */
     public void inputEncoding(String enc) { inputEncoding = enc; }
     
+    /**
+     * Définit l'encodage utilisé par le fichier d'entrée
+     * @param enc L'encodage (par ex. "UTF-8" ou "windows-1252")
+     */
+    public void setInputEncoding(String enc) { inputEncoding = enc; }
+    
+    /**
+     * Définir le chemin du fichier de sortie. Synonyme de {@link #setOutputFilePath(String)}.
+     * @param path Le chemin du fichier de sortie.
+     */
     public void output(String path) { outputFilePath = path; }
     
+    /**
+     * Définit le nom de cette étape.
+     * @param str Le nom
+     */
     public void name(String str) { name = str; }
     
+    /**
+     * Définit la closure (fonction) pour l'initialisation. Synonyme de {@link #setOnInit(Closure)}.
+     * @param dcl La closure
+     */
     public void onInit(Closure<?> dcl) {
         onInit = dcl.rehydrate(this, owner, this);
     }
     
+    /**
+     * Définit la closure (fonction) qui est appelée pour chaque élément.
+     * Synonyme de {@link #setOnItem(Closure)}.
+     * @param dcl La closure
+     */
     public void onItem(Closure<?> dcl) {
         onItem = dcl.rehydrate(this, owner, this);
     }
     
+    /**
+     * Définit la closure (fonction) pour la fin d'exécution. 
+     * Synonyme de {@link #setOnEnd(Closure)}.
+     * @param dcl La closure
+     */
     public void onEnd(Closure<?> dcl) {
         onEnd = dcl.rehydrate(this, owner, this);
     }
@@ -401,50 +462,98 @@ public class ScriptStep {
       return child;
     }
     
+    /**
+     * Retourner le chemin du fichier d'entrée (qui a été défini par la fonction "input")
+     * @return Le chemin
+     */
     public String getInputFilePath() {
         return inputFilePath;
     }
     
+    /**
+     * Définir le chemin du fichier d'entrée
+     * @param inputFilePath Le chemin
+     */
     public void setInputFilePath(String inputFilePath) {
         this.inputFilePath = inputFilePath;
     }
     
+    /**
+     * Retourner le type d'étape (step)
+     * @return Le type d'étape ({@link #ST_CSV}, {@link #ST_RSS}, etc.)
+     */
     public int getStepType() {
         return stepType;
     }
     
+    /**
+     * Définir le type d'étape (step)
+     * @param stepType Le type d'étape ({@link #ST_CSV}, {@link #ST_RSS}, etc.)
+     */
     public void setStepType(int stepType) {
         this.stepType = stepType;
     }
     
+    /**
+     * Retourner le nom de cette étape. Utile à utiliser lorsque l'on émet des messages.
+     * @return Le nom
+     */
     public String getName() {
         return name;
     }
     
+    /**
+     * Définir le nom de cette étape
+     * @param name Le nom
+     */
     public void setName(String name) {
         this.name = name;
     }
     
+    /**
+     * Retourner la closure (fonction) à utiliser pour l'initialisation de cette étape
+     * @return La closure
+     */
     public Closure<?> getOnInit() {
         return onInit;
     }
     
+    /**
+     * Définir la closure (fonction) à utiliser pour l'initialisation de cette étape
+     * @param onInit La closure
+     */
     public void setOnInit(Closure<?> onInit) {
         this.onInit = onInit;
     }
     
+    /**
+     * Retourner la closure (fonction) à utiliser pour chaque élément de l'étape
+     * @return La closure
+     */
     public Closure<?> getOnItem() {
         return onItem;
     }
     
+    /**
+     * Définir la closure (fonction) à utiliser pour chaque élément de l'étape
+     * @param onItem La closure à utiliser.
+     */
     public void setOnItem(Closure<?> onItem) {
         this.onItem = onItem;
     }
     
+    /**
+     * Retourner la closure (fonction) à utiliser lorsque l'étape est terminée
+     * @return La closure
+     */
     public Closure<?> getOnEnd() {
         return onEnd;
     }
     
+    /**
+     * Définir la closure (fonction) à utiliser lorsque l'étape est terminée
+     * @param onEnd La closure
+     */
     public void setOnEnd(Closure<?> onEnd) {
         this.onEnd = onEnd;
     }
@@ -527,6 +636,10 @@ public class ScriptStep {
         if (childScriptStep != null) childScriptStep.callOnInit(); //experimental
     }
     
+    /**
+     * Appeler les closures de fin d'exécution de l'étape (se fait en interne, l'appel direct
+     * est utilisé uniquement pour du débogage).
+     */
     public void callOnEnd() {
         if (childScriptStep != null) childScriptStep.callOnEnd(); //experimental
         if (onEnd != null) onEnd.call();
@@ -579,6 +692,12 @@ public class ScriptStep {
     }
   }// processItems
 
+  /**
+   * Traiter l'item suivant
+   * @throws FieldParseException Si erreur lors de l'analyse d'un champ par PmsiXml
+   * @throws MissingMetafileException Si définition manquante pour PmsiXml 
+   * @throws IOException Si erreur d'E/S lors de la lecture ou l'écriture
+   */
   public void processNextItem()
       throws FieldParseException, MissingMetafileException, IOException 
   {
@@ -707,6 +826,10 @@ public class ScriptStep {
     }
   }
   
+  /**
+   * Retourner le séparateur csv
+   * @return Le caractère séparateur csv (par défaut ";")
+   */
     public char getCsvSeparator() {
         return csvSeparator;
     }
@@ -719,6 +842,10 @@ public class ScriptStep {
         this.csvSeparator = csvSeparator;
     }
 
+    /**
+     * Retourner le caractère d'échappement csv.
+     * @return Le caractère d'échappement csv
+     */
     public char getCsvEscapeCharacter() {
       return csvEscapeCharacter;
     }
@@ -732,6 +859,11 @@ public class ScriptStep {
       this.csvEscapeCharacter = csvEscapeCharacter;
     }
     
+    /**
+     * Retourner le caractère de "quote" qui sert à délimiter le texte et ainsi
+     * forcer le contenu en texte simple.
+     * @return Le caractère de "quote"
+     */
     public char getCsvQuoteCharacter() {
       return csvQuoteCharacter;
     }
@@ -750,14 +882,30 @@ public class ScriptStep {
      */
     public void csvSeparator(char csvSeparator) { setCsvSeparator(csvSeparator); }
     
+    /**
+     * Identique à {@link #setCsvEscapeCharacter(char)}
+     * @param csvEscapeCharacter Le caractère
+     */
     public void csvEscapeCharacter(char csvEscapeCharacter) { setCsvEscapeCharacter(csvEscapeCharacter); }
     
+    /**
+     * Identique à {@link #setCsvQuoteCharacter(char)}
+     * @param csvQuoteCharacter Le caractère
+     */
     public void csvQuoteCharacter(char csvQuoteCharacter) { setCsvQuoteCharacter(csvQuoteCharacter); }
     
+    /**
+     * Retourner le chemin du fichier de sortie
+     * @return le chemin du fichier de sortie
+     */
     public String getOutputFilePath() {
         return outputFilePath;
     }
 
+    /**
+     * Définir le chemin du fichier de sortie
+     * @param outputFilePath Le chemin du fichier de sortie
+     */
     public void setOutputFilePath(String outputFilePath) {
         this.outputFilePath = outputFilePath;
     }
@@ -784,18 +932,27 @@ public class ScriptStep {
       return DateUtils.formatAsFrenchDate(ld);
     }
     
-  public String getMetaName() {
-    return metaName;
-  }
+    /**
+     * Retourner le nom de la métadonnée à utiliser (pour PmsiXml en particulier)
+     * @return Le nom de la métadonnée
+     */
+    public String getMetaName() {
+      return metaName;
+    }
 
-  /** nom a utiliser pour pour syntaxe DSL
-   * 
+  /** 
+   * nom a utiliser pour pour syntaxe DSL pour donner le nom de la métadonnée.
+   * Synonyme de {@link #setMetaName(String)}
    * @param metaName Le nom de métadonnée pour trouver le fichier
    */
   public void metaName(String metaName) {
     setMetaName(metaName);
   }
   
+  /**
+   * Définir le nom de la métadonnée à utiliser (pour PmsiXml en particulier).
+   * @param metaName Le nom de la métadonnée
+   */
   public void setMetaName(String metaName) {
     this.metaName = metaName;
     mlRdr.setMetaName(metaName);
@@ -805,6 +962,10 @@ public class ScriptStep {
     //vidhospRdr metaName is implicit      
   }
 
+  /**
+   * Donner une aide pour trouver la métadonnée
+   * @return L'aide à donner pour trouver la métadonnée
+   */
   public String getMetaHint() { return metaHint; }
   
   /** nom a utiliser pour syntaxe DSL
@@ -815,15 +976,31 @@ public class ScriptStep {
       setMetaHint(metaHint);
   }
   
+  /**
+   * Définir l'aide à donner pour la métadonnée
+   * @param metaHint Aide pour la métadonnée
+   */
   public void setMetaHint(String metaHint) {
       this.metaHint = metaHint;
       rsfaceRdr.setYearOfFormat(metaHint);
   }
   
+  /**
+   * Retourner le chemin du répertoire à utiliser pour lire les métadonnées supplémentaires
+   * qui ne sont pas disponibles en tant que ressource. Les métadonnées qui sont dans ce repertoire
+   * sont prioritaires, et sont chargées avant de rechercher dans les fichiers de ressource.
+   * @return Le chemin du répertoire
+   */
   public String getMetasDir() {
     return metasDirPath;
   }
 
+  /**
+   * Définir le chemin du répertoire à utiliser pour lire les métadonnées supplémentaires
+   * qui ne sont pas disponibles en tant que ressource. Les métadonnées qui sont dans ce repertoire
+   * sont prioritaires, et sont chargées avant de rechercher dans les fichiers de ressource.
+   * @param metasDirPath Le chemin du répertoire
+   */
   public void setMetasDir(String metasDirPath) {
     this.metasDirPath = metasDirPath;
     if (metasDirPath != null) {
@@ -844,44 +1021,56 @@ public class ScriptStep {
    */
   public void metasDir(String metasDirPath) { setMetasDir(metasDirPath); }
 
+  /**
+   * Est-ce que des données tronquées sont acceptées (pour PmsiXml notamment) ?
+   * @return true si des données tronquées sont acceptées
+   */
   public boolean isTruncatedInputAccepted() {
     return truncatedInputAccepted;
   }
 
+  /**
+   * Définit si des données tronquées doivent être acceptées
+   * @param truncatedInputAccepted Un boolean qui autorise ou non les données tronquées
+   */
   public void setTruncatedInputAccepted(boolean truncatedInputAccepted) {
     this.truncatedInputAccepted = truncatedInputAccepted;
   }
   
   /**
-   * 
+   * Retourner le tableau des colonnes d'en-tête
    * @return Le tableau des titres de colonne
    */
   public String[] getCsvHeaderRow() { return csvHeaderRow; }
   
   /**
-   * 
+   * Retourner le nombre de colonnes Csv
    * @return Le nombre de colonnes
    */
   public int getCsvColumnCount() { return csvHeaderRow.length; }
   
   /**
-   * 
+   * Retourner le nombre de colonnes Excel (via Apache POI)
    * @return Le nombre de colonnes
    */
   public int getXlpoiColumnCount() { return csvHeaderRow.length; }
   
   /**
-   * 
+   * Retourner le tableau d'en-tête qui contient les titres de colonne.
    * @return Le tableau des titres de colonne pour XlPoi 
    */
   public String[] getXlpoiHeaderRow() { return csvHeaderRow; }
   
   /**
-   * 
+   * Retourner le tableau d'en-tête qui contient les titres de colonne pour le fichier Dbf.
    * @return Le tableau des titres de colonne pour Dbf 
    */
   public String[] getDbfHeaderRow() { return csvHeaderRow; }
   
+  /**
+   * Définir la rangée d'en-tête pour Csv
+   * @param newRow un tableau de Strings
+   */
   public void setCsvHeaderRow(String[] newRow) {
     if (newRow == null) throw new NullPointerException("newRow ne peut pas être null");
     csvHeaderRow = newRow;
@@ -916,10 +1105,18 @@ public class ScriptStep {
    */
   public int ci(String name) { return getCsvColumnIndex(name); }
 
+  /**
+   * Retourner le Reader qui sert à prendre les caractères en entrée
+   * @return le reader
+   */
   public Reader getInputReader() {
     return inputReader;
   }
 
+  /**
+   * Définir le Reader qui va servir à prendre les caractères en entrée
+   * @param inputReader Le Reader à utiliser
+   */
   public void setInputReader(Reader inputReader) {
     this.inputReader = inputReader;
   }
@@ -933,10 +1130,18 @@ public class ScriptStep {
     this.inputReader = inputReader;
   }
 
+  /**
+   * Retourner le Writer actuel qui est utilisé pour la sortie des caractères
+   * @return Le Writer actuel
+   */
   public Writer getOutputWriter() {
     return outputWriter;
   }
 
+  /**
+   * Définir le Writer qui sera utilisé pour la sortie des caractères
+   * @param outputWriter Le Writer à définir
+   */
   public void setOutputWriter(Writer outputWriter) {
     this.outputWriter = outputWriter;
   }
@@ -950,18 +1155,37 @@ public class ScriptStep {
     this.outputWriter = outputWriter;
   }
   
+  /**
+   * Retourner lde ScriptStep fils.
+   * @return Le ScriptStep fils.
+   */
   public ScriptStep getChildScriptStep() {
     return childScriptStep;
   }
 
+  /**
+   * Retourner le ScriptStep parent
+   * @return le Script Step parent
+   */
   public ScriptStep getParentScriptStep() {
     return parentScriptStep;
   }
 
+  /**
+   * Retourner le nombre de lignes initiales à sauter (ignorer) lors de la lecture
+   * d'un fichier csv. Utile lorsque les programmes produisent un fichier avec des lignes
+   * de description qui précèdents les lignes csv proprement dites (par exemple : Excel).
+   * Par défaut : 0.
+   * @return le nombre de lignes à ignorer
+   */
   public int getCountOfCsvLinesToSkip() {
     return countOfCsvLinesToSkip;
   }
 
+  /**
+   * Définir le nombre de lignes à ignorer lors de la lecture d'un fichier csv.
+   * @param countOfCsvLinesToSkip Le nombre de lignes à ignorer
+   */
   public void setCountOfCsvLinesToSkip(int countOfCsvLinesToSkip) {
     this.countOfCsvLinesToSkip = countOfCsvLinesToSkip;
   }

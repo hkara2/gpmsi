@@ -20,13 +20,18 @@ import groovy.lang.Script;
  * juste stockée dans "steps". Ainsi le déroulement du script paraît plus naturel.
  * @see ScriptStep pour plus d'informations.
  * @author hkaradimas
- *
  */
 public abstract class GroovyScriptsBase 
 extends Script 
 {  
 	ArrayList<ScriptStep> steps = new ArrayList<>();
 	int callLevel = 0;
+	
+	/**
+	 * Constructeur par défaut
+	 */
+	public GroovyScriptsBase() {
+    }
 	
   /**
    * Méthode hello qui peut être utilisée dans un script pour voir si {@link GroovyScriptsBase} est bien chargée
@@ -164,7 +169,9 @@ extends Script
   }
   
   /**
-   * 
+   * Etape avec pseudo-élément unique, pour faire exactement 1 exécution de "onItem".
+   * Peu utilisé, car maintenant on peut faire tourner du code directement 
+   * en script de façon synchrone avec les étapes.
    * @param taksClosure La closure de la tâche 
    * @return un objet ScriptStep qui représente l'étape de script créée
    * @throws FieldParseException Si erreur analyse

@@ -18,6 +18,10 @@ implements Iterable<StringTableRow>
   Integer[] rowNrs = new Integer[0];
   StringTable owner;
   
+  /**
+   * Constructeur avec le propriétaire
+   * @param owner La StringTable concernée par cette sélection
+   */
   public StringTableSelection(StringTable owner) {
     this.owner = owner;
   }
@@ -33,10 +37,18 @@ implements Iterable<StringTableRow>
     this.rowNrs = rowNrs;
   }
 
+  /**
+   * Retourner la sélection
+   * @return Un tableau avec chaque numéro de ligne sélectionné
+   */
   public Integer[] getLineNrs() {
     return rowNrs;
   }
 
+  /**
+   * Définir la sélection
+   * @param lineNrs Un tableau avec chaque numéro de ligne sélectionné
+   */
   public void setLineNrs(Integer[] lineNrs) {
     this.rowNrs = lineNrs;
   }
@@ -50,11 +62,19 @@ implements Iterable<StringTableRow>
     return new StringTableSelection(owner, owner.findRows(rowNrs, selectionClosure));
   }
 
+  /**
+   * Itérateur pour parcourir cette sélection
+   */
   @Override
   public Iterator<StringTableRow> iterator() {
     return new StringTableSelectionRowIterator(this);
   }
   
+
+  /**
+   * Retourner le nombre de rangées sélectionnées
+   * @return Le nombre de rangées sélectionnées
+   */
   public int getSelectedRowsCount() { return rowNrs.length; }
   
 }

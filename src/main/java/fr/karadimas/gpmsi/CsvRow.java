@@ -11,10 +11,18 @@ public class CsvRow {
   ScriptStep owner;
   String[] row;
   
+  /**
+   * Constructeur
+   * @param owner le propriétaire
+   */
   public CsvRow(ScriptStep owner) {
     this.owner = owner;
   }
 
+  /**
+   * Retourner le propriétaire
+   * @return le propriétaire
+   */
   public ScriptStep getOwner() { return this.owner; }
   
   /**
@@ -52,11 +60,22 @@ public class CsvRow {
     return row[ix];
   }
 
+  /**
+   * Définir la valeur pour la colonne 
+   * @param colNr Numéro de la colonne
+   * @param value nouvelle valeur 
+   */
   public void setValue(int colNr, String value)
   {
     row[colNr] = value;
   }
   
+  /**
+   * Définir la valeur pour la colonne 
+   * @param colName Nom de la colonne
+   * @param value nouvelle valeur 
+   * @throws ColumnNotFoundException Si la colonne n'existe pas
+   */
   public void setValue(String colName, String value)
       throws ColumnNotFoundException
   {
@@ -81,7 +100,10 @@ public class CsvRow {
     return row;
   }
 
-  
+  /**
+   * Définir la rangée
+   * @param row un tableau de String avec les valeurs des colonnes de la rangée
+   */
   public void setRow(String[] row) {
     this.row = row;
   }
@@ -113,12 +135,16 @@ public class CsvRow {
    * Pour toutes les cellules, remplacer la valeur par une nouvelle valeur dans laquelle
    * les éventuelles fin de lignes ont été remplacées par une séquence particulière.
    * {@link CsvUtils#replaceNewlines(String, String)} pour plus d'informations.
-   * @param newSequence
+   * @param newSequence La nouvelle séquence de fin de ligne
    */
   public void replaceNewlines(String newSequence) {
     CsvUtils.replaceNewlines(row, newSequence);
   }
   
+  /**
+   * Renvoyer le nombre de colonnes de la rangée
+   * @return le nombre de colonnes
+   */
   public int getColumnCount() { return owner.getCsvColumnCount(); }
   
 }

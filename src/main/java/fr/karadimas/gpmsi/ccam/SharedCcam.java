@@ -33,6 +33,7 @@ public class SharedCcam {
   /** Constructeur privé car cette classe ne doit pas être instanciée */
   private SharedCcam() {}
   
+  /** Chemin de la CCAM à charger */
   public static String sharedCcamPath = "~/.gpmsi/ccam/ccam_descr_pmsi_utf8.csv";
 
   private static StringTable ccam = null;
@@ -42,6 +43,11 @@ public class SharedCcam {
   /** Si mis à true, des informations sur le temps de chargement seront envoyees sur System.out */
   public static boolean PROFILING = false;
     
+  /**
+   * Retourner la CCAM en la chargeant si besoin
+   * @return Une StringTable avec la CCAM
+   * @throws IOException Si erreur E/S lors de la lecture de la CCAM
+   */
   public static StringTable getOrLoadCcam()
       throws IOException 
   {

@@ -19,6 +19,11 @@ public class Phonex {
   private Phonex() {
   }
 
+  /**
+   * Calculer le texte standardisé selon l'algorithme du Phonex
+   * @param txt Le texte à phonémiser
+   * @return Le résultat phonex
+   */
   public static String toPhonex(String txt) {
     // Si la chaîne est vide, retourner un phonex vide
     if ((txt == null) || (txt.length() == 0)) {
@@ -109,11 +114,57 @@ public class Phonex {
     return chaine;
   }
 
+  /**
+   * Renvoyer la chaîne phonex avec tous les espaces (tabulations et FF comprises) enlevées
+   * @param txt Le texte pour lequel on veut le Phonex
+   * @return le résultat
+   */
   public static String toPhonexWithoutSpaces(String txt) {
     return toPhonex(txt).replaceAll(" |\t|\f",  "");
   }
   
-  
+
+  /**
+   * Méthode 1 de standardisation pour des noms :
+   * <ul>
+   * <li>Tout convertir en majuscules
+   * <li>Enlever tous les espaces (' ', '\t', '\f')
+   * <li>Enlever les apostrophes
+   * <li>Enlever les traits d'union
+   * <li>Remplacer les caractères accentués français accessibles au clavier par leur équivalent non accentués (éèçàùâêîôäëÿüïöùìò)
+   * </ul>
+   * Exemple 1 : 
+   * <code>standardize1("carrère d'encausse")</code> renverra "CARREREDENCAUSSE".
+   * <br>
+   * Exemple 2 :
+   * <code>standardize1("jean-philippe")</code> renverra "JEANPHILIPPE".
+   * @param str la chaîne à standardiser
+   * @return la chaîne de caractères standardisée
+   */
+  public static String standardize1(String str) {
+    if (str == null) str = "";
+    char[] ca = str.toUpperCase().toCharArray();
+    StringBuilder sb = new StringBuilder(ca.length);
+    for (char c : ca) {
+      switch (c) {
+      case ' ': break;
+      case '\t': break;
+      case '\f': break;
+      case '\'': break;
+      case '-': break;
+      case 'À': case 'Â': case 'Ä': sb.append('A'); 
+      case 'É': case 'È': case 'Ë': case 'Ê': sb.append('E'); 
+      case 'Î': case 'Ï': case 'Ì': sb.append('I'); 
+      case 'Ô': case 'Ö': case 'Ò': sb.append('O');
+      case 'Ü': case 'Ù': sb.append('U'); 
+      case 'Ÿ': sb.append('Y'); 
+      case 'Ç': sb.append('C');
+      default:
+        sb.append(c);
+      }
+    }//for
+    return sb.toString();
+  }
   
 }
 

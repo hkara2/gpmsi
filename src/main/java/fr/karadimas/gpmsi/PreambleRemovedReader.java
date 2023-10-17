@@ -18,6 +18,10 @@ extends FilterReader
   BufferedReader br;
   boolean preambleSkipped = false;
   
+  /**
+   * Constructeur qui prend un Reader en entrée
+   * @param in le Reader
+   */
   public PreambleRemovedReader(Reader in) {
     super(in);
     br = new BufferedReader(in);

@@ -25,6 +25,7 @@ public class ObjectFormatter {
   /** Le formateur par défaut. Attention à ne rien changer dans cette instance d'objet ! */
   public static final ObjectFormatter defaultFormatter = new ObjectFormatter();
   
+  /** Constructeur par défaut */
   public ObjectFormatter() {
     numberFormat = NumberFormat.getInstance(Locale.FRANCE); //forcer le format Français par défaut
     numberFormat.setGroupingUsed(false); //mais ne pas séparer les chiffres entre eux
@@ -34,7 +35,11 @@ public class ObjectFormatter {
     dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
   }
 
-  /** Essayer de convertir au mieux l'objet en String, avec les formats dont on dispose */
+  /**
+   * Essayer de convertir au mieux l'objet en String, avec les formats dont on dispose
+   * @param obj L'objet à convertir
+   * @return La string résultante
+   */
   public String format(Object obj) {
     if (obj == null) return "";
     if (obj instanceof String) return (String)obj;

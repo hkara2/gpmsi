@@ -28,7 +28,9 @@ import java.util.Set;
  * @author hkaradimas
  */
 public class CodeSet {
+  /** nom du codeset */
   String name;
+  /** Ensemble des codes */
   HashSet<String> uniqueCodes = new HashSet<>();
 
   /**
@@ -96,13 +98,22 @@ public class CodeSet {
     return codeSetsByName;
   }
   
+  /** Constructeur sans nom d'ensemble. Définir le nom par la suite */
   public CodeSet() {
   }
 
+  /**
+   * Constructeur avec le nom de l'ensemble
+   * @param name nom de l'ensemble
+   */
   public CodeSet(String name) {
     this.name = name;
   }
 
+  /**
+   * Mettre les codes dans l'ensemble
+   * @param codes Une collection de codes
+   */
   public void setCodes(Collection<String> codes) {
     uniqueCodes.clear();
     for (String code : codes) {
@@ -110,10 +121,19 @@ public class CodeSet {
     }
   }
  
+  /**
+   * Récupérer les codes depuis l'ensemble
+   * @return Un ensemble de codes
+   */
   public Set<String> getCodes() {
     return uniqueCodes;
   }
   
+  /**
+   * L'ensemble contient-il le code ?
+   * @param code Le code à rechercher
+   * @return true si l'ensemble contient le code
+   */
   public boolean containsCode(String code) {
     return uniqueCodes.contains(code);
   }
@@ -128,6 +148,10 @@ public class CodeSet {
     return name;
   }
 
+  /**
+   * Définir le nom de l'ensemble
+   * @param name Le nouveau nom
+   */
   public void setName(String name) {
     this.name = name;
   }

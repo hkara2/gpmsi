@@ -14,6 +14,9 @@ import java.sql.Timestamp;
  */
 public class JdbcUtils {
 
+  /**
+   * Constructeur par défaut
+   */
   public JdbcUtils() {
   }
 
@@ -43,6 +46,15 @@ public class JdbcUtils {
     }
   }
   
+  /**
+   * Est-ce que la colonne existe ?
+   * @param cxn La connexion Jdbc
+   * @param tableName Le nom de la table
+   * @param columnName Le nom de la colonne
+   * @param caseSensitive Est-ce que la comparaison doit être sensible à la casse ?
+   * @return true si la colonne existe
+   * @throws SQLException -
+   */
   public static final boolean columnExists(Connection cxn, String tableName, String columnName, boolean caseSensitive)
       throws SQLException 
   {

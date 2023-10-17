@@ -97,7 +97,7 @@ public class XlsxHelper {
    * conversion avant.
    * Cette fonction fait la conversion.
    * Attention, il y a un traitement spécial avec _x005F_ qui est fait aussi ici (cf. liens ci-dessus).
-   * @param rawString
+   * @param rawString La chaîne de caractères non traitée
    * @return une string avec les caractères unicode bien traduits de façon "microsoftienne".
    */
   public String msUtfEncode(String rawString) {
@@ -389,7 +389,9 @@ public class XlsxHelper {
    * Finalise l'envoi. Après cet appel, l'objet XlsxHelper ne peut plus être utilisé.
    * @throws IOException si erreur entrée/sortie
    */
-  public void writeFileAndClose() throws IOException {
+  public void writeFileAndClose()
+      throws IOException 
+  {
     _workbook.write(fos);
     fos.close();
     _workbook.dispose(); //cet appel est important, car il efface les fichiers temporaires qui ont été créés sur le disque
@@ -400,7 +402,8 @@ public class XlsxHelper {
   /**
    * Ajouter des rangées depuis le ResultSet
    * @param rs Le ResultSet qui donne les rangées
-   * @throws SQLException 
+   * @param fp Les préférences de format à utiliser
+   * @throws SQLException -
    */
   public void addFrom(ResultSet rs, XlsxFormatPreferences fp)
       throws SQLException 
@@ -424,6 +427,11 @@ public class XlsxHelper {
     }//while
   }
   
+  /**
+   * Ajouter des rangées depuis un ResultSet jdbc
+   * @param rs Le {@link ResultSet} à partir duquel ajouter
+   * @throws SQLException -
+   */
   public void addFrom(ResultSet rs)
       throws SQLException 
   {

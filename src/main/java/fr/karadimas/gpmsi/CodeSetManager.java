@@ -22,9 +22,17 @@ public class CodeSetManager {
 	PreparedStatement searchCodePs;
 	PreparedStatement updateCodePs;
 	
+	/**
+	 * Constructeur par défaut
+	 */
 	public CodeSetManager() {
 	}
 
+	/**
+	 * Initialiser ce gestionnaire
+	 * @param initMap Les éléments à utiliser pour initialiser le gestionnaire
+	 * @throws SQLException Si problème de base de données durant l'initialisation
+	 */
 	public void init(HashMap<String, Object> initMap)
 			throws SQLException 
 	{
@@ -42,6 +50,12 @@ public class CodeSetManager {
 		}
 	}
 	
+	/**
+	 * Ajouter un ensemble de codes
+	 * @param cs L'ensemble à ajouter
+	 * @throws IOException  si erreur entrées/sortie
+	 * @throws SQLException -
+	 */
 	public void addCodeSet(CodeSet cs)
 			throws IOException, SQLException
 	{
@@ -63,6 +77,14 @@ public class CodeSetManager {
 			
 		}
 	}
+	
+	/**
+	 * Est-ce que cet ensemble contient le code
+	 * @param codesetName Nom de l'ensemble
+	 * @param code Code à rechercher
+	 * @return true si l'ensemble contient le code
+	 * @throws SQLException Si erreur SQL lors de la recherche du code
+	 */
 	public boolean containsCode(String codesetName, String code) throws SQLException
 	{
 		if (searchCodePs == null) {

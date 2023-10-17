@@ -45,6 +45,12 @@ public class CsvUtils {
     else return sb.toString(); //sinon on retourne le nouveau texte qui contient les substitutions
   }
   
+  /**
+   * Remplacer les fins de lignes. Cf. 
+   * {@link CsvUtils#replaceNewlines(String, String)}
+   * @param row valeurs de la rangée
+   * @param newlineSeq Séquence de remplacement
+   */
   public static final void replaceNewlines(String[] row, String newlineSeq) {
     for (int i = 0; i < row.length; i++) {
       row[i] = CsvUtils.replaceNewlines(row[i], newlineSeq);

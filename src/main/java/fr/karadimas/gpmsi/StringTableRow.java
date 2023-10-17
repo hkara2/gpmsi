@@ -11,16 +11,32 @@ public class StringTableRow {
 
   StringTable owner;
   int rowNr;
-  
+
+  /**
+   * Constructeur avec le propriétaire et la rangée concernée
+   * @param owner La StringTable concernée
+   * @param rowNr Le numéro de la rangée concernée (commence à 0)
+   */
   public StringTableRow(StringTable owner, int rowNr) {
     this.owner = owner;
     this.rowNr = rowNr;
   }
 
+  /**
+   * Retourner la valeur pour la colonne donnée
+   * @param colNr Le numéro de la colonne
+   * @return La valeur qui est dans cette colonne
+   */
   public String getValue(int colNr) {
     return owner.getValue(rowNr, colNr);
   }
   
+  /**
+   * Retourner la valeur pour la colonne donnée
+   * @param colName Le nom de la colonne
+   * @return La valeur qui est dans cette colonne
+   * @throws ColumnNotFoundException Si la colonne n'a pas été trouvée
+   */
   public String getValue(String colName) 
       throws ColumnNotFoundException 
   {

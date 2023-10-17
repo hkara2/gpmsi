@@ -13,7 +13,15 @@ public class ShowEnv {
   private static final void psp(String name) {
     System.out.println(name + " : " + System.getProperty(name));
   }
+
+  /** default constructor */
+  ShowEnv() {}
   
+  /**
+   * Méthode principale
+   * @param args Arguments
+   * @throws Exception -
+   */
   public static void main(String[] args)
   throws Exception
   {

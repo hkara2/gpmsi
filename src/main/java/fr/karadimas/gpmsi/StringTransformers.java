@@ -53,6 +53,9 @@ public class StringTransformers {
       }
     };
     
+    /**
+     * Constructeur par défaut
+     */
 	public StringTransformers() {	}
 
 	/**

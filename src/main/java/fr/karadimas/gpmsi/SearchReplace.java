@@ -43,6 +43,11 @@ public class SearchReplace
   int len = 0;
   int nsubst = 0;
 
+  /**
+   * Constructeur avec chemin du fichier de propriétés.
+   * @param propsPath Chemin du fichier de propriétés à charger
+   * @throws IOException Si erreur E/S en lisant le fichier de propriétés
+   */
   public SearchReplace(String propsPath) throws IOException {
     props = new Properties();
     FileInputStream fis = new FileInputStream(propsPath);
@@ -114,6 +119,11 @@ public class SearchReplace
     }
   }
   
+  /**
+   * main
+   * @param args Arguments
+   * @throws Exception -
+   */
   public static void main(String[] args) throws Exception {
     if (args.length != 1) {
       System.err.println("Usage : SearchReplace <path_of_properties_file>");

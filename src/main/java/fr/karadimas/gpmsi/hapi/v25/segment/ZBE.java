@@ -14,14 +14,22 @@ import ca.uhn.hl7v2.parser.ModelClassFactory;
 /**
  * Segment "custom" pour le ZBE utilisé en France.
  * Code issu du code exemple de HAPI.
+ * Commentaires ajoutés pour javadoc.
  * @author hkaradimas
  *
  */
-public class ZBE extends AbstractSegment {
+public class ZBE
+  extends AbstractSegment 
+{
 
   @SuppressWarnings("unused")
   private static final long SerialVersionUID = 1;
   
+  /**
+   * Constructeur
+   * @param parent groupe parent
+   * @param factory fabrique de modèle à utiliser
+   */
   public ZBE(Group parent, ModelClassFactory factory) {
     super(parent, factory);
     // By convention, an init() method is created which adds
@@ -77,6 +85,8 @@ public class ZBE extends AbstractSegment {
    
   /**
    * Create an accessor for each field
+   * @return tableau de {@link CWE}
+   * @throws HL7Exception -
    */
   public CWE[] getNatureOfMovement() throws HL7Exception {
     return getTypedField(9, new CWE[0]);
@@ -84,6 +94,8 @@ public class ZBE extends AbstractSegment {
    
   /**
    * Create an accessor for each field
+   * @return Tableau de {@link EI}
+   * @throws HL7Exception -
    */
   public EI[] getMovementIdentifier() throws HL7Exception {
     return getTypedField(0, new EI[0]);

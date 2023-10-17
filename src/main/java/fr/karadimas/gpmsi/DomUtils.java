@@ -7,10 +7,15 @@ import org.w3c.dom.NodeList;
 /**
  * Fonctions utilitaires pour manipuler le DOM.
  * @author hkaradimas
- *
  */
 public class DomUtils {
-	
+
+  /**
+   * Constructeur par défaut
+   */
+  public DomUtils() {
+  }
+  
   /**
    * Convertir une liste {@link NodeList} en {@link Element} en prenant son premier élément.
    * N'est plus utilisé mais peut encore être utile dans des scripts

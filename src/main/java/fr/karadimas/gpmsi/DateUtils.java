@@ -14,6 +14,12 @@ import java.util.Date;
  */
 public class DateUtils {
 
+  /**
+   * Constructeur par défaut
+   */
+  public DateUtils() {
+  }
+  
   private static SimpleDateFormat fdf = new SimpleDateFormat("dd/MM/yyyy");
   
   private static DateTimeFormatter lfdf = DateTimeFormatter.ofPattern("dd/MM/yyyy");

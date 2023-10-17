@@ -16,10 +16,18 @@ public class DbfRow {
   
   ScriptStep owner;
   
+  /**
+   * Constructeur
+   * @param owner Le {@link ScriptStep} propriétaire de la rangée
+   */
   public DbfRow(ScriptStep owner) {
     this.owner = owner;
   }
 
+  /**
+   * Renvoyer l'étape propriétaire de cette rangée
+   * @return Le {@link ScriptStep} propriétaire de la rangée
+   */
   public ScriptStep getOwner() { return this.owner; }
   
   /**
@@ -81,6 +89,10 @@ public class DbfRow {
     return owner.dbfRow;
   }
  
+  /**
+   * Renvoyer le nombre de colonnes
+   * @return le nombre de colonnes
+   */
   public int getColumnCount() { return owner.getCsvColumnCount(); }
 
   /**

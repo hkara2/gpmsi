@@ -31,6 +31,7 @@ import fr.karadimas.gpmsi.StringTransformable;
  *
  */
 public class SharedCim10 {
+  /** chemin par défaut de la Cim10 à charger */
   public static String sharedCim10Path = "~/.gpmsi/cim/cim10_utf8.csv";
 
   private static StringTable cim10 = null;
@@ -42,6 +43,11 @@ public class SharedCim10 {
   /** Constructeur privé car cette classe ne doit pas être instanciée */
   private SharedCim10() {}
 
+  /**
+   * Retourner la Cim10, en la chargeant si besoin
+   * @return Une StringTable avec la CIM 10
+   * @throws IOException -
+   */
   public static StringTable getOrLoadCim10()
       throws IOException 
   {
