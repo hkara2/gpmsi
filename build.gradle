@@ -21,6 +21,14 @@ java {
   targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+//Forcer UTF-8 partout pour le code source java (IMPORTANT !)
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
 //en cas de doublon de fichier, ne pas déclencher d'erreur, juste écraser
 processResources.duplicatesStrategy='include'
 
