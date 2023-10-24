@@ -104,9 +104,10 @@ implements Iterable<StringTableRow>
 	/**
 	 * Constructeur pour convenance, qui permet d'indiquer outre le nom le fichier csv qui
 	 * devra être lu dans la table. Le séparateur est ';' et l'encodage est celui par
-	 * défaut du système.
+	 * défaut du système (soit pour la France "windows-1251" (si on n'a pas touché aux
+	 * réglages de la JVM) qui est l'encodage utilisé aussi par Excel, ce qui tombe bien).
 	 * @param name Le nom de la table (devient le nom de la table de base de données
-	 * @param f Le fichier qui sera lu pour remplir la table
+	 * @param f Le fichier qui sera lu pour remplir la table (le fichier doit utiliser l'encodage par défaut du système)
 	 * @throws IOException si erreur d'entrée/sortie
 	 */
 	public StringTable(String name, File f) throws IOException {
