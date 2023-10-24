@@ -104,6 +104,12 @@ import groovy.util.ScriptException;
  *                 Par exemple si mon script se trouve dans <code>C:\mes_scripts\valorisation\calcul2.groovy</code> et qu'en
  *                 fait "valorisation" est un package, il faut appeler le script de la façon suivante :
  *                 <code>-extracp file:/C:/mes_scripts/ -scripturi valorisation/calcul2.groovy</code>
+ * <li>extracp: définir un élément de classpath supplémentaire. Cette option est à utiliser avec -scripturi pour
+ *              donner le point de départ des scripts. C'est nécessaire lorsque l'on définit les scripts
+ *              dans des packages, cela permet de définir le répertoire racine des scripts. Le chemin
+ *              doit être une URL et se terminer par un slash (s'il n'y a pas de slash à la fin,
+ *              gpmsi.Groovy en rajoute un d'office et émet un avertissement). On ajouter plusieurs fois
+ *              cette option et ainsi ajouter plusieurs extracp.
  * </ul>
  * 
  * <p>
@@ -284,13 +290,20 @@ public class Groovy {
                 helpRequested = true;
             }
             else if (arg.equals("-extracp")) {
-              //declare an extra classpath
-              //Note that the extra path must be in URL form and end with a slash, e.g.
+              //déclarer un classpath supplémentaire
+              //A noter que le classpath supplémentaire doit être sous forme d'URL et se terminer par un slash, ex :
               //file:/C:/hkchse/dev/pmsixml/groovy-samples/
               if (!args.hasNext()) {
                 throw new Exception("Argument manquant pour '"+arg+"'");
               }
               arg = args.next();
+              //ajouter un slash à la fin s'il n'y en a pas, sinon le chargement des scripts échoue
+              if (!arg.endsWith("/")) {
+                //avertir pour que l'utilisateur soit vigilant la prochaine fois
+                //et pour qu'il sache que gpmsi.Groovy a fait cette action
+                lg.warn("Forcage du slash final pour le classpath supplementaire "+arg);
+                arg += "/";
+              }
               extraCps.add(arg);
             }
             else {
