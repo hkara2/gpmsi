@@ -1,9 +1,10 @@
-/**:encoding=UTF-8:
+/**☺:encoding=UTF-8:
  * A partir de deux arguments, l'un contenant un fichier csv avec une colonne NRSA,
  * de numéros de RSA, l'autre étant le fichier TRA,
- * Appeler via drag and drop le script nrsa_attacher_ndoss.groovy
+ * Ici l'appel se fait via drag and drop, et on appelle ensuite le script
+ * nrsa_attacher_nadl.groovy
  *
- * Arguments :
+ * Arguments (fournis par le glisser-déposer (drag and drop)) :
  * Un fichier qui doit finir par .tra.txt
  * L'autre fichier est considéré comme étant le fichier avec la colonne NRSA
  * Le script sort s'il n'y a pas ces deux fichiers
@@ -28,9 +29,9 @@ in_csv_bare = new File(FileUtils.stripSuffix(in_csv)).name
 inDir = new File(in_csv).parent ?: '.'
 scriptDir = new File(scriptPath).parent //le script que l'on appelle se trouve au meme niveau que celui-ci
 
-//appel en tant que script de diff_vidhosp_rhs.groovy
+//appel en tant que script de nrsa_attacher_nadl.groovy
 fr.karadimas.gpmsi.Groovy.main(
-  '-script', "${scriptDir}\\nrsa_attacher_ndoss.groovy",
+  '-script', "${scriptDir}\\nrsa_attacher_nadl.groovy",
   "-a:input_csv", in_csv,
   "-a:input_tra", in_tra,
   "-a:output", "${inDir}\\${in_csv_bare}_nadl.csv")

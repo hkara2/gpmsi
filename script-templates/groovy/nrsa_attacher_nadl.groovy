@@ -1,15 +1,16 @@
 /** :encoding=UTF-8:
  * A partir d'un fichier .csv qui contient des numeros de rsa dans une colonne NRSA,
- * ecrire le meme fichier avec une colonne supplementaire NDOSS qui contient le
+ * (= une seule colonne dans le fichier, la première ligne doit contenir NRSA)
+ * ecrire le meme fichier avec une colonne supplementaire NADL qui contient le
  * numero de dossier administratif qui correspond au NRSA, à
  * l'aide de la table TRA fournie.
  * Paramètres d'entrée :
  * -a:input_csv CHEMIN_FICHIER    Un fichier csv avec en-tetes qui contient une colonne NRSA
- * -a:input_tra CHEMIN_FICHIER    Le fichier tra qui fait correspondre numéros de RSA avec numéro administratif local (s'appelle NDOSS au lieu de NADL dans TRA)
+ * -a:input_tra CHEMIN_FICHIER    Le fichier tra qui fait correspondre numéros de RSA avec numéro administratif local NADL
  * -a:output CHEMIN_FICHIER       Le fichier de sortie avec la colonne NADL ajoutée à la fin
  * Ex :
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2022\M10\RSA
- * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.2\scripts\groovy\nrsa_attacher_ndoss.groovy -a:input_csv NRSAs_chir_uro.txt -a:input_tra 910019447.2022.10.tra.txt -a:output NRSAs_chir_uro_avec_nadl.csv
+ * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.2\scripts\groovy\nrsa_attacher_NADL.groovy -a:input_csv NRSAs_chir_uro.txt -a:input_tra 910019447.2022.10.tra.txt -a:output NRSAs_chir_uro_avec_nadl.csv
  *
  */
 import fr.karadimas.gpmsi.CsvDestination
@@ -28,7 +29,7 @@ csvOutput = null
 
 traSt = new StringTable('TRA')
 //signification des colonnes à revoir (hk mars 2023)
-//'FINESS', 'NRSA', 'NDOSS', 'DDSEJ', 'DFSEJ', 'HASHTRA'
+//'FINESS', 'NRSA', 'NADL', 'DDSEJ', 'DFSEJ', 'HASHTRA'
 traSt.readFrom(new File(args.input_tra), 'ISO-8859-1', ';' as char)
 
 if (traSt.columnCount > 1) {
@@ -36,8 +37,8 @@ if (traSt.columnCount > 1) {
     //Parcourir la table pour remplir la table nadlParNrsa
     traSt.each { row ->
         def nrsa = row[1].trim()
-        def ndoss = row[2].trim()
-        nadlParNrsa[nrsa] = ndoss
+        def NADL = row[2].trim()
+        nadlParNrsa[nrsa] = NADL
     }
 }
 else {
@@ -48,7 +49,7 @@ else {
 
         onItem {item->
             def tra = item.mono
-            nadlParNrsa[tra.txtNRSA] = tra.txtNDOSS
+            nadlParNrsa[tra.txtNRSA] = tra.txtNDOSS //dans le TRA le champ est NDOSS
         }
     }
 }
