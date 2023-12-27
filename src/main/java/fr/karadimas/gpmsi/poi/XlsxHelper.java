@@ -4,23 +4,31 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.Comment;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFCell;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+
+import fr.karadimas.pmsixml.FszField;
 
 /**
  * Classe utilitaire pour aider à la création de fichiers Excel au format xlsx (Excel 2007 et ultérieurs).
@@ -58,6 +66,35 @@ public class XlsxHelper {
   private int curCol = 0;
   
   private Pattern escapedUtfPattern = Pattern.compile("_x[\\da-fA-F]{4}_");
+  
+  /**
+   * Ajouter un commentaire de cellule
+   * @param cell La cellule
+   * @param commentText Le texte de commentaire à ajouter
+   * @param author L'auteur du commentaire
+   */
+  public static void setComment(SXSSFCell cell, String commentText, String author) {
+    Sheet sh = cell.getRow().getSheet();
+    Workbook wb = sh.getWorkbook();
+    int cur_row = cell.getRowIndex();
+    int cur_col = cell.getColumnIndex();
+    CreationHelper factory = wb.getCreationHelper();
+
+    ClientAnchor anchor = factory.createClientAnchor();
+    //On met la boite en bas à droite
+    anchor.setCol1(cur_col); 
+    anchor.setCol2(cur_col + 5); 
+    anchor.setRow1(cur_row); 
+    anchor.setRow2(cur_row + 8); 
+
+    Drawing<?> drawing = sh.createDrawingPatriarch();
+    Comment comment = drawing.createCellComment(anchor);
+    //Mettre le texte du commentaire, et l'auteur
+    comment.setString(factory.createRichTextString(commentText));
+    comment.setAuthor(author);
+
+    cell.setCellComment(comment);  
+  }
   
   /**
    * Crée un nouveau classeur Excel Xlsx en mémoire / sur disque, avec un seul onglet
@@ -112,7 +149,7 @@ public class XlsxHelper {
       else {
         sb.append('_');
         sb.append('x');
-        String.format("%04X", c);
+        String.format("%04X", (int)c);
         sb.append('_');
       }
     }
@@ -257,6 +294,40 @@ public class XlsxHelper {
   }
   
   /**
+   * Mettre un champ PMSI en utilisant le type préféré du champ et le format de nombre pour avoir le nombre avec la bonne échelle.
+   * Exemples :
+   * <ul>
+   * <li>000012500 (avec un format 6+3) -&gt; 12.5 en tant que nombre (double)
+   * <li>31122001 (au format date) -&gt; 31/12/2001 en tant que date
+   * </ul>
+   * @param fld Le champ PMSI
+   * @param rowNr Le numéro de rangée
+   * @param colNr Le numéro de colonne
+   * @return La cellule qui a été créée
+   */
+  public SXSSFCell setCell(FszField fld, int rowNr, int colNr) {
+    SXSSFRow row = getOrMakeRow(rowNr);
+    SXSSFCell cell = row.createCell(colNr);
+    if (fld.representsEuropeanDate()) {
+      try {
+        cell.setCellValue(fld.getValueAsEuropeanDate());
+        adjustCellStyle(cell, "dd/mm/yyyy");
+      }
+      catch (ParseException pex) {
+        //si la date est invalide, mettre le texte brut à la place
+        cell.setCellValue(fld.getValueAsText());
+      }
+    }
+    else if (fld.representsNumber()) {
+      BigDecimal cv = fld.getCorrectedValue();
+      if (cv == null) cell.setCellValue("");
+      else cell.setCellValue(cv.doubleValue());
+    }
+    else cell.setCellValue(fld.getValueAsText());
+    return cell;
+  }
+  
+  /**
    * Mettre une cellule de nombre dans Excel, le format par défaut
    * @param value La valeur numérique
    * @param rowNr le numéro de rangée (commence à 0)
@@ -356,6 +427,13 @@ public class XlsxHelper {
    * @return La cellule créée (on peut ajuster le style si besoin)
    */
   public SXSSFCell addCell(XSSFRichTextString value) { return setCell(value, curRow, curCol++); }
+  
+  /**
+   * Ajouter une cellule en fonction du contenu du champ PMSI
+   * @param fld Le champ
+   * @return La cellule créée (le style a été créé à l'aide du type du champ)
+   */
+  public SXSSFCell addCell(FszField fld) { return setCell(fld, curRow, curCol++); }
   
   /**
    * Ajuste le format de la cellule a l'aide du texte de format fourni.
