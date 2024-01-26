@@ -1,6 +1,7 @@
 package fr.karadimas.gpmsi;
 //:encoding:UTF-8:
 import java.util.Locale;
+import java.text.Normalizer; //normalise notamment en ASCII (enlève accents du français)
 
 /**
  * Phonémisation SOUNDEX adaptée au français.
@@ -128,10 +129,8 @@ public class Phonex {
    * Méthode 1 de standardisation pour des noms :
    * <ul>
    * <li>Tout convertir en majuscules
-   * <li>Enlever tous les espaces (' ', '\t', '\f')
-   * <li>Enlever les apostrophes
-   * <li>Enlever les traits d'union
-   * <li>Remplacer les caractères accentués français accessibles au clavier par leur équivalent non accentués (éèçàùâêîôäëÿüïöùìò)
+   * <li>Normaliser en caractères ASCII
+   * <li>Enlever tout ce qui n'est pas ASCII
    * </ul>
    * Exemple 1 : 
    * <code>standardize1("carrère d'encausse")</code> renverra "CARREREDENCAUSSE".
@@ -142,29 +141,12 @@ public class Phonex {
    * @return la chaîne de caractères standardisée
    */
   public static String standardize1(String str) {
-    if (str == null) str = "";
-    char[] ca = str.toUpperCase().toCharArray();
-    StringBuilder sb = new StringBuilder(ca.length);
-    for (char c : ca) {
-      switch (c) {
-      case ' ': break;
-      case '\t': break;
-      case '\f': break;
-      case '\'': break;
-      case '-': break;
-      case 'À': case 'Â': case 'Ä': sb.append('A'); 
-      case 'É': case 'È': case 'Ë': case 'Ê': sb.append('E'); 
-      case 'Î': case 'Ï': case 'Ì': sb.append('I'); 
-      case 'Ô': case 'Ö': case 'Ò': sb.append('O');
-      case 'Ü': case 'Ù': sb.append('U'); 
-      case 'Ÿ': sb.append('Y'); 
-      case 'Ç': sb.append('C');
-      default:
-        sb.append(c);
-      }
-    }//for
-    return sb.toString();
+    String result = str;
+    if (result == null) result = "";
+    //normaliser en ASCII, et enlever tout ce qui n'est pas alphanumerique
+    result = Normalizer.normalize(result.toUpperCase(), Normalizer.Form.NFD).replaceAll("[^\\p{Alnum}]", ""); //normalisation de texte ASCII
+    return result;
   }
-  
+
 }
 
