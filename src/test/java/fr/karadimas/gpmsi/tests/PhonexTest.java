@@ -29,8 +29,22 @@ public class PhonexTest extends TestCase {
   public void testToPhonex2() {
     String nom = "DE MUNICO";
     String r = Phonex.toPhonexWithoutSpaces(nom);
-    assertEquals("Attendu : TE NUNIKO", r, "TENUNIKO");
+    assertEquals("Attendu : TENUNIKO", r, "TENUNIKO");
     //System.out.println(r);
+  }
+
+  @Test
+  public void testStandardize1_1() {
+      String nom = "Hélène Carrère d'encausse";
+      String r = Phonex.standardize1(nom);
+      assertEquals("Attendu : HELENECARREREDENCAUSSE", r, "HELENECARREREDENCAUSSE");
+  }
+
+  @Test
+  public void testStandardize1_2() {
+      String nom = "Jean-Philippe";
+      String r = Phonex.standardize1(nom);
+      assertEquals("Attendu : JEANPHILIPPE", r, "JEANPHILIPPE");
   }
 
 }
