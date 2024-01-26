@@ -79,11 +79,11 @@
 @if defined GPMSI_XCP set CP=%CP%;%GPMSI_XCP%
 @if "%JAVA_HOME%" == "" goto :nojhome
 @rem JAVA_HOME est fourni, l'utiliser
-"%JAVA_HOME%\bin\java.exe" -classpath "%CP%" fr.karadimas.gpmsi.Groovy %*
+@START_JAVA@ "%JAVA_HOME%\bin\@JAVA_COMMAND@.exe" -classpath "%CP%" fr.karadimas.gpmsi.Groovy %*
 @goto :end
 @
 @:nojhome
 @rem Pas de JAVA_HOME, on utilise la commande "java" quelle qu'elle soit.
-java -classpath "%CP%" fr.karadimas.gpmsi.Groovy %*
+@START_JAVA@ @JAVA_COMMAND@ -classpath "%CP%" fr.karadimas.gpmsi.Groovy %*
 @
 @:end
