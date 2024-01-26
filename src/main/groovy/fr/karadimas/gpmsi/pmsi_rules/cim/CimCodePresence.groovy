@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory
  * <li>DPA : le DP qui est dans "rsa"
  * <li>DRA : le DR qui est dans "rsa"
  * </ul>
+ * Par exemple si on veut rechercher dans DR ou DAS on utilisera "DR,DAS".
+ * <br>
  * Le ou les codes CIM 10 récupérés dans les endroits à rechercher seront normalisés :
  * <ul>
  * <li>Les espaces de début et de fin sont enlevés
