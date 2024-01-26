@@ -347,9 +347,18 @@ task dist {
             //"toucher" gpmsi.bat pour le forcer à être régénéré
             touch(file: "script-templates/gpmsi.bat")
 
+            filter(token: "JAVA_COMMAND", value: "java")
+            filter(token: "START_JAVA", value: "")
+
             copy(todir: "dist/$destdir/scripts", filtering: "true", overwrite: "true", preservelastmodified: true) {
                 fileset(dir: "script-templates")
             }
+
+            //copier une version "w" de gpmsi.bat, qui ferme la fenetre de terminal apres s'etre lance
+            filter(token: "JAVA_COMMAND", value: "javaw")
+            filter(token: "START_JAVA", value: "start \"\" /B ")
+
+            copy(file: "script-templates/gpmsi.bat", tofile: "dist/$destdir/gpmsiw.bat", filtering: "true", overwrite: "true", preservelastmodified: true)
 
             //bouger les scripts gpmsi.bat, menu.bat et menu.html a la racine de la distrib
             move(file: "dist/$destdir/scripts/gpmsi.bat", todir: "dist/$destdir")
