@@ -1388,7 +1388,7 @@ implements Iterator<StringTableRow> {
   StringTableRow row;
   
   StringTableRowIterator(StringTable owner) {
-    this.row = new StringTableRow(owner, 0);
+    this.row = new StringTableRow(owner, -1);
   }
   
   @Override
