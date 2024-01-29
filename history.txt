@@ -51,6 +51,7 @@ version date    changements
                 de dépréciation lors de la compilation de Groovy.java
                 Ajout de scripts groovy pour la reparation des lundis sans RHS (DxCare)
                 et pour le comptage par jour des occupation de UM.
+1.3.3   240129  Correction bug de l'itérateur de StringTable qui ne ramenait pas la première valeur.
                                 
                 
                               
