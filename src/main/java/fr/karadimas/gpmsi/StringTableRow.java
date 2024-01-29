@@ -32,7 +32,8 @@ public class StringTableRow {
   }
   
   /**
-   * Retourner la valeur pour la colonne donnée
+   * Retourner la valeur pour la colonne donnée.
+   * Dans Groovy (via une métaclasse chargée au démarrage) il suffit d'utiliser ['nomColonne'] pour avoir la valeur.
    * @param colName Le nom de la colonne
    * @return La valeur qui est dans cette colonne
    * @throws ColumnNotFoundException Si la colonne n'a pas été trouvée
