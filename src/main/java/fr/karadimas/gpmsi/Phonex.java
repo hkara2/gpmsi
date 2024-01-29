@@ -21,7 +21,9 @@ public class Phonex {
   }
 
   /**
-   * Calculer le texte standardisé selon l'algorithme du Phonex
+   * Calculer le texte réduit selon l'algorithme du Phonex.
+   * Pour de meilleurs résultats, standardiser auparavant le texte avec la
+   * méthode #standardize1(String) ou bien utiliser toPhonexStandard1(String)
    * @param txt Le texte à phonémiser
    * @return Le résultat phonex
    */
@@ -113,6 +115,14 @@ public class Phonex {
         chaine = chaine.substring(0, chaine.length() - 1);
     
     return chaine;
+  }
+  
+  /**
+   * Combine une standardisation supplémentaire et la réduction par phonex.
+   * @return toPhonex(standardize1(txt))
+   */
+  public static String toPhonexStandard1(String txt) {
+      return toPhonex(standardize1(txt));
   }
 
   /**
