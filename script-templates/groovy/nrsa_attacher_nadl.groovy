@@ -10,7 +10,7 @@
  * -a:output CHEMIN_FICHIER       Le fichier de sortie avec la colonne NADL ajoutée à la fin
  * Ex :
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2022\M10\RSA
- * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.2\scripts\groovy\nrsa_attacher_NADL.groovy -a:input_csv NRSAs_chir_uro.txt -a:input_tra 910019447.2022.10.tra.txt -a:output NRSAs_chir_uro_avec_nadl.csv
+ * c:\app\gpmsi\exec -script c:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\nrsa_attacher_NADL.groovy -a:input_csv NRSAs_chir_uro.txt -a:input_tra 910019447.2022.10.tra.txt -a:output NRSAs_chir_uro_avec_nadl.csv
  *
  */
 import fr.karadimas.gpmsi.CsvDestination
