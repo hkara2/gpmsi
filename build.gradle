@@ -21,6 +21,14 @@ java {
   targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+eclipse {
+  //demande à eclipse de télécharger les javadocs et les sources pour les librairies.
+  classpath {
+    downloadJavadoc = true
+    downloadSources = true
+  }
+}
+
 //Forcer UTF-8 partout pour le code source java (IMPORTANT !)
 compileJava.options.encoding = 'UTF-8'
 
