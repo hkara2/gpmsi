@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import fr.karadimas.gpmsi.poi.PoiHelper;
+import fr.karadimas.gpmsi.poi.ValueWrapper;
 
 /**
  * Encapsulation de {@link Row} pour pouvoir utiliser les noms de colonne qui sont dans le ScriptStep de type xlpoi.
@@ -109,6 +110,33 @@ public class XlRow {
     int ix = owner.getCsvColumnIndex(colName);
     if (ix < 0) throw new ColumnNotFoundException("Colonne '"+colName+"' non trouvee");
     return getCellObject(ix);
+  }
+  
+  /**
+   * Récupère un ValueWrapper pour la cellule qui est au numéro donné
+   * @param colNrObj Le numéro de colonne ou null (null est considéré ici comme 0).
+   * @return le {@link ValueWrapper} qui correspond à la valeur dans la colonne (peut retourner null)
+   */
+  public ValueWrapper getValueWrapper(Integer colNrObj) {
+    int colNr = 0;
+    if (colNrObj != null) colNr = colNrObj.intValue();
+    Row row = owner.sh.getRow(owner.linenr-1); //linenr commence à 1 et pour poi ça commence à 0
+    if (row == null) return null;
+    return new ValueWrapper(row.getCell(colNr));
+  }
+  
+  /**
+   * Récupère un ValueWrapper pour la cellule qui a le nom donné
+   * @param colName Le nom de la colonne
+   * @return le {@link ValueWrapper} qui correspond à la valeur dans la colonne (peut retourner null)
+   * @throws ColumnNotFoundException Si la colonne n'a pas été trouvée
+   */
+  public Object getValueWrapper(String colName) 
+      throws ColumnNotFoundException 
+  {
+    int ix = owner.getCsvColumnIndex(colName);
+    if (ix < 0) throw new ColumnNotFoundException("Colonne '"+colName+"' non trouvee");
+    return getValueWrapper(ix);
   }
   
   /**
