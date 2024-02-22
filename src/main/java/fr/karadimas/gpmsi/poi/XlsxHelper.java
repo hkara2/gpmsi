@@ -359,6 +359,26 @@ public class XlsxHelper {
     return cell;
   }
 
+  /**
+   * Mettre une cellule avec une valeur contenue dans le ValueWrapper.
+   * @param vw
+   * @param rowNr
+   * @param colNr
+   * @return
+   */
+  public SXSSFCell setCell(ValueWrapper vw, int rowNr, int colNr) {
+    SXSSFRow row = getOrMakeRow(rowNr);
+    SXSSFCell cell = row.createCell(colNr);
+    if (vw == null) {
+      cell.setCellValue("");
+    }
+    else {
+      vw.setValueInCell(cell, formatCache);
+    }
+    return cell;
+    
+  }
+  
   /** Passer à la rangée suivante */
   public void newRow() { curRow++; curCol = 0; }
   
@@ -434,6 +454,13 @@ public class XlsxHelper {
    * @return La cellule créée (le style a été créé à l'aide du type du champ)
    */
   public SXSSFCell addCell(FszField fld) { return setCell(fld, curRow, curCol++); }
+  
+  /**
+   * Ajouter une cellule avec la valeur du ValueWrapper
+   * @param vw un ValueWrapper qui est une représentation fidèle du contenu d'une cellule
+   * @return la nouvelle cellule créée
+   */
+  public SXSSFCell addCell(ValueWrapper vw) { return setCell(vw, curRow, curCol++); }
   
   /**
    * Ajuste le format de la cellule a l'aide du texte de format fourni.
