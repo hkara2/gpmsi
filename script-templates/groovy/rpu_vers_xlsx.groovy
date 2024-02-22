@@ -25,6 +25,18 @@ dfNaiss = new SimpleDateFormat('dd/MM/yyyy')
 dfEntreeSortie = new SimpleDateFormat('dd/MM/yyyy HH:mm')
 
 /**
+ * Get a diff between two dates
+ * @param date1 the oldest date
+ * @param date2 the newest date
+ * @param timeUnit the unit in which you want the diff
+ * @return the diff value, in the provided unit
+ */
+public static double getDateDiffInFractDays(Date date1, Date date2) {
+    long diffMs = date2.getTime() - date1.getTime();
+    return diffMs / (24d * 60d * 60d * 1000d);
+}
+
+/**
  * Transformer une liste d'éléments enfants en une chaîne de caractères.
  * Utilisé pour avoir la liste des actes et la liste des da.
  */
@@ -40,10 +52,10 @@ def isCcmu2plus(parentElement, childName) {
 }
 
 destFile = new File(args.output);
-classeur = new XlsxHelper("Classeur test");
+classeur = new XlsxHelper("RPUs");
 
 //Ajouter les en-tetes
-enTetes = 'finess,cp,commune,naissance,sexe,entree,mode_entree,provenance,transport,transport_pec,motif,gravite,dp,liste_da,liste_actes,sortie,mode_sortie,destination,orient,acteccmu2p'
+enTetes = 'finess,cp,commune,naissance,sexe,entree,mode_entree,sortie,mode_sortie,dursej,provenance,transport,transport_pec,motif,gravite,dp,liste_da,liste_actes,destination,orient,acteccmu2p'
 enTetes.split(',').each {enTete -> classeur.addCell(enTete) }
 classeur.newRow()
 
@@ -86,10 +98,23 @@ oscour.PASSAGES.PATIENT.each {p->
   def sexe = p.SEXE.text()
   classeur.addCell(sexe)
   def entree = p.ENTREE.text()
+  def entreeDateTime = isTrimEmpty(entree) ? null : dfEntreeSortie.parse(entree)
   if (isTrimEmpty(entree)) classeur.addCell('')
   else classeur.addCell(dfEntreeSortie.parse(entree), "dd/mm/yyyy hh:mm")
   def mode_entree = p.MODE_ENTREE.text()
   classeur.addCell(mode_entree)
+  def sortie = p.SORTIE.text()
+  def sortieDateTime = isTrimEmpty(sortie) ? null : dfEntreeSortie.parse(sortie)
+  if (isTrimEmpty(sortie)) classeur.addCell('')
+  else classeur.addCell(dfEntreeSortie.parse(sortie), "dd/mm/yyyy hh:mm")
+  def mode_sortie = p.MODE_SORTIE.text()
+  classeur.addCell(mode_sortie)
+  //ajout duree sejour (hk 240220)
+  def dursej = 999.0
+  if (entreeDateTime != null && sortieDateTime != null) {
+      dursej = getDateDiffInFractDays(entreeDateTime, sortieDateTime)
+  }
+  classeur.addCell(dursej)
   def provenance = p.PROVENANCE.text()
   classeur.addCell(provenance)
   def transport = p.TRANSPORT.text()
@@ -106,11 +131,6 @@ oscour.PASSAGES.PATIENT.each {p->
   classeur.addCell(liste_da)
   def liste_actes = toList(p.LISTE_ACTES, 'ACTE')
   classeur.addCell(liste_actes)
-  def sortie = p.SORTIE.text()
-  if (isTrimEmpty(sortie)) classeur.addCell('')
-  else classeur.addCell(dfEntreeSortie.parse(sortie), "dd/mm/yyyy hh:mm")
-  def mode_sortie = p.MODE_SORTIE.text()
-  classeur.addCell(mode_sortie)
   def destination = p.DESTINATION.text()
   classeur.addCell(destination)
   def orient = p.ORIENT.text()
