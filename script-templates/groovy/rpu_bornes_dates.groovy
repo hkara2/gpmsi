@@ -1,4 +1,4 @@
-/**:encoding=UTF-8:
+/**☺:encoding=UTF-8:
  * Analyser le fichier des RPU et donner date entreee min, date entree max,
  * date sortie min, date sortie max.
  *
