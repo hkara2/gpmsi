@@ -6,7 +6,7 @@ class RsaRuleEngine
   extends PmsiRuleEngine 
 {
   RsaRuleEngine() {
-    
+
   }
-  
+
 }
