@@ -4,7 +4,7 @@ import fr.karadimas.pmsixml.FszGroup
 
 /**
  * Règle qui est spécialisée pour les RSAs.
- * Etendre un objet et implementer init/evaluate/action
+ * Etendre un objet et implementer init/eval/action
  */
 class RsaRule
     implements PmsiRule 
