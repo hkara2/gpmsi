@@ -103,11 +103,11 @@ def oscourA = new XmlSlurper().parse(new File(args.input_a))
     <DATEFIN>31/01/2023</DATEFIN>
   </ETABLISSEMENT>
 */
-def finessA = oscourA.ETABLISSEMENT.FINESS
-def ordreA = oscourA.ETABLISSEMENT.ORDRE
-def extractA = oscourA.ETABLISSEMENT.EXTRACT
-def datedebutA = oscourA.ETABLISSEMENT.DATEDEBUT
-def datefinA = oscourA.ETABLISSEMENT.DATEFIN
+def finessA = oscourA.ETABLISSEMENT.FINESS.text()
+def ordreA = oscourA.ETABLISSEMENT.ORDRE.text()
+def extractA = oscourA.ETABLISSEMENT.EXTRACT.text()
+def datedebutA = oscourA.ETABLISSEMENT.DATEDEBUT.text()
+def datefinA = oscourA.ETABLISSEMENT.DATEFIN.text()
 
 def oscourB = new XmlSlurper().parse(new File(args.input_b))
 /* Exemple de Etablissement :
@@ -119,26 +119,26 @@ def oscourB = new XmlSlurper().parse(new File(args.input_b))
     <DATEFIN>31/01/2023</DATEFIN>
   </ETABLISSEMENT>
 */
-def finessB = oscourB.ETABLISSEMENT.FINESS
-def ordreB = oscourB.ETABLISSEMENT.ORDRE
-def extractB = oscourB.ETABLISSEMENT.EXTRACT
-def datedebutB = oscourB.ETABLISSEMENT.DATEDEBUT
-def datefinB = oscourB.ETABLISSEMENT.DATEFIN
+def finessB = oscourB.ETABLISSEMENT.FINESS.text()
+def ordreB = oscourB.ETABLISSEMENT.ORDRE.text()
+def extractB = oscourB.ETABLISSEMENT.EXTRACT.text()
+def datedebutB = oscourB.ETABLISSEMENT.DATEDEBUT.text()
+def datefinB = oscourB.ETABLISSEMENT.DATEFIN.text()
 
 if (finessA != finessB) throw new Exception("Les finess sont differents ($finessA vs $finessB)")
 if (ordreA != ordreB) throw new Exception("Les ordres sont differents ($ordreA vs $ordreB)")
-LocalDateTime extractA_date = LocalDateTime.parse(extractA.text(), frDtff)
-LocalDateTime extractB_date = LocalDateTime.parse(extractB.text(), frDtff)
+LocalDateTime extractA_date = LocalDateTime.parse(extractA, frDtff)
+LocalDateTime extractB_date = LocalDateTime.parse(extractB, frDtff)
 LocalDateTime extractO_date = maxDate(extractA_date, extractB_date)
 String extractO_str = frDtff.format(extractO_date)
 
-LocalDate datedebutA_date = LocalDate.parse(datedebutA.text(), frDtsf)
-LocalDate datedebutB_date = LocalDate.parse(datedebutB.text(), frDtsf)
+LocalDate datedebutA_date = LocalDate.parse(datedebutA, frDtsf)
+LocalDate datedebutB_date = LocalDate.parse(datedebutB, frDtsf)
 LocalDate datedebutO_date = minDate(datedebutA_date, datedebutB_date)
 String datedebutO_str = frDtsf.format(datedebutO_date)
 
-LocalDate datefinA_date = LocalDate.parse(datefinA.text(), frDtsf)
-LocalDate datefinB_date = LocalDate.parse(datefinB.text(), frDtsf)
+LocalDate datefinA_date = LocalDate.parse(datefinA, frDtsf)
+LocalDate datefinB_date = LocalDate.parse(datefinB, frDtsf)
 LocalDate datefinO_date = minDate(datefinA_date, datefinB_date)
 String datefinO_str = frDtsf.format(datefinO_date)
 
@@ -184,8 +184,8 @@ oscourB.PASSAGES.PATIENT.each {p->
 def resultXml = mb.bind {
     OSCOUR {
         ETABLISSEMENT {
-            mkp.yield finessA
-            mkp.yield ordreA
+            FINESS(finessA)
+            ORDRE(ordreA)
             EXTRACT(extractO_str)
             DATEDEBUT(datedebutO_str)
             DATEFIN(datefinO_str)
