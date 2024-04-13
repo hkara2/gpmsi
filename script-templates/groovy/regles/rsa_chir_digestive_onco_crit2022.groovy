@@ -5,7 +5,7 @@
  *
  * Ex :
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2022\M10\RSA
- * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.0\scripts\groovy\regles\rsa_chir_digestive_onco_crit2017.groovy -a:input 910019447.2022.10.rsa -a:output NRSAs_chir_dig_onco.txt
+ * c:\app\gpmsi\v1.3\gpmsi -script c:\app\gpmsi\v1.3\scripts\groovy\regles\rsa_chir_digestive_onco_crit2022.groovy -a:input 910019447.2022.10.rsa -a:output NRSAs_chir_dig_onco.txt
  */
 package regles
 import fr.karadimas.gpmsi.DateUtils
