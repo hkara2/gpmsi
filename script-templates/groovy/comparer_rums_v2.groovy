@@ -10,8 +10,10 @@
 //Arguments : input_a, input_b, output
 //Flags : comparercmd : compare les categories majeures de diagnostic et les 
 //ghms (ne marche que pour les RUMs groupés bien sûr)
-import fr.karadimas.pmsixml.StringTable
-import fr.karadimas.pmsixml.CsvDestination
+import fr.karadimas.gpmsi.StringTable
+import fr.karadimas.gpmsi.CsvDestination
+import fr.karadimas.gpmsi.NumsRums //est avec les scripts distribués
+
 
 def lastChar(str) {
 	if (str == null || str.length() == 0) return ""
