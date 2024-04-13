@@ -101,13 +101,13 @@ def mainPanel = {
               def cheminSrc = T2.text
               def cheminDest = T3.text
               def pmsixml_home = System.getenv('GPMSI_HOME')
-              def gpmsi = pmsixml_home + '\\scripts\\gpmsi.bat'
+              def gpmsi = pmsixml_home + '\\gpmsi.bat'
               def script = pmsixml_home + '\\scripts\\groovy\\rss_vers_csv.groovy'
               //Construction de la commande
               def cmd = "\"$gpmsi Groovy -script $script -a:input \"$cheminSrc\" -a:output \"$cheminDest\" \""
               ProcessBuilder pb =
                   new ProcessBuilder("cmd", "/c", gpmsi, "-script", script, "-a:input", cheminSrc, "-a:output", cheminDest);
-              println "Lancement de : ${pb.command.join(' ')}"
+              println "Lancement du process : ${pb.command.join(' ')}"
               def proc = pb.start()
               def reader = new BufferedReader( new InputStreamReader(proc.getInputStream()) ) 
               while ((line = reader.readLine()) != null) { println(line) }
