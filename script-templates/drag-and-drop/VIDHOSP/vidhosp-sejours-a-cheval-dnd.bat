@@ -1,4 +1,4 @@
-rem Dans un fichier VIDHOSP extraction des fichiers a cheval
+rem Dans un fichier VIDHOSP extraction des fichiers a cheval avec date d'entree et date de sortie de l'etablissement
 rem Exemple d'utilisation :vidhosp-sejours-a-cheval-dnd.bat
 rem vidhosp-sejours-a-cheval-dnd.bat "C:\Local\GROUPAGE\2019\M12\200117-pmsipilot\VH200117\VIDHOSP_MCO.txt"
 rem N.B. marche si on fait un "glisser-deposer" sur le fichier bat
@@ -16,4 +16,4 @@ rem Fichier VIDHOSP a analyser (sans les guillemets)
 set A=%~1
 rem Fichier qui contiendra les NADL des sejours a cheval
 set B=%~dpn1_sej_a_cheval.csv
-call %APP% -script %SCRIPT% -a:input "%A%" -a:output "%B%"
+call %APP% -script %SCRIPT% -a:input "%A%" -a:output "%B%" -f:avecdates
