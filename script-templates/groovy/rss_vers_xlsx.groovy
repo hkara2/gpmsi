@@ -4,6 +4,9 @@
  * arguments :
  * -a:input chemin_fichier
  * -a:output chemin_fichier
+ * -f:paslibcim      Ne pas mettre les libelles CIM
+ * -f:paslibccam     Ne pas mettre les libelles CCAM
+ *
  * La CIM 10 au format csv doit être dans le fichier cim/cim10_utf8.csv,
  * dans un sous-répertoire .pmsixml, lui-même situé dans le home de
  * l'utilisateur (~ sous unix, %userprofile% sous Windows NT)
@@ -19,6 +22,9 @@ import fr.karadimas.gpmsi.CsvDestination
 import fr.karadimas.gpmsi.StringTransformable
 import fr.karadimas.gpmsi.poi.XlsxHelper
 import static fr.karadimas.gpmsi.StringUtils.isEmpty
+
+pasDeLibelleCim = false
+pasDeLibelleCcam = false
 
 def nomCim(cde) {
   if (cde == null || cde.equals("")) return ""
@@ -46,7 +52,7 @@ def listerDiags(da) {
     StringBuffer sb = new StringBuffer()
     da.txtTDA.each {tda->
         if (sb.length() > 0) sb << "\r\n"
-        sb << tda << " " << nomCim(tda.toUpperCase())
+        sb << tda << " " << (pasDeLibelleCim ? "" : nomCim(tda.toUpperCase()))
     }
     sb.toString()
 }
@@ -55,9 +61,14 @@ def listerActes(za) {
     StringBuffer sb = new StringBuffer()
     za.txtCCCA.each {ccca->
         if (sb.length() > 0) sb << "\r\n"
-        sb << ccca << " " << nomCcam(ccca.toUpperCase())
+        sb << ccca << " " << (pasDeLibelleCcam ? "" : nomCcam(ccca.toUpperCase()))
     }
     sb.toString()
+}
+
+// Limiter la longueur à 32700 pour éviter l'erreur  "The maximum length of cell contents (text) is 32767 characters"
+def limit32K(str) {
+    (str != null && str.length() > 32700) ? str.substring(0, 32700) : str
 }
 
 listeRumsParNrss = [:] //map globale des RUMS par numero de RSS
@@ -74,6 +85,8 @@ cimFile = new File(uh + "\\.gpmsi\\cim\\cim10_utf8.csv")
 ccamFile = new File(uh + "\\.gpmsi\\ccam\\ccam_descr_pmsi_utf8.csv")
 if (!cimFile.exists()) throw new Exception("L'exécution de ce script nécessite la CIM-10 dans le fichier $cimFile")
 if (!ccamFile.exists()) throw new Exception("L'exécution de ce script nécessite la CCAM descriptive PMSI dans le fichier $ccamFile")
+pasDeLibelleCcam = flags.contains('paslibccam')
+pasDeLibelleCim = flags.contains('paslibcim')
 
 //Reconstituer une liste de RUMs pour chaque numero de RSS
 rss {
@@ -225,10 +238,11 @@ listeRss.each() {nrss ->
             //les cellules suivantes sont multilignes, et donc ajoutees avec le style multiligne.
             def das = listerDiags(rum.DA)
             xh.addCell(das).setCellStyle(styleMultiligne)
+            //ici on limite la longueur car cela peut devenir très long (réa...)
             def actscs = rum.ZA.txtCCCA*.trim().join(',')
-            xh.addCell(actscs) //on ne met pas cette cellule en style multiligne car les lignes sont trop grandes sinon
+            xh.addCell(limit32K(actscs)) //on ne met pas cette cellule en style multiligne car les lignes sont trop grandes sinon
             def acts = listerActes(rum.ZA)
-            xh.addCell(acts) //on ne met pas cette cellule en style multiligne car les lignes sont trop grandes sinon
+            xh.addCell(limit32K(acts)) //on ne met pas cette cellule en style multiligne car les lignes sont trop grandes sinon
             xh.newRow()
         }//listeRums.each
     }
