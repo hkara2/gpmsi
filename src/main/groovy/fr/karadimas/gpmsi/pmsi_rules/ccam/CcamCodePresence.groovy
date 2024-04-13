@@ -13,14 +13,21 @@ import java.util.regex.Pattern
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
+import org.apache.commons.lang3.StringUtils;
+
 import fr.karadimas.gpmsi.pmsi_rules.AoeNode
 import fr.karadimas.gpmsi.pmsi_rules.PmsiCriterion;
 import fr.karadimas.pmsixml.FszGroup;
 
 /**
  * Selection selon la présence de critères sur les codes CCAM.
+ * Fonctionne pour les RUMs et les RSAs.
  * Pour l'instant on fait une recherche simple sur une liste, qui contient des codes CCAM et/ou
  * des expressions régulieres.
+ *
+ * Par défaut on ne prend pas en compte l'extension PMSI, seulement les 7 premiers caractères du code.
+ * Ce comportement peut être changé en utilisant setPmsiExtensionIgnored(false).
+ *
  * L'extension PMSI est un problème ; dans certains outils (DxCare ...) l'acte lorsqu'il
  * n'a pas d'extension PMSI est envoyé avec une extension PMSI '-00'.
  * D'autres outils (Sillage, CDP, ...) ne mettent rien lorsqu'il n'y a pas d'extension PMSI.
@@ -76,6 +83,8 @@ public class CcamCodePresence
 
   public static Pattern ccamPattern =  Pattern.compile(/[A-Z][A-Z][A-Z][A-Z]\d\d\d(-\d\d)?/) //pattern pour un code CCAM (avec extention PMSI) autorisé
 
+  private boolean ignorePmsiExtension = true;
+
   /**
    * Classe interne pour stocker les critères de sélection d'un code avec les expressions qui vont avec
    */
@@ -104,16 +113,38 @@ public class CcamCodePresence
    * Constructeur simple avec juste un ensemble de codes à rechercher.
    * Les codes sont soit des codes CCAM normaux si ils sont acceptés par le #ccamPattern,
    * soit une expression régulière sinon.
-   * Si le code est un code à 7 caractères, il sera comparé tel quel car les
+   * Si le code est un code à 7 caractères (ou à 10 caractères lorsqu'il y a
+   * une extension PMSI), il sera comparé tel quel car les
    * codes lus dans les RSS et RSA ont les espaces de fin enlevés avant comparaison.
    * Donc si par exemple on veut tous les codes qui commencent par JGNE171, on a 2 solutions :
    * <ul>
    * <li>['JGNE171.*']
    * <li>['JGNE171', 'JGNE171-01', 'JGNE171-02', 'JGNE171-03']
    * </ul>
+   * Avec ce constructeur les extensions PMSI des codes sont enlevées, seuls les
+   * 7 premiers caractères sont gardés.
    * @param codesToInclude
    */
   public CcamCodePresence(Set<String> codesToInclude) {
+      this(codesToInclude, true)
+  }
+
+  /**
+   * Constructeur étendu avec un ensemble de codes à rechercher, et le contrôle d'ignorer ou pas les extensions PMSI.
+   * Les codes sont soit des codes CCAM normaux si ils sont acceptés par le #ccamPattern,
+   * soit une expression régulière sinon.
+   * Si le code est un code à 7 caractères (ou à 10 caractères lorsqu'il y a
+   * une extension PMSI), il sera comparé tel quel car les
+   * codes lus dans les RSS et RSA ont les espaces de fin enlevés avant comparaison.
+   * Donc si par exemple on veut tous les codes qui commencent par JGNE171, on a 2 solutions :
+   * <ul>
+   * <li>['JGNE171.*']
+   * <li>['JGNE171', 'JGNE171-01', 'JGNE171-02', 'JGNE171-03']
+   * </ul>
+   * @param codesToInclude Les codes à inclure
+   * @param ignorePmsiExtension Si true, ne garde que les 7 premiers caractères de chaque code CCAM
+   */
+  public CcamCodePresence(Set<String> codesToInclude, boolean ignorePmsiExtension) {
     codesToInclude.each { untrimmedCode ->
       String code = untrimmedCode.trim()
       if (ccamPattern.matcher(code).matches()) {
@@ -132,6 +163,27 @@ public class CcamCodePresence
     this(codesToInclude as Set)
   }
 
+  /**
+   * Constructeur qui prend une liste.
+   * Appelle ensuite le constructeur qui prend un ensemble (Set) en transformant la "List" en "Set".
+   * @param codesToInclude
+   */
+  public CcamCodePresence(List<String> codesToInclude, boolean ignorePmsiExtension) {
+    this(codesToInclude as Set, ignorePmsiExtension)
+  }
+
+  /** 
+   * @return valeur du contrôle de la prise en charge de l'extension PMSI
+   */
+  public boolean isPmsiExtensionIgnored() { return ignorePmsiExtension }
+  
+  /**
+   * @param ignorePmsiExtension Si true, seulement les 7 premiers caractères de l'acte CCAM sont pris en compte
+   */
+  public void setPmsiExtensionIgnored(boolean ignorePmsiExtension) {
+      this.ignorePmsiExtension = ignorePmsiExtension
+  }
+      
   /*
    * Date de réalisation
    * Code CCAM
@@ -158,13 +210,14 @@ public class CcamCodePresence
       //Dans les RSA le code CCAM a 7 caractères et l'extension PMSI sur 2 caractères !
       rsa.RU.ZA.flatten().each { za ->
         def ccam = za.txtCCCAM
-        //println "ccam:$ccam"
-        def xtpmsi = za.txtXTPMSI
-        def codeToAdd
-        if (xtpmsi == '') codeToAdd = ccam
-        else codeToAdd = ccam + '-' + xtpmsi
-        //si le code finit par -00 on enlève le -00 qui n'est pas pertinent
-        if (codeToAdd.endsWith('-00')) codeToAdd = codeToAdd[0..-4]
+        def codeToAdd = ccam
+        if (!ignorePmsiExtension) {
+            //println "ccam:$ccam"
+            def xtpmsi = za.txtXTPMSI
+            if (xtpmsi != '') codeToAdd = ccam + '-' + xtpmsi
+            //si le code finit par -00 on enlève le -00 qui n'est pas pertinent
+            if (codeToAdd.endsWith('-00')) codeToAdd = codeToAdd[0..-4]
+        }
         lg.debug("ccam '$codeToAdd'")
         ccamCodes.add(codeToAdd)
       }
@@ -174,7 +227,12 @@ public class CcamCodePresence
     else if (rum != null) {
       //println "rum:$rum"
       rum.ZA.txtCCCA.each { code ->
-        if (code.endsWith('-00')) code = code[0..-4] //enlever les 3 derniers caractères -00 qui ne sont pas pertinents
+        if (ignorePmsiExtension) {
+            code = StringUtils.truncate(code, 7) //restreindre à 7 caractères
+        }
+        else {
+            if (code.endsWith('-00')) code = code[0..-4] //enlever les 3 derniers caractères -00 qui ne sont pas pertinents
+        }
         lg.debug("ccam '$code'")
         ccamCodes.add(code)
       }
