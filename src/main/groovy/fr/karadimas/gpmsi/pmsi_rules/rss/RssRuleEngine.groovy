@@ -6,7 +6,7 @@ class RssRuleEngine
   extends PmsiRuleEngine 
 {
   RssRuleEngine() {
-    
+
   }
-  
+
 }
