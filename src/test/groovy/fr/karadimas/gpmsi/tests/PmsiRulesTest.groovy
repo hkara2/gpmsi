@@ -1,3 +1,4 @@
+//☺:encoding=UTF-8:
 package fr.karadimas.gpmsi.tests;
 
 import static org.junit.Assert.*;
@@ -110,7 +111,7 @@ public class PmsiRulesTest {
   
   /** Regle qui ecrit 'code ccam osteosynthese trouve !' si un des codes CCAM de ZA est dans l'expression régulière. */
   class RsaCcamRuleR1 extends RsaRule {
-    CcamCodePresence cp = new CcamCodePresence(['NDPA002.*', 'NDQK001-01'] as Set)
+    CcamCodePresence cp = new CcamCodePresence(['NDPA002.*', 'NDQK001-01'] as Set, false) //attention indiquer qu'on n'ignore pas l'extension !
     
     @Override
     public boolean eval(HashMap context) {
