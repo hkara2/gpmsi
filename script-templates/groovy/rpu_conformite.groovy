@@ -1,7 +1,11 @@
 /**:encoding=UTF-8:
+ * Script déprécié, car en fait ce qui est envoyé à Sesan écrase ce qui est
+ * existant entre les deux dates DATEDEBUT et DATEFIN, donc la correction
+ * automatique aura des effets indésirables.
+ *
  * Corrige un RPU pour qu'il soit conforme à l'envoi vers SESAN :
  * - borne DATEDEBUT : date d'entrée la plus ancienne
- * - borne DATEFIN : date de sortie la plus récente
+ * - borne DATEFIN : date d'entrée la plus récente
  * Exemple :
  * cd C:\Local\GROUPAGE\2022\M12\RPU\230127-Etampes-1er-semestre
  * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.0\scripts\groovy\rpu_conformite.groovy -a:input RPU_3700_20230127102329.xml -a:output RPU_3700_20230127102329_corrige.xml
@@ -29,7 +33,7 @@ OSCOUR = xp.parse(new File(inputFilePath))
 formatDate = new SimpleDateFormat("dd/MM/yyyy HH:mm")
 formatDateEtablissement = new SimpleDateFormat("dd/MM/yyyy")
 dateEntreeMin = null
-dateSortieMax = null
+dateEntreeMax = null
 OSCOUR.PASSAGES.PATIENT.each {patient ->
     def dateEntreeStr = patient.ENTREE.text()
     //println "ENTREE $dateEntreeStr"
@@ -37,19 +41,14 @@ OSCOUR.PASSAGES.PATIENT.each {patient ->
         def dateEntree = formatDate.parse(dateEntreeStr)
         if (dateEntreeMin == null) dateEntreeMin = dateEntree
         else if (dateEntree < dateEntreeMin) dateEntreeMin = dateEntree
+        if (dateEntreeMax == null) dateEntreeMax = dateEntree
+        else if (dateEntree > dateEntreeMax) dateEntreeMax = dateEntree
     }
-    def dateSortieStr = patient.SORTIE.text()
-    //println "SORTIE $dateSortieStr"
-    if (!isTrimEmpty(dateSortieStr)) {
-        def dateSortie = formatDate.parse(dateSortieStr)
-        if (dateSortieMax == null) dateSortieMax = dateSortie
-        else if (dateSortie > dateSortieMax) dateSortieMax = dateSortie
-    }
-    //println "$patient"
+    //on ne tient pas compte de la date de sortie (hk 240226)
 }
 
 println "date entree min : $dateEntreeMin"
-println "date sortie max : $dateSortieMax"
+println "date entree max : $dateEntreeMax"
 
 ETABLISSEMENT = OSCOUR.ETABLISSEMENT.find { it.FINESS.text() == FINESS_ETABLISSEMENT }
 
@@ -57,7 +56,7 @@ ETABLISSEMENT = OSCOUR.ETABLISSEMENT.find { it.FINESS.text() == FINESS_ETABLISSE
 
 //ajuster les dates avec ce qui a été collecté
 ETABLISSEMENT.DATEDEBUT[0].value = formatDateEtablissement.format(dateEntreeMin)
-ETABLISSEMENT.DATEFIN[0].value = formatDateEtablissement.format(dateSortieMax)
+ETABLISSEMENT.DATEFIN[0].value = formatDateEtablissement.format(dateEntreeMax)
 
 println "ETABLISSEMENT : $ETABLISSEMENT"
 
