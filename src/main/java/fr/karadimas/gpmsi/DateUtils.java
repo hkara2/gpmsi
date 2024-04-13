@@ -3,16 +3,35 @@ package fr.karadimas.gpmsi;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.IsoFields;
 import java.util.Date;
 
 /**
  * Methodes utilitaires de dates.
+ * Attention aux types, il y a des {@link Date} (ancien type) et des {@link LocalDate} (nouveau type).
  * @author hkaradimas
  *
  */
 public class DateUtils {
+
+//Quelques liens vers des calculs ISO pour les semaines
+//a tester
+// public static int getWeekOfYear(long packedDateTime) {
+// LocalDateTime date = asLocalDateTime(packedDateTime);
+// TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+// return date.get(woy);
+//}
+
+//int week = myZonedDateTime.get( IsoFields.WEEK_OF_WEEK_BASED_YEAR ) ;
+//int weekBasedYear = myZonedDateTime.get( IsoFields.WEEK_BASED_YEAR ) ;
+
+//https://stackoverflow.com/questions/34722997/java-calendar-week-of-year-not-iso-8601compliant
+
+//https://www.threeten.org/threeten-extra/
+
 
   /**
    * Constructeur par défaut
@@ -76,4 +95,48 @@ public class DateUtils {
     return Period.between(birthLocalDate, presentLocalDate);
   }
   
+  /**
+   * Retourner la date du premier lundi de l'année ISO donnée (utile pour le début de l'année SSR/SMR)
+   * @param isoYear l'année
+   * @return la date du premier lundi de l'année ISO
+   */
+  public static LocalDate getIsoWeekStartDate(int isoYear) {
+      LocalDate startDate;
+      LocalDate jan1 = LocalDate.of(isoYear, 1, 1);
+      int jan1day = jan1.getDayOfWeek().getValue();
+      //1:0
+      //2:-1
+      //3:-2
+      //4:-3
+      //5:+3
+      //6:+2
+      //7:+1
+      if (jan1day < 5) startDate = jan1.minusDays(jan1day - 1);
+      else startDate = jan1.plusDays(8 - jan1day);
+      return startDate;
+  }
+  
+  /**
+   * Retourner la date du dernier dimanche du mois donné.
+   * La semaine appartient au mois si le jeudi est dans le mois.
+   * @param isoYear l'année
+   * @param month le mois (1 à 12)
+   * @return date du dimanche de la dernière semaine du mois
+   */
+  public static LocalDate getIsoWeekEndDate(int isoYear, int month) {
+    LocalDate em = YearMonth.of(isoYear, month).atEndOfMonth();
+    int lastDom = em.getDayOfWeek().getValue();
+    LocalDate endDate;
+    //1:-1
+    //2:-2
+    //3:-3
+    //4:+3
+    //5:+2
+    //6:+1
+    //7:0
+    if (lastDom < 4) endDate = em.minusDays(lastDom);
+    else endDate = em.plusDays(7 - lastDom);
+    return endDate;
+  }
+
 }
