@@ -248,7 +248,10 @@ public class ScriptStep {
     public void inputEncoding(String enc) { inputEncoding = enc; }
     
     /**
-     * Définit l'encodage utilisé par le fichier d'entrée
+     * Définit l'encodage utilisé par le fichier d'entrée. N.B. :
+     * c'est org.apache.commons.io.input.BOMInputStream qui est utilisé en
+     * interne, donc l'encodage UTF-8 fonctionnera même s'il y a un "BOM"
+     * (Byte Order Mark).
      * @param enc L'encodage (par ex. "UTF-8" ou "windows-1252")
      */
     public void setInputEncoding(String enc) { inputEncoding = enc; }
