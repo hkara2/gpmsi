@@ -13,7 +13,9 @@
 @set GPMSI_HOME=%~dp0
 @rem On enleve le '/' final
 @set GPMSI_HOME=%GPMSI_HOME:~0,-1%
-@set CP=%GPMSI_HOME%\lib\@GPMSILIB@.jar
+@rem Le classpath CP commence par le repertoire resources du profil utilisateur, il a priorite sur le reste 
+@set CP=%USERPROFILE%\.gpmsi\resources
+@set CP=%CP%;%GPMSI_HOME%\lib\@GPMSILIB@.jar
 @set CP=%CP%;%GPMSI_HOME%\lib\@PMSIXMLLIB@.jar
 @set CP=%CP%;%GPMSI_HOME%\lib\@AAGBLLIB@.jar
 @set CP=%CP%;%GPMSI_HOME%\lib\@POILIB@.jar
@@ -75,7 +77,6 @@
 @set CP=%CP%;%GPMSI_HOME%\lib\@GROOVY_ANT_LIB@.jar
 @rem set CP=%CP%;%GPMSI_HOME%\lib\@SLF4JLOG4J12LIB@.jar
 
-@set CP=%CP%;%USERPROFILE%\.pmsixml\resources
 @if defined GPMSI_XCP set CP=%CP%;%GPMSI_XCP%
 @if "%JAVA_HOME%" == "" goto :nojhome
 @rem JAVA_HOME est fourni, l'utiliser

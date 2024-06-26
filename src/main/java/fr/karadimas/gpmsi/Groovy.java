@@ -369,12 +369,13 @@ public class Groovy {
               lg.debug("Ajout du parentURL '"+parentURL+"'");
               roots.add(parentURL);
             }
-            //ajout du repertoire ~/.gpmsi/scripts/ dans le chemin de recherche des classes
+            //ajout du repertoire ~/.gpmsi/scripts/ dans le chemin de recherche des classes, en premier car il a priorité et permet ainsi de remplacer un script fourni dans le jar si besoin
             String userHome = System.getProperty("user.home");
             File uhScriptsDir = new File(userHome);
             uhScriptsDir = new File(uhScriptsDir, ".gpmsi");
             uhScriptsDir = new File(uhScriptsDir, "scripts");
-            roots.add(uhScriptsDir.toURI().toURL());
+            //on l'ajoute au début des racines comme cela les scripts de ce répertoire ont priorité sur les resources par défaut
+            roots.add(0, uhScriptsDir.toURI().toURL());
             lg.debug("Liste des racines de classpath :");
             for (URL root : roots) {
               lg.debug("root:"+root);
