@@ -68,14 +68,19 @@ import groovy.lang.Closure;
  * <p>
  * ScriptStep n'envoie rien par défaut sur la sortie standard, 
  * mais permet de déclarer un
- * outputWriter via la variable <code>outputWriter</code> ou un 
- * outputFilePath via la variable <code>output</code>.
+ * outputWriter via un  appel à <code>outputWriter</code> ou un 
+ * outputFilePath via un appel à <code>output</code>.
  * Les scripts qui s'exécutent dans
  * un ScriptStep sont encouragés à utiliser ces deux variables pour déclarer
  * le fichier de sortie ou le flux de sortie, et à les utiliser
  * pour ecrire leurs resultats ; cependant il n'y a pas d'obligation à
  * utiliser ces variables.
  * 
+ * <p>
+ * L'étape de script XLPOI ouvre par défaut l'onglet 0 (le premier onglet du fichier excel).
+ * On peut lui dire d'ouvrir un autre onglet en donnant son nom par un appel à 
+ * <code>sheetName</code>, ou son numéro par un appel à <code>sheetNumber</code>
+ * (<code>sheetName</code> a priorité sur <code>sheetNumber</code>)
  * <p>
  * Pour certaines étapes il est nécessaire de préciser explicitement les
  * métadonnées à utiliser. On peut faire cela en définissant la valeur
@@ -1201,5 +1206,57 @@ public class ScriptStep {
   public void countOfCsvLinesToSkip(int countOfCsvLinesToSkip) {
     this.countOfCsvLinesToSkip = countOfCsvLinesToSkip;
   }
+
+  /**
+   * Acces à la variable sheetNumber qui donne le numéro de l'onglet à ouvrir
+   * @return sheetNumber Le numéro de l'onglet à ouvrir (commence à 0, peut être null)
+   */
+  public Integer getSheetNumber() {
+    return sheetNumber;
+  }
+
+  /**
+   * Acces à la variable sheetNumber qui donne le numéro de l'onglet à ouvrir.
+   * Valeur par défaut : null, ce qui a pour effet d'ouvrir le premier onglet (si sheetName est null aussi)
+   * @param sheetNumber Le numéro de l'onglet à ouvrir (commence à 0, peut être null)
+   */
+  public void setSheetNumber(Integer sheetNumber) {
+    this.sheetNumber = sheetNumber;
+  }
+
+  /**
+   * Acces à la variable sheetNumber via la fonction sheetNumber, cela permet l'appel dans un bloc via groovy
+   * @param sheetNumber Le numéro de l'onglet à ouvrir (commence à 0, peut être null)
+   */
+  public void sheetNumber(Integer sheetNumber) {
+    this.sheetNumber = sheetNumber;
+  }
+
+  /**
+   * Accès à la variable sheetName
+   * @return La valeur de sheetName
+   */
+  public String getSheetName() {
+    return sheetName;
+  }
+
+  /**
+   * Accès à la variable sheetName. Par défaut : null. Lorsque sheetName n'est pas null, c'est
+   * elle qui a priorité pour indiquer l'onglet à ouvrir.
+   * @param sheetName Nom de l'onglet à ouvrir
+   */
+  public void setSheetName(String sheetName) {
+    this.sheetName = sheetName;
+  }
+  
+  /**
+   * Acces à la variable sheetName via la fonction sheetName, cela permet l'appel dans un bloc via groovy
+   * @param sheetName Nom de l'onglet à ouvrir
+   */
+  public void sheetName(String sheetName) {
+    this.sheetName = sheetName;
+  }
+  
+  
 
 }
