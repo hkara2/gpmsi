@@ -51,14 +51,37 @@ import fr.karadimas.pmsixml.FszGroup;
  * <li><code>/n:&lt;expression nombre de réalisations de l'acte&gt;</code>
  * </ul>
  * <br>
- * L'expression est :
- * <expression valeur>[, <expression valeur>]
- * L'expression valeur est :
- * valeur [&amp; valeur]
- * Ainsi si on veut rechercher l'acte
- * HHFA016 Appendicectomie, par coelioscopie ou par laparotomie avec préparation par coelioscopie
- * avec à la fois le modificateur P et le modificateur U, on écrit :
- * HHFA016/m:P&amp;U
+ * L'expression est expr_ou :
+ * <pre>
+ * expr_ou : 
+ *   expr_et ',' expr_et
+ *   expr_et
+ * expr_et :
+ *   expr_suit &amp; expr_suit
+ * expr_suit :
+ *   valeur '..' valeur
+ *   valeur
+ *   '.'
+ * </pre>
+ * (Le point signifie "vide")
+ *
+ * Ainsi si on veut rechercher l'acte<br>
+ * HHFA016 Appendicectomie, par coelioscopie ou par laparotomie avec préparation par coelioscopie<br>
+ * avec à la fois le modificateur P et le modificateur U, on écrit :<br>
+ * <code>HHFA016/m:P&amp;U</code>
+ *
+ * Autre exemple :<br>
+ * <code>JQGD002..JQGD010/a:1&4</code> :
+ * <ul>
+ * <li> tous les codes CCAM de JQGD002 à JQGD010 
+ * <li> ils doivent avoir à la fois une activité 1 ET une activité 4
+ * </ul>
+ * <code>JQGD002,JQGD004,JQGD010/a:1,4/p:0,.</code>  :
+ * <ul>
+ * <li> les codes CCAM de JQGD002 ou JQGD004 ou JQGD010
+ * <li> tous doivent avoir une activité 1 OU une activité 4
+ * <li> soit phase 0, soit rien
+ * </ul>
  *
  * Pour les modificateurs, l'expression concerne la zone d'acte courante.
  *
@@ -71,8 +94,10 @@ import fr.karadimas.pmsixml.FszGroup;
  *
  *  <code>JAFA002/a:1&4</code>
  *
- *  <br>
+ * <br>
  *
+ * (nb à voir si on fait délai +/- 1j pour les cas limites où par ex. l'anesthésie a pour heure 23:55 
+ * et la chirurgie a pour heure le lendemain 00:10)
  *
  * @author hkaradimas
  */
