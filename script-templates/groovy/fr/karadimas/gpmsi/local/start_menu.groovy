@@ -30,6 +30,7 @@ class StartMenuFrame
       throws IOException 
     {
         super("start_menu ~/.gpmsi")
+        setIconImage(new ImageIcon(getClass().getResource("/fr/karadimas/gpmsi/gpmsi-logo-transparent-48.png")).getImage())
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
         File startMenuFile = new File(menuFilePath)
         JEditorPane jep = new JEditorPane(startMenuFile.toURI().toURL())
