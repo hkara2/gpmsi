@@ -1,9 +1,9 @@
+/**:encoding=UTF-8: */
 package fr.karadimas.gpmsi.pmsi_rules
 
 /**
  * Negation du sous-critere logique PMSI.
- * Est �valu� � "true" si au moins un des crit�res est �valu� � "true".
- * Si tous les crit�res sont faux, est �valu� � "false".
+ * Est évalué à "true" si le sous-critère est évalué à "false", et inversement.
  */
 class PmsiNotCriterion implements PmsiCriterion {
     PmsiCriterion subcriterion
