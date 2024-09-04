@@ -12,6 +12,9 @@ class PmsiAnyCriterion
     extends ArrayList<PmsiCriterion> 
     implements PmsiCriterion 
 {
+    public PmsiAnyCriterion(PmsiCriterion ... criteria) {
+        addAll(criteria)
+    }
 
     boolean eval(HashMap context) {
         if (size() == 0) return false
