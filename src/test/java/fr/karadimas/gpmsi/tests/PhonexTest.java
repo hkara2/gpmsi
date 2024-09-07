@@ -37,7 +37,7 @@ public class PhonexTest extends TestCase {
   public void testStandardize1_1() {
       String nom = "Hélène Carrère d'encausse";
       String r = Phonex.standardize1(nom);
-      assertEquals("Attendu : HELENECARREREDENCAUSSE", r, "HELENECARREREDENCAUSSE");
+      assertEquals("Attendu  : HELENECARREREDENCAUSSE", r, "HELENECARREREDENCAUSSE");
   }
 
   @Test
