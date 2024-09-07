@@ -57,10 +57,11 @@ rsface {
         cxn = DriverManager.getConnection(url, user, pw)
         gsql = Sql.newInstance(url, user, pw, 'org.h2.Driver')
         lettresRsf.each {letter->
-            def tableName = 'RSF' + letter
+            def ucLetter = letter.toUpperCase()
+            def tableName = 'RSF' + ucLetter
             def r = gsql.firstRow('SELECT COUNT(*) AS count FROM information_schema.tables WHERE table_name = ?', [tableName.toUpperCase()])
             if (r['count'] == 0) {
-                def sqlFile = new File(sqlDir, "create-table-rsface${letter}.sql")
+                def sqlFile = new File(sqlDir, "create-table-RSF${ucLetter}.sql")
                 //def url = getClass().getResource("/sql/create-table-${tableName}.sql")
                 def createTableScript = sqlFile.text
                 println("Creation de la table $tableName")
