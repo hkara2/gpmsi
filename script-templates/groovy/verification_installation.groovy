@@ -3,6 +3,6 @@
 //Exemple :
 //cd c:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy
 //c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi.bat -script verification_installation.groovy
-import fr.karadimas.groovytests.GroovyLibsTestLaunch
+import fr.gpmsi.groovytests.GroovyLibsTestLaunch
 
 GroovyLibsTestLaunch.run()

@@ -1,8 +1,8 @@
 L'export au format Excel avec la librairie apache POI est complexe.
-Notamment l'export au format xlsx consomme beaucoup de mémoire.
+Notamment l'export au format xlsx consomme beaucoup de mï¿½moire.
 
-Le projet SquirrelSQL arrive pourtant à exporter de grandes quantités
-de données en Excel.
+Le projet SquirrelSQL arrive pourtant ï¿½ exporter de grandes quantitï¿½s
+de donnï¿½es en Excel.
 
 Voici le code source de la classe DataExportExcelWriter qui fait cela :
 
@@ -342,15 +342,15 @@ public class DataExportExcelWriter
 
 Plusieurs commentaires :
 
-L'astuce principale est d'utiliser le modèle "streaming" du classeur excel :
+L'astuce principale est d'utiliser le modï¿½le "streaming" du classeur excel :
 SXSSFWorkbook
-Il ne garde en mémoire qu'un nombre limité de rangées, cela permet de ne
-pas saturer la mémoire.
-Par contre il écrit sur un espace temporaire sur le disque qu'il faut gérer
-à la fin.
+Il ne garde en mï¿½moire qu'un nombre limitï¿½ de rangï¿½es, cela permet de ne
+pas saturer la mï¿½moire.
+Par contre il ï¿½crit sur un espace temporaire sur le disque qu'il faut gï¿½rer
+ï¿½ la fin.
 
-Une des limites est l'utilisation de styles. On peut en créer
-4000 maximum, il faut donc les réutiliser.
+Une des limites est l'utilisation de styles. On peut en crï¿½er
+4000 maximum, il faut donc les rï¿½utiliser.
 SquirrelSQL fait cela. Cf.
 https://sourceforge.net/p/squirrel-sql/bugs/1177/
 https://stackoverflow.com/questions/20143596/error-creating-cell-with-poi
@@ -381,7 +381,7 @@ Leur solution est d'utiliser un cache pour les formats de cellule :
 
 J'ai pu faire une classe utilitaire qui simplifie grandement l'utilisation
 pour les cas simples et courants du PMSI :
-fr.karadimas.gpmsi.poi.XlsxHelper
+fr.gpmsi.poi.XlsxHelper
 
 
 

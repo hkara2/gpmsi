@@ -17,8 +17,8 @@
  * -a:output NRSAs_chir_uro_avec_nadl.csv
  *
  */
-import fr.karadimas.gpmsi.CsvDestination;
-import fr.karadimas.gpmsi.StringTable;
+import fr.gpmsi.CsvDestination;
+import fr.gpmsi.StringTable;
 
 if (!args.containsKey('input_csv')) throw new Exception("Argument manquant input_csv");
 if (!args.containsKey('input_tra')) throw new Exception("Argument manquant input_tra");

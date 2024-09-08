@@ -14,8 +14,8 @@
 //
 import java.util.regex.* 
 import fr.karadimas.pmsixml.MonoLevelReader
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.ZipUtils
+import fr.gpmsi.StringTable
+import fr.gpmsi.ZipUtils
 import java.nio.charset.Charset
 import java.nio.file.Files
 import java.nio.file.FileVisitor

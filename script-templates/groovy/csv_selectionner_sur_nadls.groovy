@@ -20,8 +20,8 @@
  * #240805 creation
  */
 
-import fr.karadimas.gpmsi.CsvDestination
-import fr.karadimas.gpmsi.StringTable
+import fr.gpmsi.CsvDestination
+import fr.gpmsi.StringTable
 
 nadlsFilePath = args['nadls']
 if (nadlsFilePath == null) throw Exception('argument nadls obligatoire non trouve')

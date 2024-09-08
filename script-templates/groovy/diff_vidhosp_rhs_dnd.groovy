@@ -25,7 +25,7 @@ if (in_rhs == null) throw new Exception("Pas de fichier fourni qui commence par 
 inDir = new File(in_rhs).parent
 scriptDir = new File(scriptPath).parent //le script que l'on appelle se trouve au meme niveau que celui-ci
 //appel en tant que script de diff_vidhosp_rhs.groovy
-fr.karadimas.gpmsi.Groovy.main(
+fr.gpmsi.Groovy.main(
   '-script', "${scriptDir}\\diff_vidhosp_rhs.groovy", 
   "-a:input_vh", in_vh, 
   "-a:input_rhs", in_rhs, 

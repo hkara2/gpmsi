@@ -5,11 +5,11 @@
  * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.0\scripts\groovy\regles\rsa_chir_digestive_onco.groovy -a:input 910019447.2022.10.rsa -a:output NRSAs_chir_dig_onco.txt
  */
 package regles
-import fr.karadimas.gpmsi.DateUtils
-import fr.karadimas.gpmsi.pmsi_rules.*
-import fr.karadimas.gpmsi.pmsi_rules.cim.*
-import fr.karadimas.gpmsi.pmsi_rules.ghm.*
-import fr.karadimas.gpmsi.pmsi_rules.rss.*
+import fr.gpmsi.DateUtils
+import fr.gpmsi.pmsi_rules.*
+import fr.gpmsi.pmsi_rules.cim.*
+import fr.gpmsi.pmsi_rules.ghm.*
+import fr.gpmsi.pmsi_rules.rss.*
 
 ghmC = new GhmRsaCodePresence('..C...')
 

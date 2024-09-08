@@ -5,8 +5,8 @@
  * -a:output <fichier_CSV>
  * H. Karadimas, 2022
  */
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.StringTable
+import fr.gpmsi.CsvDestination
 import groovy.sql.Sql
 import java.text.SimpleDateFormat
 import java.time.LocalDate

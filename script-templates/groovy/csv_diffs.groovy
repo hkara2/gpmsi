@@ -20,7 +20,7 @@
  * C:\t>c:\app\gpmsi\gpex -script c:\app\gpmsi\v1.2\scripts\groovy\csv_diffs.groovy -a:input_a fa.csv -a:input_b fb.csv -a:id_col y -a:output f_diff_ab.csv
  *
  */
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.CsvDestination
 
 def makeIndexByName(String[] names) {
     indexByName = [:]

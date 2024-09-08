@@ -4,7 +4,7 @@
  * Exemple :
  * C:\app\gpmsi\v@PROJECT_VERSION@\scripts\bat\phonex.bat -a:text toto
  */
-import fr.karadimas.gpmsi.Phonex
+import fr.gpmsi.Phonex
 
 def text = args['text'];
 

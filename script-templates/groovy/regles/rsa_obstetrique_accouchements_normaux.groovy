@@ -8,13 +8,13 @@
  */
 package regles
 import fr.karadimas.pmsixml.MonoLevelReader
-import fr.karadimas.gpmsi.DateUtils
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.pmsi_rules.*
-import fr.karadimas.gpmsi.pmsi_rules.cim.*
-import fr.karadimas.gpmsi.pmsi_rules.ccam.*
-import fr.karadimas.gpmsi.pmsi_rules.ghm.*
-import fr.karadimas.gpmsi.pmsi_rules.rss.*
+import fr.gpmsi.DateUtils
+import fr.gpmsi.StringTable
+import fr.gpmsi.pmsi_rules.*
+import fr.gpmsi.pmsi_rules.cim.*
+import fr.gpmsi.pmsi_rules.ccam.*
+import fr.gpmsi.pmsi_rules.ghm.*
+import fr.gpmsi.pmsi_rules.rss.*
 
 /*
  * Les critères sont :

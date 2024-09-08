@@ -17,9 +17,9 @@
  * Attention le fichier .xlsx généré est assez énormes, quasiment aussi
  * gros que le RSF lui-même.
  */
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.CsvDestination
-import fr.karadimas.gpmsi.StringTransformable
+import fr.gpmsi.StringTable
+import fr.gpmsi.CsvDestination
+import fr.gpmsi.StringTransformable
 import org.apache.poi.xssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import java.text.SimpleDateFormat

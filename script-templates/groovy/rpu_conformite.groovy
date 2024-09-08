@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import groovy.util.XmlParser
 import groovy.util.XmlNodePrinter
 
-import static fr.karadimas.gpmsi.StringUtils.isTrimEmpty
+import static fr.gpmsi.StringUtils.isTrimEmpty
 
 
 FINESS_ETABLISSEMENT = '910001973' //a adapter a l'établissement

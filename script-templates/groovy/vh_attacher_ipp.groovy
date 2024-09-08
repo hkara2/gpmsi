@@ -10,7 +10,7 @@
  * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.0\scripts\groovy\vh_attacher_ipp.groovy -a:input_csv NRSAs_chir_uro_avec_nadl.csv -a:input_vh ..\RSS+VH\VIDHOSP_MCO.txt -a:output NRSAs_chir_uro_avec_nadl_ipp.csv
  *
  */
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.CsvDestination
 
 ippParNadl = [:]
 

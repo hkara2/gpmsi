@@ -27,8 +27,8 @@
 import java.time.*
 import java.time.temporal.IsoFields
 import fr.karadimas.pmsixml.RhsWriter
-import fr.karadimas.gpmsi.DateUtils
-import fr.karadimas.gpmsi.StringUtils
+import fr.gpmsi.DateUtils
+import fr.gpmsi.StringUtils
 
 def renameForOut(inputName) {
     def ext = StringUtils.getExtension(inputName)

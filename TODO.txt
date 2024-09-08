@@ -10,6 +10,6 @@ OK  Construire une StringTable à partir d'un ResultSet JDBC. Donner la
 231024 hk
 OK  Mettre un warning si le "extracp" ne finit pas par un '/' car cela fait
     échouer le chargement des scripts. -> correction auto avec un warning.
-    Descriptions ajoutées dans fr.karadimas.gpmsi.Groovy.
+    Descriptions ajoutées dans fr.gpmsi.Groovy.
     
 

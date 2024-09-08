@@ -25,7 +25,7 @@ if (in_rss == null) throw new Exception("Pas de fichier fourni qui commence par 
 inDir = new File(in_rss).parent
 scriptDir = new File(scriptPath).parent
 //appel en tant que script de diff_vidhosp_rss.groovy
-fr.karadimas.gpmsi.Groovy.main(
+fr.gpmsi.Groovy.main(
   '-script', "${scriptDir}\\diff_vidhosp_rss.groovy", 
   "-a:input_vh", in_vh, 
   "-a:input_rss", in_rss, 

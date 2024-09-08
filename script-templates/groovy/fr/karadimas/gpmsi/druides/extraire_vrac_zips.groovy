@@ -8,7 +8,7 @@
  * Exemple :
  * C:\Local\e-pmsi\fichiers-rss-mco\2023\M03\pmsi01db>C:\app\gpmsi\v1.1\gpmsi.bat -script C:\app\gpmsi\v1.1\scripts\groovy\fr\karadimas\gpmsi\druides\extraire_vrac_zips.groovy -a:input C:\Users\hkaradimas\AppData\Roaming\ATIH\DRUIDES\sauvegarde\910019447\910019447.2023.3.SEJOURS.SEJOURS.56f12aae-708b-4f0c-bd7a-f03495e7bff3.zip
  */
-package fr.karadimas.gpmsi.druides
+package fr.gpmsi.druides
 
 import java.nio.file.FileSystems
 import java.nio.file.FileSystem

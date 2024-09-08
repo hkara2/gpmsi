@@ -1,9 +1,9 @@
 /**
- * Exemple basique d'utilisation d'un log relié à ce script, avec sortie
+ * Exemple basique d'utilisation d'un log reliï¿½ ï¿½ ce script, avec sortie
  * dans un fichier
  * Noter que le contexte ici est :
  * log_example
- * C'est à dire le nom de notre script. C'est plus simple pour trouver les
+ * C'est ï¿½ dire le nom de notre script. C'est plus simple pour trouver les
  * erreurs.
  * A essayer avec et sans -debug.
  * Exemple :
@@ -13,9 +13,9 @@
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Level;
-import fr.karadimas.gpmsi.Log4j2Utils
+import fr.gpmsi.Log4j2Utils
 
-log = LogManager.getLogger(this.class.name) //le niveau par défaut des nouveaux Loggers est ERROR
+log = LogManager.getLogger(this.class.name) //le niveau par dï¿½faut des nouveaux Loggers est ERROR
 aa = new Log4j2Utils.FileAppenderAttributes(name: this.class.name, fileName: 'tmp/mylogfile.txt')
 Log4j2Utils.attachFileAppender(this.class.name, aa)
 

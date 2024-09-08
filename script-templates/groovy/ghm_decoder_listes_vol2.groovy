@@ -16,8 +16,8 @@ import java.util.zip.ZipEntry
 import java.util.zip.GZIPInputStream
 import java.nio.charset.Charset
 import java.util.regex.Matcher
-import fr.karadimas.gpmsi.CsvDestination
-import fr.karadimas.gpmsi.StringTable
+import fr.gpmsi.CsvDestination
+import fr.gpmsi.StringTable
 
 /** lit tout le flux et retourne son contenu dans un ByteArrayOutputStream. Marche pour Zip et Gzip. */
 ByteArrayOutputStream readAllStream(FilterInputStream fis) {

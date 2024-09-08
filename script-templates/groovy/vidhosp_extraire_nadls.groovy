@@ -12,7 +12,7 @@
  *
  * Harry Karadimas 2024, CHSE
  */
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.CsvDestination
 
 vidhosp {
   name 'extraire les NADLs'

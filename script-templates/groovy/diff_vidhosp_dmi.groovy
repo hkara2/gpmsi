@@ -19,7 +19,7 @@
  * (C) Harry Karadimas 2024, CHSE
  */
 
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.CsvDestination
 
 nadls_vh = [] as Set
 

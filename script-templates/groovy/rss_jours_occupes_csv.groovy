@@ -18,7 +18,7 @@
  * c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi.bat -script c:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\rss_jours_occupes_csv.groovy -a:year 2023 -a:input "C:\Local\e-pmsi\fichiers-rss-mco\2022\M12\RSS+VH\MCO_RSSG_20230209190338.txt;MCO_RSSG_20231007113755_122.txt" -a:output jours_um.csv
  */
 import java.time.LocalDate
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.CsvDestination
 
 def getOrMakeYearTable(String um) {
     def year = anneesUm[um]

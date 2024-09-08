@@ -11,12 +11,12 @@
  * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.0\scripts\groovy\regles\rsa_chir_digestive_onco_crit2017_elargis.groovy -a:input 910019447.2021.12.rsa -a:output NRSAs_chir_dig_onco_criteres_elargis.csv
  */
 package regles
-import fr.karadimas.gpmsi.DateUtils
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.pmsi_rules.*
-import fr.karadimas.gpmsi.pmsi_rules.cim.*
-import fr.karadimas.gpmsi.pmsi_rules.ghm.*
-import fr.karadimas.gpmsi.pmsi_rules.rss.*
+import fr.gpmsi.DateUtils
+import fr.gpmsi.StringTable
+import fr.gpmsi.pmsi_rules.*
+import fr.gpmsi.pmsi_rules.cim.*
+import fr.gpmsi.pmsi_rules.ghm.*
+import fr.gpmsi.pmsi_rules.rss.*
 
 ghmC = new GhmRsaCodePresence('..C...')
 

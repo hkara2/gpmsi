@@ -15,9 +15,9 @@
 //sont dans le fichier err23.txt :
 //C:\Local\GROUPAGE\2019\M04\190513-d\CDP190513>gpmsi -script C:\hkchse\dev\chse-gpmsi\scripts\selection-de-rss.groovy -a:input 042019_GRP019fg1819.txt -a:output grp_err23.txt -a:nadlincl err23.txt
 
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.CsvDestination
-import fr.karadimas.gpmsi.StringTransformable
+import fr.gpmsi.StringTable
+import fr.gpmsi.CsvDestination
+import fr.gpmsi.StringTransformable
 
 nadlinclCol = null
 nadlexclCol = null

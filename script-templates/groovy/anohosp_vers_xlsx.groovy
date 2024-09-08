@@ -12,8 +12,8 @@
  * #240618 hk Création du fichier
  */
 
-import fr.karadimas.gpmsi.CsvDestination
-import fr.karadimas.gpmsi.poi.XlsxHelper
+import fr.gpmsi.CsvDestination
+import fr.gpmsi.poi.XlsxHelper
 
 headerSent = false
 

@@ -11,10 +11,10 @@ import java.awt.datatransfer.DataFlavor
 
 import org.hkmi2.aagbl.AsciiArtGridBagLayout
 import groovy.swing.SwingBuilder
-import fr.karadimas.gpmsi.StringUtils
-import fr.karadimas.gpmsi.Groovy
+import fr.gpmsi.StringUtils
+import fr.gpmsi.Groovy
 
-import static fr.karadimas.gpmsi.StringUtils.isTrimEmpty
+import static fr.gpmsi.StringUtils.isTrimEmpty
 
 aa =
 '''

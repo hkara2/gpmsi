@@ -16,8 +16,8 @@
  *     dans le répertoire de sortie de GENRHA un fichier leg.err.decode.csv
  * #210413 v.2 Harry KARADIMAS
  */
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.StringTable
+import fr.gpmsi.CsvDestination
 import static groovy.io.FileType.*
 import groovy.xml.XmlSlurper
 

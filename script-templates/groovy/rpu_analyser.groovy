@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.nio.file.Files
-import static fr.karadimas.gpmsi.StringUtils.isTrimEmpty
+import static fr.gpmsi.StringUtils.isTrimEmpty
 
 isoDtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 longIsoDtf = DateTimeFormatter.ofPattern('yyyyMMddHHmmss')

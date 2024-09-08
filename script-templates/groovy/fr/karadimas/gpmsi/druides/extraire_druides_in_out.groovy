@@ -8,7 +8,7 @@
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2023\M03\pmsi01db
  * C:\app\gpmsi\v1.3\gpmsi.bat -script C:\app\gpmsi\v1.3\scripts\groovy\fr\karadimas\gpmsi\druides\extraire_druides_in_out.groovy -a:input ..\RSS+VH\DRUIDES
  */
-package fr.karadimas.gpmsi.druides
+package fr.gpmsi.druides
 
 import java.nio.file.FileSystems
 import java.nio.file.FileSystem

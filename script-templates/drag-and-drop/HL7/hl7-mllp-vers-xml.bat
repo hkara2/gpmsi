@@ -6,6 +6,6 @@ if not defined GPMSI_HOME set GPMSI_HOME=C:\app\gpmsi\v@PROJECT_VERSION@
 set INP=%~1
 set OUTP=%~dpn1_hl7.xml
 
-call %GPMSI_HOME%\gpmsi.bat -run fr.karadimas.gpmsi.hapi.MllpToXml -a:input "%INP%" -a:output "%OUTP%"
+call %GPMSI_HOME%\gpmsi.bat -run fr.gpmsi.hapi.MllpToXml -a:input "%INP%" -a:output "%OUTP%"
 
 if errorlevel 1 pause

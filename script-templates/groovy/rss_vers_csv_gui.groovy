@@ -21,7 +21,7 @@ import java.awt.dnd.DnDConstants
 import java.awt.datatransfer.DataFlavor
 import org.hkmi2.aagbl.AsciiArtGridBagLayout
 
-import fr.karadimas.gpmsi.StringUtils
+import fr.gpmsi.StringUtils
 
 def swb = new SwingBuilder()
 

@@ -1,4 +1,4 @@
-package fr.karadimas.gpmsi
+package fr.gpmsi
 
 /**
  * Gestion des numéros de RUMs (nrum) pour avoir un numéro de l'ordre de ce

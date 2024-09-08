@@ -18,11 +18,11 @@
  * #221130 hk creation a partir du script rss_vers_csv.groovy
  */
 
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.CsvDestination
-import fr.karadimas.gpmsi.StringTransformable
+import fr.gpmsi.StringTable
+import fr.gpmsi.CsvDestination
+import fr.gpmsi.StringTransformable
 
-import fr.karadimas.gpmsi.CuMap
+import fr.gpmsi.CuMap
 
 def nomCim(cde) {
   if (cde == null || cde.equals("")) return ""

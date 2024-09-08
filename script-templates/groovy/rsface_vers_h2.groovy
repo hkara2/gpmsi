@@ -31,9 +31,9 @@
  * c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script c:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\rsface_vers_h2.groovy -a:input ..\RSF.txt -a:url jdbc:h2:./rsface 
  */
 import java.sql.DriverManager
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.CsvDestination
-import fr.karadimas.gpmsi.StringTransformable
+import fr.gpmsi.StringTable
+import fr.gpmsi.CsvDestination
+import fr.gpmsi.StringTransformable
 import groovy.sql.Sql
 
 ps = null //PreparedStatement

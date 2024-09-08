@@ -16,7 +16,7 @@
  *
  * (C) Harry Karadimas 2024, CHSE
  */
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.CsvDestination
 
 /** Extraire l'année d'un fszField. Si null, ramène 0. */
 def extraireAnnee(f) {

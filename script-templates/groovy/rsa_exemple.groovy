@@ -13,7 +13,7 @@
  * #230112 hk Création du fichier exemple
  */
 
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.CsvDestination
 
 rsa {
     name 'Exemple de traitement d un fichier RSA'

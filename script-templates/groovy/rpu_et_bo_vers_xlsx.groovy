@@ -24,8 +24,8 @@
  */
 import java.text.SimpleDateFormat
 import groovy.xml.XmlSlurper //en groovy 4, XmlSlurper n'est plus sans groovy.util, mais dans groovy.xml
-import fr.karadimas.gpmsi.poi.XlsxHelper;
-import static fr.karadimas.gpmsi.StringUtils.isTrimEmpty
+import fr.gpmsi.poi.XlsxHelper;
+import static fr.gpmsi.StringUtils.isTrimEmpty
 
 //actes CCMU2+
 actesCcmu2plus = ['BACA002', 'BACA005', 'BACA007', 'BACA008', 'BAGA001',

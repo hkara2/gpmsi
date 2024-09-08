@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter
 import java.time.LocalDateTime
 import java.time.LocalDate
 import java.time.YearMonth
-import static fr.karadimas.gpmsi.StringUtils.isEmpty
+import static fr.gpmsi.StringUtils.isEmpty
 
 isoDtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 sfrDtf = DateTimeFormatter.ofPattern('dd/MM/yyyy') //short

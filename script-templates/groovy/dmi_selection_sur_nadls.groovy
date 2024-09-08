@@ -16,7 +16,7 @@
   -a:nadls sej-a-cheval.csv ^
   -a:output FichComp2022_a_cheval_sur_2023.txt
  */
-import fr.karadimas.gpmsi.StringTable
+import fr.gpmsi.StringTable
 
 mono {
     input args.input

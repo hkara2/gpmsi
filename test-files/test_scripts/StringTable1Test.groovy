@@ -1,5 +1,5 @@
-package fr.karadimas.gpmsi.tests
-import fr.karadimas.gpmsi.StringTable
+package fr.gpmsi.tests
+import fr.gpmsi.StringTable
 
 content = '''foo;bar;baz
 x;1;11

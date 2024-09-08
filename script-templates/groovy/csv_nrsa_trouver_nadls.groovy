@@ -15,7 +15,7 @@
  * #230112 hk Création du fichier exemple
  */
 
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.CsvDestination
 
 //table des NADL par NSRA
 nadlParNrsa = [:]

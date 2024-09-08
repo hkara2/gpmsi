@@ -15,7 +15,7 @@
  * (C) Harry Karadimas 2020, CHSE
  */
 
-import fr.karadimas.gpmsi.CsvDestination
+import fr.gpmsi.CsvDestination
 
 nadls_vh = [] as Set
 nadls_rss = [] as Set

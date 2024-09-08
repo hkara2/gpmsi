@@ -1,5 +1,5 @@
 @rem Lancement de gpmsi @PROJECT_VERSION@@PROJECT_SUB_VERSION@
-@rem Pour les parametres que l'on peut utiliser voir le javadoc de fr.karadimas.gpmsi.Groovy
+@rem Pour les parametres que l'on peut utiliser voir le javadoc de fr.gpmsi.Groovy
 @rem
 @rem On peut definir des chemins de librairies supplementaires dans la variable GPMSI_XCP qui est ajoutee a la fin du classpath.
 @rem C'est utile par exemple pour ajouter des classes de support pour une connexion a d'autres bases de donnees (Oracle par ex.)
@@ -80,11 +80,11 @@
 @if defined GPMSI_XCP set CP=%CP%;%GPMSI_XCP%
 @if "%JAVA_HOME%" == "" goto :nojhome
 @rem JAVA_HOME est fourni, l'utiliser
-@ @START_JAVA@ "%JAVA_HOME%\bin\@JAVA_COMMAND@.exe" -classpath "%CP%" fr.karadimas.gpmsi.Groovy %*
+@ @START_JAVA@ "%JAVA_HOME%\bin\@JAVA_COMMAND@.exe" -classpath "%CP%" fr.gpmsi.Groovy %*
 @goto :end
 @
 @:nojhome
 @rem Pas de JAVA_HOME, on utilise la commande "java" quelle qu'elle soit.
-@ @START_JAVA@ @JAVA_COMMAND@ -classpath "%CP%" fr.karadimas.gpmsi.Groovy %*
+@ @START_JAVA@ @JAVA_COMMAND@ -classpath "%CP%" fr.gpmsi.Groovy %*
 @
 @:end

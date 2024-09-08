@@ -10,7 +10,7 @@
  * Exemple :
  * c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi.bat -script c:\app\gpmsi\v@PROJECT_VERSION@\groovy\fr\karadimas\gpmsi\local\start_menu.groovy -a:input %USERPROFILE%\.gpmsi\start_menu.html
  */
-package fr.karadimas.gpmsi.local
+package fr.gpmsi.local
 import javax.swing.text.html.HTMLEditorKit
 import javax.swing.text.html.HTMLDocument
 import javax.swing.event.HyperlinkEvent

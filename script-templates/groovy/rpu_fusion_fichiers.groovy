@@ -18,7 +18,7 @@ import groovy.xml.XmlUtil
 import java.time.format.DateTimeFormatter
 import java.time.LocalDateTime
 import java.time.LocalDate
-import static fr.karadimas.gpmsi.StringUtils.isEmpty
+import static fr.gpmsi.StringUtils.isEmpty
 
 isoDtf = DateTimeFormatter.ISO_LOCAL_DATE_TIME
 frDtsf = DateTimeFormatter.ofPattern('dd/MM/yyyy') //short

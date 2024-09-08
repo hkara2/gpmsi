@@ -12,8 +12,8 @@
  *
  * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\gabarit_script.groovy -a:input test.txt -a:output testout.txt
  */
-import fr.karadimas.gpmsi.StringTable;
-import fr.karadimas.gpmsi.poi.XlsxHelper;
+import fr.gpmsi.StringTable;
+import fr.gpmsi.poi.XlsxHelper;
 
 stringTransformTrim = {s -> s?.trim(); }
 

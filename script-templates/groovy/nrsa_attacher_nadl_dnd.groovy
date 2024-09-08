@@ -13,7 +13,7 @@
  *
  * (C) Harry Karadimas 2023, CHSE
  */
-import fr.karadimas.gpmsi.FileUtils
+import fr.gpmsi.FileUtils
 
 in_a = args['in_a']
 in_b = args['in_b']
@@ -30,7 +30,7 @@ inDir = new File(in_csv).parent ?: '.'
 scriptDir = new File(scriptPath).parent //le script que l'on appelle se trouve au meme niveau que celui-ci
 
 //appel en tant que script de nrsa_attacher_nadl.groovy
-fr.karadimas.gpmsi.Groovy.main(
+fr.gpmsi.Groovy.main(
   '-script', "${scriptDir}\\nrsa_attacher_nadl.groovy",
   "-a:input_csv", in_csv,
   "-a:input_tra", in_tra,

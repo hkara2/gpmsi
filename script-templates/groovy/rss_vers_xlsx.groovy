@@ -17,11 +17,11 @@
  */
 import groovy.xml.XmlSlurper
 
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.CsvDestination
-import fr.karadimas.gpmsi.StringTransformable
-import fr.karadimas.gpmsi.poi.XlsxHelper
-import static fr.karadimas.gpmsi.StringUtils.isEmpty
+import fr.gpmsi.StringTable
+import fr.gpmsi.CsvDestination
+import fr.gpmsi.StringTransformable
+import fr.gpmsi.poi.XlsxHelper
+import static fr.gpmsi.StringUtils.isEmpty
 
 pasDeLibelleCim = false
 pasDeLibelleCcam = false

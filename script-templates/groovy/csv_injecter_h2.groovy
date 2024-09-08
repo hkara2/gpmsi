@@ -39,10 +39,10 @@
  */
 import groovy.sql.Sql
 import fr.karadimas.pmsixml.MonoLevelReader
-import fr.karadimas.gpmsi.StringTable
+import fr.gpmsi.StringTable
 import fr.karadimas.pmsixml.FszField
-import fr.karadimas.gpmsi.StringTransformable
-import fr.karadimas.gpmsi.Chrono
+import fr.gpmsi.StringTransformable
+import fr.gpmsi.Chrono
 import java.sql.Timestamp
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -50,7 +50,7 @@ import java.text.NumberFormat
 import java.time.format.DateTimeFormatter
 import java.time.LocalDate
 import java.time.LocalDateTime
-import static fr.karadimas.gpmsi.StringUtils.isEmpty
+import static fr.gpmsi.StringUtils.isEmpty
 
 //nom de la table, changer pour un autre nom ici
 tableName = 'TABLEFICTIVE'

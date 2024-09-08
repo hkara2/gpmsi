@@ -9,9 +9,9 @@
  * Exemples :
  * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\tracsv_vers_xlsx.groovy -a:input montra.txt -a:output montra.xlsx
  */
-import fr.karadimas.gpmsi.StringTable
-import fr.karadimas.gpmsi.poi.XlsxHelper
-import static fr.karadimas.gpmsi.StringUtils.isTrimEmpty
+import fr.gpmsi.StringTable
+import fr.gpmsi.poi.XlsxHelper
+import static fr.gpmsi.StringUtils.isTrimEmpty
 
 tras = new StringTable("TRA")
 //lire le TRA dans la StringTable
