@@ -9,7 +9,7 @@
 //Exemple :
 //Ne garder que les lignes de RUM qui ont au moins un acte CCAM parmi JCGE003,JCGH002,JCGE004,JAKD001,JCKD001,JCKE001,JCKH001,JCKE002
 // 
-//C:\Local\e-pmsi\fichiers-rss-mco\2022\M12\RSS+VH\t>C:\app\gpmsi\gpex -script C:\app\gpmsi\v1.1\scripts\groovy\rss_pour_actes.groovy -a:actes JCGE003,JCGH002,JCGE004,JAKD001,JCKD001,JCKE001,JCKH001,JCKE002 -a:output sel_rss.txt -a:input MCO_RSSG_20230209190338.txt
+//C:\Local\e-pmsi\fichiers-rss-mco\2022\M12\RSS+VH\t>C:\app\gpmsi\gpex -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\rss_pour_actes.groovy -a:actes JCGE003,JCGH002,JCGE004,JAKD001,JCKD001,JCKE001,JCKH001,JCKE002 -a:output sel_rss.txt -a:input MCO_RSSG_20230209190338.txt
 
 import fr.karadimas.gpmsi.StringTable
 import fr.karadimas.gpmsi.CsvDestination
