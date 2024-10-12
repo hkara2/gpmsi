@@ -160,10 +160,22 @@ public class ValueWrapper {
     return locDate;
   }
   
+  /**
+   * Retourner le type de cellule
+   * @return le type de cellule
+   */
   public CellType getCellType() { return typ; }
   
+  /**
+   * Retourner la valeur
+   * @return la valeur
+   */
   public Object getValue() { return val; }
 
+  /**
+   * Retourner la String qui représente le format de données Excel
+   * @return Le format de données Excel
+   */
   public String getDataFormatString() {
     return dataFormatString;
   }
