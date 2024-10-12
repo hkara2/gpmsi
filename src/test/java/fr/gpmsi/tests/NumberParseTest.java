@@ -3,12 +3,23 @@ package fr.gpmsi.tests;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+/**
+ * Tests d'analyse des nombres
+ */
 public class NumberParseTest {
 
+  /**
+   * Constructeur simple
+   */
   public NumberParseTest() {
     // TODO Auto-generated constructor stub
   }
 
+  /**
+   * Méthode main pour appel en tant qu'application
+   * @param args Arguments (ignorés ici)
+   * @throws ParseException Si erreur d'analyse
+   */
   public static void main(String[] args) throws ParseException {
     double d1 = Double.valueOf("2.3E3");
     System.out.println("d1:"+d1);

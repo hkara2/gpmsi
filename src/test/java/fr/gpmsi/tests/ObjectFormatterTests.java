@@ -12,8 +12,14 @@ import org.junit.Test;
 
 import fr.gpmsi.ObjectFormatter;
 
+/**
+ * Tests du formateur d'objets
+ */
 public class ObjectFormatterTests {
 
+  /**
+   * Test du formatage des dates
+   */
   @Test
   public void testDateFormat() {
     Calendar cal = Calendar.getInstance();
@@ -24,6 +30,9 @@ public class ObjectFormatterTests {
     assertEquals("31/12/2023", d31_12_2023);
   }
 
+  /**
+   * Test du formatage du temps
+   */
   @Test
   public void testTimeFormat() {
     Calendar cal = Calendar.getInstance();
@@ -36,6 +45,9 @@ public class ObjectFormatterTests {
     assertEquals("23:58:59", h23_58_59);
   }
 
+  /**
+   * Tester le formatage Date+Heure
+   */
   @Test
   public void testDateTimeFormat() {
     ObjectFormatter of = new ObjectFormatter();
@@ -49,6 +61,9 @@ public class ObjectFormatterTests {
     assertEquals("2023-12-31 23:58:59", h2023_12_31_23_58_59);
   }
 
+  /**
+   * Tester le formatage des nombres entiers
+   */
   @Test
   public void testIntegerNumberFormat() {
     ObjectFormatter of = new ObjectFormatter();
@@ -56,6 +71,9 @@ public class ObjectFormatterTests {
     assertEquals("123456", n123456);
   }
   
+  /**
+   * Tester le formatage des nombres à virgule flottante
+   */
   @Test
   public void testFloatNumberFormat() {
     ObjectFormatter of = new ObjectFormatter();
@@ -65,6 +83,9 @@ public class ObjectFormatterTests {
     assertEquals("3,1415116", f.substring(0, 9)); //a cause de la représentation interne, la valeur est 3.1415117 (float simple et arrondi) ou 3.1415116786956787 (reconversion en double)
   }
   
+  /**
+   * Tester le formatage des nombres à virgule flottante à double précision
+   */
   @Test
   public void testDoubleNumberFormat() {
     ObjectFormatter of = new ObjectFormatter();
@@ -74,6 +95,9 @@ public class ObjectFormatterTests {
     assertEquals("3,1415116", f); //en double, la représentation est suffisante et on a ce qu'il faut
   }
   
+  /**
+   * Tester le formatage des nombres {@link BigDecimal}
+   */
   @Test
   public void testBigDecimalNumberFormat() {
     String bn = "1247441258965647458425885215855125645889554673210145786.115875412178998452467894654654987894E12";
@@ -84,6 +108,9 @@ public class ObjectFormatterTests {
     assertEquals("1247441258965647458425885215855125645889554673210145786115875412178,998452467894654654987894", n); //en double, la représentation est suffisante et on a ce qu'il faut
   }
   
+  /**
+   * Tester la méthode {@link ObjectFormatter#formatSql(Object, int)}
+   */
   @Test
   public void testFormatSql() {
     ObjectFormatter of = new ObjectFormatter();
