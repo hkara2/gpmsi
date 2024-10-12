@@ -12,6 +12,9 @@ import org.junit.Test;
 
 import fr.gpmsi.poi.XlsxHelper;
 
+/**
+ * Tests pour XlsxHelper
+ */
 public class XlsxHelperTests {
 
   /**
@@ -73,7 +76,10 @@ public class XlsxHelperTests {
     assertFalse(destFile.isDirectory());
     assertTrue(destFile.length() > 2000);
   }
-  
+
+  /**
+   * Essai de l'échappement des caractères
+   */
   @Test
   public void testEscaping() {
     XlsxHelper classeur = new XlsxHelper("Classeur test");
