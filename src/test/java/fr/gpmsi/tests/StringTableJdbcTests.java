@@ -21,6 +21,9 @@ import org.junit.Test;
 import fr.gpmsi.StringTable;
 import fr.gpmsi.poi.XlsxHelper;
 
+/**
+ * Test de remplissage d'une StringTable à partir d'une connexion jdbc.
+ */
 public class StringTableJdbcTests {
   static Connection dbcxn;
   static final String TEST_URL = "jdbc:h2:mem:test_mem";
@@ -51,6 +54,10 @@ public class StringTableJdbcTests {
     return new Timestamp( cal.getTimeInMillis() );    
   }
   
+  /**
+   * Préparation d'une base H2 en mémoire
+   * @throws Exception _
+   */
   @Before
   public void setUp() throws Exception {
     if (dbcxn != null) return;
@@ -70,13 +77,18 @@ public class StringTableJdbcTests {
     }
   }
   
+  /**
+   * Démontage (ne fait rien)
+   */
   @After
   public void tearDown() {
     
   }
   
+  /**
+   * Constructeur simple (ne fait rien)
+   */
   public StringTableJdbcTests() {
-    // TODO Auto-generated constructor stub
   }
 
   /**
@@ -109,9 +121,14 @@ public class StringTableJdbcTests {
     assertEquals(new BigDecimal("23242526272829.98765"), bd);
   }
   
-  /** Test du résultat formaté par défaut. Marche sur Windows, non testé sur Linux ou Mac (mais ça devrait) */
+  /**
+   * Test du résultat formaté par défaut. Marche sur Windows, non testé sur Linux ou Mac (mais ça devrait)
+   * @throws Exception _
+   */
   @Test
-  public void testJdbcRead1() throws Exception {
+  public void testJdbcRead1()
+		  throws Exception 
+  {
     PreparedStatement ps = dbcxn.prepareStatement("SELECT BAR as baz,DAT,TIM,DT,AMNT,FLT,BD FROM FOO");
     ResultSet rs = ps.executeQuery();
     StringTable st = new StringTable("mytest");

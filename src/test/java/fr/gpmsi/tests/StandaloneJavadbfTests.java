@@ -13,10 +13,18 @@ import com.linuxense.javadbf.DBFDataType;
 import com.linuxense.javadbf.DBFField;
 import com.linuxense.javadbf.DBFReader;
 
+/**
+ * Tests de {@link DBFReader}
+ */
 public class StandaloneJavadbfTests {
 
   static final String DBF_R_ACTE_FORFAIT = "test-files\\in\\R_ACTE_FORFAIT.dbf";
   
+  /**
+   * Test simple d'ouverture d'un fichier DBF et vérification qu'il y a bien 3 champs.
+   * @throws FileNotFoundException _
+   * @throws IOException _
+   */
   @Test
   public void testFileOpen()
       throws FileNotFoundException, IOException
