@@ -8,6 +8,9 @@ import org.junit.Test;
 
 import fr.gpmsi.DateUtils;
 
+/**
+ * Test des {@link DateUtils}
+ */
 public class DatesTests {
 
   private void doStartDateTest(int year, int expectedYear, int expectedMonth, int expectedDay) {
@@ -93,65 +96,100 @@ M11 = premier mois de l'année, du lundi 01/01/2024 au dimanche 01/12/2024 (Sema
 M12 = premier mois de l'année, du lundi 01/01/2024 au dimanche 29/12/2024 (Semaine 1 à 52)
    */
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202401() {
     doEndDateTest(2024, 1, 2024, 1, 28);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202402() {
     doEndDateTest(2024, 2, 2024, 3, 3);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202403() {
     doEndDateTest(2024, 3, 2024, 3, 31);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202404() {
     doEndDateTest(2024, 4, 2024, 4, 28);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202405() {
     doEndDateTest(2024, 5, 2024, 6, 2);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202406() {
     doEndDateTest(2024, 6, 2024, 6, 30);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202407() {
     doEndDateTest(2024, 7, 2024, 7, 28);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202408() {
     doEndDateTest(2024, 8, 2024, 9, 1);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202409() {
     doEndDateTest(2024, 9, 2024, 9, 29);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202410() {
     doEndDateTest(2024, 10, 2024, 11, 3);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202411() {
     doEndDateTest(2024, 11, 2024, 12, 1);
   }
   
+  /**
+   * Test sur calendrier GENRHA 2024
+   */
   @Test
   public void testIsoEndDateFor202412() {
     doEndDateTest(2024, 12, 2024, 12, 29);
   }
   
-
 }

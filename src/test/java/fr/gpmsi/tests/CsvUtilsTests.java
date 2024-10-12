@@ -6,8 +6,14 @@ import org.junit.Test;
 
 import fr.gpmsi.CsvUtils;
 
+/**
+ * Test des {@link CsvUtils}
+ */
 public class CsvUtilsTests {
 
+	/**
+	 * Test de remplacement des newlines
+	 */
   @Test
   public void testReplaceNewlines1() {
     String row[] = {"foo", "bar"};
@@ -16,6 +22,9 @@ public class CsvUtilsTests {
     assertEquals("bar should not have changed", "bar", row[1]);
   }
 
+	/**
+	 * Test de remplacement des newlines
+	 */
   @Test
   public void testReplaceNewlines2() {
     String row[] = {"foo", "ba\rr"};
@@ -24,6 +33,9 @@ public class CsvUtilsTests {
     assertEquals("row[1] bad value, ", "ba#nr", row[1]);
   }
 
+  /**
+   * Test de remplacement des newlines
+   */
   @Test
   public void testReplaceNewlines3() {
     String row[] = {"foo", "ba\r\nr"};
@@ -33,6 +45,7 @@ public class CsvUtilsTests {
   }
 
   /**
+   * Test de remplacement des newlines
    * Doit marcher même si on mélange les séquences de fin de ligne
    */
   @Test
@@ -44,6 +57,7 @@ public class CsvUtilsTests {
   }
 
   /**
+   * Test de remplacement des newlines
    * Doit marcher même si on mélange les séquences de fin de ligne
    */
   @Test

@@ -10,16 +10,31 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests de création d'un fichier Excel
+ */
 public class ExcelFileCreationTest {
 
+  /** 
+   * préparation
+   * @throws Exception _
+   */
   @Before
   public void setUp() throws Exception {
   }
 
+  /**
+   * Démontage
+   * @throws Exception _
+   */
   @After
   public void tearDown() throws Exception {
   }
 
+  /**
+   * Tester génération d'un fichier vide
+   * @throws IOException _
+   */
   @Test
   public void testEmptyFileGeneration() 
       throws IOException 
@@ -32,6 +47,10 @@ public class ExcelFileCreationTest {
     wb.close();
   }
 
+  /**
+   * Tester génération d'un fichier simple
+   * @throws IOException _
+   */
   @Test
   public void testSimpleFileGeneration() 
       throws IOException 

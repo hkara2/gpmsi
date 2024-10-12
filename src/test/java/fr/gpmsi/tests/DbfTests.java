@@ -8,6 +8,9 @@ import org.junit.Test;
 
 import fr.gpmsi.Groovy;
 
+/**
+ * Tests
+ */
 public class DbfTests {
 
   /**
