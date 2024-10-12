@@ -8,8 +8,15 @@ import fr.gpmsi.StringTable;
 import fr.karadimas.pmsixml.FszGroupMeta;
 import fr.karadimas.pmsixml.MetaFileLoader;
 
+/**
+ * Test de remplissage de {@link StringTable}
+ */
 public class StringTableTests {
 
+  /**
+   * Test de lecture depuis un fichier TRA
+   * @throws Exception
+   */
   @Test
   public void testReadFromFsz()
       throws Exception
