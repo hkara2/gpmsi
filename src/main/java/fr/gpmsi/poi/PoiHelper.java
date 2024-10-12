@@ -44,6 +44,8 @@ public class PoiHelper {
   /**
    * Ajuste le format de la cellule a l'aide du texte de format fourni.
    * Crée si besoin le style et le place dans le cache des styles.
+   * @param wb Le classeur (Workbook)
+   * @param formatCache La Map qui permet de stocker les {@link CellStyle} par nom
    * @param cell La cellule dont le style doit être renseigné
    * @param format Le texte qui représente le format, exemples "m/d/yy", "m/d/yy h:mm", "h:mm"
    */
@@ -64,7 +66,6 @@ public class PoiHelper {
    * qui gère les multiples occurences de styles.
    * @param from cellule dont on veut cloner le style
    * @param to cellule vers laquelle écrire les styles
-   * @param ctx un objet {@link CellCopyContext} qui sert à garder uniques les occurences de styles
    */
   public static void cloneStyles(Cell from, Cell to) {
     CellStyle s = from.getCellStyle();

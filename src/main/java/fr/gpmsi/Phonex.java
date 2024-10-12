@@ -119,6 +119,7 @@ public class Phonex {
   
   /**
    * Combine une standardisation supplémentaire et la réduction par phonex.
+   * @param txt le texte à standardiser
    * @return toPhonex(standardize1(txt))
    */
   public static String toPhonexStandard1(String txt) {
