@@ -11,8 +11,15 @@ import org.junit.Test;
 
 import fr.gpmsi.cim.SharedCim10;
 
+/**
+ * Tests CIM-10
+ */
 public class Cim10Tests {
 
+  /**
+   * Test de recherche sur "A03.+"	
+   * @throws Exception _
+   */
   @Test
   public void testCim10Search1()
       throws Exception 
@@ -32,6 +39,10 @@ public class Cim10Tests {
     assertArrayEquals("6 codes attendus", expecteds, codes.toArray());
   }
 
+  /**
+   * Test sur existence de codes
+   * @throws Exception _
+   */
   @Test
   public void testCodeExists1() throws Exception {
     //System.err.println("A035 existe : "+r);
@@ -39,6 +50,10 @@ public class Cim10Tests {
     assertTrue("A032 existe", SharedCim10.codeExists("A032"));
   }
   
+  /**
+   * Test de {@link SharedCim10#findCodes(String, String, boolean)} avec codes de A03 (inclus) à A04 (exclu)
+   * @throws Exception _
+   */
   @Test
   public void testCim10Search2()
       throws Exception 
@@ -50,7 +65,11 @@ public class Cim10Tests {
     String[] expecteds = {"A03","A030","A031","A032","A033","A038","A039"};
     assertArrayEquals("7 codes attendus", expecteds, codes.toArray());
   }
-    
+  
+  /**
+   * Test de {@link SharedCim10#findCodes(String, String, boolean)} avec codes de A03 (inclus) à A03.8 (inclus)
+   * @throws Exception _
+   */
   @Test
   public void testCim10Search3()
       throws Exception 

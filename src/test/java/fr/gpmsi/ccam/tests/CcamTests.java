@@ -9,12 +9,19 @@ import org.junit.Test;
 
 import fr.gpmsi.ccam.SharedCcam;
 
+/**
+ * Tests sur codes Ccam
+ */
 public class CcamTests {
 
+  /** Constructeur simple */
   public CcamTests() {
     // TODO Auto-generated constructor stub
   }
-  
+  /**
+   * Recherche simple d'un code "LCQ.001" qui doit ramener les codes "LCQK001", "LCQH001", "LCQN001", "LCQJ001"
+   * @throws Exception _
+   */
   @Test
   public void testCcamSearch1()
       throws Exception 
@@ -35,6 +42,10 @@ public class CcamTests {
   }
   
 
+  /**
+   * Test recherche de codes "FCFC003-.+". Doit ramener "FCFC003-30", "FCFC003-40"
+   * @throws Exception
+   */
   @Test
   public void testCcamSearch2() 
       throws Exception
@@ -47,12 +58,20 @@ public class CcamTests {
     assertArrayEquals("codes attendus "+expected, expected, codes.toArray());
   }
 
+  /**
+   * Teste si le code "FCFC003-40" qui doit exister.
+   * @throws Exception _
+   */
   @Test
   public void testCcamCodeExists1() throws Exception {
     boolean FCFC003_40_exists = SharedCcam.codeExists("FCFC003-40");
     assertTrue("FCFC003-40 should exist", FCFC003_40_exists);
   }
   
+  /**
+   * Teste le code "FCFC003-50" qui ne doit pas exister.
+   * @throws Exception _
+   */
   @Test
   public void testCcamCodeExists2()
       throws Exception 
@@ -61,6 +80,10 @@ public class CcamTests {
     assertFalse("FCFC003-50 should not exist", FCFC003_50_exists);
   }
   
+  /**
+   * Teste le code "FCFC003" qui doit exister.
+   * @throws Exception _
+   */
   @Test
   public void testCcamCodeExists3()
       throws Exception
@@ -69,6 +92,10 @@ public class CcamTests {
     assertTrue("FCFC003 should exist", FCFC003_exists);
   }
   
+  /**
+   * Teste le code "FCFC00" qui ne doit pas exister.
+   * @throws Exception _
+   */
   @Test
   public void testCcamCodeExists4()
       throws Exception
@@ -77,7 +104,10 @@ public class CcamTests {
     assertFalse("FCFC00 should not exist", FCFC00_exists);
   }
   
-  /** Tester que le code fonctionne bien même en minuscules */
+  /**
+   * Tester que la recherche de code "Fcfc003" fonctionne bien même en minuscules
+   * @exception Exception Si erreur
+   */
   @Test
   public void testCcamCodeExists5()
       throws Exception

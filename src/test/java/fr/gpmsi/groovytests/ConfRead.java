@@ -12,6 +12,9 @@ import groovy.util.GroovyScriptEngine;
 import groovy.util.ResourceException;
 import groovy.util.ScriptException;
 
+/**
+ * Application de tests de lecture et configuration de {@link CompilerConfiguration}
+ */
 public class ConfRead {
 
 	private void test1() {
@@ -135,6 +138,11 @@ public class ConfRead {
 		gse.run("fr/karadimas/groovytests/mygroovyscript.groovy", bnd);
 	}
 	
+	/**
+	 * Lance le test en tant qu'application
+	 * @param args Arguments
+	 * @throws Exception _
+	 */
 	public static void main(String[] args) throws Exception {
 		ConfRead app = new ConfRead();
 		int tn = 10;
