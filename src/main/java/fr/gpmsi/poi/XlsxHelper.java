@@ -360,11 +360,11 @@ public class XlsxHelper {
   }
 
   /**
-   * Mettre une cellule avec une valeur contenue dans le ValueWrapper.
-   * @param vw
-   * @param rowNr
-   * @param colNr
-   * @return
+   * Créer une cellule avec une valeur contenue dans le ValueWrapper.
+   * @param vw Le ValueWrapper qui contient la valeur
+   * @param rowNr Le numéro de ligne
+   * @param colNr Le numéro de colonne
+   * @return La cellule créée
    */
   public SXSSFCell setCell(ValueWrapper vw, int rowNr, int colNr) {
     SXSSFRow row = getOrMakeRow(rowNr);
