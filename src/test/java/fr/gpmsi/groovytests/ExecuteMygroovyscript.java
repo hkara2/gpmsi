@@ -7,6 +7,9 @@ import org.codehaus.groovy.control.CompilationFailedException;
 
 import groovy.lang.GroovyShell;
 
+/**
+ * Test d'exécution d'un script Groovy à partir du {@link GroovyShell}
+ */
 public class ExecuteMygroovyscript {
 
   /**
@@ -19,7 +22,7 @@ public class ExecuteMygroovyscript {
       throws CompilationFailedException, IOException
   {
     GroovyShell sh = new GroovyShell();
-    sh.evaluate(new File("src\\main\\groovy\\fr\\karadimas\\groovytests\\mygroovyscript.groovy"));
+    sh.evaluate(new File("src\\main\\groovy\\fr\\gpmsi\\groovytests\\mygroovyscript.groovy"));
   }
 
 }
