@@ -15,6 +15,7 @@ package fr.gpmsi.tests;
 })
 */
 
+/** Suite de tests (plus utilisé) */
 public class AllTestsSuite {
 
 }
