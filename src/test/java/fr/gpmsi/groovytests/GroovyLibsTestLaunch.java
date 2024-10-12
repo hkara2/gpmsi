@@ -2,11 +2,20 @@ package fr.gpmsi.groovytests;
 
 import java.lang.reflect.Method;
 
+/**
+ * Lancement dynamique des tests (pour exécution à travers Gradle)
+ */
 public class GroovyLibsTestLaunch {
 
+  /**
+   * Constructeur simple
+   */
   public GroovyLibsTestLaunch() {
   }
 
+  /**
+   * Lancement des tests
+   */
   public static final void run() {
     //invocation dynamique car Gradle ne "voit" pas LibsTest depuis java pour l'instant, il faut que je trouve le réglage à faire.
     try {
@@ -22,6 +31,13 @@ public class GroovyLibsTestLaunch {
     //tst.runAllTests();
     
   }
+  
+  /**
+   * Lancement des tests en tant qu'application.
+   * Appelle juste la méthode run()
+   * @param args
+   * @throws Exception
+   */
   public static void main(String[] args)
       throws Exception 
   {

@@ -22,6 +22,11 @@ import groovy.util.GroovyScriptEngine;
  */
 public class GroovyExec {
 
+	/**
+	 * Méthode main pour appel en tant qu'application.
+	 * @param args Arguments
+	 * @throws Exception Si erreur
+	 */
 	public static void main(String[] args)
 			throws Exception
 	{

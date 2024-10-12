@@ -37,13 +37,24 @@ extends TestCase
       h2.stop();
     }
     
+    /**
+     * Constructeur simple
+     */
 	public H2Tests() {
 	}
 
+	/**
+	 * Constructeur avec un nom
+	 * @param name Le nom du test
+	 */
 	public H2Tests(String name) {
 		super(name);
 	}
 
+	/**
+	 * Test d'une connexion en mémoire.
+	 * @throws Exception Si erreur
+	 */
 	@Test
 	public void testConnect1()
 			throws Exception 

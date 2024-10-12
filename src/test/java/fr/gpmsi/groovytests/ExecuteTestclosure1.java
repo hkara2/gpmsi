@@ -7,6 +7,9 @@ import org.codehaus.groovy.control.CompilationFailedException;
 
 import groovy.lang.GroovyShell;
 
+/**
+ * Tester une closure à l'intérieur d'un script Groovy appelé par {@link GroovyShell}
+ */
 public class ExecuteTestclosure1 {
 
   /**
@@ -19,7 +22,7 @@ public class ExecuteTestclosure1 {
       throws CompilationFailedException, IOException
   {
     GroovyShell sh = new GroovyShell();
-    sh.evaluate(new File("src\\fr\\karadimas\\groovytests\\testclosure1.groovy"));
+    sh.evaluate(new File("src\\fr\\gpmsi\\groovytests\\testclosure1.groovy"));
   }
 
 }
