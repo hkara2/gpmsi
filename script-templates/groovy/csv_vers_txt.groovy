@@ -5,7 +5,7 @@
  * La sortie est toujours alignée à droite quel que soit le type de la colonne.
  *
  * Arguments :
- * input : le fichier d'entrée csv. Si non trouvé en fichier, sera recherché en resource dans fr.karadimas.pmsixml ou à la racine.
+ * input : le fichier d'entrée csv. Si non trouvé en fichier, sera recherché en resource dans fr.gpmsi.pmsixml ou à la racine.
  * output : le fichier de sortie txt
  *
  * Exemple :
@@ -14,7 +14,7 @@
  * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\csv_vers_txt.groovy -a:input fichcompdmi2020.csv -a:output fichcompdmi2020.txt
  *
  */
-import fr.karadimas.pmsixml.MetaFileLoader
+import fr.gpmsi.pmsixml.MetaFileLoader
 
 cols_max_sizes = null
 outf = null

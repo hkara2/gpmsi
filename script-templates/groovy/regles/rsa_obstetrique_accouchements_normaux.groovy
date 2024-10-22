@@ -7,7 +7,7 @@
  * c:\app\gpmsi\v1.3\gpmsi.bat -script c:\app\gpmsi\v1.3\scripts\groovy\regles\rsa_obstetrique_accouchements_normaux.groovy -a:input 910019447.2022.12.rsa -a:tra 910019447.2022.12.tra.txt -a:output NRSAs_accouchements_normaux.txt
  */
 package regles
-import fr.karadimas.pmsixml.MonoLevelReader
+import fr.gpmsi.pmsixml.MonoLevelReader
 import fr.gpmsi.DateUtils
 import fr.gpmsi.StringTable
 import fr.gpmsi.pmsi_rules.*

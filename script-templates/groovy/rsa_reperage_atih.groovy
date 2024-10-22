@@ -9,7 +9,7 @@
 //-a:output       fichier de sortie, première colonne donne le numéro de référence, la deuxième le numéro de dossier
 //Exemple : C:\Local\e-pmsi\fichiers-rss-mco\2018\M05\180709-epmsi\ePMSI180710>gpmsi -script C:\hkchse\dev\pmsixml\groovy-samples\reperage-rsa-atih.groovy -a:input_atih rsa_confirm_codage.txt -a:input_rsa 910019447.2018.5.rsa -a:input_tra 910019447.2018.5.tra.txt -a:output dossiers_confirm_codage.txt
 import java.util.regex.* 
-import fr.karadimas.pmsixml.MonoLevelReader
+import fr.gpmsi.pmsixml.MonoLevelReader
 import fr.gpmsi.StringTable
 
 line {

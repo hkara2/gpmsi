@@ -9,8 +9,8 @@
  * Exemples :
  * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\les_faire_fichcomp.groovy -a:input test.txt -a:output testout.txt -a:md fichcompmed2020
  */
-import fr.karadimas.pmsixml.MetaFileLoader
-import fr.karadimas.pmsixml.FszGroupMeta
+import fr.gpmsi.pmsixml.MetaFileLoader
+import fr.gpmsi.pmsixml.FszGroupMeta
 
 //Etape csv qui lit les rangees a transformer en fichcomp molecules onereuses
 /* champs :

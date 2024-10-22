@@ -38,9 +38,9 @@
  * jdbc:h2:C:/hkgh/gpmsi/test-files/tmp-out/csv_injecter_h2
  */
 import groovy.sql.Sql
-import fr.karadimas.pmsixml.MonoLevelReader
+import fr.gpmsi.pmsixml.MonoLevelReader
 import fr.gpmsi.StringTable
-import fr.karadimas.pmsixml.FszField
+import fr.gpmsi.pmsixml.FszField
 import fr.gpmsi.StringTransformable
 import fr.gpmsi.Chrono
 import java.sql.Timestamp

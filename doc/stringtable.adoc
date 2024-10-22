@@ -12,7 +12,7 @@ Utilisation
 Pour utiliser une +StringTable+ il faut commencer par importer la classe
 [source,groovy]
 ----
-import fr.karadimas.pmsixml.StringTable
+import fr.gpmsi.StringTable
 ----
 
 Ensuite il faut créer un nouvel objet +StringTable+ :

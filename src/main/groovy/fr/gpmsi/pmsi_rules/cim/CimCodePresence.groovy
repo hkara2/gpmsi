@@ -1,7 +1,7 @@
 package fr.gpmsi.pmsi_rules.cim
 import fr.gpmsi.cim.SharedCim10
 import fr.gpmsi.pmsi_rules.PmsiCriterion
-import fr.karadimas.pmsixml.FszGroup
+import fr.gpmsi.pmsixml.FszGroup
 import java.util.regex.Pattern
 
 import org.slf4j.Logger

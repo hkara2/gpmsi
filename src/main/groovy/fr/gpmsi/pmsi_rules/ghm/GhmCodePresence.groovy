@@ -7,8 +7,8 @@ import java.util.regex.Pattern
 
 import fr.gpmsi.StringUtils
 import fr.gpmsi.pmsi_rules.PmsiCriterion;
-import fr.karadimas.pmsixml.FszField
-import fr.karadimas.pmsixml.FszGroup
+import fr.gpmsi.pmsixml.FszField
+import fr.gpmsi.pmsixml.FszGroup
 
 public class GhmCodePresence
 implements PmsiCriterion

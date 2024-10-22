@@ -1,6 +1,6 @@
 /*:encoding=UTF-8:*/
 package fr.gpmsi
-import fr.karadimas.pmsixml.FszGroup
+import fr.gpmsi.pmsixml.FszGroup
 import fr.gpmsi.StringTableRow
 import fr.gpmsi.CsvRow
 import fr.gpmsi.DbfRow

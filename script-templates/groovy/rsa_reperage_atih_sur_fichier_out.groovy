@@ -13,7 +13,7 @@
 //#210112 hk v.1.0
 //
 import java.util.regex.* 
-import fr.karadimas.pmsixml.MonoLevelReader
+import fr.gpmsi.pmsixml.MonoLevelReader
 import fr.gpmsi.StringTable
 import fr.gpmsi.ZipUtils
 import java.nio.charset.Charset

@@ -17,7 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import fr.gpmsi.pmsi_rules.AoeNode
 import fr.gpmsi.pmsi_rules.PmsiCriterion;
-import fr.karadimas.pmsixml.FszGroup;
+import fr.gpmsi.pmsixml.FszGroup;
 
 /**
  * Selection selon la présence de critères sur les codes CCAM.

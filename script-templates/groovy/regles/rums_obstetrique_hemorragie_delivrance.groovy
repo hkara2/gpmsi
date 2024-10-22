@@ -6,7 +6,7 @@
  * c:\app\gpmsi\v1.3\gpmsi.bat -script c:\app\gpmsi\v1.3\scripts\groovy\regles\rums_obstetrique_hemorragie_delivrance.groovy -a:input 910019447.2022.12.rum -a:output NRUMs_hemorragies_delivrance.txt
  */
 package regles
-import fr.karadimas.pmsixml.MonoLevelReader
+import fr.gpmsi.pmsixml.MonoLevelReader
 import fr.gpmsi.DateUtils
 import fr.gpmsi.StringTable
 import fr.gpmsi.pmsi_rules.*

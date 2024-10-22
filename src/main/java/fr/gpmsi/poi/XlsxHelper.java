@@ -28,7 +28,7 @@ import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 
-import fr.karadimas.pmsixml.FszField;
+import fr.gpmsi.pmsixml.FszField;
 
 /**
  * Classe utilitaire pour aider à la création de fichiers Excel au format xlsx (Excel 2007 et ultérieurs).

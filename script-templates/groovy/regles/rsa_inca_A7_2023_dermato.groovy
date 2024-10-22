@@ -10,7 +10,7 @@
 package regles
 import fr.gpmsi.DateUtils
 import fr.gpmsi.StringTable
-import fr.karadimas.pmsixml.MonoLevelReader
+import fr.gpmsi.pmsixml.MonoLevelReader
 import fr.gpmsi.pmsi_rules.*
 import fr.gpmsi.pmsi_rules.cim.*
 import fr.gpmsi.pmsi_rules.ccam.*

@@ -8,7 +8,7 @@ D:\groupages-pmsi\2017\M01\170221>c:\app\pmsixml\1.6\scripts\pmsixml.bat Groovy
 D:\groupages-pmsi\2017\M01\170221>java -classpath c:\app\pmsixml\1.6\lib\log4j-1
 .2.8.jar;c:\app\pmsixml\1.6\lib\pmsixml-1.6.jar;c:\app\pmsixml\1.6\lib\groovy-al
 l-2.4.7.jar;c:\app\pmsixml\1.6\lib\opencsv-3.9.jar;c:\app\pmsixml\1.6\lib\hamcre
-st-core-1.3.jar fr.karadimas.pmsixml.Groovy -script c:\hkchse\dev\pmsixml\groovy
+st-core-1.3.jar fr.gpmsi.Groovy -script c:\hkchse\dev\pmsixml\groovy
 -samples\rums-absents.groovy -a:input1 CDP\012017.GRP017fg1516 -a:input2 "Sillag
 e\RSS_NonGroupe_20170221,1923.txt" -a:output extra-sillage.csv
 Resources :
@@ -20,7 +20,7 @@ output : extra-sillage.csv
 D:\groupages-pmsi\2017\M01\170221>java -classpath c:\app\pmsixml\1.6\lib\log4j-1
 .2.8.jar;c:\app\pmsixml\1.6\lib\pmsixml-1.6.jar;c:\app\pmsixml\1.6\lib\groovy-al
 l-2.4.7.jar;c:\app\pmsixml\1.6\lib\opencsv-3.9.jar;c:\app\pmsixml\1.6\lib\hamcre
-st-core-1.3.jar fr.karadimas.pmsixml.Groovy -script c:\hkchse\dev\pmsixml\groovy
+st-core-1.3.jar fr.gpmsi.Groovy -script c:\hkchse\dev\pmsixml\groovy
 -samples\rums-absents.groovy -a:input2 CDP\012017.GRP017fg1516 -a:input1 "Sillag
 e\RSS_NonGroupe_20170221,1923.txt" -a:output extra-cdp.csv
 Resources :

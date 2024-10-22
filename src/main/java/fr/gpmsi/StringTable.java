@@ -32,14 +32,14 @@ import org.apache.logging.log4j.Logger;
 
 import com.opencsv.CSVReader;
 
-import fr.karadimas.pmsixml.FieldParseException;
-import fr.karadimas.pmsixml.FszField;
-import fr.karadimas.pmsixml.FszGroup;
-import fr.karadimas.pmsixml.FszGroupMeta;
-import fr.karadimas.pmsixml.FszMeta;
-import fr.karadimas.pmsixml.FszNode;
-import fr.karadimas.pmsixml.InputString;
-import fr.karadimas.pmsixml.ObjectUtils;
+import fr.gpmsi.pmsixml.FieldParseException;
+import fr.gpmsi.pmsixml.FszField;
+import fr.gpmsi.pmsixml.FszGroup;
+import fr.gpmsi.pmsixml.FszGroupMeta;
+import fr.gpmsi.pmsixml.FszMeta;
+import fr.gpmsi.pmsixml.FszNode;
+import fr.gpmsi.pmsixml.InputString;
+import fr.gpmsi.pmsixml.ObjectUtils;
 import groovy.lang.Closure;
 
 /**

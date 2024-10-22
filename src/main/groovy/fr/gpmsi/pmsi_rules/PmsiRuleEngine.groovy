@@ -1,6 +1,6 @@
 package fr.gpmsi.pmsi_rules
 
-import fr.karadimas.pmsixml.FszGroup
+import fr.gpmsi.pmsixml.FszGroup
 
 /**
  * Moteur de regles tres simpliste pour l'instant que l'on peut appeler pour evaluation de

@@ -18,10 +18,10 @@ import fr.gpmsi.pmsi_rules.rsa.RsaRule
 import fr.gpmsi.pmsi_rules.rsa.RsaRuleEngine
 import fr.gpmsi.pmsi_rules.rss.RssRule;
 import fr.gpmsi.pmsi_rules.rss.RssRuleEngine
-import fr.karadimas.pmsixml.FszGroup
-import fr.karadimas.pmsixml.FszNode
-import fr.karadimas.pmsixml.RsaReader
-import fr.karadimas.pmsixml.RssReader
+import fr.gpmsi.pmsixml.FszGroup
+import fr.gpmsi.pmsixml.FszNode
+import fr.gpmsi.pmsixml.RsaReader
+import fr.gpmsi.pmsixml.RssReader
 
 public class PmsiRulesTest {
 

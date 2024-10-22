@@ -26,7 +26,7 @@
  */
 import java.time.*
 import java.time.temporal.IsoFields
-import fr.karadimas.pmsixml.RhsWriter
+import fr.gpmsi.pmsixml.RhsWriter
 import fr.gpmsi.DateUtils
 import fr.gpmsi.StringUtils
 

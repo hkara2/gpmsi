@@ -32,17 +32,17 @@ import com.opencsv.CSVReader;
 import com.opencsv.ICSVParser;
 
 import fr.gpmsi.poi.PoiHelper;
-import fr.karadimas.pmsixml.FieldParseException;
-import fr.karadimas.pmsixml.FszNode;
-import fr.karadimas.pmsixml.FszReader;
-import fr.karadimas.pmsixml.InputString;
-import fr.karadimas.pmsixml.MetaFileLoader;
-import fr.karadimas.pmsixml.MissingMetafileException;
-import fr.karadimas.pmsixml.MonoLevelReader;
-import fr.karadimas.pmsixml.RhsReader;
-import fr.karadimas.pmsixml.RsaReader;
-import fr.karadimas.pmsixml.RsfaceReader;
-import fr.karadimas.pmsixml.RssReader;
+import fr.gpmsi.pmsixml.FieldParseException;
+import fr.gpmsi.pmsixml.FszNode;
+import fr.gpmsi.pmsixml.FszReader;
+import fr.gpmsi.pmsixml.InputString;
+import fr.gpmsi.pmsixml.MetaFileLoader;
+import fr.gpmsi.pmsixml.MissingMetafileException;
+import fr.gpmsi.pmsixml.MonoLevelReader;
+import fr.gpmsi.pmsixml.RhsReader;
+import fr.gpmsi.pmsixml.RsaReader;
+import fr.gpmsi.pmsixml.RsfaceReader;
+import fr.gpmsi.pmsixml.RssReader;
 import groovy.lang.Closure;
 
 /**

@@ -10,8 +10,8 @@
  */
 import java.text.SimpleDateFormat
 
-import fr.karadimas.pmsixml.RssWriter
-import fr.karadimas.pmsixml.MetaFileLoader
+import fr.gpmsi.pmsixml.RssWriter
+import fr.gpmsi.pmsixml.MetaFileLoader
 
 df = new SimpleDateFormat('ddMMyyyy')
 

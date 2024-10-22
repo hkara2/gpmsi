@@ -4,7 +4,7 @@
 //hk 211001 creation
 
 import java.text.SimpleDateFormat
-import fr.karadimas.pmsixml.FszGroupMeta
+import fr.gpmsi.pmsixml.FszGroupMeta
 
 def convertDateForPmsi(d) {
     def dte = dfFr.parse(d)

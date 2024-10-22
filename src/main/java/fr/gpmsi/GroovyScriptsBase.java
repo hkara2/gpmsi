@@ -4,8 +4,8 @@ package fr.gpmsi;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import fr.karadimas.pmsixml.FieldParseException;
-import fr.karadimas.pmsixml.MissingMetafileException;
+import fr.gpmsi.pmsixml.FieldParseException;
+import fr.gpmsi.pmsixml.MissingMetafileException;
 import groovy.lang.Closure;
 import groovy.lang.Script;
 

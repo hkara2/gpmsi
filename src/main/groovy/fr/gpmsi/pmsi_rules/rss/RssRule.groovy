@@ -1,7 +1,7 @@
 //☺:encoding=UTF-8:
 package fr.gpmsi.pmsi_rules.rss
 import fr.gpmsi.pmsi_rules.PmsiRule
-import fr.karadimas.pmsixml.FszGroup
+import fr.gpmsi.pmsixml.FszGroup
 
 /**
  * Règle qui est spécialisée pour les RSS/RUMs.

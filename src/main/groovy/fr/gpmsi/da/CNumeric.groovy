@@ -4,7 +4,7 @@ import java.sql.ResultSet
 import java.sql.PreparedStatement
 import java.text.NumberFormat
 import java.text.ParseException
-import fr.karadimas.pmsixml.NumUtils
+import fr.gpmsi.pmsixml.NumUtils
 
 class CNumeric extends ColumnDef {
     int precision = 15
