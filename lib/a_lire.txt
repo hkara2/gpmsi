@@ -1,0 +1,4 @@
+
+tous les jars de ce répertoire sont inclus tels quels par le build gradle.
+Donc ne pas laisser d'anciennes version de jar, cela pourrait parasiter le build gradle.
+
