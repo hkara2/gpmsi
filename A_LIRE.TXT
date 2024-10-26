@@ -4,7 +4,7 @@ Groovy PMSI est un ensemble de programmes permettant d'exécuter des scripts
 spécifiques au PMSI en utilisant le langage Groovy.
 Il a été conçu en 2016 par Harry KARADIMAS après qu'il ait quitté l'APHP,
 et avant qu'il ne prenne ses fonctions au CHSE.
-Ce projet est sous license GNU (voir le fichier license.txt joint)
+Ce projet est sous license Apache (voir le fichier license.txt joint)
 
 Pour les documentations, voir dans le répertoire "doc".
 

@@ -1,6 +1,7 @@
 //:encoding=UTF-8:
 //nécessite Gradle 8.2.1 ou ultérieur
-//les librairies sont utilisées localement dans un répertoire
+//certaines librairies non disponibles via un repository maven (pmsixml, aagbl)
+//sont utilisées localement dans un répertoire
 
 plugins {
   id 'java'
