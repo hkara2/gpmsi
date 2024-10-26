@@ -346,7 +346,7 @@ public class Groovy {
             }
             //S ystem.out.println("Resources :");
             //getClass().getClassLoader().getResource("/"); //this should be the root of class loader, but it only works inside Eclipse !
-            //Enumeration<URL> resources = Groovy.class.getClassLoader().getResources("fr/karadimas/pmsixml/inits.groovy"); //this is the root of class loader !
+            //Enumeration<URL> resources = Groovy.class.getClassLoader().getResources("fr/gpmsi/inits.groovy"); //this is the root of class loader !
             //while (resources.hasMoreElements()) {
             //    URL u = resources.nextElement();
             //    System.out.println("Resource : '"+u+"'");
@@ -397,9 +397,9 @@ public class Groovy {
             bnd.setVariable("pmsiDateFormat", pmsiDateFormat);
             SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             bnd.setVariable("isoDateFormat", isoDateFormat);
-            //problem : The script fr/karadimas/gpmsi/inits.groovy can't be found.
-            //This works when hardcoded : 'jar:file:/C:/app/pmsixml/1.6/lib/pmsixml-1.6.jar!/fr/karadimas/pmsixml/inits.groovy'
-            gse.run("fr/karadimas/gpmsi/initengine.gtxt", bnd); //start with init script (inits.groovy copied to initengine.gtxt)
+            //problem : The script fr/gpmsi/inits.groovy can't be found.
+            //This works when hardcoded : 'jar:file:/C:/app/pmsixml/1.6/lib/pmsixml-1.6.jar!/fr/pmsixml/inits.groovy'
+            gse.run("fr/gpmsi/initengine.gtxt", bnd); //start with init script (inits.groovy copied to initengine.gtxt)
             if (scriptFile != null) lg.debug("running script file '"+scriptFile+"'");
             if (scriptUri != null) lg.debug("running script uri : '"+scriptUri+"'");
             if (runClass != null) {

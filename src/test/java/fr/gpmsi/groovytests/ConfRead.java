@@ -119,7 +119,7 @@ public class ConfRead {
 		//works : file:///C:/hkchse/dev/pmsixml/ec-classes/
 		GroovyScriptEngine gse = new GroovyScriptEngine("file:///C:/hkchse/dev/pmsixml/ec-classes/");
 		Binding bnd = new Binding();
-		gse.run("fr/karadimas/groovytests/mygroovyscript.groovy", bnd);
+		gse.run("fr/gpmsi/groovytests/mygroovyscript.groovy", bnd);
 	}
 	
 	/**
@@ -135,7 +135,7 @@ public class ConfRead {
 		System.out.println("rootURL is "+rootURL);
 		GroovyScriptEngine gse = new GroovyScriptEngine(new URL[]{rootURL});
 		Binding bnd = new Binding();
-		gse.run("fr/karadimas/groovytests/mygroovyscript.groovy", bnd);
+		gse.run("fr/gpmsi/groovytests/mygroovyscript.groovy", bnd);
 	}
 	
 	/**

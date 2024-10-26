@@ -9,12 +9,12 @@ import groovy.util.GroovyScriptEngine;
  * Exécuter un script Groovy qui se trouve dans le classpath.
  * Exemple :
  * <code>
- * GroovyExec fr/karadimas/groovytests/mygroovyscript.groovy
+ * GroovyExec fr/gpmsi/groovytests/mygroovyscript.groovy
  * </code>
  * <br>
  * Other example :
  * <code>
- * GroovyExec fr/karadimas/groovytests/adder.groovy 2 2
+ * GroovyExec fr/gpmsi/groovytests/adder.groovy 2 2
  * </code>
  * 
  * @author hkaradimas

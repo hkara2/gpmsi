@@ -22,7 +22,7 @@ public class ExecuteMygroovyscript {
       throws CompilationFailedException, IOException
   {
     GroovyShell sh = new GroovyShell();
-    sh.evaluate(new File("src\\main\\groovy\\fr\\karadimas\\groovytests\\mygroovyscript.groovy"));
+    sh.evaluate(new File("src\\main\\groovy\\fr\\groovytests\\mygroovyscript.groovy"));
   }
 
 }

@@ -29,7 +29,7 @@ def inputAsReader() {
         inRd = new FileReader(inputFile)
     }
     else {
-        def resourcePath1 = "/fr/karadimas/pmsixml/" + args.input
+        def resourcePath1 = "/fr/gpmsi/pmsixml/" + args.input
         def inStream = MetaFileLoader.getResourceAsStream(resourcePath1)
         if (inStream == null) {
             //faire un nouvel essai avec la resource à la racine (anciennes versions de pmsixml)

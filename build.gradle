@@ -4,6 +4,7 @@
 
 plugins {
   id 'java'
+  id 'java-library' //genere le jar
   id 'application'
   id 'groovy'
   id 'distribution'
@@ -19,7 +20,20 @@ java {
   //pour java, nous voulons que l'exécution puisse se faire sur java 8
   sourceCompatibility = JavaVersion.VERSION_1_8
   targetCompatibility = JavaVersion.VERSION_1_8
+  withJavadocJar()
+  withSourcesJar() //nous voulons aussi un jar avec le code source
 }
+
+javadoc {
+    options.encoding = 'UTF-8'
+}
+
+sourcesJar {
+  duplicatesStrategy(DuplicatesStrategy.EXCLUDE) //pour les jars, exclure les doublons
+}
+
+//Forcer UTF-8 partout pour le code source java (IMPORTANT !)
+compileJava.options.encoding = 'UTF-8'
 
 eclipse {
   //demande à eclipse de télécharger les javadocs et les sources pour les librairies.
@@ -269,6 +283,7 @@ sourceSets {
     main {
         groovy {
            //srcDirs = ['src/main/groovy', 'src/main/java']
+            srcDir "src/main/groovy"
         }
         java {
            // srcDirs = ['src/main/groovy', 'src/main/java']
@@ -277,16 +292,20 @@ sourceSets {
         }
         resources {
             srcDir "src/main/resources"
-            srcDir "src/main/groovy"
         }
     }
     test {
         resources {
           //adding dir to existing source dirs
-          srcDir "src/main/resources"
+          //srcDir "src/main/resources"
         }
     }
 }
+
+task myJavadocs(type: Javadoc) {
+  source = sourceSets.main.allJava
+}
+
 
 //nettoyer un peu la distribution
 task cleandist {
@@ -296,14 +315,14 @@ task cleandist {
 
             destdir = "v$PROJECT_VERSION"
 
-            delete(dir: "dist/$destdir/scripts")
-            delete(dir: "dist/$destdir/fichiers-ref")
-            delete(dir: "dist/$destdir/docs")
+            delete(dir: "dist/$destdir/scripts", failonerror: false)
+            delete(dir: "dist/$destdir/fichiers-ref", failonerror: false)
+            delete(dir: "dist/$destdir/docs", failonerror: false)
             //Effacer tous les fichiers temporaires des exemples groovy pour etre propre
             delete {
                 fileset(dir: "exemples-groovy/tmp")
-            }
-            delete(dir: "dist/$destdir/exemples-groovy")
+            }, failonerror: false
+            delete(dir: "dist/$destdir/exemples-groovy", failonerror: false)
         }
     }
 }
@@ -311,10 +330,13 @@ task cleandist {
 //Tâche spéciale de copie + renommage, car le script "inits.groovy" doit être aussi disponible en
 //tant que ressource mais avec le nom "initengine.gtxt" 
 tasks.register('copyInits', Copy) {
-  from layout.projectDirectory.file("src/main/groovy/fr/karadimas/gpmsi/inits.groovy")
-  into layout.projectDirectory.file("src/main/resources/fr/karadimas/gpmsi")
+  from layout.projectDirectory.file("src/main/groovy/fr/gpmsi/inits.groovy")
+  into layout.projectDirectory.file("src/main/resources/fr/gpmsi")
   rename 'inits.groovy', 'initengine.gtxt'
 }
+
+//Ne pas oublier de déclarer la dépendance pour que copyInits soit exécuté avant sourcesJar
+sourcesJar.dependsOn 'copyInits'
 
 //dire que le traitement des ressources dépend de la tâche copyInits, qui sera donc appelée avant
 processResources.dependsOn 'copyInits'
@@ -332,6 +354,7 @@ build.dependsOn 'copyToLib'
 //Faire un cleandist avant une distribution finale, pour effacer d'éventuels fichiers obsolètes
 task dist {
     doLast {
+        def build_extlibs = file('build/extlibs')
         ant {
             filter(filtersfile: "ant-build.properties")
             filter(token: "GPMSILIB", value: "gpmsi-" + version)
@@ -344,8 +367,10 @@ task dist {
             copy(todir: "dist/$destdir/lib", preservelastmodified: true) {
                 fileset(dir: "lib")
             }
-            copy(todir: "dist/$destdir/lib", preservelastmodified: true) {
-                fileset(dir: "build/extlibs")
+            if (build_extlibs.exists()) {
+              copy(todir: "dist/$destdir/lib", preservelastmodified: true) {
+                  fileset(dir: "build/extlibs")
+              }
             }
             copy(file: "build/libs/gpmsi-${version}.jar", todir: "dist/$destdir/lib", preservelastmodified: true)
 
@@ -426,6 +451,8 @@ task dist {
 
     }//doLast
 }//dist
+
+dist.dependsOn build
 
 task zip(type:Zip, dependsOn :[dist]) {
     String zipName = "gpmsi-${PROJECT_VERSION}.zip"

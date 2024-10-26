@@ -23,7 +23,7 @@ public class StringTableTests {
   {
     File in = new File(new File("test-files", "in"), "tra1.txt");
     fr.gpmsi.pmsixml.MetaFileLoader mfl = new MetaFileLoader();
-    FszGroupMeta gm = mfl.getOrLoadMeta("/tra2016.csv");
+    FszGroupMeta gm = mfl.getOrLoadMeta("/fr/gpmsi/pmsixml/tra2016.csv");
     FszGroupMeta traMeta = gm.findChildGroupMeta("TRA");
     StringTable stbl = new StringTable("TRA");
     stbl.readFrom(in, traMeta);
