@@ -11,7 +11,7 @@ setlocal enableextensions
 if not defined GPMSI_HOME set GPMSI_HOME=C:\app\gpmsi\v@PROJECT_VERSION@
 
 set APP=%GPMSI_HOME%\gpmsi.bat
-set SCRIPT=%GPMSI_HOME%\scripts\groovy\nrsa_attacher_ndoss_dnd.groovy
+set SCRIPT=%GPMSI_HOME%\scripts\groovy\nrsa_attacher_nadl_dnd.groovy
 
 rem Premier fichier, avec guillemets enleves s'il y en avait
 set A=%~1

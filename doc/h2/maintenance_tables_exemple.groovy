@@ -1,8 +1,9 @@
+//:encoding=UTF-8:
 //Exemple de script de maintenance de table
 /**
- * Script de maintenance de la base de données.
- * à appeler avec les arguments jdbcurl, jdbcuser, jdbcpwd
- * Liens vers les tables (par ordre alphabétique) :
+ * Script de maintenance de la base de donnÃ©es.
+ * Ã  appeler avec les arguments jdbcurl, jdbcuser, jdbcpwd
+ * Liens vers les tables (par ordre alphabÃ©tique) :
  * ##>AAA: table AAA
  *
  * (dans jEdit avec le plugin "Hyperlinks" il suffit d'appuyer sur la touche
@@ -18,13 +19,13 @@
   *   Z date
   * )
   * 
-  * Création d'une séquence de test :
+  * CrÃ©ation d'une sÃ©quence de test :
   * create sequence AA_seq
   * 
-  * Création d'un index de test :
+  * CrÃ©ation d'un index de test :
   * create index AA_Y on AA(Y)
   *
-  * Création d'une ligne :
+  * CrÃ©ation d'une ligne :
   * insert into AA(X, Y, Z) values ('X1', 1, date '2021-12-01')
   */
 
@@ -115,7 +116,7 @@ println "Row for X2 exists : " + (rowExists(gsql, 'AA', "X = 'X2' "))
 
     if (false) {
         
-    //-- début pour copier coller
+    //-- dÃ©but pour copier coller
     
     //-- TEMPLATE description ...
     // Table ##:TEMPLATE: description ...

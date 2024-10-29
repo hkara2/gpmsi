@@ -36,7 +36,7 @@ if (traSt.columnCount > 1) {
     //il y a plusieurs colonnes .csv, c'est au format "Druides"
     //Parcourir la table pour remplir la table nadlParNrsa
     traSt.each { row ->
-        def nrsa = row[1].trim()
+        def nrsa = row[0].trim() as Integer //normaliser en transformant en nombre
         def NADL = row[2].trim()
         nadlParNrsa[nrsa] = NADL
     }
@@ -49,7 +49,8 @@ else {
 
         onItem {item->
             def tra = item.mono
-            nadlParNrsa[tra.txtNRSA] = tra.txtNDOSS //dans le TRA le champ est NDOSS
+            def nrsa = tra.txtNRSA as Integer
+            nadlParNrsa[nrsa] = tra.txtNDOSS //dans le TRA le champ est NDOSS
         }
     }
 }
@@ -71,8 +72,10 @@ csv {
             csvOutput.endRow()
             return //et sortir de cette closure
         }
-        def nrsa = row.NRSA ?: ''
-        def nadl = nadlParNrsa[nrsa.trim()] ?: '?' //le NADL ou bien '?' si non trouvé
+        def nrsaStr = row.NRSA ?: ''
+        Integer nrsa = null
+        if (!StringUtils.isTrimEmpty(nrsaStr)) nrsa = nrsaStr as Integer
+        def nadl = nadlParNrsa[nrsa] ?: '?' //le NADL ou bien '?' si non trouvé
         //ecrire la rangee
         row.values.each { csvOutput.f it }
         csvOutput.f nadl //rajouter le nadl à la fin

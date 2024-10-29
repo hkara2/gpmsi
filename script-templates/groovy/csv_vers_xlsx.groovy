@@ -200,7 +200,8 @@ csv {
             return
         }
         types.eachWithIndex {typ,i->
-            typ.addCell(classeur, typ.parse(row[i]))
+            String val = (i < row.values.length) ? row[i] : '' //necessaire car parfois les rangees n'ont pas toutes les colonnnes de l'en-tête !
+            typ.addCell(classeur, typ.parse(val))
         }
         classeur.newRow()
     }//onItem
