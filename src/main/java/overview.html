@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<body>
+<table>
+<caption>&nbsp;</caption><!--obligé de mettre ce "caption" sinon javadoc génère une erreur-->
+<tr>
+<td><img src="fr/gpmsi/doc-files/gpmsi-logo-transparent-48.png" alt="Logo Gpmsi"></td>
+<td>
+Gpmsi est un environnement permettant l'exécution de scripts Groovy,
+avec des librairies utiles à la manipulation des fichiers pmsi.
+<br>
+gpmsi est l'abréviation de Groovy PMSI.
+C'est une librairie destinée à permettre l'écriture de petits scripts pour
+exécuter diverses tâches pour le PMSI.
+</td>
+</tr>
+</table>
+
+Le langage Groovy (<a href="https://groovy-lang.org/">lien vers le site</a>)
+ est utilisé car il a été conçu pour pouvoir écrire des scripts et
+les exécuter rapidement (ils sont compilés comme du java juste avant leur exécution).
+<p>
+Il utilise une librairie de support, <a href="../pmsixml-javadoc/index.html">pmsixml</a>
+qui permet l'analyse de fichiers pmsi et leur représentation en
+mémoire. Cf. {@link fr.gpmsi.pmsixml}
+<p>
+Gpmsi est livré avec des librairies supplémentaires qui sont utiles lors
+de l'écriture de scripts, (ou qui sont nécessaires à l'exécution de groovy) :
+<ul>
+<li><a href="https://github.com/hkara01/aagbl">aagbl</a>,
+<li><a href="https://ant.apache.org/">ant</a>,
+<li><a href="https://commons.apache.org/">apache-commons</a>  : 
+<a href="https://commons.apache.org/proper/commons-beanutils/">beanutils</a>,
+<a href="https://commons.apache.org/proper/commons-cli/">cli</a>
+<a href="https://commons.apache.org/proper/commons-codec/">codec</a>
+<a href="https://commons.apache.org/proper/commons-collections/">collections</a>
+<a href="https://commons.apache.org/proper/commons-compress/">compress</a>
+<a href="https://commons.apache.org/proper/commons-io/">io</a>
+<a href="https://commons.apache.org/proper/commons-lang/">lang</a>
+<a href="https://commons.apache.org/proper/commons-logging/">logging</a>
+<a href="https://commons.apache.org/proper/commons-math/">math</a>
+<a href="https://commons.apache.org/proper/commons-net/">net</a>
+<a href="https://commons.apache.org/proper/commons-text/">text</a>
+
+<li><a href="https://github.com/virtuald/curvesapi">curvesapi</a>
+<li><a href="http://h2database.com/html/main.html">h2</a>
+<li><a href="https://github.com/hamcrest/JavaHamcrest">hamcrest-core</a>
+<li>hapi : 
+<a href="https://hapifhir.github.io/hapi-hl7v2/">base-2.3</a>
+structures : <a href="https://hapifhir.github.io/hapi-hl7v2/v23/apidocs/index.html">v23</a>, <a href="https://hapifhir.github.io/hapi-hl7v2/v231/apidocs/index.html">v231</a>, <a href="https://hapifhir.github.io/hapi-hl7v2/v24/apidocs/index.html">v24</a>, <a href="https://hapifhir.github.io/hapi-hl7v2/v25/apidocs/index.html">v25</a>, <a href="https://hapifhir.github.io/hapi-hl7v2/v251/apidocs/index.html">v251</a>
+<li><a href="https://ant.apache.org/ivy/">ivy</a>
+<li><a href="https://github.com/FasterXML/jackson">jackson</a> : 
+<a href="https://github.com/FasterXML/jackson-annotations">annotations</a>,
+<a href="https://github.com/FasterXML/jackson-modules-base">core</a>,
+<a href="https://github.com/FasterXML/jackson-databind">databind</a>,
+<a href="https://github.com/FasterXML/jackson-dataformat-yaml">dataformat-yaml</a>
+
+<li><a href="https://github.com/albfernandez/javadbf">javadbf</a>
+<li><a href="http://javaparser.org/">javaparser</a>
+<li><a href="https://jline.org/">jline</a>
+<li><a href="https://www.joda.org/joda-time/">joda-time</a>
+<li><a href="https://junit.org/junit4/">junit</a>
+<li><a href="https://logging.apache.org/log4j/2.x/index.html">log4j</a> : 
+  <a href="https://logging.apache.org/log4j/2.x/migrate-from-log4j1.html#log4j-1-2-api-installation">1.2-api</a>, 
+  <a href="https://logging.apache.org/log4j/2.x/manual/getting-started.html#using-api">api</a>,
+  <a href="https://logging.apache.org/log4j/2.x/manual/getting-started.html#install-app">core</a>, 
+<li><a href="https://opencsv.sourceforge.net/">opencsv</a>
+<li><a href="https://treelayout.sourceforge.net/">org.abego.treelayout.core</a>
+<li><a href="https://picocli.info/">picocli</a>
+<li><a href="https://poi.apache.org/">poi</a>
+<li>slf4j : <a href="https://www.slf4j.org/">api</a>, <a href="https://www.slf4j.org/">simple</a>
+<li><a href="https://bitbucket.org/snakeyaml/snakeyaml-engine/src/master/">snakeyaml</a>
+<li><a href="https://github.com/brettwooldridge/SparseBitSet">SparseBitSet</a>
+<li><a href="https://xmlbeans.apache.org/">xmlbeans</a>
+
+
+</ul>
+
+@author Harry KARADIMAS
+@see fr.gpmsi.pmsixml.FszField
+</body>
+</html>
