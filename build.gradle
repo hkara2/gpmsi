@@ -499,14 +499,20 @@ task dist {
                 }
             }
 
-            //copier le repertoire des javadocs dans les docs de sortie
+            //copier les repertoires des javadocs dans les docs de sortie
             mkdir(dir: "dist/$destdir/docs/javadoc")
+            mkdir(dir: "dist/$destdir/docs/pmsixml-javadoc")
 
-            //le créer au cas où il n'existerait pas encore (si "javadoc" n'a pas été lancé)
+            //les créer au cas où ils n'existeraient pas encore (si "javadoc" n'a pas été lancé)
             mkdir(dir: "build/docs/javadoc/")
+            mkdir(dir: "build/docs/pmsixml-javadoc/")
 
             copy(todir: "dist/$destdir/docs/javadoc", filtering: "false", overwrite: "true", preservelastmodified: true) {
                 fileset(dir: "build/docs/javadoc/")
+            }
+
+            copy(todir: "dist/$destdir/docs/pmsixml-javadoc", filtering: "false", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "build/docs/pmsixml-javadoc/")
             }
 
             //Effacer tous les fichiers temporaires des exemples groovy pour etre propre
