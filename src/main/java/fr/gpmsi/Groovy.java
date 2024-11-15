@@ -42,7 +42,7 @@ import groovy.util.ScriptException;
  * l'utilisateur.
  * On utilise pour cela l'option -script &lt;chemin_du_script&gt;
  * <p>
- * Les arguments du script peuvent être passés dynamiquement. On peut passer un 
+ * Les arguments du script peuvent être passés dynamiquement. On peut passer un
  * drapeau (<code>-f:&lt;nom&gt;</code>) ou un argument avec une valeur (<code>-a:&lt;nom&gt; &lt;valeur&gt;</code>).
  * Les préfixes spéciaux qui commencent par <code>"?"</code> servent à demander via une petite
  * fenêtre surgissante une réponse à l'utilisateur.
@@ -82,22 +82,23 @@ import groovy.util.ScriptException;
  * Ex : <code>def monnom = args['monnom']</code>
  * <p>
  * Il y a quelques objets prédéfinis dans la liaison ('binding') avec l'environnement de script :
- * 
+ *
  * <ul>
- * <li><code>args</code> : les arguments du script 
+ * <li><code>args</code> : les arguments du script
  * <li><code>flags</code> : les drapeaux
- * <li><code>lg</code> : le log
+ * <li><code>lg</code> : le log (Log4j)
  * <li><code>scriptPath</code> : le chemin du script
+ * <li><code>scriptUri</code> : le 'scripturi' passé en argument le cas échéant (voir option correspondante)
  * <li><code>nl</code> : le séparateur de ligne (System.getProperty("line.separator"))
  * <li><code>userHome</code> : le répertoire de l'utilisateur (System.getProperty("user.home"))
  * <li><code>frenchDateFormat</code> : un SimpleDateFormat au format francais dd/MM/yyyy
  * <li><code>pmsiDateFormat</code> : un SimpleDateFormat au format francais mais sans séparateurs, pour les fichiers PMSI ddMMyyyy
  * </ul>
- * 
+ *
  * Autres options permises :
- * 
+ *
  * <ul>
- * <li>debug : passer en mode debogage (emet des messages de debogage)
+ * <li>debug : passer en mode debogage (emet des messages de debogage)(active le niveau DEBUG de log4j)
  * <li>enc &lt;encodage&gt; : change l'encodage par defaut des script (par defaut c'est UTF-8)
  * <li>scripturi : a utiliser à la place de l'option "script" si on veut définir un chemin relatif sous forme d'URI pour rechercher un script.
  *                 C'est nécessaire notamment si le script que l'on donne en argument fait partie d'un package.
@@ -111,7 +112,7 @@ import groovy.util.ScriptException;
  *              gpmsi.Groovy en rajoute un d'office et émet un avertissement). On ajouter plusieurs fois
  *              cette option et ainsi ajouter plusieurs extracp.
  * </ul>
- * 
+ *
  * <p>
  * Il est également possible d'utiliser un objet interne déjà compilé à l'aide de l'option <code>-run</code>
  * (au lieu de l'option <code>-script</code>). Il faut alors donner le nom de la classe et pas un chemin.
@@ -119,23 +120,23 @@ import groovy.util.ScriptException;
  * Ex : <code>-run fr.gpmsi.groovytests.LibsTest</code>
  * <br>
  * La classe doit étendre {@link Script}
- * 
- * 
- * 
+ *
+ *
+ *
  * @author hkaradimas
  *
  */
 public class Groovy {
-    static Logger lg = LogManager.getLogger(Groovy.class); 
+    static Logger lg = LogManager.getLogger(Groovy.class);
 
     String scriptPath; //chemin de fichier pour le script
-    String scriptUri; //uri pour le script si on définit un chemin relatif 
+    String scriptUri; //uri pour le script si on définit un chemin relatif
     String runClass; //si on veut executer une classe directement, sans passer par le script engine ; scriptPath sera à "" dans ce cas.
     Object returnedObject; //l'objet retourné par le script
     HashMap<String, String> scriptArgs = new HashMap<>();
     HashSet<String> scriptFlags = new HashSet<>();
     ArrayList<String> extraCps = new ArrayList<>();
-    
+
     String encoding = "UTF-8"; //encodage des scripts, par défaut UTF-8
 
     /**
@@ -143,7 +144,7 @@ public class Groovy {
      */
     public Groovy() {
     }
-    
+
     /**
      * Traitement d'un argument obligatoire
      * @param args Arguments
@@ -165,8 +166,8 @@ public class Groovy {
      * @param argsp Arguments
      * @throws Exception -
      */
-    public void init(String[] argsp) 
-            throws Exception 
+    public void init(String[] argsp)
+            throws Exception
     {
         boolean helpRequested = false;
         Args args = new Args(argsp);
@@ -248,7 +249,7 @@ public class Groovy {
                         JPasswordField pwPf = new JPasswordField(20);
                         pwPanel.add(pwLabel); pwPanel.add(pwPf);
                         pwPf.addAncestorListener(new RequestFocusListener()); //astuce extrêmement rusée pour avoir le focus
-                        int option = JOptionPane.showConfirmDialog(null, pwPanel, prompt, 
+                        int option = JOptionPane.showConfirmDialog(null, pwPanel, prompt,
                             JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                         if (option == JOptionPane.OK_OPTION) arg = new String(pwPf.getPassword());
                         break;
@@ -257,7 +258,7 @@ public class Groovy {
                         break;
                     default: //string
                         arg = JOptionPane.showInputDialog(prompt);
-                    }                      
+                    }
                 }// if (arg.startsWith("?"))
                 lg.debug("Setting script arg '"+argName+"' to '"+arg+"'");
                 scriptArgs.put(argName, arg);
@@ -277,8 +278,13 @@ public class Groovy {
                 System.out.println("Options :");
                 System.out.println("  -help : montre de l'aide (fonctionne aussi avec -h et --help)");
                 System.out.println("  -debug : activer le mode debogage (ecrit des messages detailles)");
-                System.out.println("  -extracp <URL> : ajoute une URL supplementaire au classpath Groovy");
+                System.out.println("  -extracp <URL> : ajoute une URL supplementaire au classpath\n"+
+                                   "                   Groovy. Peut etre repete");
                 System.out.println("  -enc <NOM> : change l'encodage utilise (cf. doc detaillee)");
+                System.out.println("  -scripturi : chemin du repertoire racine du script,\n"+
+                                   "               a utiliser a la place de 'script' (cf. doc detaillee)");
+                System.out.println("  -run <CLASSE> : executer une classe precompilee qui est\n"+
+                                   "                  dans les jars de gpmsi (cf. doc detaillee)");
                 System.out.println("Arguments :");
                 System.out.println("  Les arguments commencent par -a: puis le nom de l'argument");
                 System.out.println("  suivi d'un espace et de la valeur de l'argument");
@@ -315,7 +321,7 @@ public class Groovy {
         }
         if (runClass != null) scriptPath = ""; //runClass a priorité sur scriptPath
     }
-    
+
     /**
      * Lancer l'exécution.
      * @return Renvoie toujours 0 (auparavant une valeur d'erreur était renvoyée, mais maintenant en
@@ -330,7 +336,7 @@ public class Groovy {
      * @throws InvocationTargetException -
      * @throws IllegalArgumentException -
      */
-    public int run() 
+    public int run()
         throws ResourceException, ScriptException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException
     {
         if (scriptPath == null && scriptUri == null && runClass == null) return 99; //error -99 pas de script specifie
@@ -340,7 +346,7 @@ public class Groovy {
             URL parentURL = null;
             File scriptFile = null;
             if (scriptPath != null) {
-              scriptFile = new File(new File(scriptPath).getCanonicalPath());            
+              scriptFile = new File(new File(scriptPath).getCanonicalPath());
               File parent = scriptFile.getParentFile();
               parentURL = parent.toURI().toURL();
             }
@@ -357,7 +363,7 @@ public class Groovy {
             CompilerConfiguration cc = new CompilerConfiguration();
             cc.setSourceEncoding(encoding); //forcage de l'encodage (par defaut UTF-8 mais peut etre change par le parametre -enc)
             cc.setScriptBaseClass("fr.gpmsi.GroovyScriptsBase");
-            
+
             ArrayList<URL> roots = new ArrayList<>();
             for (String extracp : extraCps) {
               lg.debug("Ajout du extra cp '"+extracp+"'");
@@ -413,7 +419,7 @@ public class Groovy {
               returnedObject = scriptObj.run();
             }
             else {
-              if (scriptUri == null) returnedObject = gse.run(scriptFile.getName(), bnd); //appel avec un chemin normal de fichier 
+              if (scriptUri == null) returnedObject = gse.run(scriptFile.getName(), bnd); //appel avec un chemin normal de fichier
               else returnedObject = gse.run(scriptUri, bnd); //un classpath différent a été donné, utiliser le scriptUri car il doit donner un chemin relatif pour trouver le script
             }
             //dans les versions précédentes on renvoyait la valeur entière si le script retournait une valeur numérique
@@ -435,26 +441,26 @@ public class Groovy {
           lg.error("Erreur d'execution", e); throw e;
         } catch (IllegalAccessException e) {
           lg.error("Erreur d'execution", e); throw e;
-        }        
+        }
     }
-    
+
     /**
      * main
      * @param argsp Arguments
      * @throws Exception -
      */
-    public static void main(String[] argsp) 
-            throws Exception 
+    public static void main(String[] argsp)
+            throws Exception
     {
         Groovy app = new Groovy();
         app.init(argsp);
         int exitCode = app.run();
         if (exitCode != 0) System.exit(exitCode);
     }
-    
+
     /**
      *  ( Repris depuis http://www.camick.com/java/source/RequestFocusListener.java )
-     *  
+     *
      *  Convenience class to request focus on a component.
      *
      *  When the component is added to a realized Window then component will
@@ -523,5 +529,5 @@ public class Groovy {
     public void setReturnedObject(Object returnedObject) {
       this.returnedObject = returnedObject;
     }
-    
+
 }
