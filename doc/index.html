@@ -1,53 +1,54 @@
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>gpmsi @PROJECT_VERSION@ : documentation</title>
 </head>
 <body>
 <h1>Documentation gpmsi @PROJECT_VERSION@</h1>
 <h2>Introduction</h2>
 <p>
-Les différents traitements utilisés dans le PMSI utilisent fréquemment des
+Les diffÃ©rents traitements utilisÃ©s dans le PMSI utilisent frÃ©quemment des
 fichiers contenant des lignes de longueur fixe, avec les informations toujours
-au même endroit dans chaque ligne. La construction des programmes manipulant
-ces informations est très répétitive et fastidieuse.
+au mÃªme endroit dans chaque ligne. La construction des programmes manipulant
+ces informations est trÃ¨s rÃ©pÃ©titive et fastidieuse.
 </p>
 <p>
 Les fichiers <a href="https://fr.wikipedia.org/wiki/Extensible_Markup_Language">XML</a>
-bien que plus complexes et moins compact ont l'avantage de la disponibilité
-de nombreux outils pour leur traitement automatisé.
+bien que plus complexes et moins compact ont l'avantage de la disponibilitÃ©
+de nombreux outils pour leur traitement automatisÃ©.
 </p>
 <p>
-Lors de ma prise de fonction au sein du DIM, nous avions d'importants problèmes
-de cohérence de fichiers, et le besoin de faire des scripts pouvant analyser,
-comparer des fichiers de RSS, RSA, FICHCOMP, etc. était très important.
+Lors de ma prise de fonction au sein du DIM, nous avions d'importants problÃ¨mes
+de cohÃ©rence de fichiers, et le besoin de faire des scripts pouvant analyser,
+comparer des fichiers de RSS, RSA, FICHCOMP, etc. Ã©tait trÃ¨s important.
 </p>
 <p>
-Le besoin initial était de convertir les fichiers en un format XML, qui
-pouvait être plus facilement lu et transformé, d'où le nom initial du 
+Le besoin initial Ã©tait de convertir les fichiers en un format XML, qui
+pouvait Ãªtre plus facilement lu et transformÃ©, d'oÃ¹ le nom initial du 
 programme : <code>pmsixml</code>.
-Au fur ét à mesure de la construction des scripts, des éléments communs ont
-émergés et je les ai rajouté et rassemblé le tout dans une librairie.
-En fait l'utilisation répétée de scripts en langage Groovy a montré qu'il y
+Au fur Ã©t Ã  mesure de la construction des scripts, des Ã©lÃ©ments communs ont
+Ã©mergÃ©s et je les ai rajoutÃ© et rassemblÃ© le tout dans une librairie.
+En fait l'utilisation rÃ©pÃ©tÃ©e de scripts en langage Groovy a montrÃ© qu'il y
 avait deux besoins :
 <ul>
-<li>Analyser les fichiers textes avec des champs à position fixe, de manière
+<li>Analyser les fichiers textes avec des champs Ã  position fixe, de maniÃ¨re
 rationnelle
 <li>Ecrire des scripts d'automatisation pour tirer parti de diverses librairies
 utiles et analyser des fichiers non seulement PMSI, mais aussi csv, Excel,
-xml, de base de données, ...
+xml, de base de donnÃ©es, ...
 </ul>
-Au total la librairie pmsixml a été cantonnée aux fichiers PMSI avec champs
-à position fixe (RSS, RHS, VIDHOSP, etc.), et le reste des fonctionnalités a
-été mis dans une librairie que j'ai appelé gpmsi (pour <i>Groovy PMSI</i> car
-elle tire tout son intérêt de l'utilisation du langage Groovy pour rendre
-plus clair les traitements des données PMSI (voir le traitement d'autres types
-de données également).
+Au total la librairie pmsixml a Ã©tÃ© cantonnÃ©e aux fichiers PMSI avec champs
+Ã  position fixe (RSS, RHS, VIDHOSP, etc.), et le reste des fonctionnalitÃ©s a
+Ã©tÃ© mis dans une librairie que j'ai appelÃ© gpmsi (pour <i>Groovy PMSI</i> car
+elle tire tout son intÃ©rÃªt de l'utilisation du langage Groovy pour rendre
+plus clair les traitements des donnÃ©es PMSI (voir le traitement d'autres types
+de donnÃ©es Ã©galement).
 </p>
 <h2>Installation</h2>
 <p>
-Créer un répertoire (de préférence <code>C:\app\gpmsi\@PROJECT_VERSION@</code> pour ne pas avoir à 
+CrÃ©er un rÃ©pertoire (de prÃ©fÃ©rence <code>C:\app\gpmsi\v@PROJECT_VERSION@</code> pour ne pas avoir Ã  
 modifier les scripts d'exemple), et extraire le contenu du fichier <code>gpmsi-@PROJECT_VERSION@@PROJECT_SUB_VERSION@-dist.zip</code>
-dans ce répertoire.
+dans ce rÃ©pertoire.
 </p>
 <h2>Utilisation des scripts</h2>
 <p>
@@ -56,18 +57,18 @@ en utiliser quelques-uns.
 </p>
 <h3>fichcompivg_excel.groovy</h3>
 <p>
-Ce script permet de produire un FICHCOMP IVG à partir d'un fichier au format
-csv avec séparateur ';', produit avec Excel ou Libre Office, par exemple.
+Ce script permet de produire un FICHCOMP IVG Ã  partir d'un fichier au format
+csv avec sÃ©parateur ';', produit avec Excel ou Libre Office, par exemple.
 Le fichier doit avoir les colonnes suivante :
 <ol>
-<li>numéro de dossier
-<li>date de début de séjour
-<li>date de fin de séjour
-<li>nombre d'ivg antérieures
-<li>année de l'ivg précédente
-<li>nombre de naissances vivantes antérieures
+<li>numÃ©ro de dossier
+<li>date de dÃ©but de sÃ©jour
+<li>date de fin de sÃ©jour
+<li>nombre d'ivg antÃ©rieures
+<li>annÃ©e de l'ivg prÃ©cÃ©dente
+<li>nombre de naissances vivantes antÃ©rieures
 </ol>
-La première ligne contient les noms de colonne et est ignorée (on peut y mettre les noms que l'on veut).
+La premiÃ¨re ligne contient les noms de colonne et est ignorÃ©e (on peut y mettre les noms que l'on veut).
 </p>
 <p>
 Exemple de table :
@@ -90,114 +91,114 @@ Enregistrer ce fichier sous le nom <code>ivgs.csv</code>
 </p>
 <p>
 Voici la commande pour lancer le script :<br>
-<code>c:\app\gpmsi\@PROJECT_VERSION@\gpmsi.bat Groovy -script c:\app\gpmsi\@PROJECT_VERSION@\groovy-samples\fichcompivg_excel.groovy -a:input ivgs.csv -a:output fichcompivg.txt</code>
+<code>c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi.bat Groovy -script c:\app\gpmsi\v@PROJECT_VERSION@\groovy-samples\fichcompivg_excel.groovy -a:input ivgs.csv -a:output fichcompivg.txt</code>
 </p>
 <p>
-Le fichier fichcompivg.txt contient le résultat au format FICHCOMP IVG 2017.
+Le fichier fichcompivg.txt contient le rÃ©sultat au format FICHCOMP IVG 2017.
 </p>
 <p>
-N.B. Pour ne pas avoir à taper à chaque fois la commande 
-<code>c:\app\gpmsi\@PROJECT_VERSION@\gpmsi.bat Groovy</code> 
-Il est utile de créer un fichier batch <code>ggpmsi.bat</code> avec le contenu suivant
+N.B. Pour ne pas avoir Ã  taper Ã  chaque fois la commande 
+<code>c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi.bat Groovy</code> 
+Il est utile de crÃ©er un fichier batch <code>ggpmsi.bat</code> avec le contenu suivant
 <pre>
 @rem Lancement d'un script Groovy de gpmsi dans un environnement controle
-@C:\app\gpmsi\@PROJECT_VERSION@\scripts\gpmsi.bat Groovy %*
+@C:\app\gpmsi\v@PROJECT_VERSION@\scripts\gpmsi.bat Groovy %*
 </pre>
-Créer ce fichier à un emplacement qui est référencé par le PATH pour que la
-commande <code>ggpmsi</code> puisse être tapée directement dans la ligne de
+CrÃ©er ce fichier Ã  un emplacement qui est rÃ©fÃ©rencÃ© par le PATH pour que la
+commande <code>ggpmsi</code> puisse Ãªtre tapÃ©e directement dans la ligne de
 commande.
-De cette manière, la commande précédente peut être lancée par :<br>
-<code>ggpmsi -script c:\app\gpmsi\@PROJECT_VERSION@\groovy-samples\fichcompivg_excel.groovy -a:input ivgs.csv -a:output fichcompivg.txt</code>
+De cette maniÃ¨re, la commande prÃ©cÃ©dente peut Ãªtre lancÃ©e par :<br>
+<code>ggpmsi -script c:\app\gpmsi\v@PROJECT_VERSION@\groovy-samples\fichcompivg_excel.groovy -a:input ivgs.csv -a:output fichcompivg.txt</code>
 </p>
 <h3>mono-vers-csv.groovy</h3>
-Ce script est très versatile, car il permet de convertir tous les fichiers
-"mono-niveau", c'est à dire qui n'ont pas un niveau supplémentaire de données,
-au format csv. Les fichiers à plus d'un niveau sont les RSS, RSA, RHS, etc. où
+Ce script est trÃ¨s versatile, car il permet de convertir tous les fichiers
+"mono-niveau", c'est Ã  dire qui n'ont pas un niveau supplÃ©mentaire de donnÃ©es,
+au format csv. Les fichiers Ã  plus d'un niveau sont les RSS, RSA, RHS, etc. oÃ¹
 il y a un niveau pour les RUM et un autre niveau pour les diagnostics, avec
 plusieurs diagnostics par RUM. A l'inverse un fichier comme le FICHCOMP des
-molécules onéreuses n'a qu'un seul niveau.
+molÃ©cules onÃ©reuses n'a qu'un seul niveau.
 Il faut indiquer au script quel format de fichier utiliser, pour cela il
-suffit juste de donner le nom du format après l'argument "meta". Pmsixml ajoute
+suffit juste de donner le nom du format aprÃ¨s l'argument "meta". Pmsixml ajoute
 ".csv" au nom, et recherche ensuite un fichier avec ce nom dans les endroits
 suivants :
 <ul>
-<li>Dans le répertoire courant</li>
-<li>Le répertoire "resources" à l'intérieur du fichier "jar" de la librairie</li>
-<li>Le répertoire utilisateur .gpmsi\resources</li>
+<li>Dans le rÃ©pertoire courant</li>
+<li>Le rÃ©pertoire "resources" Ã  l'intÃ©rieur du fichier "jar" de la librairie</li>
+<li>Le rÃ©pertoire utilisateur .gpmsi\resources</li>
 </ul>
 Par exemple pour avoir un fichier FICHCOMPDMI au format csv :
 <ol>
-<li>Copier le fichier avec les métadonnées pour le fichcomp dmi "fichcompdmi2019.csv"
-dans le répertoire "C:\Users\hkaradimas\.gpmsi\resources"</li>
-<li>Aller dans le répertoire où il y a le fichcomp dmi à convertir :
+<li>Copier le fichier avec les mÃ©tadonnÃ©es pour le fichcomp dmi "fichcompdmi2019.csv"
+dans le rÃ©pertoire "C:\Users\hkaradimas\.gpmsi\resources"</li>
+<li>Aller dans le rÃ©pertoire oÃ¹ il y a le fichcomp dmi Ã  convertir :
 C:\Local\e-pmsi\fichiers-rss-mco\2019\M12\fichcomp-dmi </li>
 <li>Lancer la commande de conversion : 
-<code>ggpmsi -script C:\app\gpmsi\@PROJECT_VERSION@\local\scripts\mono-vers-csv.groovy -a:input FICHCOMPDMI -a:output FICHCOMPDMI.csv -a:meta fichcompdmi2019</code></li>
+<code>ggpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\local\scripts\mono-vers-csv.groovy -a:input FICHCOMPDMI -a:output FICHCOMPDMI.csv -a:meta fichcompdmi2019</code></li>
 </ol>
 
 <h2>Utilisation avec java</h2>
 <p>
-gpmsi est une librairie java. Les fonctions utilisables sont décrites
-dans la <a href="gpmsi-@PROJECT_VERSION@@PROJECT_SUB_VERSION@-api/index.html" target="_new">documentation de l'API</a>
+gpmsi est une librairie java. Les fonctions utilisables sont dÃ©crites
+dans la <a href="javadoc/index.html" target="_new">documentation de l'API</a>
 </p>
 <p>
-... documentation à continuer ...
+... documentation Ã  continuer ...
 </p>
 <h2>Utilisation avec Groovy</h2>
 <p>
-Groovy est un langage qui étend java avec des constructions dynamiques plus
-évoluées. Cela paraît abstrait dit comme cela, mais en pratique cela donne des
-nouvelles possibilités dans l'écriture des programmes, dans la concision de
-l'écriture et la facilité d'utilisation.
-Il y a de nombreuses améliorations, on pourra aller sur le site de
+Groovy est un langage qui Ã©tend java avec des constructions dynamiques plus
+Ã©voluÃ©es. Cela paraÃ®t abstrait dit comme cela, mais en pratique cela donne des
+nouvelles possibilitÃ©s dans l'Ã©criture des programmes, dans la concision de
+l'Ã©criture et la facilitÃ© d'utilisation.
+Il y a de nombreuses amÃ©liorations, on pourra aller sur le site de
 <a href="http://groovy-lang.org/">Groovy</a> les voir toutes.
-Cependant les deux améliorations les plus spectaculaires sont :
+Cependant les deux amÃ©liorations les plus spectaculaires sont :
 </p>
-<h3>La possibilité d'avoir du code manipulable comme une donnée.</h3>
+<h3>La possibilitÃ© d'avoir du code manipulable comme une donnÃ©e.</h3>
 <p>
 Par exemple, le code suivant : 
 <br>
 <code>{ println("Hello") }</code> 
 <br>
-peut être assigné à la variable x :
+peut Ãªtre assignÃ© Ã  la variable x :
 <br>
 <code>x = { println("Hello") }</code>
 <br>
-et lorsque l'on appelle x (à l'aide de l'opérateur "()" d'appel de fonction) :
+et lorsque l'on appelle x (Ã  l'aide de l'opÃ©rateur "()" d'appel de fonction) :
 <br>
 <code>x()</code>
 <br>
-Le code est exécuté.
+Le code est exÃ©cutÃ©.
 </p>
-<h3>Pouvoir appeler une fonction sans utiliser de parenthèses</h3>
+<h3>Pouvoir appeler une fonction sans utiliser de parenthÃ¨ses</h3>
 <p>
-Au lieu d'écrire :
+Au lieu d'Ã©crire :
 <br>
 <code>println("Hello")</code>
 <br>
-On peut écrire :
+On peut Ã©crire :
 <br>
 <code>println "Hello"</code>
 <br>
-Cela a l'air d'une amélioration mineure, mais en fait cela permet d'avoir
+Cela a l'air d'une amÃ©lioration mineure, mais en fait cela permet d'avoir
 certaines constructions qui se lisent presque comme du langage naturel.
 </p>
 <p>
-Pour avoir la description des améliorations utilisant Groovy dans l'utilisation
+Pour avoir la description des amÃ©liorations utilisant Groovy dans l'utilisation
 de gpmsi, voir le fichier <a href="utilisation-groovy.html">utilisation-groovy.html</a>
-Consulter ensuite le répertoire 
-<code>C:\app\gpmsi\@PROJECT_VERSION@\groovy-samples</code>
+Consulter ensuite le rÃ©pertoire 
+<code>C:\app\gpmsi\v@PROJECT_VERSION@\groovy-samples</code>
 qui contient de nombreux scripts d'exemple.
 </p>
-<p>La version de Groovy utilisée est relativement ancienne, c'est la 
+<p>La version de Groovy utilisÃ©e est relativement ancienne, c'est la 
 2.4.7. Voir <a href="@GROOVY_DOC_URL@">ici</a>
-pour la documentation spécifique à cette version.</p>
+pour la documentation spÃ©cifique Ã  cette version.</p>
 
 <h2>Utilisation de fichiers Excel natifs</h2>
 
 Pmsixml utilise la librairie apache poi.
-Celle-ci permet la lecture et l'écriture des fichiers excel directement.
-C'est bien sûr plus fastidieux que d'utiliser le format csv.
+Celle-ci permet la lecture et l'Ã©criture des fichiers excel directement.
+C'est bien sÃ»r plus fastidieux que d'utiliser le format csv.
 Pour plus d'informations voir
 <a href="https://poi.apache.org/components/spreadsheet/how-to.html">https://poi.apache.org/components/spreadsheet/how-to.html</a>
 
