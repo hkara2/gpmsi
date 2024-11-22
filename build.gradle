@@ -60,6 +60,7 @@ javadoc {
     //println "options.overview : ${options.overview}"
     options {
         encoding = 'UTF-8'
+        source = '8' //cf. https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javadoc.html#CHDBGDFI
         //addBooleanOption('html4', true) //pour ne pas avoir à forcer table caption
         //pour adresser les javadocs de java, il _faut_ utiliser linksOffline.
         //il faut aussi télécharger à la main le fichier "package-list" et le mettre dans un répertoire local. Je l'ai mis dans doc/java8-package-list/ 
