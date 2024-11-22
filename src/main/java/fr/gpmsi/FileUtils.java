@@ -36,6 +36,34 @@ public class FileUtils {
   }
   
   /**
+   * Pour un nom de fichier, séparer le nom simple (ce qui est avant le dernier point) et l'extension (ce qui est après le dernier point).
+   * Exemple :
+   * <pre>
+   * String[] parties = FileUtils.splitNameAndExtension("bonjour.xlsx");
+   * </pre>
+   * L'élément parties[0] contiendra "bonjour"<br>
+   * L'élément parties[1] contiendra ".xlsx"
+   * 
+   * @param filename Le nom de fichier
+   * @return Un tableau de deux éléments. L'élément 0 est le nom simple, et l'élément 1 est soit une chaîne vide s'il n'y avait pas
+   *     de point dans le nom de fichier, soit le point + l'extension si un point était présent.
+   */
+  public static String[] splitNameAndExtension(String filename) {
+    if (filename == null) return null;
+    String[] result = new String[2];
+    int dotIndex = filename.lastIndexOf('.');
+    if (dotIndex == -1) {
+      result[0] = filename;
+      result[1] = "";
+    }
+    else {
+      result[0] = filename.substring(0, dotIndex); //ce qui est avant le point
+      result[1] = filename.substring(dotIndex); //le point + ce qui est après le point
+    }
+    return result;
+  }
+  
+  /**
    * Lire un fichier donné à partir de son nom.
    * Appelle {@link #readFile(File)}
    * @param path Le chemin du fichier
