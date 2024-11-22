@@ -25,6 +25,8 @@ import com.opencsv.CSVWriter;
  * Une fois toutes les valeurs d'une rangée envoyées, on appelle la fonction {@link #endRow()}.
  * Lorsque l'on a fini d'envoyer toutes les rangées, on ferme la destination
  * en appelant {@link #close()}.
+ * L'interface {@link AutoCloseable} est implémentée, donc on peut ouvrir cet objet dans un bloc
+ * "try-with-resources".
  * <br>
  * La librairie <a href="https://javacsv.sourceforge.net/">opencsv</a> utilisée est une ancienne version
  * qui est plus simple pour le peu qui est utilisé ici.
@@ -36,6 +38,7 @@ import com.opencsv.CSVWriter;
  *
  */
 public class CsvDestination 
+implements AutoCloseable
 {
   //OutputStream os;
   BufferedWriter bw;
@@ -202,7 +205,8 @@ public class CsvDestination
 	}
 	
 	/**
-	 * Finir les envois du flux
+	 * Finir les envois du flux ; N.B. si on appelle close(), pas besoin d'appeler cette méthode avant, close()
+	 * fait le flush avant la fermeture.
 	 * @throws IOException -
 	 */
 	public void flush()
