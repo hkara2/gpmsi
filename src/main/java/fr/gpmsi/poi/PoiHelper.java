@@ -23,6 +23,8 @@ import org.apache.poi.xssf.streaming.SXSSFCell;
 
 /**
  * Classe avec méthodes utilitaires pour l'utilisation de fonctions Apache POI pour Excel.
+ * Les classes statiques sont utilisables directement, les autres nécessitent de créer un objet qui crée un DataFormatter
+ * (ce qui permet un cache des valeurs de formats) et/ou le champ newJavaTimeUsed.
  * @author hkaradimas
  *
  */
@@ -227,6 +229,32 @@ public class PoiHelper {
     properties.put(CellUtil.SHRINK_TO_FIT, style.getShrinkToFit());
     properties.put(CellUtil.QUOTE_PREFIXED, style.getQuotePrefixed());
     return properties;
+  }
+  
+  /**
+   * Calculer le numéro de colonne à partir de la colonne en lettres.
+   * Exemple :
+   * <pre>
+   * getColumnNumber("A"); //retourne 1
+   * getColumnNumber("Z"); //retourne 26
+   * getColumnNumber("AA"); //retourne 27
+   * getColumnNumber("AAA"); //retourne 703 (1 + 26 + 26*26
+   * </pre>
+   * (Si on a un doute sur un numéro, taper dans Excel la formule <code>=COLONNE()</code> on aura le numéro de colonne Excel)
+   * @param columnLetters La colonne en lettres.
+   * @return Le numéro de colonne pour Poi (part de 0, c'est celui de Excel - 1)
+   */
+  public static int getColumnNumber(String columnLetters) {
+    int pow = 1; //les puissances de 26
+    int acc = 0; //accumulation des valeurs
+    int n = columnLetters.length();
+    for (int i = n-1 ; i >= 0; i--) {
+      char letter = Character.toUpperCase(columnLetters.charAt(i));
+      if (letter < 'A' || 'Z' < letter) return -1; //erreur dans les coordonnées la colonne doit être entre A et Z
+      acc += (letter - 'A' + 1) * pow; //A=1, Z=26
+      pow = pow * 26;
+    }
+    return acc-1;
   }
   
   /**
