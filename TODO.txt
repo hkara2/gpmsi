@@ -11,5 +11,8 @@ OK  Construire une StringTable à partir d'un ResultSet JDBC. Donner la
 OK  Mettre un warning si le "extracp" ne finit pas par un '/' car cela fait
     échouer le chargement des scripts. -> correction auto avec un warning.
     Descriptions ajoutées dans fr.gpmsi.Groovy.
-    
+
+241121 hk
+OK  Ajouter une fonction dans StringTable qui permet d'ajouter une rangée
+    à partir d'une Map avec en clé des noms de colonne.
 
