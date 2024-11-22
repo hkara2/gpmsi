@@ -18,10 +18,13 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
@@ -74,6 +77,8 @@ implements Iterable<StringTableRow>
 	boolean namesCaseSensitive = false;
 	
 	char csvSeparatorChar = ';'; //séparateur csv : par défaut c'est ';'
+	
+	int maxColumnCount = 0; //le nombre maximum de colonnes rencontré lors de l'ajout des titres et des rangées
 	
 	class IndexEntry
 	implements Comparable<IndexEntry> 
@@ -222,17 +227,12 @@ implements Iterable<StringTableRow>
 	}
 	
 	/**
-	 * Retourne le nombre de colonnes
+	 * Retourne le nombre de colonnes (c'est le maximum de colonnes rencontré soit lors de l'ajout des titres, soit
+	 * lors de l'ajout des rangées)
 	 * @return Le nombre de colonnes
 	 */
 	public int getColumnCount() {
-		Set<Integer> colNrs = colNamesByNumber.keySet();
-		int maxNr = 0;
-		for (Integer colNr : colNrs) {
-			if (colNr != null && colNr > maxNr) maxNr = colNr;
-		}
-		if (maxNr < colNrs.size()) maxNr = colNrs.size();
-		return maxNr;
+	    return maxColumnCount;
 	}
 	
 	/**
@@ -248,13 +248,18 @@ implements Iterable<StringTableRow>
 	}
 	
 	/**
-	 * Donner l'index des colonnes à partir d'un tableau de titres
+	 * Donner l'index des colonnes à partir d'un tableau de titres.
+	 * Attention n'ajoute pas la ligne de titres, si la StringTable est vide, c'est à faire séparément
+	 * (il y a addTitlesRow() pour cela).
+	 * 
 	 * @param titles La liste des noms de colonnes
 	 */
 	public void setColumnIndexesFromTitles(String[] titles) {
 		for (int i = 0; i < titles.length; i++) {
 			setColumnNumber(titles[i], i);
 		}
+		//maj max
+		if (titles.length > maxColumnCount) maxColumnCount = titles.length;
 	}
 	
 	/**
@@ -273,7 +278,32 @@ implements Iterable<StringTableRow>
       setColumnIndexesFromTitles(titles);
     }
     
+    /**
+     * Equivalent à appeler
+     * <pre> 
+     *    addRow(titles);
+     *    declareColumnNames(titles);
+     * </pre>
+     * @param titles Ligne de titres
+     */
+	public void addTitlesRow(String[] titles) {
+	  addRow(titles);
+	  declareColumnNames(titles);
+	}
 	
+    /**
+     * Equivalent à appeler
+     * <pre> 
+     *    addRow(titles);
+     *    declareColumnNames(titles);
+     * </pre>
+     * @param titles Ligne de titres
+     */
+    public void addTitlesRow(List<String> titles) {
+      addRow(titles);
+      declareColumnNames(titles);
+    }
+    
     /**
      * Donner l'index des colonnes à partir d'une liste de nom : pour chaque chaque nom de colonne,
      * attribue le numéro correspondant. par exemple pour la liste "NOM", "PRENOM", "TAILLE" , NOM 
@@ -381,7 +411,7 @@ implements Iterable<StringTableRow>
     }
         
     /**
-     * Ajouter une rangée vide (un tableau de String qui ne contient que des null) à la table
+     * Ajouter une rangée (un tableau de String avec des valeurs) à la table
      * @param lst Liste de String
      */
 	public void addRow(List<String> lst) {
@@ -392,18 +422,42 @@ implements Iterable<StringTableRow>
 	}
 	
 	/**
-	 * Ajouter la rangée au tableau
+	 * Ajouter une nouvelle rangée à partir de la Map donnée, dont les clés doivent être des noms de colonne.
+	 * Les valeurs manquantes sont remplacées par une chaîne vide.
+	 * @param valMap Map avec les valeurs à ajouter dans chaque colonne
+	 * @throws ColumnNotFoundException Si une colonne n'est pas trouvée
+	 */
+	public void addRow(Map<String, String> valMap) throws ColumnNotFoundException {
+	  int cc = getColumnCount();
+	  String[] newRow = new String[cc];
+	  for (Map.Entry<String, String> entry:valMap.entrySet()) {
+	    int colNr = getColumnNumber(entry.getKey());
+	    if (colNr == -1) throw new ColumnNotFoundException("Colonne '"+entry.getKey()+"' non trouvee");
+	    if (colNr < 0) throw new ColumnNotFoundException("Anomalie d'index "+colNr+" pour la colonne '"+entry.getKey()+"'");
+        if (colNr >= cc) throw new ColumnNotFoundException("Anomalie d'index "+colNr+" pour la colonne '"+entry.getKey()+"'");
+	    newRow[colNr] = entry.getValue();
+	  }
+	  addRow(newRow);
+	}
+	
+	/**
+	 * Ajouter la rangée au tableau.
+	 * Les valeurs null sont remplacées par des chaînes vides ""
 	 * @param rowa La rangée à ajouter
 	 */
 	public void addRow(String[] rowa) {
 		int rowNr = rows.size();
+		//remplace les null par ""
+		for (int i = 0; i < rowa.length; i++) if (rowa[i] == null) rowa[i] = "";
 		rows.add(rowa);
-		//maintain indexes
+		//maintenir les index
 		for (Integer colNr : indexesByColNr.keySet()) {
 			String val = rowa[colNr];
 			IndexEntry ie = new IndexEntry(); ie.rowNr = rowNr; ie.value = val;
 			indexesByColNr.get(colNr).add(ie);
 		}		
+		//maj de maxColumnCount
+		if (rowa.length > maxColumnCount) maxColumnCount = rowa.length;
 	}
 	
 	/**
@@ -420,7 +474,7 @@ implements Iterable<StringTableRow>
 			IndexEntry e = new IndexEntry();
 			e.value = value;
 			IndexEntry m = ie.ceiling(e);
-			if (m != null && m.value.equals(value)) return m.rowNr;
+			if (m != null && fr.gpmsi.ObjectUtils.safeEquals(m.value, value)) return m.rowNr;
 			else return -1;
 		}
 		for (int i = 0; i < rows.size(); i++) {
@@ -444,6 +498,29 @@ implements Iterable<StringTableRow>
 	  int colNr = getColumnNumber(colName);
       if (colNr < 0) throw new ColumnNotFoundException("Colonne '"+colName+"' non trouvee");
       return findRow(colNr, value);
+	}
+	
+	/**
+	 * Ajouter une colonne à la fin des colonnes existantes (se sert des index de noms de colonne, et prend le plus
+	 * grand + 1).
+	 * Toutes les valeurs de la colonne sont initialement à ""
+	 * @param name Le nom de la colonne à ajouter
+	 */
+	public void addColumn(String name)
+	{
+	  Integer maxCol = Collections.max(colNamesByNumber.keySet());
+	  colNamesByNumber.put(maxCol+1, name);
+	  colNumbersByName.put(name, maxCol+1);
+	  int rowCount = rows.size();
+	  for (int i = 0; i < rowCount; i++) {
+	    String[] newRow = new String[maxCol+1];
+	    String[] oldRow = rows.get(i);
+	    System.arraycopy(oldRow, 0, newRow, 0, oldRow.length);
+	    //remplacer toutes les valeurs vides par "", par sécurité
+	    for (int j = 0; j < newRow.length; j++) if (newRow[j] == null) newRow[j] = "";
+	    //remplacer la rangée
+	    rows.set(i, newRow);
+	  }//for
 	}
 	
 	/**
@@ -598,19 +675,40 @@ implements Iterable<StringTableRow>
 	}
 	
 	/**
-	 * Ecrire la table dans la destination
-	 * @param csvDest Objet {@link CsvDestination} dans lequel écrire
+	 * Ecrire la table dans la destination.
+	 * Attention close() n'est pas appelé ! Cela permet le cas échéant 
+	 * @param csvDest Objet {@link CsvDestination} dans lequel écrire. Attention appelle flush() à la fin de l'écriture,
+	 *     <b>mais pas close()</b> !
+	 * @param ecrireEnTete true si il faut commencer par envoyer l'en-tête avec les noms de colonne
 	 * @throws IOException Si erreur E/S
 	 */
-	public void writeTo(CsvDestination csvDest)
+	public void writeTo(CsvDestination csvDest, boolean ecrireEnTete)
 			throws IOException
 	{
+	    if (ecrireEnTete) {
+	      int cc = getColumnCount();
+	      for (int i = 0; i < cc; i++) csvDest.f(getColumnName(i));
+	      csvDest.endRow();
+	    }
 		for (String[] row : rows) {
 			for (String cell : row) csvDest.f(cell);
 			csvDest.endRow();
 		}
+		csvDest.flush();
 	}
 	
+	/**
+	 * Appelle writeTo(csvDest, true)
+	 * @param csvDest Objet {@link CsvDestination} dans lequel écrire. Attention appelle flush() à la fin de l'écriture,
+     *     <b>mais pas close()</b> !
+	 * @throws IOException Si erreur E/S
+	 */
+    public void writeTo(CsvDestination csvDest)
+        throws IOException
+    {
+      writeTo(csvDest, true);
+    }
+    
 	/**
 	 * Lire le contenu csv du fichier, en utilisant l'encodage par défaut de la plateforme,
 	 * et ';' comme séparateur. La première ligne <i>doit</i> contenir les noms de colonne.
@@ -706,9 +804,9 @@ implements Iterable<StringTableRow>
      * peuvent être contrôlés.
      * Le paramètre 'titles' est utilisé pour donner les noms des colonnes. Si ce
      * paramètre est null, la première ligne est utilisée pour donner
-     * les noms des colonnes. 
+     * les noms des colonnes (et n'est pas stockée dans les rangées bien sûr). 
      * 
-	 * @param rdr Le {@link Reader} à utiliser
+	 * @param rdr Le {@link Reader} à utiliser. close() est appelé dessus à la fin de la lecture.
 	 * @param titles Les noms de colonne à utiliser (si <code>null</code>, la première ligne du {@link Reader} sera utilisée à la place)
 	 * @param separator Le séparateur à utiliser
 	 * @throws IOException Si erreur E/S
@@ -730,7 +828,8 @@ implements Iterable<StringTableRow>
 			}//while
 		}
 		finally {
-			csvrdr.close();			
+			csvrdr.close();
+			rdr.close();
 		}
 	}
 	
@@ -804,7 +903,7 @@ implements Iterable<StringTableRow>
     
 	/**
 	 * Lecture depuis un fichier a positions fixes.
-	 * @param br Le {@link BufferedReader} à partir duquel lire
+	 * @param br Le {@link BufferedReader} à partir duquel lire. Cette méthode appelle close() dessus.
 	 * @param gm La métadonnée du groupe à analyser
 	 * @throws IOException Si erreur E/S
 	 * @throws FieldParseException Si erreur lors de l'analyse de la ligne
@@ -812,41 +911,46 @@ implements Iterable<StringTableRow>
 	public void readFrom(BufferedReader br, FszGroupMeta gm)
 	    throws IOException, FieldParseException
 	{
-	  ArrayList<String> colNames = new ArrayList<>();
-	  List<FszMeta> childMetas = gm.getChildMetas();
-	  for (FszMeta childMeta : childMetas) {
-        if (childMeta.isFieldMeta()) {
-          colNames.add(childMeta.getStdName());
-        }
-        else {
-          lg.error("ignoring "+childMeta.getStdName());
-        }
-      }//for
-	  String[] titles = new String[colNames.size()];
-	  titles = colNames.toArray(titles);
-	  setColumnIndexesFromTitles(titles);
-	  String line;
-	  InputString in = new InputString();
-	  in.acceptTruncated = truncatedInputAccepted;
-	  while ((line = br.readLine()) != null) {
-	    in.nextLine(line);
-	    if (line.isEmpty()) continue;
-	    FszNode nd = gm.makeNewNode();
-	    nd.read(in);
-	    FszGroup grp = (FszGroup) nd;
-	    ArrayList<String> rowElts = new ArrayList<>();
-	    for (int i = 0; i < titles.length; i++) {
-	      FszField fld = grp.getChildField(titles[i]);
-	      if (fld != null) {
-	        rowElts.add(fld.getValue());
-	      }
-	      else {
-	        rowElts.add("");
-	        lg.error("Champ "+titles[i]+" non retrouve a la ligne "+in.lineNumber);
-	      }
-        }//for
-	    addRow(rowElts);
-	  }//while	  
+	  try {
+	      ArrayList<String> colNames = new ArrayList<>();
+	      List<FszMeta> childMetas = gm.getChildMetas();
+	      for (FszMeta childMeta : childMetas) {
+	        if (childMeta.isFieldMeta()) {
+	          colNames.add(childMeta.getStdName());
+	        }
+	        else {
+	          lg.error("ignoring "+childMeta.getStdName());
+	        }
+	      }//for
+	      String[] titles = new String[colNames.size()];
+	      titles = colNames.toArray(titles);
+	      setColumnIndexesFromTitles(titles);
+	      String line;
+	      InputString in = new InputString();
+	      in.acceptTruncated = truncatedInputAccepted;
+	      while ((line = br.readLine()) != null) {
+	        in.nextLine(line);
+	        if (line.isEmpty()) continue;
+	        FszNode nd = gm.makeNewNode();
+	        nd.read(in);
+	        FszGroup grp = (FszGroup) nd;
+	        ArrayList<String> rowElts = new ArrayList<>();
+	        for (int i = 0; i < titles.length; i++) {
+	          FszField fld = grp.getChildField(titles[i]);
+	          if (fld != null) {
+	            rowElts.add(fld.getValue());
+	          }
+	          else {
+	            rowElts.add("");
+	            lg.error("Champ "+titles[i]+" non retrouve a la ligne "+in.lineNumber);
+	          }
+	        }//for
+	        addRow(rowElts);
+	      }//while    	    
+	  }
+	  finally {
+	    br.close();
+	  }
 	}
 	
 	/**
