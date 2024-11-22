@@ -59,6 +59,13 @@ version date    changements
                 version plus précises pour rsf-ace 2023.
 2.0.0   240908  Changement de fr. karadimas.gpmsi en fr.gpmsi
                 Utilisation de pmsixml-3.0.0
+                Ajout de StringTable#addRow avec une Map en argument
+                Ajout de l'interface AutoClose sur CsvDestination.
+                Amélioration du comportement de fermeture auto pour CsvDestination et StringTable.
+                Correction bug StringTable.writeTo qui n'envoyait pas la ligne d'en-tête.
+                Ajout d'une méthode StringTable#addColumn.
+                Changement de StringTable#addRow qui maintenant corrige les valeurs null et les
+                remplace par une chaîne vide "".
                 
 
 
