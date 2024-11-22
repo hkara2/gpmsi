@@ -124,6 +124,7 @@ xh.addCell('num')
 xh.addCell('deum')
 xh.addCell('meum')
 xh.addCell('prov')
+xh.addCell('psur')
 xh.addCell('dsum')
 xh.addCell('msum')
 xh.addCell('dest')
@@ -182,13 +183,15 @@ listeRss.each() {nrss ->
             //def tald  = rum.txtTALD//Type d'autorisation du lit dédié    TALD
             //xh.addCell(tald)
             def deum  = rum.DEUM.toDate() //Date d'entrée dans l'unité médicale    DEUM
-            xh.addCell(deum, 'dd/mm/yyyy')
+            xh.addCell((Date)deum, 'dd/mm/yyyy')
             def meum  = rum.txtMEUM//Mode d'entrée dans l'unité médicale    MEUM
             xh.addCell(meum)
             def prov  = rum.txtPROV//Provenance (si mode d'entrée est mutation, transfert ou domicile)    PROV
             xh.addCell(prov)
+            def psur = rum.txtPSUR //Passage par une structure des urgences PSUR
+            xh.addCell(psur)
             def dsum  = rum.DSUM.toDate() //Date de sortie de l'unité médicale    DSUM
-            xh.addCell(dsum, 'dd/mm/yyyy')
+            xh.addCell((Date)dsum, 'dd/mm/yyyy')
             def msum  = rum.txtMSUM //Mode de sortie de l'unité médicale    MSUM
             xh.addCell(msum)
             def dest  = rum.txtDEST //Destination (si mode de sortie est mutation, transfert ou domicile)    DEST
