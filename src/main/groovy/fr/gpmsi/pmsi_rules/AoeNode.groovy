@@ -1,9 +1,8 @@
 package fr.gpmsi.pmsi_rules;
 
 /**
- * And-Or expression node (abstract class)
+ * Classe de base pour tous les noeuds impliqués dans une expression And-Or (AndOrExpr).
  * @author hkaradimas
- *
  */
 public abstract class AoeNode {
   
