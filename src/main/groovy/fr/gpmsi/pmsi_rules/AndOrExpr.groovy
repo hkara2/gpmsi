@@ -1,14 +1,40 @@
 package fr.gpmsi.pmsi_rules;
 
 /**
- * Expression And et Or génériques.
- * Le caractère pour "Or" est la virgule.
- * Le caractère pour "And" est la perluette "&".
- * Le caractère de négation est le point d'exclamation "!".
- * Les autres caractères sont juste ajoutés en valeur.
- * Les espaces sont ignorés.
- * Après analyse, on a un arbre And/Or avec la racine AndOrExpr.Node en résultat
- * Par exemple, 
+ * Expressions And et Or génériques.<br>
+ * Le caractère pour "Or" est le pipe "<b>|</b>".<br>
+ * Le caractère pour "And" est la perluette "<b>&</b>".<br>
+ * Le caractère de négation est le point d'exclamation "<b>!</b>".<br>
+ * Les autres caractères sont juste ajoutés en valeur.<br>
+ * Les espaces sont ignorés.<br>
+ * Après analyse, on a un arbre And/Or avec la racine AndOrExpr.Node en résultat<br>
+ * Les noeud And sont regroupés avant les noeuds Or.<br>
+ * Par exemple, new AndOrExpr("foo & bar & (x | bar & 2) | baz & 3") donnera l'arborescence schématique suivante : <br> 
+ * <pre>
+ * e = 
+ * (or:
+ *   (and:
+ *     (and:
+ *       (v:foo)
+ *       (v:bar)
+ *     )
+ *     (or:
+ *       (v:x)
+ *       (and:
+ *         (v:bar)
+ *         (v:2)
+ *       )
+ *     )
+ *   )
+ *   (and:
+ *     (v:baz)
+ *     (v:3)
+ *   )
+ * )
+ * 
+ * </pre>
+ * <p>
+ * (Réservé pour usages futurs)
  * @author hkaradimas
  *
  */
@@ -49,10 +75,10 @@ public class AndOrExpr {
    * un caractere de valeur est tout caractere (y compris un espace) qui n'est pas zéro 
    * (attention : la valeur zéro, pas le caractère '0' (qui est le caractère N° 48) !)
    * ,
-   * et pas !,&()
+   * et pas !|&()
    */
   private boolean isValChar(char c) {
-    c != 0 && c != ',' && c!= '&' && c!= '!' && c != '(' && c != ')'
+    c != 0 && c != '|' && c!= '&' && c!= '!' && c != '(' && c != ')'
   }
   
   /** Retourner caractere suivant, retourner 0 s'il n'y a plus de caractère suivant */
@@ -70,9 +96,9 @@ public class AndOrExpr {
   
   private AoeNode parseOr() {
     AoeNode nd = parseAnd()
-    while (cc == ',') {
+    while (cc == '|') {
       next(); skipWs()
-      if (cc == 0) throw new ParseException("Erreur valeur manquante après ',' à la position "+sp)
+      if (cc == 0) throw new ParseException("Erreur valeur manquante après '|' à la position "+sp)
       AoeNode right = parseAnd()
       nd = new Or(left: nd, right: right)
     }
