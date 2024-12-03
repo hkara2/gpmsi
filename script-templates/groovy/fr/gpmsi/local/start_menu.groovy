@@ -7,6 +7,10 @@
  * Les liens locaux partent depuis le répertoire ~/.gpmsi
  * Les liens absolus sont de la forme file:///C:/repertoire
  * Le fichier ou répertoire cible doit exister.
+ * Arguments :
+ * -a:input CHEMIN_FICHIER_ENTREEE  (obligatoire)
+ * -a:taille LARGEURxHAUTEUR        (optionnel, exemple : 800x600)
+ *
  * Exemple :
  * c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi.bat -script c:\app\gpmsi\v@PROJECT_VERSION@\groovy\fr\gpmsi\local\start_menu.groovy -a:input %USERPROFILE%\.gpmsi\start_menu.html
  */
@@ -74,6 +78,19 @@ class StartMenuFrame
     }
 }//class
 
+w = 0
+h = 0
+if (args.taille != null) {
+    def szStr = args.taille
+    def sepPos = szStr.toUpperCase().indexOf('X')
+    if (sepPos > 0) {
+        w = Integer.valueOf(szStr.substring(0, sepPos))
+        h = Integer.valueOf(szStr.substring(sepPos+1))
+    }
+}
 frm = new StartMenuFrame(args.input)
-frm.pack()
+if (w > 0 && h > 0) {
+    frm.setSize(w, h)
+}
+else frm.pack()
 frm.setVisible(true)
