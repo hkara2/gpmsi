@@ -1,16 +1,19 @@
 package fr.gpmsi.pmsi_rules
 
 /**
- * Interface generale pour une "regle PMSI" extremement simpliste.
- * La regle est initialisee lorsqu'elle est creee.
- * Elle est ensuite appelee pour une evaluation.
- * si l'evaluation est positive ("evaluate" a retourne "true"), la methode
- * "action" est appelee.
- * Les noms utilisables dans "context" sont :
- * engine : le moteur de regles
- * rum : le rum lorsque c'est un rum qui est lu
- * out : un PrintWriter qui peut etre utilise pour emettre du texte (par defaut emet vers StdOut)
- * collect : une collection pour ramasser des �l�ments (num�ros de dossier, etc.)
+ * Interface générale pour une "règle PMSI" minimaliste.
+ * La règle est initialisée lorsqu'elle est créée.
+ * Elle est ensuite appelée pour une évaluation.
+ * si l'evaluation est positive ("evaluate" a retourné "true"), la méthode
+ * "action" est appelée.
+ * <p>
+ * Les noms utilisables dans "context" sont, à titre d'exemple :
+ * <ul>
+ * <li><b>engine</b> : le moteur de regles
+ * <li><b>rum</b> : le rum lorsque c'est un rum qui est lu
+ * <li><b>out</b> : un PrintWriter qui peut etre utilise pour émettre du texte (par defaut émet vers StdOut)
+ * <li><b>collect</b> : une collection pour ramasser des éléments (numéros de dossier, etc.)
+ * </ul>
  */
 interface PmsiRule {
   void init(HashMap context);

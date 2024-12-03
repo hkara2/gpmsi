@@ -5,7 +5,12 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
 /**
- * Base Data Access object
+ * Base abstraite pour un DAO (Data Access object) qui sert d'intermédiaire entre une base de données
+ * et des classes Groovy.
+ * A noter que Groovy facilite beaucoup l'accès aux bases de données, et un système à base de Dao est
+ * moins utile que pour, par exemple, java.
+ * L'utilisation d'objets Dao évite le recours à Hibernate (<a href="https://hibernate.org/">https://hibernate.org/</a>),
+ * qui est assez lourd en manipulation. Mais Hibernate est plus adapté à partir de quelques dizaines de tables.
  */
 abstract class Dao {
     def columnsByName = [:]
@@ -14,12 +19,16 @@ abstract class Dao {
     def pk = [] //primary key. If empty -> no primary key. If more than 1 element -> composite primary key
     def tableName = "?"
     
+    /**
+     * Constructeur avec nom de la table
+     * @param tableName Le nom de la table que ce DAO reflète
+     */
     Dao(String tableName) { this.tableName = tableName }
     
-    /** You can override this method */
+    /** Retourner le nom de la table */
     def getTableName() { tableName } 
     
-    /** declare a column */
+    /** Déclarer une colonne à partir de sa définition */
     def col(ColumnDef dt) { 
         columnsByName.put(dt.getName(), dt)
         dt.owner = this
@@ -28,28 +37,51 @@ abstract class Dao {
         columns.add(dt)
     }
     
-    /** declare a column as part of the primary key */
+    /** déclarer une colonne comme partie de la clé primaire */
     def pkcol(ColumnDef dt) { col(dt); pk << dt }
     
+    /**
+     * Retourner tous les noms de colonnes
+     * @return Une liste des noms de colonne
+     */
     def getAllColNames() { columns.collect { e -> e.name } }
     
+    /**
+     * Retourner les noms de colonne qui font partie de la clé primaire
+     * @return Une liste des noms de colonne
+     */
     def getAllPkColNames() { pk.collect { e -> e.name } }
     
-    /** Make an empty value list, of the correct size, with all nulls */
+    /**
+     * Créer une liste de valeurs null, de la bonne taille (le nombre de colonnes)
+     * @return La liste
+     */
     def makeEmptyValueList() { return [null] * column.size }
     
     /**
-     * For a list of values that is ordered identically to 'columns', get the
-     * value that corresponds to the column name
+     * Pour une liste de valeurs (rangées dans l'ordre des colonnes), retourner
+     * la valeur qui correspond au nom de colonne
+     * @param values Les valeurs
+     * @param name Le nom de la colonne
+     * @return La valeur à l'endroit de la colonne
      */
     def getValue(List values, String name) {
         int index = columnIndexesByName[name]
         return values.get(index)
     }
 
+    /**
+     * Dans la liste de valeurs (rangées dans l'ordre des colonnes),
+     * définir l'élément qui correspond au nom de colonne. 
+     * @param values La liste de valeurs
+     * @param name Le nom de la colonne
+     * @param value La valeur à mettre à l'endroit de la colonne
+     * @return cet objet DAO
+     */
     def setValue(List values, String name, value) {
         int index = columnIndexesByName[name]
         values.set(index, value)
+        this
     }
     
     /**
@@ -132,23 +164,23 @@ abstract class Dao {
 		return nrowsu
 	}
 
-	/** Renvoie la colonne qui est � l'index donn� (commence � 0) */
+	/** Renvoie la colonne qui est à l'index donné (commence à 0) */
 	ColumnDef getColumn(int index) { return columns[index] }
 	
 	/**
-	 * Renvoie la colonne dont le nom est donn� dans name.
+	 * Renvoie la colonne dont le nom est donné dans name.
 	 * Renvoie null si la colonne n'existe pas.
 	 */
 	ColumnDef getColumn(String cname) { return columnsByName[cname] }
 	
 	/**
-	 * Renvoie le nombre de colonnes d�clar�es
+	 * Renvoie le nombre de colonnes déclarées
 	 */
 	int getColumnCount() { columns.size() }
 	
 	/**
-	 * Retourne le num�ro de la colonne. Attention ici les num�ros commencent
-	 * � 0
+	 * Retourne le numéro de la colonne. Attention ici les numéros commencent
+	 * à 0
 	 */
 	int getColumnIndex(String cname) {
 	    Integer ix = columnIndexesByName[cname]
@@ -167,7 +199,7 @@ abstract class Dao {
 	}
 	
 	/**
-	 * Teste si la rang�e existe dans la base de donn�es, en utilisant les cl�s
+	 * Teste si la rangée existe dans la base de données, en utilisant les clés
 	 * primaires.
 	 * @return true si c'est le cas
 	 */
@@ -180,8 +212,8 @@ abstract class Dao {
 	}
 	
 	/**
-	 * Produit des valeurs correctes � partir des cha�nes de caract�re pass�es
-	 * en param�tre, la liste doit �tre dans l'ordre de d�claration des colonnes
+	 * Produit des valeurs correctes à partir des chaînes de caractère passées
+	 * en paramètre, la liste doit être dans l'ordre de déclaration des colonnes
 	 */
 	List makeValuesFromStrings(List<String> strVals, DaPreferences prefs) {
 	    def results = []
@@ -197,9 +229,9 @@ abstract class Dao {
 	}
 	
 	/**
-	 * Lit les valeurs depuis la base de donn�es.
-	 * Les cl�s doivent avoir �t� mises au bon endroit dans le tableau.
-	 * Met � jour le tableau pass� en param�tre, et renvoie aussi ce tableau.
+	 * Lit les valeurs depuis la base de données.
+	 * Les clés doivent avoir été mises au bon endroit dans le tableau.
+	 * Met à jour le tableau passé en paramètre, et renvoie aussi ce tableau.
 	 */
 	def readFromDb(Sql gsql, values) {
 	    def tn = getTableName()
@@ -214,6 +246,10 @@ abstract class Dao {
 	    return values
 	}
 	
+    /**
+     * Crée une nouvelle rangée de Dao
+     * @return Un nouvel objet DaoRow, avec ce Dao en parent
+     */
 	def makeNewDaRow() { return new DaRow(this) }
 	
 }

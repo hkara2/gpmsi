@@ -1,15 +1,13 @@
-/*:encoding=UTF-8:*/
+/**:encoding=UTF-8:
+ * Scripts Groovy utilisés lors de l'initialisation de l'environnement de script.
+ * Déclare les "métaclasses" qui permettent la syntaxe d'accès particulière
+ * aux membres 
+ */
 package fr.gpmsi
 import fr.gpmsi.pmsixml.FszGroup
 import fr.gpmsi.StringTableRow
 import fr.gpmsi.CsvRow
 import fr.gpmsi.DbfRow
-
-//
-// Scripts Groovy utilisés lors de l'initialisation de l'environnement de script.
-// Déclare les "métaclasses" qui permettent la syntaxe d'accès particulière
-// aux membres 
-//
 
 /**
  * Spécialisation de l'accès à une propriété pour FszGroup, de manière à accéder 
@@ -122,3 +120,15 @@ DbfRow.metaClass.getProperty = {String propName ->
     }
 } //DbfRow.metaClass.getProperty
 
+/**
+ * inits.groovy est un script (la classe initsComment n'est là que pour qu'un commentaire apparaisse
+ * dans la documentation).
+ * Ce script est exécuté lors de l'initialisation de l'environnement de script.
+ * Il déclare les "métaclasses" qui permettent la syntaxe d'accès particulière
+ * aux membres, ce qui permet d'écrire des constructions telles que :
+ * <pre>
+ * vh.IPP.value
+ * rum.txtNADL
+ * </pre>
+ */
+class initsComment {}

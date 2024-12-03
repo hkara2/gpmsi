@@ -2,21 +2,32 @@ package fr.gpmsi.da
 
 import java.text.DateFormat
 
+/**
+ * Préférences pour le DA (Database Access)
+ */
 class DaPreferences {
     private static defprefs = new DaPreferences()
     
     static DaPreferences getDefaultPreferences() { defprefs }
     
-    /** Particular date format to use. Default is null. Only used if column definition has no date format given */
+    /**
+     * Format de date particulier à utiliser. Le défaut est null. N'est utilisé que si la définition de colonne
+     * n'a pas de format déclaré.
+     */
     DateFormat dateFormat = null 
     
-    /** when length exceeds maxLength, do we throw an error (the default = false)
-     * or do we just cut (= true)
+    /**
+     * Lorsque cutWhenOverflow est true, une valeur qui dépasse sa longueur maximale autorisée est tronquée
+     * silencieusement. Lorsqu'elle est false, une exception (@see MaximumSizeExceededException)
+     * est envoyée lorsqu'une valeur dépasse sa longueur maximale autorisée.
+     * Par défaut : false
      */
     boolean cutWhenOverflow = false
+    
     /**
-     * when dates are of an illegal format, just convert them to null.
-     * Default is false : we throw an exception
+     * Que fait-on des dates qui ont un format illégal ?
+     * Si illegalDatesToNull est true, on les tranforme en null. Sinon on envoie une exception.
      */
     boolean illegalDatesToNull = false
+    
 }

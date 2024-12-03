@@ -1,7 +1,7 @@
 package fr.gpmsi.da
 
 /**
- * Classe utilitaire pour g�rer la correspondance entre un nom de colonne et
+ * Classe utilitaire pour gérer la correspondance entre un nom de colonne et
  * un autre
  */
 class ColumnMapper {

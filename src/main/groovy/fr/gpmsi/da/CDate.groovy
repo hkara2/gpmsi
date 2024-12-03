@@ -7,7 +7,9 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.text.DateFormat
 
-/** Colonne de type de donnee Date */
+/**
+ * Définition d'une colonne de type de donnee Date
+ */
 class CDate extends ColumnDef {
     static SimpleDateFormat isoSdf = new SimpleDateFormat('yyyy-MM-dd')
     static SimpleDateFormat frSdf = new SimpleDateFormat('dd/MM/yyyy')
@@ -45,7 +47,7 @@ class CDate extends ColumnDef {
         }
     }
     
-    //faire une String a partir de la valeur fournie
+    /** faire une String a partir de la valeur fournie */
     String valueToString(Object val, DaPreferences prefs) {
         if (val == null) return ""
         return idoDf.format(val)

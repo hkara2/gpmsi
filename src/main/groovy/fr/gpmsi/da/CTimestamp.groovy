@@ -6,7 +6,9 @@ import java.sql.PreparedStatement
 import java.text.SimpleDateFormat
 import java.text.DateFormat
 
-/** Column of Data Type Timestamp */
+/**
+ * Définition d'une colonne de type Timestamp
+ */
 class CTimestamp extends ColumnDef {
     static SimpleDateFormat sdf = new SimpleDateFormat('yyyy-mm-dd HH:MM:ss')
     DateFormat df = sdf

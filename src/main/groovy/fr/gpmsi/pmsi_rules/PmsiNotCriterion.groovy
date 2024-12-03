@@ -2,7 +2,7 @@
 package fr.gpmsi.pmsi_rules
 
 /**
- * Negation du sous-critere logique PMSI.
+ * Negation du sous-critère logique PMSI.<br>
  * Est évalué à "true" si le sous-critère est évalué à "false", et inversement.
  */
 class PmsiNotCriterion implements PmsiCriterion {

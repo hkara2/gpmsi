@@ -5,6 +5,9 @@ import java.text.ParseException
 import java.sql.ResultSet
 import java.sql.PreparedStatement
 
+/**
+ * Définition d'une colonne de type Integer
+ */
 class CInteger extends ColumnDef {
     NumberFormat nf
     CInteger(String name) { setName(name) }

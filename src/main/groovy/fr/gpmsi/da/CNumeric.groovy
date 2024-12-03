@@ -6,6 +6,9 @@ import java.text.NumberFormat
 import java.text.ParseException
 import fr.gpmsi.pmsixml.NumUtils
 
+/**
+ * Définition d'une colonne de type Numeric (représenté en java par un BigDecimal)
+ */
 class CNumeric extends ColumnDef {
     int precision = 15
     int scale = 0

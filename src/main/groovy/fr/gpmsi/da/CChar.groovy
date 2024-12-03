@@ -4,7 +4,9 @@ import java.sql.ResultSet
 import java.sql.PreparedStatement
 
 
-/** Colonne de Données de type Char */
+/**
+ * Définition d'une colonne de Données de type Char 
+ */
 class CChar extends ColumnDef {
     int maxlen
     CChar(String name, int maxlen) { setName(name) ; this.maxlen = maxlen }

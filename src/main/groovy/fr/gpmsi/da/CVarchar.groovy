@@ -4,7 +4,7 @@ import java.sql.ResultSet
 import java.sql.PreparedStatement
 
 /**
- * Column of Data Type Varchar
+ * Définition d'une colonne de type Varchar
  */
 class CVarchar extends ColumnDef {
   int maxlen;

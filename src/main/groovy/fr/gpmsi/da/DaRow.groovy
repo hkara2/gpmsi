@@ -7,7 +7,7 @@ import fr.gpmsi.CsvRow
 /**
  * Un accès à une rangèe de donnèes.
  * C'est une combinaison d'un objet d'accès aux données et d'un tableau de
- * valeurs, qui va servir pour les �changes avec la base de données (ou comme
+ * valeurs, qui va servir pour les échanges avec la base de données (ou comme
  * stockage intermédiaire, pour recopie dans un autre tableau de valeurs).
  * L'accès aux propriétés et aux méthodes de cette classe a été changé.
  * Les méthodes <b>vget</b>xxx et <b>vset</b>xxx permettent l'accès à la 
@@ -18,7 +18,7 @@ class DaRow {
     Dao dao
     def values = []
     
-    //initialiseur statique pour les modifications de m�taclasse
+    //initialiseur statique pour les modifications de métaclasse
     static {
         /**
          * modifier l'acces aux propriétés de manière à ce qu'un nom de 

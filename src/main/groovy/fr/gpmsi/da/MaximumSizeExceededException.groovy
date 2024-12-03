@@ -3,7 +3,7 @@ package fr.gpmsi.da
 import groovy.transform.InheritConstructors
 
 /**
- * Exception envoy�e si la taille d�passe la taille maximum autoris�e 
+ * Exception envoyée si la taille dépasse la taille maximum autorisée 
  */
 @InheritConstructors
 class MaximumSizeExceededException extends Exception {
