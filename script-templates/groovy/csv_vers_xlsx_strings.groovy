@@ -6,7 +6,7 @@
  * -a:input chemin_du_fichier_csv_a_convertir
  * -a:output chemin_du_fichier_xlsx_en_sortie
  * -a:titre titre_de_la_feuille (si absent, le titre est "Feuil1")
- * -a:sep code_hexa_separateur       : optionnel, code hexadécimal du séparateur. Par défaut 28 (point-virgule), sinon 2C (virgule)
+ * -a:sep code_hexa_separateur       : optionnel, code hexadécimal du séparateur. Par défaut 3B (point-virgule), sinon 2C (virgule)
  * -a:enc encodage                   : optionnel, encodage du fichier. Par défaut windows-1252, sinon UTF-8 est courant aussi.
  *
  * Exemple d'exécution :
@@ -22,7 +22,7 @@ import fr.gpmsi.poi.XlsxHelper
 import fr.gpmsi.StringTable
 
 sep = args.sep
-if (sep == null) '28' //par défaut séparateur ';'
+if (sep == null) sep = '3B' //par défaut séparateur ';'
 sepc = (Integer.parseInt(sep), 16) as char
 lg.debug "utilisation separateur '$sepc'"
 
