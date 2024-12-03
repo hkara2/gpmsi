@@ -9,7 +9,6 @@ import fr.gpmsi.pmsi_rules.ParseException
 
 public class AndOrExprTests {
 
-
   @Test
   void testParsing1() {
     AndOrExpr e = new AndOrExpr("foo")
@@ -18,31 +17,31 @@ public class AndOrExprTests {
   
   @Test
   void testParsing2() {
-    AndOrExpr e = new AndOrExpr("foo,bar")
+    AndOrExpr e = new AndOrExpr("foo|bar")
     println "e = ${e.dump()}"
   }
 
   @Test
   void testParsing3() {
-    AndOrExpr e = new AndOrExpr("foo,bar,baz")
+    AndOrExpr e = new AndOrExpr("foo|bar|baz")
     println "e = ${e.dump()}"
   }
 
   @Test
   void testParsing4() {
-    AndOrExpr e = new AndOrExpr("foo,bar&2,baz&3")
-    println "e = ${e.dump()}"
+    AndOrExpr e = new AndOrExpr("foo|bar&2|baz&3")
+    println "e = \n${e.dump()}"
   }
 
   @Test
   void testParsing5() {
-    AndOrExpr e = new AndOrExpr("foo & bar & (x, bar & 2), baz & 3")
+    AndOrExpr e = new AndOrExpr("foo & bar & (x | bar & 2) | baz & 3")
     println "e = \n${e.dump()}"
   }
 
   @Test
   void testParsing6() {
-    AndOrExpr e = new AndOrExpr("!foo & !(bar) , !baz & !(3,4)")
+    AndOrExpr e = new AndOrExpr("!foo & !(bar) | !baz & !(3,4)")
     println "e = \n${e.dump()}"
   }
 
@@ -156,7 +155,7 @@ public class AndOrExprTests {
   @Test
   void testParsingError9() {
     try {
-      def expr = new AndOrExpr("5 & !(5,2")
+      def expr = new AndOrExpr("5 & !(5|2")
       println "${expr.dump()}"
       fail("Il y aurait du y avoir une exception ParseException")
     }
