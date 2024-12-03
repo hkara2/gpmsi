@@ -66,6 +66,6 @@ version date    changements
                 Ajout d'une méthode StringTable#addColumn.
                 Changement de StringTable#addRow qui maintenant corrige les valeurs null et les
                 remplace par une chaîne vide "".
-                
+                Ajout d'option -a:taille pour l'affichage du menu de demarrage
 
 
