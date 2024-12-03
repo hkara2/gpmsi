@@ -19,7 +19,7 @@ public class ExampleNodeTreeWalkerTests {
     And nd = new And(left: v1 , right: v2)
     def m = [:]
     def stk = new LinkedList()
-    ntw.walk(m, stk, nd)
+    ntw.walk('', m, stk, nd)
   }
 
   @Test
@@ -31,20 +31,20 @@ public class ExampleNodeTreeWalkerTests {
     ExampleNodeTreeWalker ntw = new ExampleNodeTreeWalker();
     def m = [:]
     def stk = new LinkedList()
-    def r = ntw.walk(m, stk, nd)
+    def r = ntw.walk('', m, stk, nd)
     println "r = $r"
   }
 
   @Test
   public void testWalk3() {
-    String strExpr = '(0, !0) & 1'
+    String strExpr = '(0| !0) & 1'
     AndOrExpr expr = new AndOrExpr(strExpr)
     println "Expr: $strExpr"
     AoeNode nd = expr.getNode()
     ExampleNodeTreeWalker ntw = new ExampleNodeTreeWalker();
     def m = [:]
     def stk = new LinkedList()
-    def r = ntw.walk(m, stk, nd)
+    def r = ntw.walk('', m, stk, nd)
     println "r = $r"
   }
 
