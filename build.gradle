@@ -5,8 +5,8 @@
 
 plugins {
   id 'java'
-  id 'java-library' //genere le jar
-  id 'application'
+  //id 'java-library' //genere le jar
+  //id 'application'
   id 'groovy'
   id 'distribution'
   id 'eclipse'
@@ -26,8 +26,37 @@ java {
   sourceCompatibility = JavaVersion.VERSION_1_8
   targetCompatibility = JavaVersion.VERSION_1_8
   withJavadocJar()
+  //withGroovydocJar() //non malheureusement cette option n'existe pas
   withSourcesJar() //nous voulons aussi un jar avec le code source
 }
+
+//pas d'effet
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+//pas d'effet
+tasks.withType(AbstractCopyTask).configureEach {
+    if(getDuplicatesStrategy() == DuplicatesStrategy.INCLUDE) {
+        setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    }
+}
+
+rootProject.tasks.named("groovydoc") {
+    //duplicatesStrategy = 'include'
+}
+
+groovydoc {
+  use = true
+  //duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+  //println getAntGroovydoc()
+  //getAntGroovydoc().duplicatesStrategy = 'include'
+  overviewText = resources.text.fromString("Toutes les classes (Groovy <i>et</i> java) de Gpmsi")
+  //ajout supplémentaire de sources java ce qui permet d'avoir tout (groovy+java) !
+  source(sourceSets.main.allJava) 
+}
+
+build.dependsOn 'groovydoc'
 
 //A voir si on garde cette tache
 task prepareJavadoc {
@@ -102,9 +131,6 @@ eclipse {
     downloadSources = true
   }
 }
-
-//Forcer UTF-8 partout pour le code source java (IMPORTANT !)
-compileJava.options.encoding = 'UTF-8'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -352,7 +378,7 @@ sourceSets {
     main {
         groovy {
            //srcDirs = ['src/main/groovy', 'src/main/java']
-            srcDir "src/main/groovy"
+           //srcDir "src/main/groovy" //ne pas mettre ce srcDir, il est déjà inclus ! et cela déclenche des erreurs groovydoc ensuite ! (à vérifier éventuellement)
         }
         java {
            // srcDirs = ['src/main/groovy', 'src/main/java']
@@ -516,6 +542,16 @@ task dist {
                 fileset(dir: "build/docs/pmsixml-javadoc/")
             }
 
+            //copier les repertoires des groovydocs dans les docs de sortie
+            mkdir(dir: "dist/$destdir/docs/groovydoc")
+
+            //les créer au cas où ils n'existeraient pas encore (si "groovydoc" n'a pas été lancé)
+            mkdir(dir: "build/docs/groovydoc/")
+
+            copy(todir: "dist/$destdir/docs/groovydoc", filtering: "false", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "build/docs/groovydoc/")
+            }
+            
             //Effacer tous les fichiers temporaires des exemples groovy pour etre propre
             mkdir(dir: "dist/$destdir/exemples-groovy")
             copy(todir: "dist/$destdir/exemples-groovy", filtering: "true", overwrite: "true", preservelastmodified: true) {
