@@ -2,6 +2,7 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <body>
+
 <table>
 <caption>&nbsp;</caption><!--obligé de mettre ce "caption" sinon javadoc génère une erreur-->
 <tr>
@@ -17,13 +18,21 @@ exécuter diverses tâches pour le PMSI.
 </tr>
 </table>
 
+<p>Raccourcis :
+<a href="../groovydoc/index.html">groovydoc</a> -
+<a href="../pmsixml-javadoc/index.html">javadoc pmsixml</a> -
+<a href="../index.html">retour à la documentation générale</a>
+
+<p>
 Le langage Groovy (<a href="https://groovy-lang.org/">lien vers le site</a>)
  est utilisé car il a été conçu pour pouvoir écrire des scripts et
 les exécuter rapidement (ils sont compilés comme du java juste avant leur exécution).
+
 <p>
 Il utilise une librairie de support, <a href="../pmsixml-javadoc/index.html">pmsixml</a>
 qui permet l'analyse de fichiers pmsi et leur représentation en
 mémoire. Cf. {@link fr.gpmsi.pmsixml}
+
 <p>
 Gpmsi est livré avec des librairies supplémentaires qui sont utiles lors
 de l'écriture de scripts, (ou qui sont nécessaires à l'exécution de groovy) :
@@ -74,10 +83,9 @@ structures : <a href="https://hapifhir.github.io/hapi-hl7v2/v23/apidocs/index.ht
 <li><a href="https://github.com/brettwooldridge/SparseBitSet">SparseBitSet</a>
 <li><a href="https://xmlbeans.apache.org/">xmlbeans</a>
 
-
 </ul>
 
 @author Harry KARADIMAS
-@see fr.gpmsi.pmsixml.FszField
+@see fr.gpmsi.pmsixml
 </body>
 </html>
