@@ -100,9 +100,9 @@ def mainPanel = {
           actionPerformed: {
               def cheminSrc = T2.text
               def cheminDest = T3.text
-              def pmsixml_home = System.getenv('GPMSI_HOME')
-              def gpmsi = pmsixml_home + '\\gpmsi.bat'
-              def script = pmsixml_home + '\\scripts\\groovy\\rss_vers_csv.groovy'
+              def gpmsi_home = System.getenv('GPMSI_HOME')
+              def gpmsi = gpmsi_home + '\\gpmsi.bat'
+              def script = gpmsi_home + '\\scripts\\groovy\\rss_vers_csv.groovy'
               //Construction de la commande
               def cmd = "\"$gpmsi Groovy -script $script -a:input \"$cheminSrc\" -a:output \"$cheminDest\" \""
               ProcessBuilder pb =
@@ -143,7 +143,7 @@ def mainPanel = {
 
 
 def myframe = swb.frame(
-        title : 'Transformation .csv -> fichcomp',
+        title : 'Transformation RSS -> .csv',
         location : [100, 100],
         size : [800, 300],
         defaultCloseOperation : WindowConstants.EXIT_ON_CLOSE
