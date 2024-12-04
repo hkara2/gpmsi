@@ -2,7 +2,7 @@ package fr.gpmsi;
 
 /**
  * Classe utilitaire pour faciliter la lecture des arguments passés en ligne
- * de commande des scripts groovy
+ * de commande des scripts groovy 
  * @author hkaradimas
  *
  */
