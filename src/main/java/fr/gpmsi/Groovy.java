@@ -324,7 +324,7 @@ public class Groovy {
 
     /**
      * Lancer l'exécution.
-     * @return Renvoie toujours 0 (auparavant une valeur d'erreur était renvoyée, mais maintenant en
+     * @return si rien à exécuter renvoie 99, sinon renvoie toujours 0 (auparavant une valeur d'erreur était renvoyée, mais maintenant en
      * cas d'erreur ce sont des exceptions qui sont déclenchées)
      * @throws ResourceException -
      * @throws ScriptException -
