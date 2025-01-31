@@ -1,5 +1,7 @@
 package fr.gpmsi;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,7 +10,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URI;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Fonctions utilitaires sur les fichiers.
@@ -158,6 +169,46 @@ public class FileUtils {
     br.close();
     fr.close();
     return linePos;
+  }
+  
+  /**
+   * Retrouver dans un fichier zip le premier fichier qui répond au pattern.<br>
+   * Cette méthode rend la recherche dans les fichier IN et OUT (de l'ATIH) plus facile.<br>
+   * Exemple de recherche d'un fichier <code>.tra.txt</code> :
+   * <pre>
+   * File zipOut = new File("C:/Local/GROUPAGE/2024/12/250127/INOUT/910019447.2024.0.20250129121840.out.zip");
+   * Path tra = FileUtils.findFirstInZip(zipOut, "*.tra.txt");
+   * if (tra != null) {
+   *    Reader rdr = Files.newBufferedReader(tra);
+   *    String content = FileUtils.toString(rdr);
+   *    //...utilisation de "content"
+   *  }
+   * </pre>
+   * 
+   * @param zipFile Le fichier zip
+   * @param pattern Le pattern à rechercher, de type "glob" ( cf. {@link FileSystem#getPathMatcher(String)} )
+   * @return L'objet {@link Path} qui a été trouvé, ou null si rien n'a été trouvé
+   * @throws IOException Si erreur E/S
+   */
+  public static Path findFirstInZip(File zipFile, String pattern)
+      throws IOException 
+  {
+    URI zipFileUri = zipFile.toURI();
+    URI zipUri = URI.create("jar:"+zipFileUri); //doit etre 'jar:', pas 'zip:'
+    FileSystem zfs = FileSystems.newFileSystem(zipUri, Collections.emptyMap());
+
+    //Ensuite, utilisation de ce nouveau FileSystem :
+
+    Iterable<Path> rootDirs = zfs.getRootDirectories();
+    Path rd = null;
+    for (Path d:rootDirs) rd = d; //recuperation du "root dir" (il n'y en a qu'un)
+    //System.out.println("Root dir : "+rd);
+    PathMatcher pm = zfs.getPathMatcher("glob:/"+pattern); //matcher qui recherchera le pattern "glob" donné
+    //Stream<Path> sp = Files.walk(rd);
+    //Iterator<Path> ip = sp.iterator();
+    //while (ip.hasNext()) System.out.println("path:"+ip.next());
+    Optional<Path> foundPath = Files.walk(rd).filter(p -> pm.matches(p)).findFirst();
+    return foundPath.orElse(null);
   }
   
 }
