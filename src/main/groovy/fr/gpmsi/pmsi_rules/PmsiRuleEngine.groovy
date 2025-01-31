@@ -27,16 +27,111 @@ import fr.gpmsi.pmsixml.FszGroup
  * pour enlever les faux déclenchements (ex : on n'a pas trouvé de DP de cancer
  * parce que en fait le cancer a été traité à l'extérieur, on ne veut donc pas
  * qu'il y ait un avertissement à chaque fois)
+ * <p>
+ * Exemple (groovy) de script utilisant un PmsiRuleEngine et des critères :
+ * <pre>
+ * //recherche de rums cancéro dans l'UF de médecine, sortis entre septembre et décembre 2024 
+ * package pmsi_rules
+ * import java.time.LocalDate
+ * import fr.gpmsi.DateUtils
+ * import fr.gpmsi.pmsi_rules.*
+ * import fr.gpmsi.pmsi_rules.cim.*
+ * import fr.gpmsi.pmsi_rules.ccam.*
+ * import fr.gpmsi.pmsi_rules.ghm.*
+ * import fr.gpmsi.pmsi_rules.rss.*
+ * 
+ * ufsAutorisees = ['4001'] as Set
+ * 
+ * dateSorMin = LocalDate.of(2024,  9,  1)
+ * dateSorMax = LocalDate.of(2024, 12, 31)
+ * 
+ * critUfAutorisee = new GenericPmsiCriterion({context ->
+ *     def rum = context['rum']
+ *     ufsAutorisees.contains(rum.txtNUM)
+ * })
+ * 
+ * //critère dateSorMin <= dateSor <= dateSorMax
+ * critDateSorOk  = new GenericPmsiCriterion({context ->
+ *     def rum = context['rum']
+ *     def dateSor = rum.DSUM.toLocalDate()
+ *     dateSor != null && dateSorMin <= dateSor && dateSor <= dateSorMax
+ * })
+ * 
+ * cimCancers = ("C00:D09").split(',') //liste des expressions de codes de cancer
+ * 
+ * critCimDansSelection = new CimCodePresence("DP,DR,DAS", cimCancers) //est-ce que le code CIM du rsa est dans la selection ?
+ * 
+ * //règle pour voir si cim dans la sélection et uf est autorisee et date de sortie dans la plage autorisée
+ * regleCimDansSelection = new PmsiCriterionRule(critCimDansSelection, critUfAutorisee, critDateSorOk)
+ * 
+ * eng = new PmsiRuleEngine(regleCimDansSelection) //moteur de règles basé sur cette règle
+ * 
+ * dateSorParNadl = [:]
+ * 
+ * nadls = [] as Set
+ * 
+ * / ** remplir dates de sortie par nadl * /
+ * rss {
+ *     input args.input
+ *     onItem {item ->
+ *         rum = item.rum
+ *         def dateSor = rum.DSUM.toLocalDate()
+ *         def nadl = rum.txtNADL
+ *         def oldDateSor = dateSorParNadl[nadl]
+ *         if (dateSor != null && (oldDateSor == null || oldDateSor.isBefore(dateSor))) {
+ *             dateSorParNadl[nadl] = dateSor
+ *         }
+ *     }
+ * }
+ * 
+ * rss {
+ *     input args.input
+ *     output args.output
+ * 
+ *     onInit {
+ *         outf = new FileWriter(outputFilePath)
+ *         outf << 'NADL\r\n'
+ *     }
+ * 
+ *     onItem {item->
+ *         rum = item.rum
+ *         int n = eng.evalRum(rum)
+ *         def nadl = rum.txtNADL
+ *         if (n > 0) outf << "$nadl\r\n"
+ *     }
+ * 
+ *     onEnd {
+ *         outf.close()
+ *     }
+ * }
+ *
+ * </pre>
  */
 class PmsiRuleEngine {
 
     List<PmsiRule> rules = []
     def context = [:]
 
+    /**
+     * Constructeur simple.
+     */
     PmsiRuleEngine() {
         context['engine'] = this
         context['out'] = new PrintWriter(System.out, true)
         context['collect'] = []
+        rules?.each { rule -> add(rule) }      
+    }
+
+    /**
+     * Constructeur, permet d'ajouter des règles dès la construction.
+     * On peut ajouter plus de règles par la suite à l'aide de #add(PmsiRule)
+     * @param rules 0 ou plus règles à ajouter
+     */
+    PmsiRuleEngine(PmsiRule... rules) {
+        context['engine'] = this
+        context['out'] = new PrintWriter(System.out, true)
+        context['collect'] = []
+        rules?.each { rule -> add(rule) }      
     }
 
     void add(PmsiRule rule) { rules << rule }
