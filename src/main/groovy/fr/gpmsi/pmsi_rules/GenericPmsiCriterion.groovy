@@ -6,7 +6,8 @@ import groovy.lang.Closure;
 
 /**
  * Critère PMSI générique. L'évaluation est déléguée à une <i>closure</i> de code utilisateur qui devra 
- * retourner true ou false (sinon une exception sera lancée !)
+ * retourner true ou false (sinon une exception sera lancée !).
+ * L'argument passé à la closure sera un objet context de type HashMap.
  */
 public class GenericPmsiCriterion
     implements PmsiCriterion 
