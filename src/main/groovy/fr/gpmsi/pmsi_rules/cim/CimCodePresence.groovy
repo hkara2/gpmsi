@@ -212,7 +212,7 @@ class CimCodePresence
                 break
                 case 'DR':
                   if (rum == null) { rum = context['rum'] }
-                  if (rum != null) { readcodes << rum.getChildField('DR').value.trim() ; println "readcodes:$readcodes" }
+                  if (rum != null) { readcodes << rum.getChildField('DR').value.trim() }
                   break
                 case 'DRA':
                   if (rsa == null) { rsa = context['rsa'] }
