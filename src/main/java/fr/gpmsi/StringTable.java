@@ -319,7 +319,9 @@ implements Iterable<StringTableRow>
     }
     
     /**
-     * Retourner la rangée dont le numéro est r
+     * Retourner la rangée dont le numéro est r.
+     * Attention il se peut qu'il y ait moins d'éléments que de nombre de colonnes selon ce qui
+     * était présent lors de la lecture de la StringTable
      * @param r Le numéro de la rangée
      * @return Un tableau de String ou null si la rangée n'existe pas
      */
@@ -348,7 +350,7 @@ implements Iterable<StringTableRow>
 	 * Les numéros commencent à 0.
 	 * @param rowNr Numéro de ligne (commence à 0)
 	 * @param colNr Numéro de colonne (commence à 0)
-	 * @return valeur à ligne/colonne
+	 * @return valeur à ligne/colonne (est null si la colonne n'existe pas)
 	 */
 	public String getValue(int rowNr, int colNr) {
 		String[] rowa = getRow(rowNr);
@@ -823,7 +825,18 @@ implements Iterable<StringTableRow>
 			setColumnIndexesFromTitles(titles);
 			String[] row = csvrdr.readNext();		
 			while (row != null) {
-			    if (!isEmpty(row)) addRow(row);
+                if (!isEmpty(row)) { //ne pas ajouter des rangées vides
+                  if (row.length < getColumnCount()) {
+                    //il y a eu moins de colonnes lues que de colonnes ; il faut compléter par des chaînes vides pour éviter des bugs dans les traitements par la suite
+                    String[] tmpRow = new String[getColumnCount()];
+                    for (int i = 0; i < tmpRow.length; i++) {
+                      if (i < row.length) tmpRow[i] = row[i];
+                      else tmpRow[i] = "";
+                    }
+                    row = tmpRow;
+                  }
+                  addRow(row);
+                }
 				row = csvrdr.readNext();
 			}//while
 		}
