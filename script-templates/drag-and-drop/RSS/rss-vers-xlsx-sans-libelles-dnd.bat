@@ -12,7 +12,7 @@ set APP=%GPMSI_HOME%\gpmsi.bat
 set SCRIPT=%GPMSI_HOME%\scripts\groovy\rss_vers_xlsx.groovy
 
 rem Fichier RSS a transformer (avec guillemets enleves)
-set A=%1
+set A=%~1
 rem Fichier Excel resultant
 set B=%~dpn1.xlsx
 call "%APP%" -script "%SCRIPT%" -a:input "%A%" -a:output "%B%" -f:paslibccam -f:paslibcim
