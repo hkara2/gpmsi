@@ -3,6 +3,8 @@
  * et le convertir au format .xlsx, avec les noms de colonne suivants :
  * nligne;nrss;nadl;ddsej;dfsej;ghm;hash_tra
  *
+ * (nligne correspond au numéro de RSA)
+ *
  * Arguments :
  * -a:input chemin_du_fichier_entree
  * -a:output chemin_du_fichier_sortie
