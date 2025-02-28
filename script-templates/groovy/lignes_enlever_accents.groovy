@@ -10,12 +10,12 @@
  * Exemple avec un textes accentué encodé en windows-1252 sur windows, sans
  * utilisation de l'argument 'encoding' :
  * cd C:\t\test_accents
- * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.1\scripts\groovy\lignes_enlever_accents.groovy -a:input bonjour-cp1252.groovy -a:output bonjour-cp1252_sans_accents.groovy
+ * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\lignes_enlever_accents.groovy -a:input bonjour-cp1252.groovy -a:output bonjour-cp1252_sans_accents.groovy
  *
  * Exemple avec un textes accentué encodé en utf-8 sur windows, avec
  * utilisation de l'argument 'encoding' avec 'utf-8' :
  * cd C:\t\test_accents
- * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.1\scripts\groovy\lignes_enlever_accents.groovy -a:input bonjour-utf-8.groovy -a:output bonjour-utf-8_sans_accents.groovy -a:encoding utf-8
+ * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\lignes_enlever_accents.groovy -a:input bonjour-utf-8.groovy -a:output bonjour-utf-8_sans_accents.groovy -a:encoding utf-8
  */
 import org.apache.commons.lang3.StringUtils
 
