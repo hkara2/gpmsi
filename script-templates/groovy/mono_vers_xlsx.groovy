@@ -8,12 +8,12 @@
  * -f:txt forcer la sortie au format texte (par defaut le type prefere est utilise)
  *
  * Exemples d'execution :
- * gpmsi -script C:\hkchse\dev\chse-gpmsi\scripts\mono-vers-csv.groovy -a:input 910019447.2017.12.ium -a:meta ium2017 -a:metasDir C:\hkchse\pmsi\formats\pmsixml -a:output 910019447.2017.12.ium.csv
- * gpmsi -script C:\hkchse\dev\chse-gpmsi\scripts\mono-vers-csv.groovy -a:input FICHCOMPATU -a:meta fichcompatu2017 -a:output FICHCOMPATU.csv
- * gpmsi -script C:\hkchse\dev\chse-gpmsi\scripts\mono-vers-csv.groovy -a:input FICHCOMPMED -a:meta fichcompmed2017 -a:output FICHCOMPMED.csv
- * gpmsi -script C:\hkchse\dev\chse-gpmsi\scripts\mono-vers-csv.groovy -a:input 910019447.2017.12.tra.txt -a:meta tra2016 -a:output 910019447.2017.12.tra.csv
- * gpmsi -script C:\hkchse\dev\chse-gpmsi\scripts\mono-vers-csv.groovy -a:input 910019447.2019.6.ano.in.txt -a:meta anohospV013 -a:output 910019447.2019.6.ano.in.txt.csv
- * gpmsi -script C:\hkchse\dev\chse-gpmsi\scripts\mono-vers-csv.groovy -a:input VIDHOSP_MCO.txt -a:meta vidhospV013 -a:output VIDHOSP_MCO.txt.csv
+ * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\mono_vers_xlsx.groovy -a:input 910019447.2017.12.ium -a:meta ium2017 -a:metasDir C:\hkchse\pmsi\formats\pmsixml -a:output 910019447.2017.12.ium.csv
+ * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\mono_vers_xlsx.groovy -a:input FICHCOMPATU -a:meta fichcompatu2017 -a:output FICHCOMPATU.csv
+ * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\mono_vers_xlsx.groovy -a:input FICHCOMPMED -a:meta fichcompmed2017 -a:output FICHCOMPMED.csv
+ * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\mono_vers_xlsx.groovy -a:input 910019447.2017.12.tra.txt -a:meta tra2016 -a:output 910019447.2017.12.tra.csv
+ * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\mono_vers_xlsx.groovy -a:input 910019447.2019.6.ano.in.txt -a:meta anohospV013 -a:output 910019447.2019.6.ano.in.txt.csv
+ * C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script C:\app\gpmsi\v@PROJECT_VERSION@\scripts\mono_vers_xlsx.groovy -a:input VIDHOSP_MCO.txt -a:meta vidhospV013 -a:output VIDHOSP_MCO.txt.csv
  * Harry Karadimas 2020
  * v.1 200326 hk creation, base sur mono-vers-csv.groovy
  */
