@@ -15,8 +15,10 @@ AVERTISSEMENT :
 
 1) Comme la license l'indique, il n'y a aucune garantie à l'utilisation
    de ce programme
-2) Ce programme n'est pas fait pour être connecté en réseau, ni pour se
-   connecter en réseau (réseau interne ou internet). Soyez responsable
+2) Cet ensemble de programmes n'est pas fait pour être connecté en réseau,
+   ni pour se connecter en réseau (réseau interne ou internet). Des connexions
+   réseau peuvent être utilisées (vers des bases de données notamment) mais
+   toute connexion présente un risque et doit être sécurisée. Soyez responsable
    pour assurer la sécurité de votre clinique ou hôpital.
 
 
