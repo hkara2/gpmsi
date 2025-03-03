@@ -1,3 +1,20 @@
+            Installation de gpmsi
+            
+L'installation est très simple :
+Créer si cela n'existe pas encore le répertoire C:\app\gpmsi
+Y dézipper le contenu de la distribution.
+
+Par exemple pour la version v@PROJECT_VERSION@ , on obtiendra 
+un répertoire  C:\app\gpmsi\v@PROJECT_VERSION@ .
+
+Pour tester si la librairie fonctionne, exécuter dans une fenêtre
+de commandes, la commande :
+
+C:\app\gpmsi\v@PROJECT_VERSION@\menu.bat
+
+Cela devrait afficher le menu de gpmsi.
+
+
 
 Pour le développement :
 
