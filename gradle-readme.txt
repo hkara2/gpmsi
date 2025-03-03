@@ -1,4 +1,4 @@
-:encoding=UTF-8: 
+☺:encoding=UTF-8: 
 
 Pour construire et construire la distribution : gradle jar dist
 
@@ -6,7 +6,7 @@ Pour construire et distribuer sur c:\app\gpmsi directement, exécuter un batch l
 J'ai créé pour mon usage perso : gradle-gpmsi
 (c'est un batch local qui appelle : gradle jar dist
 puis fait des copies vers c:\app\gpmsi 
-On peut faire un batch similaire qui simplifie les cycles de compilation+déploiement)
+On peut faire un batch similaire qui simplifie les cycles de compilation+déploiement locaux)
 
 Idem mais recopie sur le répertoire partagé qui est sur h: : gradle-gpmsi h
 (fait des copies supplementaires)
