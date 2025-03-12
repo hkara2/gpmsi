@@ -195,6 +195,15 @@ public class PoiHelper {
   }
   
   /**
+   * La cellule est-elle de type BLANK
+   * @param c la cellule à tester
+   * @return true si la cellule est de type BLANK
+   */
+  public static boolean isCellBlank(Cell c) {
+    return c != null && c.getCellType() == CellType.BLANK;
+  }
+  
+  /**
    * Est la recopie quasi-exacte de {@link CellUtil#getFormatProperties(CellStyle)}
    * qui est private et pas public.
    * @param style le {@link CellStyle} dont on veut avoir les propriétés
@@ -262,6 +271,7 @@ public class PoiHelper {
    * A noter que ici les valeurs apparaîtront telles qu'elles sont visible dans Excel.
    * Pour les cellules qui contiennent des formules, c'est la dernière valeur qui a été stockée
    * par Excel qui sera retournée.
+   * Attention les cellules vierges de type BLANK renvoient le texte "BLANK" !
    * @param c La cellule à lire, peut être null.
    * @return La valeur textuelle de la cellule. N'est jamais null.
    */
