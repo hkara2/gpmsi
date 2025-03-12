@@ -1,6 +1,6 @@
 // :encoding=utf-8:
 /**
- * Exporter les RSS vers un fichier Excel xlsx.
+ * Exporter quelques colonnes des RSS vers un fichier Excel xlsx.
  * arguments :
  * -a:input chemin_fichier
  * -a:output chemin_fichier
@@ -14,6 +14,9 @@
  * L'envoi vers un fichier xlsx préserve mieux le contenu des cellules que
  * l'envoi vers du csv ; cependant le traitement est plus long, et la première
  * ouverture du fichier xlsx généré est très longue.
+ * Exemple 
+ * c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi.bat -script c:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\rss_vers_xlsx.groovy -a:input MCO_RSSG_20250205003852-R01R02.txt -a:output MCO_RSSG_20250205003852-R01R02.xlsx -f:paslibcim -f:paslibccam
+ 
  */
 import groovy.xml.XmlSlurper
 
@@ -71,13 +74,25 @@ def limit32K(str) {
     (str != null && str.length() > 32700) ? str.substring(0, 32700) : str
 }
 
+//ajouter le nom d'en-tête, avec son commentaire
+def entete(String nom, def fld) {
+    def comm = ""
+    if (fld != null) {
+        def meta = fld.meta
+        comm = meta.longName
+        comm = comm + nl + meta.getRemarksFormatted(nl)
+    }
+    def cell = xh.addCell(nom)
+    XlsxHelper.setComment(cell, comm, "")
+}
+
 listeRumsParNrss = [:] //map globale des RUMS par numero de RSS
 
 listeRss = []
 
 ensembleRss = [] as Set
 
-XlsxHelper xh = new XlsxHelper('RSS')
+xh = new XlsxHelper('RSS')
 
 //Verifier que les fichiers nécessaires sont bien présents.
 def uh = System.getProperty('user.home')
@@ -114,45 +129,6 @@ rss {
 
 }
 
-xh.addCell('nrum')
-xh.addCell('nadl')
-xh.addCell('ghm')
-xh.addCell('dnais')
-xh.addCell('sexe')
-xh.addCell('num')
-//xh.addCell('tald')
-xh.addCell('deum')
-xh.addCell('meum')
-xh.addCell('prov')
-xh.addCell('psur')
-xh.addCell('dsum')
-xh.addCell('msum')
-xh.addCell('dest')
-//xh.addCell('cpre')
-//xh.addCell('pnne')
-//xh.addCell('ageg')
-//xh.addCell('ddr')
-xh.addCell('nbse')
-xh.addCell('nda')
-xh.addCell('ndad')
-xh.addCell('nza')
-xh.addCell('dp')
-xh.addCell('libldp')
-xh.addCell('dr')
-xh.addCell('libldr')
-xh.addCell('igs2')
-//xh.addCell('ccrs')
-//xh.addCell('tyma')
-//xh.addCell('tydo')
-//xh.addCell('numi')
-//xh.addCell('nivg')
-//xh.addCell('apivg')
-//xh.addCell('nnva')
-xh.addCell('dascs')
-xh.addCell('das')
-xh.addCell('actscs')
-xh.addCell('acts')
-xh.newRow()
 //charger cim10 en encodage utf8, avec indexation de la colonne 0
 cim10 = new StringTable(cimFile, "utf-8", 0)
 //charger ccam en encodage utf8, avec indexation de la colonne 2 (CODEP, le code "plein", cad PMSI+extension)
@@ -162,11 +138,56 @@ ccam = new StringTable(ccamFile, "utf-8", 2)
 styleMultiligne = xh.sheet.workbook.createCellStyle()
 styleMultiligne.setWrapText(true);
 
+envoyerEntete = true //faut-il envoyer l'en-tête ? Oui, la première fois.
+
 listeRss.each() {nrss ->
     def listeRums = listeRumsParNrss[nrss]
     if (listeRums != null) {
         //pour chaque RUM, emettre les infos.
         listeRums.each {rum->
+            if (envoyerEntete) {
+                entete('nrum', rum.NRUM)
+                //println "nrum : " + rum.NRUM.meta.getRemarksFormatted(nl) + ")"
+                entete('nadl', rum.NADL)
+                entete('ghm', rum.GHM)
+                entete('dnais', rum.DNAIS)
+                entete('sexe', rum.SEXE)
+                entete('num', rum.NUM)
+                //entete('tald', rum.TALD)
+                entete('deum', rum.DEUM)
+                entete('meum', rum.MEUM)
+                entete('prov', rum.PROV)
+                entete('psur', rum.PSUR)
+                entete('dsum', rum.DSUM)
+                entete('msum', rum.MSUM)
+                entete('dest', rum.DEST)
+                //entete('cpre', rum.CPRE)
+                //entete('pnne', rum.PNNE)
+                //entete('ageg', rum.AGEG)
+                //entete('ddr', rum.DDR)
+                entete('nbse', rum.NBSE)
+                entete('nda', rum.NDA)
+                entete('ndad', rum.NDAD)
+                entete('nza', rum.NZA)
+                entete('dp', rum.DP)
+                entete('libldp', rum.LIBLDP)
+                entete('dr', rum.DR)
+                entete('libldr', rum.LIBLDR)
+                entete('igs2', rum.IGS2)
+                //entete('ccrs', rum.CCRS)
+                //entete('tyma', rum.TYMA)
+                //entete('tydo', rum.TYDO)
+                //entete('numi', rum.NUMI)
+                //entete('nivg', rum.NIVG)
+                //entete('apivg', rum.APIVG)
+                //entete('nnva', rum.NNVA)
+                entete('dascs', rum.DASCS)
+                entete('das', rum.DAS)
+                entete('actscs', rum.ACTSCS)
+                entete('acts', rum.ACTS)
+                xh.newRow()
+                envoyerEntete = false
+            }
             def nrum = rum.txtNRUM
             xh.addCell(nrum)
             def nadl = rum.txtNADL
