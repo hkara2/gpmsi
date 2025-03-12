@@ -1,6 +1,6 @@
 // :encoding=utf-8:
 /**
- * Exporter les RSS vers un fichier csv
+ * Exporter quelques champs du RSS vers un fichier csv
  * arguments :
  * -a:input
  * -a:output
@@ -15,6 +15,7 @@
  * #190802 hk ajout du drapeau 'libelles' pour avoir les libelles des codes, qui sont lourds et posent probleme.
  * #220608 hk ajout d'une colonne "parcours" pour avoir le parcours de soins
  * #230327 hk ajout de deux colonnes dadm et dsor pour dates admission a l'hopital et sortie de l'hopital
+ * #250307 hk ajout de la colonne psur (passage par un service d'urgences) et np (non programmé)
  */
 import groovy.xml.XmlSlurper
 import groovy.time.TimeCategory
@@ -123,10 +124,12 @@ single {
       outp.f 'deum'   //date d'entrée dans l'UM
       outp.f 'meum'   //mode d'entrée dans l'UM
       outp.f 'prov'   //provenance
+      outp.f 'psur'   //passage par une structure des urgences
       outp.f 'dsum'   //date de sortie de l'UM
       outp.f 'msum'   //mode de sortie de l'UM
       outp.f 'dest'   //destination
       outp.f 'dsu'     //duree de sejour dans l'UM
+      outp.f 'np'      //non programmé
       //outp.f 'cpre'
       //outp.f 'pnne'
       //outp.f 'ageg'
@@ -191,6 +194,8 @@ single {
         outp.f meum
         def prov  = rum.txtPROV//Provenance (si mode d'entrée est mutation, transfert ou domicile)  PROV
         outp.f prov
+        def psur  = rum.txtPSUR //passage par une structure des urgences
+        outp.f psur
         def dsum  = rum.DSUM.toDate() //Date de sortie de l'unité médicale  DSUM
         if (dsum == null) outp.f '' else outp.f frenchDateFormat.format(dsum)
         def msum  = rum.txtMSUM //Mode de sortie de l'unité médicale    MSUM
@@ -204,6 +209,7 @@ single {
               outp.f dur.days
           }
         }
+        outp.f rum.txtNP   //non programmé
         //def cpre  = rum.txtCPRE //Code postal de résidence (ou 99 suivi du code Insee du pays pour les patients résidant hors de France)  CPRE
         //outp.f cpre
         //def pnne  = rum.txtPNNE //Poids du nouveau-né à l'entrée de l'unité médicale (en grammes) PNNE
