@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -208,17 +209,66 @@ public class XlRow {
   }
   
   /**
+   * La cellule est-elle de type BLANK ?
+   * @param colNr Le numéro de colonne de la cellule
+   * @return true si la colonne est de type BLANK
+   */
+  public boolean isBlank(Integer colNr) {
+    Cell c = getCell(colNr); 
+    return PoiHelper.isCellBlank(c);
+  }
+
+  /**
+   * La cellule est elle de type BLANK ou bien vide ?
+   * Equivalent à <code>isBlank(colNr) || isEmpty(colNr)</code>
+   * @param colNr Le numéro de colonne de la cellule
+   * @return true si la colonne est de type BLANK ou si elle est vide
+   */
+  public boolean isBlankOrEmpty(Integer colNr) {
+    return isBlank(colNr) || isEmpty(colNr);
+  }
+  
+  /**
    * La cellule est-elle vide ?
    * @param colName Le nom de la colonne
    * @return true si la cellule est vide, c'est à dire si getStringValue ramène une chaîne vide ou une chaîne qui ne contient que des espaces.
    * @throws ColumnNotFoundException Si la colonne n'a pas été trouvée
    */
   public boolean isEmpty(String colName) 
-      throws ColumnNotFoundException 
+      throws ColumnNotFoundException
   {
     int ix = owner.getCsvColumnIndex(colName);
     if (ix < 0) throw new ColumnNotFoundException("Colonne '"+colName+"' non trouvee");
     return isEmpty(ix);
+  }
+  
+  /**
+   * La cellule est-elle de type BLANK ?
+   * @param colName Le numéro de colonne de la cellule
+   * @return true si la colonne est de type BLANK
+   * @throws ColumnNotFoundException Si la colonne n'a pas été trouvée
+   */
+  public boolean isBlank(String colName) 
+      throws ColumnNotFoundException
+  {
+    int ix = owner.getCsvColumnIndex(colName);
+    if (ix < 0) throw new ColumnNotFoundException("Colonne '"+colName+"' non trouvee");
+    return isBlank(ix);
+  }
+  
+  /**
+   * La cellule est-elle de type BLANK ou bien est-elle vide ?
+   * Equivalent à <code>isBlank(colNr) || isEmpty(colNr)</code>
+   * @param colName Le numéro de colonne de la cellule
+   * @return true si la colonne est de type BLANK ou si elle est vide.
+   * @throws ColumnNotFoundException Si la colonne n'a pas été trouvée
+   */
+  public boolean isBlankOrEmpty(String colName) 
+      throws ColumnNotFoundException
+  {
+    int ix = owner.getCsvColumnIndex(colName);
+    if (ix < 0) throw new ColumnNotFoundException("Colonne '"+colName+"' non trouvee");
+    return isBlankOrEmpty(ix);
   }
   
   /**
