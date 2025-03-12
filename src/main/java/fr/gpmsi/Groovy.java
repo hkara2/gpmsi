@@ -93,19 +93,20 @@ import groovy.util.ScriptException;
  * <li><code>userHome</code> : le répertoire de l'utilisateur (System.getProperty("user.home"))
  * <li><code>frenchDateFormat</code> : un SimpleDateFormat au format francais dd/MM/yyyy
  * <li><code>pmsiDateFormat</code> : un SimpleDateFormat au format francais mais sans séparateurs, pour les fichiers PMSI ddMMyyyy
+ * <li><code>debug</code> : true si on est passe en mode debug (via l'option -debug, voir plus bas), false sinon
  * </ul>
  *
  * Autres options permises :
  *
  * <ul>
- * <li>debug : passer en mode debogage (emet des messages de debogage)(active le niveau DEBUG de log4j)
- * <li>enc &lt;encodage&gt; : change l'encodage par defaut des script (par defaut c'est UTF-8)
- * <li>scripturi : a utiliser à la place de l'option "script" si on veut définir un chemin relatif sous forme d'URI pour rechercher un script.
+ * <li>-debug : passer en mode debogage (emet des messages de debogage)(active le niveau DEBUG de log4j)
+ * <li>-enc &lt;encodage&gt; : change l'encodage par defaut des script (par defaut c'est UTF-8)
+ * <li>-scripturi : a utiliser à la place de l'option "script" si on veut définir un chemin relatif sous forme d'URI pour rechercher un script.
  *                 C'est nécessaire notamment si le script que l'on donne en argument fait partie d'un package.
  *                 Par exemple si mon script se trouve dans <code>C:\mes_scripts\valorisation\calcul2.groovy</code> et qu'en
  *                 fait "valorisation" est un package, il faut appeler le script de la façon suivante :
  *                 <code>-extracp file:/C:/mes_scripts/ -scripturi valorisation/calcul2.groovy</code>
- * <li>extracp: définir un élément de classpath supplémentaire. Cette option est à utiliser avec -scripturi pour
+ * <li>-extracp: définir un élément de classpath supplémentaire. Cette option est à utiliser avec -scripturi pour
  *              donner le point de départ des scripts. C'est nécessaire lorsque l'on définit les scripts
  *              dans des packages, cela permet de définir le répertoire racine des scripts. Le chemin
  *              doit être une URL et se terminer par un slash (s'il n'y a pas de slash à la fin,
@@ -138,6 +139,8 @@ public class Groovy {
     ArrayList<String> extraCps = new ArrayList<>();
 
     String encoding = "UTF-8"; //encodage des scripts, par défaut UTF-8
+    
+    boolean debug = false;
 
     /**
      * Constructeur par défaut
@@ -187,6 +190,7 @@ public class Groovy {
               //equivalent en log4j2
               //Log4j2Utils.changeRootLogLevel(Level.DEBUG);
               Log4jUtils.setRootLogLevel(Level.DEBUG);
+              debug = true; //signale qu'on est en niveau "debug"
             }
             else if (arg.startsWith("-f:")) {
                 String flagName = arg.substring(3);
@@ -403,6 +407,7 @@ public class Groovy {
             bnd.setVariable("pmsiDateFormat", pmsiDateFormat);
             SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             bnd.setVariable("isoDateFormat", isoDateFormat);
+            bnd.setVariable("debug", debug);
             //problem : The script fr/gpmsi/inits.groovy can't be found.
             //This works when hardcoded : 'jar:file:/C:/app/pmsixml/1.6/lib/pmsixml-1.6.jar!/fr/pmsixml/inits.groovy'
             gse.run("fr/gpmsi/initengine.gtxt", bnd); //start with init script (inits.groovy copied to initengine.gtxt)
