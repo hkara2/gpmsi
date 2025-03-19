@@ -4,7 +4,9 @@
  * Cf la doc de sql_create_table.groovy pour le format de cette table.
  * Le fichier excel doit contenir les colonnes définies dans le fichier des
  * définitions de colonne (à part pour les colonnes définies avec le nom
- * spécial "*")
+ * spécial "*").
+ * Les colonnes qui ont un nom de type sql vide sont ignorées (cela peut être
+ * utile pour n'importer que certaines colonnes)
  *
  * Arguments :
  * -a:input chemin_du_fichier_excel
@@ -16,9 +18,10 @@
  * -a:jdbcpwd mot_de_passe_du_user
  *
  * Exemple :
- * c:\app\gpmsi\v2.0\gpmsi -script c:\app\gpmsi\v2.0\scripts\groovy\sql_injecter_excel_table.groovy -a:input "C:\t\tests-bi\etude_mouvements_I_PATIEN-v1_2.xlsx" -a:table mouv -a:colmd etude_mouvements_I_PATIEN-v1_2_colonnes.csv -a:jdbcurl "jdbc:h2:./test" -a:jdbcuser sa -a:jdbcpwd "" -a:jdbcdriver "org.h2.Driver"
+ * c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script c:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\sql_injecter_excel_table.groovy -a:input "C:\t\tests-bi\etude_mouvements_I_PATIEN-v1_2.xlsx" -a:table mouv -a:colmd etude_mouvements_I_PATIEN-v1_2_colonnes.csv -a:jdbcurl "jdbc:h2:./test" -a:jdbcuser sa -a:jdbcpwd "" -a:jdbcdriver "org.h2.Driver"
  */
 import fr.gpmsi.StringTable
+import static fr.gpmsi.StringUtils.isEmpty
 import groovy.sql.Sql
 
 tableName = args.table
@@ -40,14 +43,19 @@ xlpoi {
         def vals = []
         def qms =  new StringBuffer()
         colmd.each {cd ->
-            def excel_name = cd.col_excel
-            def sql_name = cd.col_sql
-            if (excel_name != '*') { //n'ajouter que si le nom n'est pas "*"
-                def cellObj = row.isBlankOrEmpty(excel_name) ? null : row.getCellObject(excel_name)
+            def col_excel = cd.col_excel
+            def col_sql = cd.col_sql
+            def type_sql = cd.type_sql
+            //n'ajouter que si le nom n'est pas "*" et le type sql n'est pas vide
+            if (col_excel != '*' && !isEmpty(type_sql)) {
+                def cellObj = null
+                if (!row.isBlankOrEmpty(col_excel)) {
+                    cellObj = row.getCellObject(col_excel)
+                }
                 vals << cellObj
-                if (debug) println "val[$excel_name]:$cellObj"
+                if (debug) println "val[$col_excel]:$cellObj"
                 if (names.length() > 0) names << ", "
-                names << sql_name
+                names << col_sql
                 if (qms.length() > 0) qms << ","
                 qms << "?"
             }
@@ -56,7 +64,7 @@ xlpoi {
         //envoyer un petit suivi visuel de la ligne en cours
         if (item.linenr % 100 == 0) print "\r${item.linenr}                    "
     }
-    
+
     onEnd {
         //Effacer le dernier chiffre
         println "\r                                  "
