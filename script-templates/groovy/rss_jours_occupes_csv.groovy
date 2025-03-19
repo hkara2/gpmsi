@@ -5,7 +5,7 @@
  * JA : le numéro du jour de l'année. 1 est le 1er janvier de l'année.
  * MO : le numéro du mois.
  * NB : nombre de jours occupés au total
- * Un exemple d'utilisation de ces données est dans : xlsx\jours_um_pour_rss_jours_occupes_csv.xlsx
+ * Un exemple d'utilisation de ces données est dans : a-copier-coller\RSS\jours_um_pour_rss_jours_occupes_csv.xlsx
  * Arguments :
  * -a:year annee a extraire
  * -a:input chemin(s)_du_ou_des_fichier(s)_entree (séparés par ";")
