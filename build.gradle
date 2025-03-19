@@ -479,8 +479,13 @@ task dist {
             filter(token: "JAVA_COMMAND", value: "java")
             filter(token: "START_JAVA", value: "")
 
+            //copie des éléments de scripts à filtrer
             copy(todir: "dist/$destdir/scripts", filtering: "true", overwrite: "true", preservelastmodified: true) {
                 fileset(dir: "script-templates")
+            }
+            //copie des éléments de scripts dont les binaires doivent être gardés tels quels (notamment les fichiers .xlsx)
+            copy(todir: "dist/$destdir/scripts", filtering: "false", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "script-bin-parts")
             }
 
             //copier une version "w" de gpmsi.bat, qui ferme la fenetre de terminal apres s'etre lance
