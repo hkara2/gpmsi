@@ -48,7 +48,18 @@ import org.slf4j.LoggerFactory
  * Si l'expression à rechercher est composée de deux codes CIM-10 séparés par ':', c'est un intervalle. Un code CIM-10
  * sera sélectionné s'il est dans l'intervalle. Bornes hautes et basses sont comprises. Par exemple, pour l'intervalle A00:B94
  * le test sera de voir si le code est &gt;= "A00" et &lt;= "B94999". 
+ * <h4>(futur)Expression CIM-10</h4>
+ * Si l'expression contient un caractère '-' et/ou au moins un caractère '_'
+ * il s'agit d'une expression CIM-10 telle qu'on la trouve dans les manuels
+ * OMS (que ce soit CIM-10 ou aussi CIM-O (oncologique) cette syntaxe se retrouve)
+ * Par exemple "les fractures du fémur se codent S72.–".
+ * Ces expressions sont converties en expression régulière, en remplaçant
+ * '_' par '.' et '-' par '.*'
  * <h4>Expression régulière</h4>
+ * (futur : une expression régulière commence par le caractère '#' qui
+ * indique qu'il s'agit bien d'une expression régulière, et qu'il ne faut pas
+ * traiter les caractères dans le sens CIM-10 mais qu'il faut au contraire
+ * laisser telle quelle l'expression régulière)
  * Si l'expression à rechercher n'est ni un intervalle ni un code CIM-10 normal, l'expression à rechercher sera considérée comm une expression régulière (cf. <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">Pattern</a>) :<br>
  * Ainsi on peut rechercher 'F01[89]1.' : code qui commence par F01, puis suivi d'un 8 ou d'un 9, puis suivi d'un 1, puis de n'importe quel chiffre.<br>
  * Les autres codes sont recherchés tels quels.<br>
