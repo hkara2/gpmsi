@@ -3,7 +3,8 @@
  * Convertir un fichier "LIBCIM10MULTI.TXT" fournir par l'ATIH avec le kit de
  * nomenclature, vers un fichier .csv (format français) équivalent, avec des en-têtes
  * CDE;C2;C3;C4;LIBC;LIBL
- * utilisées par les scripts de gpmsi.
+ * utilisées par les scripts de gpmsi. Un deuxième fichier identique mais avec
+ * l'encodage windows est également généré, pour utilisation avec Excel.
  * Il faut aussi donner les dates de début et de fin de validité au format aaaammjj.
  *
  * Arguments (tous obligatoires) :
@@ -43,9 +44,16 @@ String[] enTetes = ['CDE','C2','C3','C4','LIBC','LIBL'] //en-têtes utilisées p
 inFile = new File(input)
 libcimSt.readFrom(inFile, enTetes, 'windows-1252', '|' as char) //lire le fichier LIBCIM10MULTI.TXT en rajoutant les en-têtes gpmsi
 
-//écrire le resultat en .csv avec encodage windows et séparateur ';'
-outFile = new File(inFile.canonicalFile.parent, "cim10_p${debval}-${finval}.csv")
-csvDest = new CsvDestination(outFile, 'windows-1252', ';' as char)
-libcimSt.writeTo(csvDest)
+//utiliser une transformation pour enlever les espaces superflus dans la colonne CDE
+libcimSt.transform('CDE', {s -> s.trim()})
 
+//écrire le resultat en .csv avec encodage utf-8 et séparateur ';'
+outFileUtf8 = new File(inFile.canonicalFile.parent, "cim10_utf8_p${debval}-${finval}.csv")
+csvDestUtf8 = new CsvDestination(outFileUtf8, 'utf-8', ';' as char)
+libcimSt.writeTo(csvDestUtf8)
+
+//écrire le resultat en .csv avec encodage windows et séparateur ';'
+outFileWin = new File(inFile.canonicalFile.parent, "cim10_windows1252_p${debval}-${finval}.csv")
+csvDestWin = new CsvDestination(outFileWin, 'windows-1252', ';' as char)
+libcimSt.writeTo(csvDestWin)
 
