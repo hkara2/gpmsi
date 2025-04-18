@@ -1076,7 +1076,9 @@ public class ScriptStep {
   public String[] getDbfHeaderRow() { return csvHeaderRow; }
   
   /**
-   * Définir la rangée d'en-tête pour Csv
+   * Définir (ou redéfinir) la rangée d'en-tête pour Csv (ou Xl).
+   * Utile notamment lorsqu'il faut sauter un certain nombre de rangées avant d'arriver à la bonne ligne qui
+   * contient des noms de colonne.
    * @param newRow un tableau de Strings
    */
   public void setCsvHeaderRow(String[] newRow) {
