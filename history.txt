@@ -70,5 +70,7 @@ version date    changements
                 Changement de StringTable#addRow qui maintenant corrige les valeurs null et les
                 remplace par une chaîne vide "".
                 Ajout d'option -a:taille pour l'affichage du menu de demarrage
-
+2.1.0   250419  Utilisation de pmsixml 3.1.0 qui contient des métadonnées pour
+                VIDHOSP 015 (et ANO-HOSP 015).
+                
 

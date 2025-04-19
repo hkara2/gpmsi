@@ -30,6 +30,20 @@ java {
   withSourcesJar() //nous voulons aussi un jar avec le code source
 }
 
+Properties antprops = new Properties()
+antprops.load(new FileReader(layout.projectDirectory.file("ant-build.properties").asFile))
+
+//en cas de doublon de fichier, ne pas déclencher d'erreur, juste écraser
+processResources.duplicatesStrategy='include'
+
+//Si il y a des problèmes de fichiers non trouvés à la compilation, essayer : gradle build --refresh-dependencies
+
+ext.PROJECT_VERSION = antprops.PROJECT_VERSION //ex : 1.1
+ext.PROJECT_SUB_VERSION = antprops.PROJECT_SUB_VERSION //ex : .0
+
+version = ext.PROJECT_VERSION + ext.PROJECT_SUB_VERSION
+
+
 //pas d'effet
 tasks.withType(Jar).configureEach {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
@@ -69,14 +83,14 @@ task prepareJavadoc {
     //def pmsixmlJavadocsDirFile = new File(docsDirFile, 'pmsixml-javadoc')
     //if (!pmsixmlJavadocsDirFile.exists()) pmsixmlJavadocsDirFile.mkdir()
     //println pmsixmlJavadocsDir
-    FileTree pjd = zipTree(file('lib/pmsixml-3.0.0-javadoc.jar'))
+    FileTree pjd = zipTree(file("lib/${antprops.PMSIXMLLIB}-javadoc.jar"))
     //pjd.copy 
     //println 'javadoc prepared'
 }
 
 task copyPmsixmlJavadoc(type: Copy) {
     dependsOn prepareJavadoc
-    from(zipTree(file('lib/pmsixml-3.0.0-javadoc.jar')))
+    from(zipTree(file("lib/${antprops.PMSIXMLLIB}-javadoc.jar")))
     into(layout.buildDirectory.dir('docs/pmsixml-javadoc'))
 }
 //copyPmsixmlJavadoc.dependsOn prepareJavadoc
@@ -136,19 +150,6 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
-
-//en cas de doublon de fichier, ne pas déclencher d'erreur, juste écraser
-processResources.duplicatesStrategy='include'
-
-//Si il y a des problèmes de fichiers non trouvés à la compilation, essayer : gradle build --refresh-dependencies
-
-Properties antprops = new Properties()
-antprops.load(new FileReader(layout.projectDirectory.file("ant-build.properties").asFile))
-
-ext.PROJECT_VERSION = antprops.PROJECT_VERSION //ex : 1.1
-ext.PROJECT_SUB_VERSION = antprops.PROJECT_SUB_VERSION //ex : .0
-
-version = ext.PROJECT_VERSION + ext.PROJECT_SUB_VERSION
 
 repositories {
     flatDir {
