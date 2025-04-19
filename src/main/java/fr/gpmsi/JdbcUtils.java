@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
  *
  */
 public class JdbcUtils {
+  /** Logger log4j */
   public static Logger lg = Logger.getLogger(JdbcUtils.class); 
   
   private static final int NO_CONVERTER = 0;       //pas de convertisseur nécessaire / disponible
@@ -228,6 +229,9 @@ public class JdbcUtils {
    * si ce n'est pas le type par défaut.
    * Exemple d'utilisation :
    * <pre>
+   * //Convertir un objet en vue d'une utilisation dans Jdbc
+   * HashMap&lt;String, Object&gt; formatterCache = new HashMap&lt;String, Object&gt;();
+   *  Object obj1 = JdbcUtils.parseText("2025-03-21T15:59:03.5", "TIMESTAMP", null, "mycol", formatterCache, null);
    * </pre>
    * @see DateTimeFormatter
    * @param text Le texte à convertir
