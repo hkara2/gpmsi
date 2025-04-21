@@ -1,6 +1,7 @@
 package fr.gpmsi.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.sql.Types;
 import java.text.ParseException;
@@ -10,10 +11,14 @@ import java.util.HashMap;
 import org.junit.Test;
 
 import fr.gpmsi.JdbcUtils;
-import junit.framework.TestFailure;
 
+/** tests */
 public class JdbcUtilsTest {
 
+  /**
+   * test du parsing
+   * @throws ParseException -
+   */
   @Test
   public void testParseText()
       throws ParseException 
@@ -31,6 +36,9 @@ public class JdbcUtilsTest {
     }
   }
 
+  /**
+   * Test récupération du numéro de type
+   */
   @Test
   public void testGetTypeNumber() {
     int varcharTypeNr = JdbcUtils.getTypeNumber("VARCHAR");

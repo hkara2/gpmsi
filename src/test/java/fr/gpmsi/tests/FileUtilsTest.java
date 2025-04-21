@@ -1,11 +1,11 @@
 package fr.gpmsi.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.CharBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import fr.gpmsi.FileUtils;
 
+/** tests */
 public class FileUtilsTest {
 
   /**

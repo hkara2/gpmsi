@@ -6,8 +6,10 @@ import org.junit.Test;
 
 import fr.gpmsi.poi.PoiHelper;
 
+/** test */
 public class PoiHelperTestsTest {
 
+  /** test de getColumnNumber */
   @Test
   public void testGetColumnNumber() {
     assertEquals("colonne A devrait etre 0", 0, PoiHelper.getColumnNumber("A")); //1-1
