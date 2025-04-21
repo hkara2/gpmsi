@@ -1,15 +1,15 @@
 ☺:encoding=UTF-8:
                                     GPmsi
 
-GPmsi est une boite a outils qui comprend des scripts prets a l'emploi ainsi
-qu'un environnement permettant a un service DIM de creer ses propres scripts
-a toutes fins utiles. Il utilise pour cela le langage "Groovy", d'où le G devant
+GPmsi est une boite à outils qui comprend des scripts prêts a l'emploi ainsi
+qu'un environnement permettant a un service DIM de créer ses propres scripts
+à toutes fins utiles. Il utilise pour cela le langage "Groovy", d'où le G devant
 Pmsi. Le langage Groovy ajoute à java des fonctionnalité qui permettent
-l'écriture de scripts, ainsi que beaucoup de facilités d'écriture. Cf.
-http://www.groovy-lang.org/
+l'écriture de scripts, ainsi que beaucoup de facilités d'écriture. (Cf.
+http://www.groovy-lang.org/)
 
 
-Pour voir plus d'explications, consulter le repertoire docs.
+Pour voir plus d'explications, consulter le répertoire docs.
 
 Pour voir comment installer gpmsi, consulter le fichier scripts/installation.txt
 
@@ -40,5 +40,8 @@ comportent des caractères accentués, il faut faire le réglage pour
 l'encodage "windows-1252". Voir dans les docs comment faire cela.
 
 
-2023 - Harry Karadimas, medecin DIM.
-Departement d'Information Medicale du Centre Hospitalier Sud Essonne
+2016-2025 - Harry Karadimas, medecin DIM.
+
+Cette boîte à outils est distribuée sous licence Apache 2.0.
+Une copie de cette licence est présente dans le répertoire /docs
+
