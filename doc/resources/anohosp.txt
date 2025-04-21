@@ -1,9 +1,0 @@
-
-Pour SFAC (Séjour facturable à l'assurance maladie 	SFAC	1	151	151)
-au CHSE les valeurs renvoyées sont :
-0 : séjour non facturable
-1 : séjour facturable
-2 : séjour non encore facturé, ou bloqué, ou en attente
-
-
-
