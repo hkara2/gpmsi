@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="rums.xsl"?>
 <RUMS>
-<RUM>
-<FINESS>014571 </FINESS> 
-<VRUM>017 </VRUM> 
-<NRSS>124565478 </NRSS> 
-<NADL>017841745 </NADL> 
-<NRUM>1 </NRUM> 
-<DNAIS>10122001 </DNAIS> 
-<SEXE>1 </SEXE> 
-<NUM>4001</NUM> 
-<TALD> </TALD> 
-<DEUM>01112016</DEUM> 
-<MEUM>8</MEUM> 
-<PROV>0</PROV> 
-<DSUM>01112016</DSUM> 
-<MSUM>8</MSUM> 
-<DEST>0</DEST> 
-<CPRE> </CPRE> 
-<PNNE> </PNNE> 
-<AGEG> </AGEG> 
-<DDR> </DDR> 
-<NBSE> </NBSE> 
-<NDA>0</NDA> 
-<NDAD>0</NDAD> 
-<NZA>0</NZA> 
-<DP>I50</DP> 
-<DR></DR> 
-<IGS2>15</IGS2> 
-<CCRS></CCRS> 
-<TYMA> </TYMA> 
-<TYDO> </TYDO> 
-<NUMI> </NUMI> 
-<NIVGA> </NIVGA> 
-<AIVGP> </AIVGP> 
-<FILLR> </FILLR> 
-<NNVA> </NNVA> 
-<RESER> </RESER> 
-</RUM>
-<RUM>
-<FINESS>014571</FINESS> 
-<VRUM>017</VRUM> 
-<NRSS>78454655</NRSS> 
-<NADL>0152487</NADL> 
-<NRUM>1</NRUM> 
-<DNAIS>01021996</DNAIS> 
-<SEXE>2</SEXE> 
-<NUM>6002</NUM> 
-<TALD></TALD> 
-<DEUM>01102016</DEUM> 
-<MEUM>8</MEUM> 
-<PROV>5</PROV> 
-<DSUM>31102016</DSUM> 
-<MSUM>6</MSUM> 
-<DEST>1</DEST> 
-<CPRE> </CPRE> 
-<PNNE> </PNNE> 
-<AGEG> </AGEG> 
-<DDR> </DDR> 
-<NBSE> </NBSE> 
-<NDA>0</NDA> 
-<NDAD>0</NDAD> 
-<NZA>0</NZA> 
-<DP>J960</DP> 
-<DR></DR> 
-<IGS2></IGS2> 
-<CCRS></CCRS> 
-<TYMA></TYMA> 
-<TYDO></TYDO> 
-<NUMI></NUMI> 
-<NIVGA></NIVGA> 
-<AIVGP></AIVGP> 
-<FILLR></FILLR> 
-<NNVA></NNVA> 
-<RESER></RESER> 
-</RUM>
+    <RUM>
+        <FINESS>014571 </FINESS>
+        <VRUM>017 </VRUM>
+        <NRSS>124565478 </NRSS>
+        <NADL>017841745 </NADL>
+        <NRUM>1 </NRUM>
+        <DNAIS>10122001 </DNAIS>
+        <SEXE>1 </SEXE>
+        <NUM>4001</NUM>
+        <TALD></TALD>
+        <DEUM>01112016</DEUM>
+        <MEUM>8</MEUM>
+        <PROV>0</PROV>
+        <DSUM>01112016</DSUM>
+        <MSUM>8</MSUM>
+        <DEST>0</DEST>
+        <CPRE></CPRE>
+        <PNNE></PNNE>
+        <AGEG></AGEG>
+        <DDR></DDR>
+        <NBSE></NBSE>
+        <NDA>0</NDA>
+        <NDAD>0</NDAD>
+        <NZA>0</NZA>
+        <DP>I50</DP>
+        <DR></DR>
+        <IGS2>15</IGS2>
+        <CCRS></CCRS>
+        <TYMA></TYMA>
+        <TYDO></TYDO>
+        <NUMI></NUMI>
+        <NIVGA></NIVGA>
+        <AIVGP></AIVGP>
+        <FILLR></FILLR>
+        <NNVA></NNVA>
+        <RESER></RESER>
+    </RUM>
+    <RUM>
+        <FINESS>014571</FINESS>
+        <VRUM>017</VRUM>
+        <NRSS>78454655</NRSS>
+        <NADL>0152487</NADL>
+        <NRUM>1</NRUM>
+        <DNAIS>01021996</DNAIS>
+        <SEXE>2</SEXE>
+        <NUM>6002</NUM>
+        <TALD></TALD>
+        <DEUM>01102016</DEUM>
+        <MEUM>8</MEUM>
+        <PROV>5</PROV>
+        <DSUM>31102016</DSUM>
+        <MSUM>6</MSUM>
+        <DEST>1</DEST>
+        <CPRE></CPRE>
+        <PNNE></PNNE>
+        <AGEG></AGEG>
+        <DDR></DDR>
+        <NBSE></NBSE>
+        <NDA>0</NDA>
+        <NDAD>0</NDAD>
+        <NZA>0</NZA>
+        <DP>J960</DP>
+        <DR></DR>
+        <IGS2></IGS2>
+        <CCRS></CCRS>
+        <TYMA></TYMA>
+        <TYDO></TYDO>
+        <NUMI></NUMI>
+        <NIVGA></NIVGA>
+        <AIVGP></AIVGP>
+        <FILLR></FILLR>
+        <NNVA></NNVA>
+        <RESER></RESER>
+    </RUM>
 </RUMS>
