@@ -1,8 +1,8 @@
-/**
- * Exemple basique d'utilisation d'un log relié à ce script
+/**:encoding=UTF-8:
+ * Exemple basique d'utilisation d'un log reliÃ© Ã  ce script
  * Noter que le contexte ici est :
  * log_example
- * C'est à dire le nom de notre script. C'est plus simple pour trouver les
+ * C'est Ã  dire le nom de notre script. C'est plus simple pour trouver les
  * erreurs.
  */
 
