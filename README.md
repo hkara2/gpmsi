@@ -59,6 +59,8 @@ On peut depuis peu trouver aussi cet accès sur github pages, à l'adresse [http
 
 Il y a également un livre (gratuit) sur gpmsi, mais ce livre est encore en cours d'écriture.
 
+Le [site de pmsixml](https://github.com/hkara2/pmsixml) (qui est ce qui a démarré gpmsi, et qui décode les fichiers) est instructif également.
+
 En attendant, avec les javadocs, les scripts fournis en exemple et les classes de test on
 arrive quand même à bien comprendre comment cela fonctionne.
 
