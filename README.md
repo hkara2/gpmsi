@@ -4,10 +4,10 @@
 
 ## Présentation
 
-C'est un environnement (ensemble de programmes, fichiers et librairies) pour
-permettre de scripter (à l'aide de [Groovy](https://groovy-lang.org/)) certaines opérations du PMSI afin de les automatiser. Un des objectifs principaux est de partager facilement les scripts au sein de l'équipe du DIM local.
+Gpmsi est un environnement (ensemble de programmes, fichiers et librairies) pour
+permettre de scripter (à l'aide de [Groovy](https://groovy-lang.org/)) certaines opérations du PMSI afin de les automatiser. Un des objectifs principaux est de partager facilement les scripts au sein de l'équipe du DIM local ou entre DIMs.
 
-Important : l'encodage des fichiers est UTF-8 (y compris les sources java et Groovy), SAUF POUR :
+Important : **l'encodage des fichiers est UTF-8** (y compris les sources java et Groovy), SAUF POUR :
 
 - Les fichiers batch windows
 - Certains fichiers test et .csv
@@ -39,13 +39,18 @@ L'exécution de scripts gpmsi ne nécessite pas d'avoir des droits administrateu
 
 ## Documentation
 
-La documentation principale est dans les fichiers javadoc, qui sont extraits directement
+Il y a un peu de documentation pour installer gpmsi et démarrer, mais
+la documentation principale est dans les fichiers javadoc, qui sont extraits directement
 du code source, et qui est à jour.
-Le reste de la documentation est souvent en retard par rapport à la version distribuée.
+Le reste de la documentation est souvent en retard par rapport à la version distribuée,
+mais en constante amélioration ...
 
 Les fichiers de documentation sont dans le répertoire `doc` et ses sous-répertoires.
 
 Il y a également un livre (gratuit) sur gpmsi, mais ce livre est encore en cours d'écriture.
+
+En attendant, avec les javadocs, les scripts fournis en exemple et les classes de test on
+arrive quand même à bien comprendre comment cela fonctionne.
 
 ## Licence
 
@@ -55,7 +60,7 @@ sous-répertoire `doc`.
 
 ## Avertissement
 
-Cet environnement est distribué par Harry Karadimas uniquement, et ne dépend pas,
+Cet environnement est distribué par Harry Karadimas uniquement, et ne dépend pas de,
 n'engage pas, une institution telle que l'Assistance Publique Hôpitaux de Paris
 ou le Centre Hospitalier Sud Essonne.
 Comme indiqué dans la license, 
