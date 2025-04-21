@@ -1,0 +1,53 @@
+
+le format des zips GENRSA est le suivant :
+
+FINESS.ANNEE.PERIODE.TAMPONTEMPO.IO.zip
+
+FINESS : le numéro FINESS (exemple 910019447 pour le CHSE)
+ANNEE : l'année concernée sur 4 chiffres
+PERIODE : le mois sur 1 ou 2 chiffres, ou 0 si période d'essai
+TAMPONTEMPO : "tampon" temporel, au format jjmmaaaaHHMMss
+IO : in ou out
+
+Le répertoire est en général AppData\Roaming\ATIH\GENRSA\sauvegarde dans le
+répertoire de l'utilisateur, ex :
+
+C:\Users\hkaradimas\AppData\Roaming\ATIH\GENRSA\sauvegarde
+
+Exemple de fichier créé le 24/01/2020 à 18h 42min et 29s pour une période 
+d'essai (0) :
+910019447.2019.0.24012020184229.out.zip
+
+Dans le "in" :
+
+910019447.2019.0.ano.txt         : fichier anohosp
+910019447.2019.0.ium.txt         : fichier des autorisations d'UM
+910019447.2019.0.rss.ini.txt     : RSS initial
+910019447.2019.0.rss.txt         : fichier des RSS (quelles différences par rapport à l'initial ?)
+
+Dans le "out" :
+
+910019447.2019.0.ano
+910019447.2019.0.chainage.err.txt       : erreurs de chaînage
+910019447.2019.0.chainage.log.txt       : compte-rendu du chaînage
+910019447.2019.0.comp.ansi.log.txt      : ?
+910019447.2019.0.comp.log.txt           : ?
+910019447.2019.0.diap
+910019447.2019.0.dif.txt
+910019447.2019.0.dmip
+910019447.2019.0.doublonsnorss.log.csv
+910019447.2019.0.ium
+910019447.2019.0.ivg
+910019447.2019.0.leg                    : erreurs de groupage
+910019447.2019.0.log.txt                : journal du groupage
+910019447.2019.0.med
+910019447.2019.0.medatu
+910019447.2019.0.medthrombo
+910019447.2019.0.n99011.datexp
+910019447.2019.0.pie
+910019447.2019.0.porg
+910019447.2019.0.rdth
+910019447.2019.0.rsa                    : fichier RSA
+910019447.2019.0.sejnonautor.txt
+910019447.2019.0.sta
+910019447.2019.0.tra.txt                : fichier TRA de correspondance Num RSA avec nda

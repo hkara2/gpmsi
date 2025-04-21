@@ -1,0 +1,47 @@
+☺:encoding=UTF-8:
+                                    GPmsi
+
+GPmsi est une boite à outils qui comprend des scripts prêts a l'emploi ainsi
+qu'un environnement permettant a un service DIM de créer ses propres scripts
+à toutes fins utiles. Il utilise pour cela le langage "Groovy", d'où le G devant
+Pmsi. Le langage Groovy ajoute à java des fonctionnalité qui permettent
+l'écriture de scripts, ainsi que beaucoup de facilités d'écriture. (Cf.
+http://www.groovy-lang.org/)
+
+
+Pour voir plus d'explications, consulter le répertoire docs.
+
+Pour voir comment installer gpmsi, consulter le fichier scripts/installation.txt
+
+L'encodage des fichiers est toujours UTF-8 autant que possible.
+
+NE PAS UTILISER LE BLOC NOTE (NOTEPAD.EXE) DE WINDOWS POUR OUVRIR LES FICHIERS !!
+LE BLOC NOTE NE SAIT PAS GERER UTF-8 ET VA CORROMPRE SILENCIEUSEMENT LES FICHIERS !!
+
+Pour cette raison, il y a sur la plupart des fichiers la chaîne de caractères :
+:encoding=UTF-8:
+qui permet à l'éditeur jEdit (http://www.jedit.org/) d'ouvrir les fichiers en 
+mode UTF-8 automatiquement.
+Je rajoute avant le caractère "smiley" ☺ (code Ux263A, on le trouve par ex.
+dans la table des caractères des accessoires windows).
+Cela permet au premier coup d'oeil de voir si les caractères unicodes sont
+pris en compte correctement.
+UTF-8 est de plus en plus utilisé, car il apporte une unité des fichiers sur
+Internet. Le langage R, le langage Python, java, tous ces environnements 
+utilisent de plus en plus UTF-8 pour garder une harmonie des documents entre
+les plateformes.
+Il faut utiliser un éditeur qui supporte UTF-8 pour ouvrir les fichiers texte
+sans casser les caractères accentués.
+Mis à part jEdit, Notepad++ est aussi un très bon éditeur qui supporte UTF-8.
+
+Attention cependant, Excel ouvre par défaut les fichiers .csv en mode
+"windows-1252", donc si vos scripts produisent des fichiers pour Excel qui
+comportent des caractères accentués, il faut faire le réglage pour
+l'encodage "windows-1252". Voir dans les docs comment faire cela.
+
+
+2016-2025 - Harry Karadimas, medecin DIM.
+
+Cette boîte à outils est distribuée sous licence Apache 2.0.
+Une copie de cette licence est présente dans le répertoire /docs
+

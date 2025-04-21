@@ -1,0 +1,497 @@
+<!--
+
+     Licensed to the Apache Software Foundation (ASF) under one
+     or more contributor license agreements.  See the NOTICE file
+     distributed with this work for additional information
+     regarding copyright ownership.  The ASF licenses this file
+     to you under the Apache License, Version 2.0 (the
+     "License"); you may not use this file except in compliance
+     with the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing,
+     software distributed under the License is distributed on an
+     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+     specific language governing permissions and limitations
+     under the License.
+
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<title>fr.gpmsi (gpmsi 2.1 API)</title>
+<meta name="keywords" content="fr.gpmsi package">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel ="stylesheet" TYPE="text/css" HREF="../../stylesheet.css" title="Style">
+<link href="../../groovy.ico" type="image/x-icon" rel="shortcut icon">
+<link href="../../groovy.ico" type="image/x-icon" rel="icon">
+<script type="text/javascript">
+function windowTitle()
+{
+    parent.document.title="fr.gpmsi (gpmsi 2.1 API)";
+}
+</script>
+<noscript>
+</noscript>
+
+</head>
+
+<body class="center" onload="windowTitle();">
+
+<!-- ========= START OF TOP NAVBAR ======= -->
+<div class="topNav"><a name="navbar_top">
+    <!--   -->
+</a><a href="#skip-navbar_top" title="Skip navigation links"></a><a name="navbar_top_firstrow">
+    <!--   -->
+</a>
+<a name="navbar_top_firstrow"><!-- --></a>
+<ul class="navList" title="Navigation">
+    <li><a href="../../overview-summary.html">Overview</a></li>
+    <li class="navBarCell1Rev">Package</li>
+    <li>Class</li>
+    <li><a href="../../deprecated-list.html">Deprecated</a></li>
+    <li><a href="../../index-all.html">Index</a></li>
+    <li><a href="../../help-doc.html">Help</a></li>
+</ul>
+</div>
+
+<div class="subNav">
+    <ul class="navList">
+        <li><a href="../../index.html?fr/gpmsi/package-summary.html" target="_top">Frames</a></li>
+        <li><a href="package-summary.html" target="_top">No Frames</a></li>
+    </ul>
+</div>
+
+<!-- ========= END OF TOP NAVBAR ========= -->
+
+<div class="header">
+    <h1 class="title">Package fr.gpmsi</h1>
+</div>
+
+
+<h2 title="Package fr.gpmsi Description" class="title">Package fr.gpmsi Description</h2>
+<div class="header"> Classes principales de Gpmsi, pour un fonctionnement avec des fichiers
+ RSS, RSA, RHS, RHA, VIDHOSP, et des fichiers mono-niveau (FICHSUP, FICHCOMP, ...)<DL><DT><B>author:</B></DT><DD>hkaradimas</DD></DL>
+ 
+ </div>
+
+
+<div class="contentContainer">
+
+
+    <div class="summary">
+        <ul class="blockList">
+            <li class="blockList">
+                <table border="0" cellpadding="3" cellspacing="0" summary="Interface Summary">
+                    <caption><span>Interface Summary</span><span class="tabEnd">&nbsp;</span></caption>
+                    <tbody>
+                    <tr>
+                        <th class="colFirst" scope="col">Interface</th>
+                        <th class="colLast" scope="col">Description</th>
+                    </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="StringTransformable.html" title="class in fr/gpmsi">
+                                    StringTransformable
+                                </a></strong>
+                            </td>
+                            <td>Implémenté par les classes qui transforment un String en un autre String.</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </li>
+            </ul>
+        </div>
+    
+
+
+
+    <div class="summary">
+        <ul class="blockList">
+            <li class="blockList">
+                <table border="0" cellpadding="3" cellspacing="0" summary="Class Summary">
+                    <caption><span>Class Summary</span><span class="tabEnd">&nbsp;</span></caption>
+                    <tbody>
+                    <tr>
+                        <th class="colFirst" scope="col">Class</th>
+                        <th class="colLast" scope="col">Description</th>
+                    </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="Args.html" title="class in fr/gpmsi">
+                                    Args
+                                </a></strong>
+                            </td>
+                            <td>Classe utilitaire pour faciliter la lecture des arguments passés en ligne
+ de commande des scripts groovy</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="Chrono.html" title="class in fr/gpmsi">
+                                    Chrono
+                                </a></strong>
+                            </td>
+                            <td>Petite classe utilitaire pour mesurer facilement le temps écoulé.</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="CodeSet.html" title="class in fr/gpmsi">
+                                    CodeSet
+                                </a></strong>
+                            </td>
+                            <td>Représente un ensemble de codes.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="CodeSetManager.html" title="class in fr/gpmsi">
+                                    CodeSetManager
+                                </a></strong>
+                            </td>
+                            <td>Gestionnaire d'ensembles de codes en base de données.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="CsvDestination.html" title="class in fr/gpmsi">
+                                    CsvDestination
+                                </a></strong>
+                            </td>
+                            <td>Objet "destination" pour écrire dans un fichier ou un flux des valeurs qui seront
+ séparées par une virgule ou un point-virgule.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="CsvRow.html" title="class in fr/gpmsi">
+                                    CsvRow
+                                </a></strong>
+                            </td>
+                            <td>Encapsulation de CsvRow pour pouvoir utiliser les noms de colonne qui sont dans le ScriptStep de type csv.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="CsvUtils.html" title="class in fr/gpmsi">
+                                    CsvUtils
+                                </a></strong>
+                            </td>
+                            <td>Fonctions utilitaires csv.</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="CuMap.html" title="class in fr/gpmsi">
+                                    CuMap
+                                </a></strong>
+                            </td>
+                            <td>Une Map qui sera mise a jour seulement si la nouvelle valeur repond aux criteres
+ de comparaison. </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="DateUtils.html" title="class in fr/gpmsi">
+                                    DateUtils
+                                </a></strong>
+                            </td>
+                            <td>Methodes utilitaires de dates.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="DbfRow.html" title="class in fr/gpmsi">
+                                    DbfRow
+                                </a></strong>
+                            </td>
+                            <td>Encapsulation d'une rangée de fichier dbf pour pouvoir utiliser les noms de colonne qui sont dans le ScriptStep de type dbf.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="DomUtils.html" title="class in fr/gpmsi">
+                                    DomUtils
+                                </a></strong>
+                            </td>
+                            <td>Fonctions utilitaires pour manipuler le DOM.</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="FileUtils.html" title="class in fr/gpmsi">
+                                    FileUtils
+                                </a></strong>
+                            </td>
+                            <td>Fonctions utilitaires sur les fichiers.</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="Groovy.html" title="class in fr/gpmsi">
+                                    Groovy
+                                </a></strong>
+                            </td>
+                            <td>Lanceur de scripts. </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="Groovy.RequestFocusListener.html" title="class in fr/gpmsi">
+                                    Groovy.RequestFocusListener
+                                </a></strong>
+                            </td>
+                            <td>( Repris depuis http://www.camick.com/java/source/RequestFocusListener.java )</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="GroovyScriptsBase.html" title="class in fr/gpmsi">
+                                    GroovyScriptsBase
+                                </a></strong>
+                            </td>
+                            <td>Classe de base des scripts Groovy du projet. </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="JdbcUtils.html" title="class in fr/gpmsi">
+                                    JdbcUtils
+                                </a></strong>
+                            </td>
+                            <td>Quelques utilitaire JDBC utiles lorsque la base de données est simple (un seul catalogue,
+ un seul schéma).</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="Log4jUtils.html" title="class in fr/gpmsi">
+                                    Log4jUtils
+                                </a></strong>
+                            </td>
+                            <td>Utilitaires locaux à gpmsi</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="ObjectFormatter.html" title="class in fr/gpmsi">
+                                    ObjectFormatter
+                                </a></strong>
+                            </td>
+                            <td>Formater un objet avec des préférences de formatage.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="ObjectUtils.html" title="class in fr/gpmsi">
+                                    ObjectUtils
+                                </a></strong>
+                            </td>
+                            <td>Petites fonctions utilitaires d'objet</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="Phonex.html" title="class in fr/gpmsi">
+                                    Phonex
+                                </a></strong>
+                            </td>
+                            <td>Phonémisation SOUNDEX adaptée au français.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="PreambleRemovedReader.html" title="class in fr/gpmsi">
+                                    PreambleRemovedReader
+                                </a></strong>
+                            </td>
+                            <td>Reader qui ne renvoie des données que après qu'une ligne vide a été rencontrée.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="ScriptStep.html" title="class in fr/gpmsi">
+                                    ScriptStep
+                                </a></strong>
+                            </td>
+                            <td>Etape de script. </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="SearchReplace.html" title="class in fr/gpmsi">
+                                    SearchReplace
+                                </a></strong>
+                            </td>
+                            <td>Utilitaire de réparation/transformation de fichier de bas niveau.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="ShowEnv.html" title="class in fr/gpmsi">
+                                    ShowEnv
+                                </a></strong>
+                            </td>
+                            <td>Commande simple pour voir l'environnement courant.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="StringTable.html" title="class in fr/gpmsi">
+                                    StringTable
+                                </a></strong>
+                            </td>
+                            <td>Une table simple, représentée par des lignes et colonnes de Strings.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="StringTableRow.html" title="class in fr/gpmsi">
+                                    StringTableRow
+                                </a></strong>
+                            </td>
+                            <td>Rangée dans une <a href='../../fr/gpmsi/StringTable.html' title='StringTable'>StringTable</a></td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="StringTableSelection.html" title="class in fr/gpmsi">
+                                    StringTableSelection
+                                </a></strong>
+                            </td>
+                            <td>Objet de sélection qui désigne une sélection de rangées dans une <a href='../../fr/gpmsi/StringTable.html' title='StringTable'>StringTable</a>.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="StringTransformers.html" title="class in fr/gpmsi">
+                                    StringTransformers
+                                </a></strong>
+                            </td>
+                            <td>Un ensemble de transformateurs de String prêts à l'emploi.</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="StringUtils.html" title="class in fr/gpmsi">
+                                    StringUtils
+                                </a></strong>
+                            </td>
+                            <td>Utilitaires de String très fréquemment utilisés pour éviter d'avoir à 
+ les redéclarer à chaque fois.</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="XlRow.html" title="class in fr/gpmsi">
+                                    XlRow
+                                </a></strong>
+                            </td>
+                            <td>Encapsulation de org.apache.poi.ss.usermodel.Row pour pouvoir utiliser les noms de colonne qui sont dans le ScriptStep de type xlpoi.
+ </td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="ZipUtils.html" title="class in fr/gpmsi">
+                                    ZipUtils
+                                </a></strong>
+                            </td>
+                            <td>Quelques utilitaires pour faciliter le travail avec des fichiers Zip.</td>
+                        </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="initsComment.html" title="class in fr/gpmsi">
+                                    initsComment
+                                </a></strong>
+                            </td>
+                            <td>inits.groovy est un script (la classe initsComment n'est là que pour qu'un commentaire apparaisse
+ dans la documentation).
+ </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </li>
+            </ul>
+        </div>
+    
+
+
+
+    <div class="summary">
+        <ul class="blockList">
+            <li class="blockList">
+                <table border="0" cellpadding="3" cellspacing="0" summary="Exception Summary">
+                    <caption><span>Exception Summary</span><span class="tabEnd">&nbsp;</span></caption>
+                    <tbody>
+                    <tr>
+                        <th class="colFirst" scope="col">Exception</th>
+                        <th class="colLast" scope="col">Description</th>
+                    </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="ColumnNotFoundException.html" title="class in fr/gpmsi">
+                                    ColumnNotFoundException
+                                </a></strong>
+                            </td>
+                            <td>Exception envoyée lorsqu'une colonne qui n'existe pas a été référencée</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </li>
+            </ul>
+        </div>
+    
+
+
+
+
+    <div class="summary">
+        <ul class="blockList">
+            <li class="blockList">
+                <table border="0" cellpadding="3" cellspacing="0" summary="Script Summary">
+                    <caption><span>Script Summary</span><span class="tabEnd">&nbsp;</span></caption>
+                    <tbody>
+                    <tr>
+                        <th class="colFirst" scope="col">Script</th>
+                        <th class="colLast" scope="col">Description</th>
+                    </tr>
+<tr class="altColor">
+                            <td class="colOne">
+                                <strong><a href="inits.html" title="class in fr/gpmsi">
+                                    inits
+                                </a></strong>
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </li>
+            </ul>
+        </div>
+    
+
+</div>
+
+<!-- ======= START OF BOTTOM NAVBAR ====== -->
+<div class="bottomNav"><a name="navbar_bottom">
+    <!--   -->
+</a><a href="#skip-navbar_bottom" title="Skip navigation links"></a><a name="navbar_bottom_firstrow">
+    <!--   -->
+</a>
+    <ul class="navList" title="Navigation">
+        <li><a href="overview-summary.html">Overview</a></li>
+        <li class="navBarCell1Rev">Package</li>
+        <li>Class</li>
+        <li><a href="deprecated-list.html">Deprecated</a></li>
+        <li><a href="index-all.html">Index</a></li>
+        <li><a href="help-doc.html">Help</a></li>
+    </ul>
+</div>
+<div class="subNav">
+    <div>
+        <ul class="navList">
+            <li><a href="index.html?deprecated-list.html" target="_top">Frames</a></li>
+            <li><a href="deprecated-list.html" target="_top">No Frames</a></li>
+        </ul>
+    </div>
+
+    <div class="aboutLanguage"><em>Groovy Documentation</em></div>
+    <a name="skip-navbar_bottom">
+        <!--   -->
+    </a></div>
+<!-- ======== END OF BOTTOM NAVBAR ======= -->
+
+</body>
+</html>
