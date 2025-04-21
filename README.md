@@ -50,12 +50,12 @@ mais en constante amélioration ...
 Les fichiers de documentation sont dans le répertoire `docs` et ses sous-répertoires.
 (la documentation qui est sur GitHub dans /doc n'est pas lisible, elle est destinée à être
 ouverte dans le répertoire local où elle est installée. Cependant, sur github pages
-il y a une copie de la documentation dans [https://hkara2.github.io/gpmsi/]() )
+il y a une copie de la documentation dans [https://hkara2.github.io/gpmsi/](https://hkara2.github.io/gpmsi/) )
 
 Il faut ouvrir le fichier index.html dans ce répertoire, il donne accès aux documentations
 javadoc de gpmsi, et aussi des librairies qui le composent. 
 
-On peut depuis peu trouver aussi cet accès sur github pages, à l'adresse [https://hkara2.github.io/gpmsi/]() .
+On peut depuis peu trouver aussi cet accès sur github pages, à l'adresse [https://hkara2.github.io/gpmsi/](https://hkara2.github.io/gpmsi/) .
 
 Il y a également un livre (gratuit) sur gpmsi, mais ce livre est encore en cours d'écriture.
 
