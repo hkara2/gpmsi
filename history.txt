@@ -72,5 +72,6 @@ version date    changements
                 Ajout d'option -a:taille pour l'affichage du menu de demarrage
 2.1.0   250419  Utilisation de pmsixml 3.1.0 qui contient des métadonnées pour
                 VIDHOSP 015 (et ANO-HOSP 015).
+                passage sur github
                 
 

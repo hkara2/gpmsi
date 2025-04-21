@@ -23,6 +23,8 @@ Ainsi on peut voir du premier coup d'oeil si l'encodage UTF-8 est bien respecté
 
 ## Installation
 
+Récupérer l'archive de distribution `gpmsi-v2.1.zip` depuis GitHub, en allant chercher dans "Releases".
+
 L'installation se fait en dézippant l'archive de distribution dans le répertoire `C:\app\gpmsi` (à créer si n'existe pas)
 Il doit y avoir un JDK installé, au minimum version 1.8. OpenJdk convient et fonctionne aussi.
 Il n'y a pas besoin d'être administrateur pour installer gpmsi.
@@ -30,7 +32,7 @@ Pour plus d'informations, lire le fichier `INSTALLATION.TXT`
 
 ## Exécution
 
-L'exécution du script `C:\app\gpmsi\v@PROJECT_VERSION@\gpmsi.bat` dépend de la commande `java`. La méthode la plus
+L'exécution du script `C:\app\gpmsi\v2.1\gpmsi.bat` dépend de la commande `java`. La méthode la plus
 fiable est de définir la variable d'environnement `JAVA_HOME` (en tant que variable utilisateur cela suffit, il 
 n'y a pas besoin de la définir en variable système) pour qu'elle pointe sur le JDK que l'on
 veut utiliser avec gpmsi.
@@ -45,7 +47,10 @@ du code source, et qui est à jour.
 Le reste de la documentation est souvent en retard par rapport à la version distribuée,
 mais en constante amélioration ...
 
-Les fichiers de documentation sont dans le répertoire `doc` et ses sous-répertoires.
+Les fichiers de documentation sont dans le répertoire `docs` et ses sous-répertoires.
+
+Il faut ouvrir le fichier index.html dans ce répertoire, il donne accès aux documentations
+javadoc de gpmsi, et aussi des librairies qui le composent.
 
 Il y a également un livre (gratuit) sur gpmsi, mais ce livre est encore en cours d'écriture.
 

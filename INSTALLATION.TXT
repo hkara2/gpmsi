@@ -4,13 +4,13 @@ L'installation est très simple :
 Créer si cela n'existe pas encore le répertoire C:\app\gpmsi
 Y dézipper le contenu de la distribution.
 
-Par exemple pour la version v@PROJECT_VERSION@ , on obtiendra 
-un répertoire  C:\app\gpmsi\v@PROJECT_VERSION@ .
+Par exemple pour la version v2.1 , on obtiendra 
+un répertoire  C:\app\gpmsi\v2.1 .
 
 Pour tester si la librairie fonctionne, exécuter dans une fenêtre
 de commandes, la commande :
 
-C:\app\gpmsi\v@PROJECT_VERSION@\menu.bat
+C:\app\gpmsi\v2.1\menu.bat
 
 Cela devrait afficher le menu de gpmsi.
 
@@ -21,6 +21,10 @@ C:\app\gpmsi\v2.1\fichiers-ref
 et double-cliquer sur le fichier batch :
 
 installer-fichiers-ref.bat
+
+Pour la documentation
+
+Aller dans le répertoire C:\app\gpmsi\v2.1\docs , et double-cliquer sur index.html
 
 Pour le développement :
 
