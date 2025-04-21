@@ -1,11 +1,13 @@
 StringTable
 ===========
-Harry Karadimas <hkaradimas@ch-sudessonne.fr>
-1,21/01/2019
+Harry Karadimas
+2,21/04/2025
 
 Introduction
 ------------
 +StringTable+ est un objet qui permet d'avoir l'équivalent d'une table dans un objet java. Les membres de la table sont des +String+, d'où le nom de la classe. Les manipulations sont plus faciles que s'il fallait créer une connexion à une base de données, puis créer une table, etc.
+
+(Attention cependant cela ne représente pas une alternative à un _DataFrame_ comme on en trouve dans R ou Python/Pandas !)
 
 Utilisation
 -----------
@@ -97,4 +99,6 @@ stbl.transformDates(colDnaiss, dfFrom, dfTo)
 
 Dernières modifications : +
 170602 hk Création +
-180102 hk Ajout d'explications et exemples 
+180102 hk Ajout d'explications et exemples +
+250425 hk Ajout précisions dataframes et exemples
+
