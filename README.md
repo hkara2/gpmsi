@@ -48,6 +48,8 @@ Le reste de la documentation est souvent en retard par rapport à la version dis
 mais en constante amélioration ...
 
 Les fichiers de documentation sont dans le répertoire `docs` et ses sous-répertoires.
+(la documentation qui est sur GitHub n'est pas lisible, elle est destinée à être
+ouverte dans le répertoire local où elle est installée)
 
 Il faut ouvrir le fichier index.html dans ce répertoire, il donne accès aux documentations
 javadoc de gpmsi, et aussi des librairies qui le composent.
