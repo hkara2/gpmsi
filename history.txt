@@ -73,5 +73,6 @@ version date    changements
 2.1.0   250419  Utilisation de pmsixml 3.1.0 qui contient des métadonnées pour
                 VIDHOSP 015 (et ANO-HOSP 015).
                 passage sur github
+2.1.1   250505  Utilisation de pmsixml 3.1.1 qui contient métadonnées pour RHS M1D
                 
 
