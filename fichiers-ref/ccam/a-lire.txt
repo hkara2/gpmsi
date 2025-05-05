@@ -1,3 +1,6 @@
+La ccam descriptive à usage PMSI a ete travaillee pour obtenir le fichier
+ccam_descr_pmsi_utf8.csv
+
 ccam_cp1252.csv
     ccam v. 48, 2017, encodage windows 1252, a abandonner dans le futur
 ccam_utf8.csv
