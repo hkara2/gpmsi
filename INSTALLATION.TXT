@@ -10,25 +10,22 @@ un répertoire  C:\app\gpmsi\v2.1 .
 Pour tester si la librairie fonctionne, exécuter dans une fenêtre
 de commandes, la commande :
 
-C:\app\gpmsi\v2.1\menu.bat
+   C:\app\gpmsi\v2.1\menu.bat
 
 Cela devrait afficher le menu de gpmsi.
 
 Ensuite aller dans le répertoire :
 
-C:\app\gpmsi\v2.1\fichiers-ref
+   C:\app\gpmsi\v2.1\fichiers-ref
 
 et double-cliquer sur le fichier batch :
 
-installer-fichiers-ref.bat
+   installer-fichiers-ref.bat
+
+cela va installer le répertoire ".gpmsi" ainsi que les fichiers de nomenclature 
+dans le répertoire de base de l'utilisateur.
 
 Pour la documentation
 
 Aller dans le répertoire C:\app\gpmsi\v2.1\docs , et double-cliquer sur index.html
-
-Pour le développement :
-
-Aller dans le répertoire "fichiers-ref" et exécuter le script "installer-fichiers-ref.bat".
-Cela va créer un répertoire ".gpmsi" dans le répertoire de base de l'utilisateur.
-Dans ce répertoire .gpmsi il va copier les deux répertoires ccam et cim.
 

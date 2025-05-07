@@ -56,4 +56,25 @@ S'il y a plusieurs versions de java, creer la variable JAVA_HOME qui
 contiendra le chemin de java a utiliser (par exemple si java a ete installe
 dans C:\jdk1.8 mettre comme valeur pour JAVA_HOME C:\jdk1.8)
 
+Verification de l'installation
+==============================
+
+Exécuter dans une fenêtre de commandes, la commande :
+
+C:\app\gpmsi\v@PROJECT_VERSION@\menu.bat
+
+Si l'installation est correcte, cela devrait afficher une fenêtre avec le
+menu de gpmsi.
+
+Installation initiale des nomenclatures
+=======================================
+
+Si c'est la première installation de gpmsi, il faut installer les fichier de
+nomenclature (CIM-10 et CCAM). Pour cela, aller dans le répertoire :
+
+C:\app\gpmsi\v@PROJECT_VERSION@\fichiers-ref
+
+et double-cliquer sur le fichier batch :
+
+installer-fichiers-ref.bat
 
