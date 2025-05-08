@@ -1,0 +1,104 @@
+StringTable
+===========
+Harry Karadimas
+2,21/04/2025
+
+Introduction
+------------
++StringTable+ est un objet qui permet d'avoir l'équivalent d'une table dans un objet java. Les membres de la table sont des +String+, d'où le nom de la classe. Les manipulations sont plus faciles que s'il fallait créer une connexion à une base de données, puis créer une table, etc.
+
+(Attention cependant cela ne représente pas une alternative à un _DataFrame_ comme on en trouve dans R ou Python/Pandas !)
+
+Utilisation
+-----------
+Pour utiliser une +StringTable+ il faut commencer par importer la classe
+[source,groovy]
+----
+import fr.gpmsi.StringTable
+----
+
+Ensuite il faut créer un nouvel objet +StringTable+ :
+[source,groovy]
+----
+def st = new StringTable()
+----
+
+Définir ensuite les noms des colonnes, à l'aide d'un tableau de +String+
+[source,groovy]
+----
+String[] header = ['Prenom', 'Nom', 'Age']
+st.setColumnIndexesFromTitles(header) 
+----
+
+On peut ensuite ajouter les rangées à l'aide de +addRow+ :
+[source,groovy]
+----
+st.addRow(['Jean', 'Valjean', '64'])
+st.addRow(['Barack', 'Obama', '57'])
+st.addRow(['Sophie', 'Marceau', '52'])
+st.addRow(['Jeanne', 'Calment', '122'])
+----
++addRow+ accepte les tableaux et les listes en paramètre.
+
+A l'aide de la fonction +prettyPrintTo+ on peut afficher la table et son contenu de manière présentable :
+[source,groovy]
+----
+def sb = new StringBuffer()
+st.prettyPrintTo(sb)
+println(sb)
+----
+
+Voici le résultat :
+
+....
+    Prenom Nom     Age
+    Jean  |Valjean|64
+    Barack|Obama  |57
+    Sophie|Marceau|52
+    Jeanne|Calment|122
+....
+
+Exemple simple
+--------------
+
+Cas d'utilisation
+-----------------
+* Gérer une liste d'identifiants
+* Charger un fichier .csv et le transformer
+* Construire une table pour l'injecter dans une table de base de données via JDBC
+
+Exemples
+--------
+Création d'une +StringTable+ vide, et ajout de deux rangées.
+[source,groovy]
+----
+def st = new StringTable()
+st.add(['Jean', 'Valjean', '45'])
+----
+
+Importation d'un fichier séparé par des tabulations, issu de Excel (la première ligne contient les noms de colonnes) :
+[source,groovy]
+----
+def fichierPatients = "nip_iep_nom.txt"
+def stbl = new StringTable('NIPIEPNOM')
+stbl.readFrom(new File(fichierPatients), "cp1252", '\t' as char)
+----
+
+
+Transformation de dates dans une colonne d'une +StringTable+, du format dd/MM/yyyy au format yyyy-MM-dd
+
+[source,groovy]
+----
+def colDnaiss = stbl.getColumnNumber('DNAISS')
+def dfFrom = new SimpleDateFormat("dd/MM/yyyy")
+def dfTo = new SimpleDateFormat("yyyy-MM-dd")
+stbl.transformDates(colDnaiss, dfFrom, dfTo)
+----
+
+'''
+
+Dernières modifications : +
+170602 hk Création +
+180102 hk Ajout d'explications et exemples +
+250425 hk Ajout précisions dataframes et exemples
+
