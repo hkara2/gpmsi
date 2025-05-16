@@ -74,5 +74,6 @@ version date    changements
                 VIDHOSP 015 (et ANO-HOSP 015).
                 passage sur github
 2.1.1   250505  Utilisation de pmsixml 3.1.1 qui contient métadonnées pour RHS M1D
-                
+2.1.2   250515  Utilisation de pmsixml 3.1.2 qui contient métadonnées pour RSA 229
+
 

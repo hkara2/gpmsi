@@ -16,3 +16,8 @@ OK  Mettre un warning si le "extracp" ne finit pas par un '/' car cela fait
 OK  Ajouter une fonction dans StringTable qui permet d'ajouter une rangée
     à partir d'une Map avec en clé des noms de colonne.
 
+250513 hk
+    Continuer ce qui a été fait avec EntrantDao sur les 3 autres classes de Dao pour
+    faire le dump des enregistrements.
+    Continuer le dev de CacheCleaner.
+    
