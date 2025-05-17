@@ -60,8 +60,11 @@ rootProject.tasks.named("groovydoc") {
     //duplicatesStrategy = 'include'
 }
 
+// Call this with explicit utf-8 encoding, e.g. gradlew -Dfile.encoding=utf-8 groovydoc
 groovydoc {
   use = true
+  //systemProperties = ['utf-8'] 
+  //groovyOptions.encoding = 'utf-8'
   //duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
   //println getAntGroovydoc()
   //getAntGroovydoc().duplicatesStrategy = 'include'
