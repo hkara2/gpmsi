@@ -146,6 +146,7 @@ listeRss.each() {nrss ->
         //pour chaque RUM, emettre les infos.
         listeRums.each {rum->
             if (envoyerEntete) {
+                entete('nrss', rum.NRSS)
                 entete('nrum', rum.NRUM)
                 //println "nrum : " + rum.NRUM.meta.getRemarksFormatted(nl) + ")"
                 entete('nadl', rum.NADL)
@@ -188,6 +189,8 @@ listeRss.each() {nrss ->
                 xh.newRow()
                 envoyerEntete = false
             }
+            //def nrss = rum.txtNRSS //on a déjà le numéro de RSS
+            xh.addCell(nrss)
             def nrum = rum.txtNRUM
             xh.addCell(nrum)
             def nadl = rum.txtNADL
