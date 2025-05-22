@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +18,16 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.streaming.SXSSFCell;
+
+import fr.gpmsi.StringTable;
+import fr.gpmsi.StringUtils;
+
+import static fr.gpmsi.StringUtils.isEmpty;
 
 /**
  * Classe avec méthodes utilitaires pour l'utilisation de fonctions Apache POI pour Excel.
@@ -116,7 +124,7 @@ public class PoiHelper {
    * Si la cellule est de type Date, utilise le dateFormat fourni.
    * Si la cellule est de type Number, utiliser le NumberFormat fourni.
    * @param c La cellule à lire, peut être null.
-   * @param df Le format de date à utiliser, s'il est null, le format par défaut de java sera utilisé.
+   * @param df Le format de date/heure à utiliser, s'il est null, le format par défaut de java sera utilisé.
    * @param nf Le format de nombre à utiliser, s'il est null, le format par défaut de java sera utilisé.
    * @return La valeur textuelle de la cellule. Au lieu de null si c'est le cas, retourne la chaîne vide "".
    */
@@ -368,4 +376,61 @@ public class PoiHelper {
     this.newJavaTimeUsed = newJavaTimeUsed;
   }
     
+  /**
+   * Lire un onglet en tant que table dans un objet StringTable.
+   * La définition de "table" est assez restrictive ici.
+   * La table commence en ligne 0 et colonne 0 (A1).
+   * La première ligne (ligne 0) contient les noms de colonne.
+   * La première colonne qui est vide marque la limite de la table au niveau des colonnes
+   * La première ligne qui est vide marque la limite de la table au niveau des colonnes
+   * Les valeurs sont lues à l'aide de {@link #getCellValueAsString(Cell)} si df et nf sont tous
+   * deux null, sinon les valeurs sont lues à l'aide de {@link #getCellValueAsString(Cell, DateFormat, NumberFormat)}.
+   * Les noms de colonnes sont passés à trim(), les valeurs sont passés à {@link StringUtils#endTrim(String)} avant
+   * d'être enregistrés.
+   * @param sh L'onglet à convertir en table
+   * @param df Format de date/heure java 
+   * @param nf Format de nombre java
+   * @return un objet {@link StringTable}
+   */
+  public StringTable sheetToStringTable(Sheet sh, DateFormat df, NumberFormat nf) {
+    ArrayList<String> columnNames = new ArrayList<>();
+    ArrayList<String> columnValues = new ArrayList<>();
+    StringTable stbl = new StringTable();
+    int rowNum = 0;
+    int ncols = 0;
+    boolean rowEmpty = false;
+    Row curRow = sh.getRow(rowNum);
+    while (!rowEmpty) {
+      rowEmpty = true;
+      if (rowNum == 0) {
+        //lecture titres
+        int colNum = 0;
+        String colName = getCellValueAsString(curRow.getCell(colNum)).trim();
+        while (!isEmpty(colName)) {
+          columnNames.add(colName);
+          rowEmpty = false;
+          colNum++;
+          colName = getCellValueAsString(curRow.getCell(colNum)).trim();
+        }
+        stbl.addTitlesRow(columnNames);
+        ncols = colNum;
+      }
+      else {
+        columnValues.clear();
+        for (int ci = 0; ci < ncols; ci++) {
+          String val = null;
+          if (curRow != null) {
+            if (df == null && nf == null) val = StringUtils.endTrim(getCellValueAsString(curRow.getCell(ci)));
+            else val = StringUtils.endTrim(getCellValueAsString(curRow.getCell(ci), df, nf));            
+          }
+          if (!isEmpty(val)) rowEmpty = false; 
+          columnValues.add(val);
+        }
+        if (!rowEmpty) stbl.addRow(columnValues);
+      }
+      rowNum++;
+      curRow = sh.getRow(rowNum);
+    }
+    return stbl;
+  }
 }
