@@ -30,7 +30,28 @@ public class StringUtils {
     return str.trim().isEmpty();    
   }
   
+  /**
+   * Retourne str sans les caractères blanc finaux (espaces et tabulations).
+   * Appelle juste {@link org.apache.commons.lang3.StringUtils#stripEnd(String, String)}
+   * Utile si on veut garder les caractères de départ, qui peuvent être utilisés
+   * pour un formatage visuel du texte.
+   * @param str la String à laquelle on veut enlever les caractères blancs de la fin
+   * @return la String transformée
+   */
+  public static final String endTrim(String str) {
+    return org.apache.commons.lang3.StringUtils.stripEnd(str, null);
+  }
 
+  /**
+   * Retourne vrai si str est null ou si après appel a endTrim() est de longueur 0
+   * @param str Une chaîne de caractères (peut être null)
+   * @return vrai si str est null ou si après appel a endTrim() est de longueur 0
+   */
+  public static final boolean isEndTrimEmpty(String str) {
+    if (str == null) return true;
+    return endTrim(str).isEmpty();    
+  }
+  
   
   /**
    * Retirer l'extension du fichier et la retourner. S'il n'y a pas d'extension, retourne une
