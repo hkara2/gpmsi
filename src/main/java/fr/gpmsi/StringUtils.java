@@ -10,6 +10,7 @@ public class StringUtils {
 
   private StringUtils() {}
   
+  
   /**
    * Retourne vrai si str est null ou de longueur 0
    * @param str Une chaîne de caractères (peut être null)
@@ -105,6 +106,41 @@ public class StringUtils {
   public static final String normalizeCode(String str) {
     if (str == null) return "";
     else return str.trim().toUpperCase();
+  }
+  
+  /**
+   * Normaliser pour que toutes les fin de lignes (\r seul, \n seul, ou \r\n) soient remplacées par le lsep donné.
+   * Utile pour les comparaisons de chaînes de caractères, qui peuvent échouer juste parce que les fins de ligne sont
+   * différentes.
+   * <br>
+   * Si on veut le séparateur système utiliser <code>System.lineSeparator()</code> pour lsep.
+   * <br>
+   * Exemple 1 : remplacer les séparateurs de ligne par "\n" (séparateur Unix) : <code>normalizeNewLines(str, "\n")</code>.
+   * <br>
+   * Exemple 2 : remplacer les séparateurs de ligne par "\r\n" (séparateur Windows) : <code>normalizeNewLines(str, "\r\n")</code>.
+   * <br>
+   * Exemple 3 : remplacer les séparateurs de ligne par le séparateur par défaut de la plateforme
+   *   : <code>normalizeNewLines(str, System.lineSeparator())</code>.
+   * @param str la String en entrée
+   * @param la String à mettre en séparateur de ligne
+   * @return la string normalisée
+   */
+  public static final String normalizeNewlines(String str, String lsep) {
+    if (str == null) return null;
+    char[] ca = str.toCharArray();
+    StringBuilder sb = new StringBuilder();
+    int i = 0;
+    while (i < ca.length) {
+      char c = ca[i];
+      if (c == '\r') {
+        if (i+1 < ca.length && ca[i+1] == '\n') i++; //s'il est présent, sauter le '\n' suivant
+        sb.append(lsep);
+      }
+      else if (c == '\n') sb.append(lsep);
+      else sb.append(c);
+      i++;
+    }//while
+    return sb.toString();
   }
   
 }
