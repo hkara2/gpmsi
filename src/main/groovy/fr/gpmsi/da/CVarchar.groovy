@@ -1,11 +1,15 @@
 package fr.gpmsi.da
 
 import java.sql.ResultSet
+
+import groovy.transform.EqualsAndHashCode
+
 import java.sql.PreparedStatement
 
 /**
  * Définition d'une colonne de type Varchar
  */
+@EqualsAndHashCode
 class CVarchar extends ColumnDef {
   int maxlen;
 
@@ -44,5 +48,13 @@ class CVarchar extends ColumnDef {
   Object getRsValue(ResultSet rs, int index) {
       return rs.getString(index)
   }
+
+  String getDdl(String dialect) {
+    if (dialect.equalsIgnoreCase("H2")) {
+      return "$name VARCHAR($maxlen)"
+    }
+    else return "Dialecte non pris en charge : $dialect"
+  }
+
 
 }

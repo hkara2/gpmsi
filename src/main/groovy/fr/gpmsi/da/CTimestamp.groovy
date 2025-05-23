@@ -4,11 +4,15 @@ import java.sql.Timestamp
 import java.sql.ResultSet
 import java.sql.PreparedStatement
 import java.text.SimpleDateFormat
+
+import groovy.transform.EqualsAndHashCode
+
 import java.text.DateFormat
 
 /**
  * Définition d'une colonne de type Timestamp
  */
+@EqualsAndHashCode
 class CTimestamp extends ColumnDef {
     static SimpleDateFormat sdf = new SimpleDateFormat('yyyy-mm-dd HH:MM:ss')
     DateFormat df = sdf
@@ -59,5 +63,13 @@ class CTimestamp extends ColumnDef {
     Object getRsValue(ResultSet rs, int index) {
         return rs.getTimestamp(index)
     }
+
+    String getDdl(String dialect) {
+      if (dialect.equalsIgnoreCase("H2")) {
+        return "$name TIMESTAMP"
+      }
+      else return "Dialecte non pris en charge : $dialect"
+    }
+
 
 }

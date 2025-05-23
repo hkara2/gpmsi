@@ -95,5 +95,12 @@ abstract class ColumnDef {
      */
     abstract Object getRsValue(ResultSet rs, int index)
     
+    /**
+     * Retourner une instruction de déclaration de cette colonne, pour le dialecte considéré
+     * @param dialect Le nom du dialecte, pour l'instant seul H2 est supporté
+     * @return l'instruction pour créer la colonne, par ex. "prenom VARCHAR (32)"
+     */
+    abstract String getDdl(String dialect)
+    
 }
 

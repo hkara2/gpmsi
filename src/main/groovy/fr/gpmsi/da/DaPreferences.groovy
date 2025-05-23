@@ -1,9 +1,11 @@
 package fr.gpmsi.da
 
 import java.text.DateFormat
+import java.text.NumberFormat
 
 /**
- * Préférences pour le DA (Database Access)
+ * Préférences pour le DA (Database Access).
+ * A noter qu'il n'y a pas de format par défaut pour les nombres ; c'est défini par colonne.
  */
 class DaPreferences {
     private static defprefs = new DaPreferences()
@@ -15,7 +17,7 @@ class DaPreferences {
      * n'a pas de format déclaré.
      */
     DateFormat dateFormat = null 
-    
+        
     /**
      * Lorsque cutWhenOverflow est true, une valeur qui dépasse sa longueur maximale autorisée est tronquée
      * silencieusement. Lorsqu'elle est false, une exception (@see MaximumSizeExceededException)

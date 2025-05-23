@@ -5,10 +5,12 @@ import java.sql.PreparedStatement
 import java.text.NumberFormat
 import java.text.ParseException
 import fr.gpmsi.pmsixml.NumUtils
+import groovy.transform.EqualsAndHashCode
 
 /**
  * Définition d'une colonne de type Numeric (représenté en java par un BigDecimal)
  */
+@EqualsAndHashCode
 class CNumeric extends ColumnDef {
     int precision = 15
     int scale = 0
@@ -60,5 +62,14 @@ class CNumeric extends ColumnDef {
     Object getRsValue(ResultSet rs, int index) {
         return ps.getBigDecimal(index)
     }
+
+    String getDdl(String dialect) {
+      if (dialect.equalsIgnoreCase("H2")) {
+        if (scale == 0) return "$name NUMERIC($precision)"
+        else return "$name NUMERIC($precision, $scale)"
+      }
+      else return "Dialecte non pris en charge : $dialect"
+    }
+
 
 }

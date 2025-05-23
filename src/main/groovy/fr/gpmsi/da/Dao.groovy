@@ -4,19 +4,21 @@ import groovy.sql.Sql
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
+import fr.gpmsi.StringUtils
+
 /**
- * Base abstraite pour un DAO (Data Access object) qui sert d'intermédiaire entre une base de données
+ * Classe pour un DAO (Data Access object) qui sert d'intermédiaire entre une base de données
  * et des classes Groovy.
  * A noter que Groovy facilite beaucoup l'accès aux bases de données, et un système à base de Dao est
  * moins utile que pour, par exemple, java.
  * L'utilisation d'objets Dao évite le recours à Hibernate (<a href="https://hibernate.org/">https://hibernate.org/</a>),
  * qui est assez lourd en manipulation. Mais Hibernate est plus adapté à partir de quelques dizaines de tables.
  */
-abstract class Dao {
+class Dao {
     def columnsByName = [:]
     def columnIndexesByName = [:]
-    def columns = []
-    def pk = [] //primary key. If empty -> no primary key. If more than 1 element -> composite primary key
+    List<ColumnDef> columns = [] //toutes les colonnes, y compris les clés primaires
+    List<ColumnDef> pk = [] //les clés primaires. Si vide -> pas de clé primaire. Si plus de 1 -> clé primaire composite
     def tableName = "?"
     
     /**
@@ -29,16 +31,16 @@ abstract class Dao {
     def getTableName() { tableName } 
     
     /** Déclarer une colonne à partir de sa définition */
-    def col(ColumnDef dt) { 
-        columnsByName.put(dt.getName(), dt)
-        dt.owner = this
+    def col(ColumnDef cd) { 
+        columnsByName.put(cd.getName(), cd)
+        cd.owner = this
         // println("for col '${dt.getName()}' putting index ${columns.size}")
-        columnIndexesByName[dt.getName()] = columns.size 
-        columns.add(dt)
+        columnIndexesByName[cd.getName()] = columns.size 
+        columns.add(cd)
     }
     
     /** déclarer une colonne comme partie de la clé primaire */
-    def pkcol(ColumnDef dt) { col(dt); pk << dt }
+    def pkcol(ColumnDef cd) { col(cd); pk << cd }
     
     /**
      * Retourner tous les noms de colonnes
@@ -252,4 +254,51 @@ abstract class Dao {
      */
 	def makeNewDaRow() { return new DaRow(this) }
 	
+  /**
+   * Créer une instruction DDL pour définir cette table dans la base.
+   * @param extraSql le SQL à rajouter à la fin. Doit contenir la virgule initiale qui sépare cette instruction de celles qui le précèdent.
+   * @param dialect Le nom du dialecte à utiliser. Seul "H2" est supporté pour l'instant.
+   * @return L'instruction DDL de création de la table.
+   */
+    String makeTableDdl(String extraSql, String dialect) {
+      if (!dialect.equalsIgnoreCase("H2")) return "dialecte non supporté : $dialect"
+      String nl = System.lineSeparator()
+      StringBuilder sb = new StringBuilder()
+      sb << "CREATE TABLE $tableName ("
+      boolean first = true
+      //on commence par déclarer la ou les clés primaires
+      if (pk.size() == 1) {
+        sb << nl
+        //cle primaire composee d'une seule colonne
+        sb << pk[0].getDdl(dialect) << " PRIMARY KEY"
+        first = false
+      }
+      //ensuite on déclare chaque colonne
+      columns.each {c ->
+        if (pk.contains(c) && pk.size() == 1) return; //si c'est une clé primaire unique, elle a déjà été déclarée
+        if (first) first = false
+        else sb << ","
+        sb << nl
+        sb << c.getDdl(dialect)         
+      }
+      //puis si la clé primaire est composée de plusieurs colonnes, on les ajoute
+      if (pk.size() > 1) {
+        if (first) first = false
+        else sb << ","
+        sb << nl
+        //cle multiple, declarer cette contrainte à la fin
+        def pkNames = pk*.name
+        sb << "PRIMARY KEY(${pkNames.join(',')})"
+      }
+      //enfin on ajoute le SQL supplémentaire si nécessaire
+      if (extraSql != null) {
+        sb << extraSql
+        first = false
+      }
+      if (first) first = false
+      else sb << nl
+      sb << ")"
+      return sb.toString();
+    
+    } 
 }

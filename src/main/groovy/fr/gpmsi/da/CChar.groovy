@@ -1,12 +1,16 @@
 package fr.gpmsi.da
 
 import java.sql.ResultSet
+
+import groovy.transform.EqualsAndHashCode
+
 import java.sql.PreparedStatement
 
 
 /**
  * Définition d'une colonne de Données de type Char 
  */
+@EqualsAndHashCode
 class CChar extends ColumnDef {
     int maxlen
     CChar(String name, int maxlen) { setName(name) ; this.maxlen = maxlen }
@@ -38,6 +42,13 @@ class CChar extends ColumnDef {
     /** Prendre la valeur dans le ResultSet */
     Object getRsValue(ResultSet rs, int index) {
         return rs.getString(index)
+    }
+    
+    String getDdl(String dialect) {
+      if (dialect.equalsIgnoreCase("H2")) {
+        return "$name CHAR($maxlen)"
+      }
+      else return "Dialecte non pris en charge : $dialect"
     }
 
 }

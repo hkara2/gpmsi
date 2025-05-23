@@ -1,6 +1,9 @@
 package fr.gpmsi.da
 
 import java.util.Date
+
+import groovy.transform.EqualsAndHashCode
+
 import java.sql.ResultSet
 import java.sql.PreparedStatement
 import java.text.ParseException
@@ -10,6 +13,7 @@ import java.text.DateFormat
 /**
  * Définition d'une colonne de type de donnee Date
  */
+@EqualsAndHashCode
 class CDate extends ColumnDef {
     static SimpleDateFormat isoSdf = new SimpleDateFormat('yyyy-MM-dd')
     static SimpleDateFormat frSdf = new SimpleDateFormat('dd/MM/yyyy')
@@ -70,5 +74,13 @@ class CDate extends ColumnDef {
         return rs.getDate(index)
     }
     
+    String getDdl(String dialect) {
+      if (dialect.equalsIgnoreCase("H2")) {
+        return "$name DATE"
+      }
+      else return "Dialecte non pris en charge : $dialect"
+    }
+
+
 }
 
