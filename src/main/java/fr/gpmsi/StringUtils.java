@@ -125,7 +125,7 @@ public class StringUtils {
    * @param la String à mettre en séparateur de ligne
    * @return la string normalisée
    */
-  public static final String normalizeNewlines(String str, String lsep) {
+  public static final String normalizeLineSeparators(String str, String lsep) {
     if (str == null) return null;
     char[] ca = str.toCharArray();
     StringBuilder sb = new StringBuilder();

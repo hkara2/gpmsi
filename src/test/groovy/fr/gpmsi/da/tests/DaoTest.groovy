@@ -74,7 +74,7 @@ birthdate DATE
 )"""
     //println expected
     //assertEquals(expected, str) //ceci ne fonctionne pas à cause des fins de ligne
-    assertEquals(StringUtils.normalizeNewlines(expected, System.lineSeparator()), str)
+    assertEquals(StringUtils.normalizeLineSeparators(expected, System.lineSeparator()), str)
   }
 
   @Test
@@ -94,7 +94,7 @@ birthdate DATE
 )"""
     //println expected
     //assertEquals(expected, str) //ceci ne fonctionne pas à cause des fins de ligne
-    assertEquals(StringUtils.normalizeNewlines(expected, System.lineSeparator()), str)
+    assertEquals(StringUtils.normalizeLineSeparators(expected, System.lineSeparator()), str)
   }
 
 }
