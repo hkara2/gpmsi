@@ -122,7 +122,7 @@ public class StringUtils {
    * Exemple 3 : remplacer les séparateurs de ligne par le séparateur par défaut de la plateforme
    *   : <code>normalizeNewLines(str, System.lineSeparator())</code>.
    * @param str la String en entrée
-   * @param la String à mettre en séparateur de ligne
+   * @param lsep la String à mettre en séparateur de ligne
    * @return la string normalisée
    */
   public static final String normalizeLineSeparators(String str, String lsep) {
