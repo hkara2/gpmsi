@@ -35,7 +35,7 @@ class Dao {
         columnsByName.put(cd.getName(), cd)
         cd.owner = this
         // println("for col '${dt.getName()}' putting index ${columns.size}")
-        columnIndexesByName[cd.getName()] = columns.size 
+        columnIndexesByName[cd.getName()] = columns.size() 
         columns.add(cd)
     }
     
