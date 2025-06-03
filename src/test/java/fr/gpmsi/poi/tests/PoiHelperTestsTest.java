@@ -1,11 +1,10 @@
 package fr.gpmsi.poi.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 
 import org.apache.poi.EncryptedDocumentException;
@@ -19,6 +18,7 @@ import fr.gpmsi.poi.PoiHelper;
 /** test */
 public class PoiHelperTestsTest {
 
+  @SuppressWarnings("unused")
   private void dump(StringTable stbl) {
     for (int i = 0; i<stbl.getColumnCount(); i++) System.out.print(stbl.getColumnName(i)+";");
     System.out.println();
