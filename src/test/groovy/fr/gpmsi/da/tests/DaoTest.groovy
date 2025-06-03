@@ -28,7 +28,7 @@ class DaoTest {
     Dao d1 = new Dao('address')
     d1.pkcol(new CInteger('address_id'))
     d1.col(new CVarchar('city', 64))
-    def str = d1.makeTableDdl(nl+'/* extra SQL */'+nl, 'H2')
+    def str = d1.makeTableDdl(nl+'/* extra SQL */', 'H2')
     //println str
     assertEquals("CREATE TABLE address (${nl}address_id BIGINT PRIMARY KEY,${nl}city VARCHAR(64)$nl/* extra SQL */$nl)" as String, str)
   }
