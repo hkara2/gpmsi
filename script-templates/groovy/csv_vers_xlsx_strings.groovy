@@ -13,6 +13,10 @@
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2021\M12\RSA
  * c:\app\gpmsi\v@PROJECT_VERSION@\gpmsi -script c:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\csv_vers_xlsx_strings.groovy -a:input in\csv_vers_xlsx_donnees1.csv -a:output tmp-out\csv_vers_xlsx_donnees1.xlsx
  *
+ * N.B. comme la librairie org.apache.commons.io.input.BOMInputStream est
+ * utilisée pour la lecture du fichier texte, si il y a un BOM (byte order
+ * mark) l'import fonctionnera quand même (pour l'encodage UTF-8).
+ *
  * #240805 hk Création du fichier
  * #241115 hk Ajout options sep et enc
  */
