@@ -115,7 +115,7 @@ javadoc {
         //linksOffline '../pmsixml-javadoc', layout.buildDirectory.dir('docs/pmsixml-javadoc').get().getAsFile().getPath()
         linksOffline '../pmsixml-javadoc', "$buildDir/docs/pmsixml-javadoc"
         linksOffline 'https://javadoc.io/static/com.github.albfernandez/javadbf/1.14.1', "$projectDir/doc/javadbf-1.14.1-package-list/"
-        linksOffline 'https://javadoc.io/doc/org.apache.groovy/groovy-all/4.0.8/', "$projectDir/doc/groovy-all-4.0.8-element-list/"
+        linksOffline 'https://javadoc.io/doc/org.apache.groovy/groovy-all/4.0.28/', "$projectDir/doc/groovy-all-4.0.28-element-list/"
         linksOffline 'https://javadoc.io/doc/org.apache.logging.log4j/log4j-core/2.20.0/', "$projectDir/doc/log4j-core-2.20.0-package-list/"
         linksOffline 'https://javadoc.io/doc/org.apache.logging.log4j/log4j-api/2.20.0/', "$projectDir/doc/log4j-api-2.20.0-package-list/"
         linksOffline 'https://javadoc.io/doc/org.apache.poi/poi/5.2.3/', "$projectDir/doc/apache-poi-5.2.3-element-list/"
@@ -168,7 +168,7 @@ dependencies {
         javadocjars dep
     }
     
-    //implementation 'org.apache.groovy:groovy-all:4.0.8'
+    //implementation 'org.apache.groovy:groovy-all:4.0.28'
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     // on garde la version qui va avec hapi 2.3 -> a verifier
@@ -291,63 +291,66 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy
     //implementation('org.apache.groovy:groovy') {
     //  version {
-    //    strictly '4.0.8'
+    //    strictly '4.0.28'
     //  }
     //}
 
+    // https://mvnrepository.com/artifact/org.apache.groovy/groovy
+    implementationAndJavadocjars 'org.apache.groovy:groovy:4.0.28'
+
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-ant
-    implementationAndJavadocjars 'org.apache.groovy:groovy-ant:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-ant:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-astbuilder
-    implementationAndJavadocjars 'org.apache.groovy:groovy-astbuilder:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-astbuilder:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-cli-commons
-    implementationAndJavadocjars 'org.apache.groovy:groovy-cli-commons:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-cli-commons:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-cli-picocli
-    implementationAndJavadocjars 'org.apache.groovy:groovy-cli-picocli:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-cli-picocli:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-console
-    implementationAndJavadocjars 'org.apache.groovy:groovy-console:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-console:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-datetime
-    implementationAndJavadocjars 'org.apache.groovy:groovy-datetime:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-datetime:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-dateutil
-    implementationAndJavadocjars 'org.apache.groovy:groovy-dateutil:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-dateutil:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-groovysh
-    implementationAndJavadocjars 'org.apache.groovy:groovy-groovysh:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-groovysh:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-json
-    implementationAndJavadocjars 'org.apache.groovy:groovy-json:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-json:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-macro
-    implementationAndJavadocjars 'org.apache.groovy:groovy-macro:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-macro:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-macro-library
-    implementationAndJavadocjars 'org.apache.groovy:groovy-macro-library:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-macro-library:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-nio
-    implementationAndJavadocjars 'org.apache.groovy:groovy-nio:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-nio:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-sql
-    implementationAndJavadocjars 'org.apache.groovy:groovy-sql:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-sql:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-swing
-    implementationAndJavadocjars 'org.apache.groovy:groovy-swing:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-swing:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-templates
-    implementationAndJavadocjars 'org.apache.groovy:groovy-templates:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-templates:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-xml
-    implementationAndJavadocjars 'org.apache.groovy:groovy-xml:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-xml:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-yaml
-    implementationAndJavadocjars 'org.apache.groovy:groovy-yaml:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-yaml:4.0.28'
 
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-yaml
-    implementationAndJavadocjars 'org.apache.groovy:groovy-ant:4.0.8'
+    implementationAndJavadocjars 'org.apache.groovy:groovy-ant:4.0.28'
 
 
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
@@ -356,7 +359,7 @@ dependencies {
 
     //constraints {
     //  // https://mvnrepository.com/artifact/org.apache.groovy/groovy
-    //  implementation('org.apache.groovy:groovy:4.0.8') {
+    //  implementation('org.apache.groovy:groovy:4.0.28') {
     //    because 'specific dependencies declared for ipf'
     //  }
     //}
@@ -406,7 +409,9 @@ task myJavadocs(type: Javadoc) {
 }
 
 
-//nettoyer un peu la distribution
+//bien nettoyer la distribution
+//pour un nettoyage complet, effacer tout le répertoire $destdir à la main
+//a l'avenir, peut-être fera-t-on cela ici
 task cleandist {
     doLast {
         ant {
@@ -416,6 +421,7 @@ task cleandist {
 
             delete(dir: "dist/$destdir/scripts", failonerror: false)
             delete(dir: "dist/$destdir/fichiers-ref", failonerror: false)
+            delete(dir: "dist/$destdir/lib", failonerror: false)
             delete(dir: "dist/$destdir/docs", failonerror: false)
             //Effacer tous les fichiers temporaires des exemples groovy pour etre propre
             delete {
