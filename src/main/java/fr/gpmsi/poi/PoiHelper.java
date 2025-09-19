@@ -412,7 +412,8 @@ public class PoiHelper {
           colNum++;
           colName = getCellValueAsString(curRow.getCell(colNum)).trim();
         }
-        stbl.addTitlesRow(columnNames);
+        stbl.declareColumnNames(columnNames); //depuis v2.1, on ne déclare les noms mais on n'ajoute pas la rangée ! Cela va peut-être casser quelques anciens scripts 
+        //stbl.addTitlesRow(columnNames); //abandonné
         ncols = colNum;
       }
       else {
