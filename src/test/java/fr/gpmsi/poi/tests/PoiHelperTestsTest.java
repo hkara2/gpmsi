@@ -50,10 +50,10 @@ public class PoiHelperTestsTest {
     Workbook wb = WorkbookFactory.create(xl1_xlsxFile);
     PoiHelper poih = new PoiHelper();
     StringTable stbl = poih.sheetToStringTable(wb.getSheetAt(0), null, null);
-    //dump(stbl);
+    dump(stbl);
     assertEquals(6, stbl.getColumnCount());
     assertEquals("d with space", stbl.getColumnName(3));
-    assertEquals("1,29E+130", stbl.getValue(3, 3));
+    assertEquals("1,29E+130", stbl.getValue(2, 3)); //(2, 3) au lieu de (3, 3) depuis modification de sheetToStringTable
     wb.close();
   }
   
@@ -66,14 +66,14 @@ public class PoiHelperTestsTest {
     File xl1_xlsxFile = new File(inDir, "xl1.xlsx");
     Workbook wb = WorkbookFactory.create(xl1_xlsxFile);
     //now let's change a value
-    wb.getSheetAt(0).getRow(3).getCell(4).setCellValue(0.0000012345);
+    wb.getSheetAt(0).getRow(3).getCell(4).setCellValue(0.0000012345); //getRow(2) au lieu de getRow(3) depuis modification de sheetToStringTable
     PoiHelper poih = new PoiHelper();
     DecimalFormat df = new DecimalFormat("#.#########E0");
     StringTable stbl = poih.sheetToStringTable(wb.getSheetAt(0), new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss"), df);
     //dump(stbl);
     assertEquals(6, stbl.getColumnCount());
     assertEquals("\u00e9", stbl.getColumnName(4)); //&eacute;
-    assertEquals("1,2345E-6", stbl.getValue(3, 4));
+    assertEquals("1,2345E-6", stbl.getValue(2, 4)); //getValue(2, 4) au lieu de getValue(3, 4) depuis modification de sheetToStringTable
     wb.close();
   }
   
