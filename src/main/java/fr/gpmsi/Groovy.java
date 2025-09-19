@@ -129,6 +129,7 @@ import groovy.util.ScriptException;
  */
 public class Groovy {
     static Logger lg = LogManager.getLogger(Groovy.class);
+    static Binding binding;
 
     String scriptPath; //chemin de fichier pour le script
     String scriptUri; //uri pour le script si on définit un chemin relatif
@@ -141,6 +142,15 @@ public class Groovy {
     String encoding = "UTF-8"; //encodage des scripts, par défaut UTF-8
     
     boolean debug = false;
+    
+    /**
+     * Retourner le binding courant. Utile pour l'accès aux variables de script
+     * depuis une classe qui ne fait pas partie du script.
+     * Attention c'est une variable statique, il n'y en a donc qu'une par
+     * exécution !
+     * @return le Bindiing courant
+     */
+    public static Binding getBinding() { return binding; }
 
     /**
      * Constructeur par défaut
@@ -408,6 +418,7 @@ public class Groovy {
             SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             bnd.setVariable("isoDateFormat", isoDateFormat);
             bnd.setVariable("debug", debug);
+            binding = bnd; //rendre accessible ce binding aux autres classes
             //problem : The script fr/gpmsi/inits.groovy can't be found.
             //This works when hardcoded : 'jar:file:/C:/app/pmsixml/1.6/lib/pmsixml-1.6.jar!/fr/pmsixml/inits.groovy'
             gse.run("fr/gpmsi/initengine.gtxt", bnd); //start with init script (inits.groovy copied to initengine.gtxt)
