@@ -26,7 +26,7 @@ Ainsi on peut voir du premier coup d'oeil si l'encodage UTF-8 est bien respecté
 Récupérer l'archive de distribution `gpmsi-v2.1.zip` depuis GitHub, en allant chercher dans "Releases".
 
 L'installation se fait en dézippant l'archive de distribution dans le répertoire `C:\app\gpmsi` (à créer si n'existe pas)
-Il doit y avoir un JDK installé, au minimum version 1.8. OpenJdk convient et fonctionne aussi.
+Il doit y avoir un JRE installé, au minimum version 1.8. OpenJre (ou OpenJdk) convient et fonctionne aussi.
 Il n'y a pas besoin d'être administrateur pour installer gpmsi.
 Pour plus d'informations, lire le fichier `INSTALLATION.TXT`
 
