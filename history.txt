@@ -75,5 +75,12 @@ version date    changements
                 passage sur github
 2.1.1   250505  Utilisation de pmsixml 3.1.1 qui contient métadonnées pour RHS M1D
 2.1.2   250515  Utilisation de pmsixml 3.1.2 qui contient métadonnées pour RSA 229
+        250919  Passage à Groovy 4.0.28
+                Script d'installation pour IzPack (IzPack n'est pas inclus dans
+                la distribution, mais l'installeur généré pourra être mis dans
+                un release.
+                Dans Groovy.java, ajout d'une méthode pour récupérer le binding
+                courant.
+                
 
 
