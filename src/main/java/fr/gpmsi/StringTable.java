@@ -277,11 +277,16 @@ implements Iterable<StringTableRow>
     }
     
     /**
+     * @deprecated il faut garder les titres séparés, il y a une option pour les émettre lorsque l'on produit un fichier csv.
+     * 
      * Equivalent à appeler
      * <pre> 
      *    addRow(titles);
      *    declareColumnNames(titles);
      * </pre>
+     * Rarement utilisé.
+     * N'est utile que si on veut la ligne de titres aussi dans les données. 
+     * Sinon utiliser juste {@link #declareColumnNames(String[])} 
      * @param titles Ligne de titres
      */
 	public void addTitlesRow(String[] titles) {
@@ -290,11 +295,16 @@ implements Iterable<StringTableRow>
 	}
 	
     /**
+     * @deprecated il faut garder les titres séparés, il y a une option pour les émettre lorsque l'on produit un fichier csv.
+     * 
      * Equivalent à appeler
      * <pre> 
      *    addRow(titles);
      *    declareColumnNames(titles);
      * </pre>
+     * Rarement utilisé.
+     * N'est utile que si on veut la ligne de titres aussi dans les données. 
+     * Sinon utiliser juste {@link #declareColumnNames(List)}
      * @param titles Ligne de titres
      */
     public void addTitlesRow(List<String> titles) {
@@ -303,7 +313,7 @@ implements Iterable<StringTableRow>
     }
     
     /**
-     * Donner l'index des colonnes à partir d'une liste de nom : pour chaque chaque nom de colonne,
+     * Donner l'index (=le numéro) des colonnes à partir d'une liste de nom : pour chaque chaque nom de colonne,
      * attribue le numéro correspondant. par exemple pour la liste "NOM", "PRENOM", "TAILLE" , NOM 
      * aura le numéro 0, PRENOM le numéro 1, TAILLE le numéro 2. 
      * @param titles La liste des titres
