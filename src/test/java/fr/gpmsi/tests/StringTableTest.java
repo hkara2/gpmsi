@@ -95,9 +95,13 @@ extends TestCase
 		System.out.println("row number : "+rowNr+" found in "+(tac-tic)+" ms");
 	}
 
-	//@Test
-	//public void testFindRows() {
-		//fail("Not yet implemented");
-	//}
+	/**
+	 * Test d'ajout de colonne sur une table vide
+	 */
+	@Test
+	public void testAddColumn1() {
+	  StringTable stDummy = new StringTable("Dummy");
+	  stDummy.addColumn("dummycol");
+	}
 
 }

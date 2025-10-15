@@ -422,7 +422,7 @@ implements Iterable<StringTableRow>
         
     /**
      * Ajouter une rangée (un tableau de String avec des valeurs) à la table
-     * @param lst Liste de String
+     * @param lst Liste de String. Attention si tous les éléments ne sont pas des Strings, causera une erreur java.lang.ArrayStoreException 
      */
 	public void addRow(List<String> lst) {
 		if (lst == null) return;
@@ -514,11 +514,12 @@ implements Iterable<StringTableRow>
 	 * Ajouter une colonne à la fin des colonnes existantes (se sert des index de noms de colonne, et prend le plus
 	 * grand + 1).
 	 * Toutes les valeurs de la colonne sont initialement à ""
-	 * @param name Le nom de la colonne à ajouter
+	 * @param name Le nom de la colonne à ajouter. Attention ne vérifie pas si la colonne existe déjà.
 	 */
 	public void addColumn(String name)
 	{
-	  Integer maxCol = Collections.max(colNamesByNumber.keySet());
+	  //hk ajout du test pour voir si colNamesByNumber est vide
+	  Integer maxCol = colNamesByNumber.isEmpty() ? -1 : Collections.max(colNamesByNumber.keySet());
 	  colNamesByNumber.put(maxCol+1, name);
 	  colNumbersByName.put(name, maxCol+1);
 	  int rowCount = rows.size();
