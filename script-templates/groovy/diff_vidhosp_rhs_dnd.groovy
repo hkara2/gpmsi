@@ -3,13 +3,13 @@
  * Appel via drag and drop
  *
  * Arguments :
- * Un fichier qui doit commencer par VIDHOSP_SSR
+ * Un fichier qui doit commencer par VIDHOSP_SSR ou VIDHOSP_SMR
  * Un fichier qui doit commencer par SSR_RHS
  * Le script sort s'il n'y a pas ces deux fichiers
  * 
  * Le script appelle ensuite diff_vidhosp_rhs.groovy
  *
- * (C) Harry Karadimas 2022, CHSE
+ * (C) Harry Karadimas 2022-2025, CHSE
  */
 
 in_a = args['in_a']
@@ -17,7 +17,12 @@ in_b = args['in_b']
 inputs = [in_a, in_b]
 
 in_vh = inputs.find { new File(it).name.startsWith('VIDHOSP_SSR') }
-if (in_vh == null) throw new Exception("Pas de fichier fourni qui commence par VIDHOSP_SSR")
+if (in_vh == null) {
+    in_vh = inputs.find { new File(it).name.startsWith('VIDHOSP_SMR') }
+    if (in_vh == null) {
+        throw new Exception("Pas de fichier fourni qui commence par VIDHOSP_SSR")
+    }
+}
 
 in_rhs = inputs.find { new File(it).name.startsWith('SSR_RHS') }
 if (in_rhs == null) throw new Exception("Pas de fichier fourni qui commence par SSR_RHS")
