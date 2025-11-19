@@ -4,10 +4,21 @@
  * ecrire un fichier qui contient trois colonnes : NRSA, NADL et IPP.
  * Il faut fournir pour cela en plus un fichier TRA et un fichier VIDHOSP.
  * Paramètres d'entrée :
- * -a:input_csv CHEMIN_FICHIER    Un fichier csv avec en-tetes qui contient une colonne NRSA
- * -a:input_tra CHEMIN_FICHIER    Le fichier tra qui fait correspondre numéros de RSA avec numéro administratif local (s'appelle NDOSS au lieu de NADL dans TRA)
- * -a:input_vh CHEMIN_FICHIER     Le fichier vidhosp qui permet de recuperer le IPP pour un nadl donné
- * -a:output CHEMIN_FICHIER       Le fichier de sortie avec la colonne NADL ajoutée à la fin
+ * -a:input_csv CHEMIN_FICHIER    Un fichier csv avec en-tetes qui contient une
+ *                                colonne NRSA
+ * -a:input_tra CHEMIN_FICHIER    Le fichier tra qui fait correspondre numéros
+ *                                de RSA avec numéro administratif local
+ *                                (s'appelle NDOSS au lieu de NADL dans TRA)
+ * -a:input_vh CHEMIN_FICHIER     Le fichier vidhosp qui permet de recuperer
+ *                                l'IPP pour un nadl donné
+ * -a:output CHEMIN_FICHIER       Le fichier de sortie avec la colonne NADL
+ *                                ajoutée à la fin
+ * -f:dnais                       Si present une colonne DNAIS avec la date de
+ *                                naissance est ajoutee
+ * -f:dsej                        Si present trois colonnes DENT DSOR DSP avec
+ *                                date entrée, date sortie de l'établissement
+ *                                (qui sont dans le VIDHOSP) et durée de séjour
+ *                                PMSI (date sortie - date entrée) sont émises
  * Ex :
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2022\M10\RSA
  * c:\app\gpmsi\exec -script c:\app\gpmsi\v1.2\scripts\groovy\nrsa_selection_nips.groovy ^
@@ -19,6 +30,14 @@
  */
 import fr.gpmsi.CsvDestination;
 import fr.gpmsi.StringTable;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+/** Fonction pour formater une date au format francais ou une chaine vide si null */
+def dateFrancaise(LocalDate ld) { ld ? ld.format(formatFrancais) : '' }
+
+formatFrancais = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 if (!args.containsKey('input_csv')) throw new Exception("Argument manquant input_csv");
 if (!args.containsKey('input_tra')) throw new Exception("Argument manquant input_tra");
@@ -32,7 +51,15 @@ nadlParNrsa = [:];
 
 ippsParNadl = [:];
 
+dnaisParNadl = [:];
+
+dentParNadl = [:];
+dsorParNadl = [:];
+
 csvOutput = null;
+
+emettreDnais = flags.contains('dnais');
+emettreDsej = flags.contains('dsej');
 
 traSt = new StringTable('TRA');
 //signification des colonnes à revoir (hk mars 2023)
@@ -74,6 +101,9 @@ vidhosp {
         def nadl = vh.txtNADL;
         def ipp = vh.txtIPP;
         ippsParNadl[nadl] = ipp;
+        dnaisParNadl[nadl] = vh.DNAIS.toLocalDate()
+        dentParNadl[nadl] = vh.DENT.toLocalDate()
+        dsorParNadl[nadl] = vh.DSOR.toLocalDate()
     }
 }
 
@@ -88,6 +118,12 @@ csv {
         csvOutput.f 'NRSA';
         csvOutput.f 'NADL';
         csvOutput.f 'IPP';
+        if (emettreDnais) csvOutput.f 'DNAIS';
+        if (emettreDsej) {
+            csvOutput.f 'DENT';
+            csvOutput.f 'DSOR';
+            csvOutput.f 'DSP';
+        }
         csvOutput.endRow();
     }
 
@@ -97,10 +133,24 @@ csv {
         def nrsaStr = row.NRSA ?: '-1';
         def nrsa = Integer.valueOf(nrsaStr);
         def nadl = nadlParNrsa[nrsa] ?: '?'; //le NADL ou bien '?' si non trouvé
-        def ipp = ippsParNadl[nadl.trim()] ?: '?'; //l'IPP ou bien '?' si non trouvé
+        def nadlt = nadl.trim(); //le même mais 'trimmé'
+        def ipp = ippsParNadl[nadlt] ?: '?'; //l'IPP ou bien '?' si non trouvé
+        def dnais = dnaisParNadl[nadlt]
+        def dnaisStr = dateFrancaise(dnais);
+        def dent = dentParNadl[nadlt]
+        def dentStr = dateFrancaise(dent);
+        def dsor = dsorParNadl[nadlt]
+        def dsorStr = dateFrancaise(dsor);
+        def durs = (dent && dsor) ? ChronoUnit.DAYS.between(dent, dsor) : null; //calcul jours (calendaires) entre deux dates
         csvOutput.f nrsaStr;
         csvOutput.f nadl.trim();
         csvOutput.f ipp.trim();
+        if (emettreDnais) csvOutput.f dnaisStr;
+        if (emettreDsej) {
+            csvOutput.f dentStr;
+            csvOutput.f dsorStr;
+            csvOutput.f durs ?: '';
+        }
         csvOutput.endRow(); //finir la rangée
     }
 
