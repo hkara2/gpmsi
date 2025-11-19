@@ -290,6 +290,7 @@ public class Groovy {
                   ArrayList<String> newArgList = new ArrayList<>();
                   newArgList.add((String)prevArg);
                   newArgList.add(arg); //et ajouter le nouvel argument à la suite
+                  scriptArgs.put(argName, newArgList); //et remettre tout cela dans la Map
                 }
             }
             else if (arg.equals("-enc")) {
