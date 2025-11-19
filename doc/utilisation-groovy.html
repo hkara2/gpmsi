@@ -141,6 +141,13 @@ if (envoidetails) {
 }
 </pre>
 
+N.B. Noter que l'on peut utiliser le logger ('lg') qui est fourni par défaut dans l'environnement, mais
+par défaut celui-ci n'envoie que les éléments qui sont au niveau ERROR.
+Pour changer le niveau de ce qui est émis (par exemple ici à INFO) entrez le code suivant :
+<pre>
+lg.setLevel(org.apache.logging.log4j.Level.INFO)
+</pre>
+
 </p>
 <h3>Déroulement de l'exécution</h3>
 <p>
