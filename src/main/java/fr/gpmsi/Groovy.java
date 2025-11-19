@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -135,7 +136,7 @@ public class Groovy {
     String scriptUri; //uri pour le script si on définit un chemin relatif
     String runClass; //si on veut executer une classe directement, sans passer par le script engine ; scriptPath sera à "" dans ce cas.
     Object returnedObject; //l'objet retourné par le script
-    HashMap<String, String> scriptArgs = new HashMap<>();
+    HashMap<String, Object> scriptArgs = new HashMap<>();
     HashSet<String> scriptFlags = new HashSet<>();
     ArrayList<String> extraCps = new ArrayList<>();
 
@@ -275,7 +276,15 @@ public class Groovy {
                     }
                 }// if (arg.startsWith("?"))
                 lg.debug("Setting script arg '"+argName+"' to '"+arg+"'");
-                scriptArgs.put(argName, arg);
+                //251119hk ajout de la concatenation d'arguments dans une liste lorsqu'il y a plusieurs arguments avec le même nom
+                Object prevArg = scriptArgs.get(argName);
+                if (prevArg == null) scriptArgs.put(argName, arg);
+                else if (prevArg instanceof List<?>) ((List) prevArg).add(arg);
+                else {
+                  ArrayList<String> newArgList = new ArrayList<>();
+                  newArgList.add((String)prevArg);
+                  newArgList.add(arg);
+                }
             }
             else if (arg.equals("-enc")) {
               //verifier qu'il y a bien un argument qui suit
