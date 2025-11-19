@@ -1,6 +1,7 @@
 /*:encoding=UTF-8:*/
 package fr.gpmsi;
 
+import java.awt.Container;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -136,7 +137,8 @@ public class Groovy {
     String scriptUri; //uri pour le script si on définit un chemin relatif
     String runClass; //si on veut executer une classe directement, sans passer par le script engine ; scriptPath sera à "" dans ce cas.
     Object returnedObject; //l'objet retourné par le script
-    HashMap<String, Object> scriptArgs = new HashMap<>();
+    //la Map des arguments par nom, la valeur est soit String, soit List<String> si l'argument a été ajouté plusieurs fois
+    HashMap<String, Object> scriptArgs = new HashMap<>(); 
     HashSet<String> scriptFlags = new HashSet<>();
     ArrayList<String> extraCps = new ArrayList<>();
 
@@ -279,11 +281,15 @@ public class Groovy {
                 //251119hk ajout de la concatenation d'arguments dans une liste lorsqu'il y a plusieurs arguments avec le même nom
                 Object prevArg = scriptArgs.get(argName);
                 if (prevArg == null) scriptArgs.put(argName, arg);
-                else if (prevArg instanceof List<?>) ((List) prevArg).add(arg);
+                else if (prevArg instanceof List<?>) {
+                  //ajouter à la liste déjà existante
+                  unsafeAdd(prevArg, arg);
+                }
                 else {
+                  //il y avait déjà 1 argument. Transformer cet argument en une liste d'arguments de longueur 1
                   ArrayList<String> newArgList = new ArrayList<>();
                   newArgList.add((String)prevArg);
-                  newArgList.add(arg);
+                  newArgList.add(arg); //et ajouter le nouvel argument à la suite
                 }
             }
             else if (arg.equals("-enc")) {
@@ -312,6 +318,8 @@ public class Groovy {
                 System.out.println("  Les arguments commencent par -a: puis le nom de l'argument");
                 System.out.println("  suivi d'un espace et de la valeur de l'argument");
                 System.out.println("  Exemple : -a:finess 910019447");
+                System.out.println("  (On peut déclarer plusieurs fois le même argument,");
+                System.out.println("  exemple : -a:n 1 -a:n 2 -a:n 3                    )");
                 System.out.println("Drapeaux :");
                 System.out.println("  Les drapeaux (flags) commencent par -f: puis le nom du drapeau.");
                 System.out.println("  Exemple : -f:modedetaille");
@@ -343,6 +351,18 @@ public class Groovy {
             System.err.println("Pas de -script donne, et pas de -run donne non plus, rien ne sera execute ! Utilisez -h pour avoir de l'aide.");
         }
         if (runClass != null) scriptPath = ""; //runClass a priorité sur scriptPath
+    }
+    
+    /**
+     * Ajout d'une String à une List<Object> mais qui doit être converti depuis un Object.
+     * Cela permet d'isoler le SuppressWarnings("unchecked")
+     * @param lst un Object qui représente en réalité un List<String>
+     * @param str La String à ajouter
+     */
+    @SuppressWarnings("unchecked")
+    private final void unsafeAdd(Object lst, String str)
+    {
+      ((List<String>) lst).add(str);
     }
 
     /**
