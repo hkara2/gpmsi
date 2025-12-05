@@ -1,7 +1,6 @@
 /*:encoding=UTF-8:*/
 package fr.gpmsi;
 
-import java.awt.Container;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
