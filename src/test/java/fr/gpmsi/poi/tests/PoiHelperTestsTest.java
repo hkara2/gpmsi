@@ -18,7 +18,7 @@ import fr.gpmsi.poi.PoiHelper;
 /** test */
 public class PoiHelperTestsTest {
 
-  @SuppressWarnings("unused")
+  //@SuppressWarnings("unused")
   private void dump(StringTable stbl) {
     for (int i = 0; i<stbl.getColumnCount(); i++) System.out.print(stbl.getColumnName(i)+";");
     System.out.println();
