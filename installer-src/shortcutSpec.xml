@@ -1,0 +1,19 @@
+<izpack:shortcuts version="5.0"
+                  xmlns:izpack="http://izpack.org/schema/shortcuts"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://izpack.org/schema/shortcuts http://izpack.org/schema/5.0/izpack-shortcuts-5.0.xsd">
+ 
+  <skipIfNotSupported/>
+  <defaultCurrentUser/>
+  <programGroup defaultName="Gpmsi" 
+                location="applications"/>
+  <shortcut name="Gpmsi Menu"
+            target='$INSTALL_PATH\menu.bat'
+            workingDirectory="$INSTALL_PATH"
+            iconFile="$INSTALL_PATH\docs\img\gpmsi-logo-transparent-48.ico"
+            programGroup="yes"
+            desktop="yes"
+            applications="yes"
+            startMenu="yes"
+            startup="yes"/>
+</izpack:shortcuts>
