@@ -16,12 +16,12 @@ class RsaRule
       eval(context, context['rsa'])
   }
   
-  boolean eval(HashMap context, FszGroup rum) {}
+  boolean eval(HashMap context, FszGroup rsa) {}
 
   void action(HashMap context) {
       action(context, context['rsa'])
   }
   
-  void action(HashMap context, FszGroup rum) {
+  void action(HashMap context, FszGroup rsa) {
   }
 }
