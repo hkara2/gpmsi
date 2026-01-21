@@ -1,0 +1,126 @@
+:encoding=UTF-8:
+
+Pour les GHMs, le "volume 1 annexe 3" est particulièrement important car il
+donne les listes de racines de GHM et leur comportement par rapport au
+groupage, en fonction de l'âge, de la sévérité, etc.
+
+Comme c'est un fichier qui n'est disponible communément qu'en PDF, et que pour
+gpmsi il faut un format .csv , voici ce qu'il faut comme format csv :
+
+Noms de colonne, et correpondance avec les noms du pdf :
+
+racine        racine
+moins2ans     Moins de 2 ans
+de69ou79      Plus de 69 ou 79 ans
+ghm_courts    GHM courts
+n_severite    Niveau de sévérité
+deces         Décès
+cma_exclues   CMA exclues
+si_dur_inf    CoCod si durée inf. à
+ccacc         CoCod pour accouch.
+agpds1415     AG et poids CMD14-15
+libelles      Libellés
+
+Pour effectuer l'extraction à partir du PDF, pour éviter d'avoir à recourir
+au copier-coller, on peut convertir le PDF en texte. La librairie python
+pypdf fait cela particulièrement bien. Voici un programme très court pour le
+faire :
+--------------------------------------------------------------------------------
+""""
+Convert a pdf file to a text file, keeping as much as layout as possible.
+This produces 2 files, one that ends with _utf8_plain.txt and one that
+ends with _utf8_layout.txt
+Example :
+(venv) C:\\app\\pypdflib>python pdf_to_txt.py vol1an3.pdf
+"""
+from pypdf import PdfReader
+import sys
+import os
+
+pdf_file_path = sys.argv[1]
+#do the convertion first in traditional "plain" mode
+txt_file_path = pdf_file_path.replace(".pdf", "_utf8_plain.txt")
+with open(txt_file_path, "w", encoding="utf-8") as txt_file:
+    reader = PdfReader(pdf_file_path)
+    for page in reader.pages:
+        txt_file.write(page.extract_text(extraction_mode="plain"))
+#do it again but this time in layout mode (better rendenring of some tables)
+txt_file_path = pdf_file_path.replace(".pdf", "_utf8_layout.txt")
+with open(txt_file_path, "w", encoding="utf-8") as txt_file:
+    reader = PdfReader(pdf_file_path)
+    for page in reader.pages:
+        txt_file.write(page.extract_text(extraction_mode="layout", layout_mode_space_vertically=False))
+--------------------------------------------------------------------------------
+
+Il y a deux fichiers obtenus. Ils sont en utf8, c'est obligatoire car sinon le
+traitement échoue en raison de caractères du PDF ATIH qui ne peuvent par être
+représentés sinon.
+
+Il faut ensuite retravailler le fichier pour réaligner les colonnes,
+enlever les en-têtes, pieds de page etc.
+
+Attention parfois le texte du libellé n'est pas collé au bon endroit mais
+une ligne plus loin, malheureusement il faut bien lire pour vérifier ces
+mauvais endroits.
+
+Pour les tables c'est le fichier en mode "layout" qui est le mieux.
+Pour les listes de codes c'est le fichier en mode "plain" qui est le mieux.
+
+Quelques techniques utiles pour convertir les textes en liste (dans jEdit) :
+Supprimer tous les espaces en début de ligne
+^ +
+-> (rien)
+
+Remplacer toute une série d'espaces qui commence par au minimum 10 espaces par un retour à la ligne (remet en début de ligne les codes flottants) :
+           +
+-> \n
+
+Remplacer fin de ligne + fin de ligne par juste une fin de ligne (le faire plusieurs fois) :
+\n\n
+-> \n
+
+Ou aussi, remplacer un code CIM-10 qui est en bout de ligne par une nouvelle
+ligne et ce code au début :
+    (\w\d\d\.?\d*)
+Comme c'est sur 2 colonnes, pypdf en conversion texte passe à la ligne, mais
+garde des fois un bout de la ligne précédente sur la page de droite.
+Il peut donc être utile de coller à la ligne précédente le bout de la page de
+droite.
+
+Si on est en mode "plain", on peut essayer de remplacer fin de ligne + fin de ligne + ESPACE
+par juste ";", cela devrait bien reconstituer les codes complets.
+
+
+Un exemple :
+
+I52.1
+
+          CARDIOPATHIES NCA, AVEC AUTRES MAL. INFECT. ET PARASIT.
+I42.6
+
+         MYOCARDIOPATHIE ALCOOLIQUE                                                                      CL. AILL.
+
+Le texte "CL. AILL." va derrière "ET PARASIT." du libellé de I52.1
+
+
+
+Ensuite le fichier texte à largeur fixe peut être ouvert dans Excel, puis
+sauvegardé à nouveau en .xlsx , et finalement exporté en .csv avec encodage
+windows-1252
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
