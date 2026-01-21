@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory
  * <li>MMP : la MMP qui est dans "rhs"
  * <li>DPA : le DP qui est dans "rsa"
  * <li>DRA : le DR qui est dans "rsa"
+ * <li>RADP : le DP qui est dans un des rums des rsas
+ * <li>RADR : le DR qui est dans un des rums des rsas
+ * <li>RADAS : le DAS qui est dans un des rums des rsas
  * </ul>
  * Par exemple si on veut rechercher dans DR ou DAS on utilisera "DR,DAS".
  * <br>
