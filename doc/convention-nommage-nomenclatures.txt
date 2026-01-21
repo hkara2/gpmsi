@@ -1,0 +1,83 @@
+(Pour usage futur)
+
+Les différentes nomenclatures utilisées pour le PMSI changent fréquemment,
+typiquement tous les ans.
+Pour pouvoir traiter aussi les données rétrospectives, il faut garder les
+anciennes versions des fichiers et les utiliser lorsque c'est approprié.
+
+Pour pouvoir organiser de façon fiable ces nomenclatures, voici ce qui a été
+décidé pour gpmsi :
+
+Nomenclature :
+Chaque ensemble de nomenclatures est dans un répertoire qui regroupe les
+nomenclatures similaires (qui ne diffèrent que par leur date et éventuellement
+leur encodage). Les noms essaient d'être si possible identiques à ceux de l'ATIH
+ou tout du moins similaires.
+
+cim10       fichiers de la CIM10
+ccam        fichiers de la CCAM
+ghm         fichiers GHM
+ghm/vol1an3 fichiers du volume 1, annexe 3
+
+
+A l'intérieur du répertoire, chaque nomenclature a un nom, suivi de
+champs additionnels.
+Le nom ne doit pas comporter le caractère '_' ("souligné" ou aussi "underscore")
+
+Ensuite les champs additionnels sont possibles :
+
+_v  : version
+_e  : encodage
+_p  : période de validité
+
+Le nom reprend le nom du répertoire en prefixe.
+Par exemple tous les fichiers du répertoire ghm/v1a3 doivent commencer par v1a3.
+
+La liste des noms possibles est dans le fichier noms.csv , colonne NOM.
+
+Le caractère '_' est considéré comme un séparateur dans cette convention,
+donc il ne faudra pas l'utiliser ni dans le nom, ni dans un champ.
+
+- Version : si il y a un numéro de version dans la distribution, ce numéro est
+  précédé d'un v (minuscule). Exemple pour la ccam version 74 : ccam_v74
+- Période : la période de validité est précédée d'un p (minuscule), puis suivi
+  de la date de départ (incluse) au format AAAAMMJJ, puis d'un '-' ,
+  puis de la date de fin (exclue) au format AAAAMMJJ. Exemple pour la ccam
+  version 74 : ccam_v74_p20240216-20250301.csv
+  (https://www.atih.sante.fr/ccam-descriptive-v74-00-au-format-nx-0)
+- Encodage : Les fichiers .csv sont par convention en encodage "windows-1252".
+  Si un autre encodage est utilisé, on le met, précédé de "e-". Exemple :
+  cim10_e-utf8_p20230301-20240301.csv , ou encore
+  cim10_e-windows-1252_p20230301-20240301.csv
+
+Ces éléments sont mis dans le nom car il n'est pas prévu dans le format
+de la nomenclature d'y stocker ces informations.
+
+Cela permet également de trouver le fichier adéquat en fonction de la date
+de l'élément recherché, sans être obligé d'ouvrir tous les fichiers.
+
+Si un élément est listé sans période, il sert de fichier de repli au cas où
+aucune période de référence n'a été trouvée.
+Si il n'y a pas de fichier de repli, le fichier avec la plus grande date de
+fin est choisi. S'il y en a plusieurs avec la même date de fin, c'est le fichier
+avec la plus grande date de début qui est choisi. S'il y en a aussi plusieurs
+avec la même date de début, c'est une erreur et le traitement doit s'arrêter.
+
+
+En interne, gpmsi maintient une liste des fichiers de nomenclature avec les colonnes suivantes :
+
+path   name  version encoding  start_date  stop_date file_name
+
+
+ainsi si on demande une nomenclature "cim10" pour une date 11/09/2024, gpmsi
+va parcourir toutes les entrées qui ont le nom "cim10" et prendre la première
+pour laquelle on a start_date <= 11/09/2024 < stop_date.
+
+gpmsi maintient un cache avec le fichier qui a été chargé, ainsi lorsqu'on va le
+demander à nouveau, c'est le fichier déjà chargé qui sera ramené.
+
+Les contenus sont gardés aussi proches que possible de ce qui est présent à l'ATIH,
+cependant certains fichiers (notamment ce qui a été extrait à partir de documents
+PDF) peuvent avoir été adaptés pour une exploitation plus fiable en .csv .
+
+
