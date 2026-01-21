@@ -10,15 +10,32 @@
  *
  * Exemple d'exécution :
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2021\M12\RSA
- * c:\app\gpmsi\exec.bat -script c:\app\gpmsi\v1.3\scripts\groovy\rsa_tra_vers_xlsx.groovy -a:input_rsa 910019447.2021.12.rsa -a:input_tra 910019447.2021.12.tra.txt -a:output 910019447.2021.12_rsa.xlsx
+ * %GPMSI_BASE%\@PROJECT_VERSION@\gpmsi -script c:\app\gpmsi\v@PROJECT_VERSION@\scripts\groovy\rsa_tra_vers_xlsx.groovy -a:input_rsa 910019447.2021.12.rsa -a:input_tra 910019447.2021.12.tra.txt -a:output 910019447.2021.12_rsa.xlsx
  *
- * #240618 hk Création du fichier
+ * #260121 hk Création du fichier
  */
 
 import fr.gpmsi.CsvDestination
+import fr.gpmsi.StringTable
 import fr.gpmsi.poi.XlsxHelper
 
 headerSent = false
+
+//charger les TRA (optionnel)
+tra = null
+
+//si il y a un argument "input_tra" lire les TRA au format csv
+if (args.containsKey("input_tra")) {
+    tra = new StringTable("TRA")
+    //lire le TRA dans la StringTable
+    tra.readFrom(new File(args.input_tra), ["nrsa", "nrss", "nadl", "ddsej", "dfsej", "ghm", "hash_tra"] as String[], "ISO-8859-1", ';' as char)
+    //enlever les espaces de début et fin des nadl(s)
+    tra.transform('nadl') {s-> s?.trim()}
+    //idem pour les nrss
+    tra.transform('nrss') {s-> s?.trim()}
+    //ajouter un index sur le nrsa pour retrouver plus vite les nadl
+    tra.addIndex('nrsa')
+}
 
 rsa {
     name 'Transformation RSA+TRA en Excel'
@@ -53,12 +70,45 @@ rsa {
                 def remarks = childNode.meta.remarks ?: ''
                 XlsxHelper.setComment(c, "$longName.\r\n$remarks" as String, '')
             }
+            def cell = classeur.addCell('NADL')
+            XlsxHelper.setComment(cell, "Numero Administratif Dossier Local" as String, '')
+            cell = classeur.addCell('RUM_DAS')
+            XlsxHelper.setComment(cell, "DAS de chaque RUM" as String, '')
+            cell = classeur.addCell('NB_DAS')
+            XlsxHelper.setComment(cell, "Nb de DAS" as String, '')
+            cell = classeur.addCell('RUM_DP')
+            XlsxHelper.setComment(cell, "DP de chaque RUM" as String, '')
+            cell = classeur.addCell('RUM_DR')
+            XlsxHelper.setComment(cell, "DR de chaque RUM" as String, '')
+            cell = classeur.addCell('RUM_IGS2')
+            XlsxHelper.setComment(cell, "IGS2 de chaque RUM" as String, '')
             classeur.newRow()
             headerSent = true
         }
         childNodes.each {childNode->
-            classeur.addCell(childNode?.value)
+            if (childNode == null) return;
+            if (childNode.meta.stdName == "DUTSP") classeur.addCell(childNode.toInt()) //cas particulier de la durée de séjour que l'on veut en numérique
+            else classeur.addCell(childNode.value)
         }
+        //ajouter le NADL si disponible
+        def nadl = ''
+        if (tra != null) nadl = tra.find('nrsa', rsa.txtNRSA, 'nadl') //recuperer le numero de dossier grace a la table des tra
+        classeur.addCell(nadl)
+        //ajouter tous les das
+        String tousDas = "{" + (rsa.RU.collect { ru -> ru.DA.txtTDA.join(" ") }).join("}{") + "}"
+        classeur.addCell(tousDas)
+        //ajouter le nombre de DAS total de tous les RUMs
+        int nbDas = rsa.RU.DA.flatten().size()
+        classeur.addCell(nbDas)
+        //ajouter tous les DPs
+        String tousDp = "{" + rsa.RU.txtDP.join("}{") + "}"
+        classeur.addCell(tousDp)
+        //ajouter tous les DRs
+        String tousDr = "{" + rsa.RU.txtDR.join("}{") + "}"
+        classeur.addCell(tousDr)
+        //ajouter tous les IGS2
+        String tousIgs = "{" + (rsa.RU.IGS2*.toInt()).join("}{") + "}"
+        classeur.addCell(tousIgs)
         classeur.newRow()
 
     }//onItem
