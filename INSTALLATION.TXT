@@ -1,6 +1,13 @@
                          Installation de gpmsi
             
 L'installation est très simple :
+
+1) Première méthode : utilisation de l'installeur
+Vérifier que java est bien installé sur votre système
+Télécharger l'installeur
+Double-cliquer sur le fichier installeur
+
+2) Deuxième méthode : installation manuelle à partir du fichier zip de distribution
 Créer si cela n'existe pas encore le répertoire C:\app\gpmsi
 Y dézipper le contenu de la distribution.
 
