@@ -3,18 +3,18 @@ le format des zips GENRSA est le suivant :
 
 FINESS.ANNEE.PERIODE.TAMPONTEMPO.IO.zip
 
-FINESS : le numéro FINESS (exemple 910019447 pour le CHSE)
-ANNEE : l'année concernée sur 4 chiffres
-PERIODE : le mois sur 1 ou 2 chiffres, ou 0 si période d'essai
+FINESS : le numï¿½ro FINESS (exemple 910019447 pour le CHSE)
+ANNEE : l'annï¿½e concernï¿½e sur 4 chiffres
+PERIODE : le mois sur 1 ou 2 chiffres, ou 0 si pï¿½riode d'essai
 TAMPONTEMPO : "tampon" temporel, au format jjmmaaaaHHMMss
 IO : in ou out
 
-Le répertoire est en général AppData\Roaming\ATIH\GENRSA\sauvegarde dans le
-répertoire de l'utilisateur, ex :
+Le rï¿½pertoire est en gï¿½nï¿½ral AppData\Roaming\ATIH\GENRSA\sauvegarde dans le
+rï¿½pertoire de l'utilisateur, ex :
 
 C:\Users\hkaradimas\AppData\Roaming\ATIH\GENRSA\sauvegarde
 
-Exemple de fichier créé le 24/01/2020 à 18h 42min et 29s pour une période 
+Exemple de fichier crï¿½ï¿½ le 24/01/2020 ï¿½ 18h 42min et 29s pour une pï¿½riode 
 d'essai (0) :
 910019447.2019.0.24012020184229.out.zip
 
@@ -23,13 +23,13 @@ Dans le "in" :
 910019447.2019.0.ano.txt         : fichier anohosp
 910019447.2019.0.ium.txt         : fichier des autorisations d'UM
 910019447.2019.0.rss.ini.txt     : RSS initial
-910019447.2019.0.rss.txt         : fichier des RSS (quelles différences par rapport à l'initial ?)
+910019447.2019.0.rss.txt         : fichier des RSS (quelles diffï¿½rences par rapport ï¿½ l'initial ?)
 
 Dans le "out" :
 
 910019447.2019.0.ano
-910019447.2019.0.chainage.err.txt       : erreurs de chaînage
-910019447.2019.0.chainage.log.txt       : compte-rendu du chaînage
+910019447.2019.0.chainage.err.txt       : erreurs de chaï¿½nage
+910019447.2019.0.chainage.log.txt       : compte-rendu du chaï¿½nage
 910019447.2019.0.comp.ansi.log.txt      : ?
 910019447.2019.0.comp.log.txt           : ?
 910019447.2019.0.diap

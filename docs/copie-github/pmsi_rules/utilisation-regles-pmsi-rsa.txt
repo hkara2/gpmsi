@@ -1,0 +1,73 @@
+:encoding=UTF-8:
+Pour écrire des règles de sélection de RSA pour le PMSI
+
+faire les imports suivants :
+
+    import fr.karadimas.gpmsi.pmsi_rules.*
+    import fr.karadimas.gpmsi.pmsi_rules.cim.*
+    import fr.karadimas.gpmsi.pmsi_rules.ccam.*
+    import fr.karadimas.gpmsi.pmsi_rules.ghm.*
+    import fr.karadimas.gpmsi.pmsi_rules.rss.*
+
+Déclarer un moteur d'exécution de règles PMSI :
+
+    eng = new PmsiRuleEngine()
+
+Ici il faut ajouter le critère de sélection que l'on veut pour que le RSA candidat soit sélectionné.
+Par exemple voici une définition de critère pour ne garder que les patients
+de 75 ans et plus :
+
+    age75 = new GenericPmsiCriterion( {context->
+        def rsa = context.rsa
+        def agea = rsa.AGEA.toInt()
+        //println "age:$age"
+        agea >= 75
+    } )
+
+On ajoute le critère :
+
+    eng.add(age75)
+
+Faire un bloc étape de script "rsa" qui au minimum écrira les numéros de RSA sélectionnés.
+Dans ce bloc pour chaque RSA on le soumet au moteur de règles. Pour chaque RSA,
+le moteur le met dans le contexte sous le nom 'rsa' et appelle toutes ses
+règles :
+
+    rsa {
+        input args.input
+        output args.output
+    
+        onInit {
+            outf = new FileWriter(outputFilePath)
+            outf << 'NRSA\r\n'
+        }
+    
+        onItem {item->
+            rsa = item.rsa
+            int n = eng.evalRsa(rsa) //retourne le nombre de règles qui ont été évaluées à "true"
+            def nrsa = rsa.txtNRSA
+            if (n > 0) nrsas << (nrsa)
+        }
+    
+        onEnd {
+            outf << nrsas.join('\r\n')
+            outf.close()
+        }
+    }
+
+PmsiRule
+  GenericPmsiRule
+  PmsiCriterionRule
+
+Chaque critère PMSI doit implémenter PmsiCriterion qui est juste la méthode :
+    boolean eval(HashMap context) 
+
+On peut créer un critère qui est la combinaison de plusieurs critères :
+PmsiAnyCriterion (synonyme : PmsiOr)
+PmsiAllCriteria  (synonyme : PmsiAnd)
+PmsiNotCriterion (synonyme : PmsiNot)
+
+Sinon on peut faire le critère que l'on veut en passant une closure à
+GenericPmsiCriterion
+
+

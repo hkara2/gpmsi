@@ -1,4 +1,4 @@
-Quelques règles Excel pour mettre en surbrillance les cellules différentes.
+Quelques rï¿½gles Excel pour mettre en surbrillance les cellules diffï¿½rentes.
 
 
 =et(indirect(adresse(ligne();colonne())) = indirect(adresse(ligne()+1;colonne()));indirect(adresse(ligne();colonne()-2)) = "_s";indirect(adresse(ligne()+1;colonne()-2)) = "c_")

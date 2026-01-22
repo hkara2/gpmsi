@@ -23,9 +23,12 @@ l'écriture de scripts plus courts que si l'on utilisait simplement java.
 <h2>Lancement d'un script</h2>
 Le script est lancé en utilisant la commande de lancement 
 <br>
-<code>c:\app\gpmsi\v2.1\gpmsi.bat</code>
+<code>%GPMSI_BASE%\v2.1\gpmsi.bat</code>
 <br>
 suivi des options de lancement.
+<br>
+Normalement à l'installation la variable utilisateur GPMSI_BASE a été configurée
+pour pointer sur le répertoire de base de l'installation (typiquement <code>C:\app\gpmsi</code>)
 
 <h2>Nommage du script</h2>
 Théoriquement on peut donner le nom que l'on veut au script.
@@ -74,7 +77,10 @@ emplacement commun réutilisable d'un endroit à l'autre.
     Définit un argument qui porte le nom donné et qui aura la valeur donnée.
     Par exemple <code>-a:toto 15A</code> définit un argument "toto" avec la 
     valeur "15A". Pour lire cet argument dans le script, on peut utiliser la 
-    syntaxe args['toto'] ou encore args.toto
+    syntaxe <code>args['toto']</code> ou encore <code>args.toto</code> <br>
+    On peut définir plusieurs fois un argument, par exemple
+    -a:n 1 -a:n 2 -a:n 3 <br>
+    A ce moment là l'argument (ici <code>args.n</code>) sera une liste.
   </dd>
 <dt><code>valeur ?s&lt;texte&gt;</code></dt>
   <dd>
@@ -133,6 +139,13 @@ envoidetails = flags.contains('envoidetails')
 if (envoidetails) {
   //... envoyer les details
 }
+</pre>
+
+N.B. Noter que l'on peut utiliser le logger ('lg') qui est fourni par défaut dans l'environnement, mais
+par défaut celui-ci n'envoie que les éléments qui sont au niveau ERROR.
+Pour changer le niveau de ce qui est émis (par exemple ici à INFO) entrez le code suivant :
+<pre>
+lg.setLevel(org.apache.logging.log4j.Level.INFO)
 </pre>
 
 </p>

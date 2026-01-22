@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"fr.gpmsi.pmsixml"},{"l":"fr.gpmsi.pmsixml.nx"},{"l":"fr.gpmsi.pmsixml.xml"}]
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"fr.gpmsi.pmsixml"},{"l":"fr.gpmsi.pmsixml.nx"},{"l":"fr.gpmsi.pmsixml.xml"}];updateSearchResults();

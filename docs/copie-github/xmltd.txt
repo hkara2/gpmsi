@@ -1,16 +1,16 @@
                          XMLTD XML Table Data
                          
                          
-L'import et l'export de données est peu fiable en csv, notamment à cause de
+L'import et l'export de donnï¿½es est peu fiable en csv, notamment ï¿½ cause de
 toutes les variations possibles dans les formats de date, de nombre, etc.
 
 Cette partie est donc un ensemble de conventions pour exporter une table
 dans un fichier XML avec une structure rigide.
-Chaque rangée est dans un élément "r".
-Chaque colonne est stockée dans un attribut de "r". La première colonne est
-dans l'attribut "a", la deuxième colonne dans l'attribut "b", etc. 
-Quand on est arrivé à z, on recommence avec aa, ab, etc. (comme dans Excel).
-De cette manière, on n'a que 4 caractères supplémentaires par colonne (contre
+Chaque rangï¿½e est dans un ï¿½lï¿½ment "r".
+Chaque colonne est stockï¿½e dans un attribut de "r". La premiï¿½re colonne est
+dans l'attribut "a", la deuxiï¿½me colonne dans l'attribut "b", etc. 
+Quand on est arrivï¿½ ï¿½ z, on recommence avec aa, ab, etc. (comme dans Excel).
+De cette maniï¿½re, on n'a que 4 caractï¿½res supplï¿½mentaires par colonne (contre
 1 pour le format csv)
 
 Exemple :
@@ -25,26 +25,26 @@ Exemple :
 </table>
 </xmltd>
 
-Les types de données :
+Les types de donnï¿½es :
 varchar : pour tous les types de textes
-integer : entier signé : [+-]?[0-9]+
-real : nombre réel [+-][0-9]+[.]?[0-9]*[Ee]?[+-]?[0-9]*
+integer : entier signï¿½ : [+-]?[0-9]+
+real : nombre rï¿½el [+-][0-9]+[.]?[0-9]*[Ee]?[+-]?[0-9]*
 date : date au format iso, ex : 2019-12-24
 time : heure au format iso, ex : 12:30:45.23
-datetime : dat et heure au format iso, séparés par un T, ex : 2019-12-24T12:30:45.23
+datetime : dat et heure au format iso, sï¿½parï¿½s par un T, ex : 2019-12-24T12:30:45.23
 
 Les attributs :
 max-size : nombre
 allow-empty : 1 ou 0
 
-L'idée est que l'on puisse recréer une table dans le même système qui a 
-écrit ces données (par défaut la base H2 pour nous).
-On peut donc inclure des informations supplémentaires pour cela, notamment
+L'idï¿½e est que l'on puisse recrï¿½er une table dans le mï¿½me systï¿½me qui a 
+ï¿½crit ces donnï¿½es (par dï¿½faut la base H2 pour nous).
+On peut donc inclure des informations supplï¿½mentaires pour cela, notamment
 l'attribut external-declaration
-Un élément supplémentaire est external-declarations pour ajouter du script
-supplémentaire comme de la création d'index. On peut en rajouter plusieurs ce
-qui permet de reconstituer une déclaration de table complète avec les contraintes
-et les créations d'index.
+Un ï¿½lï¿½ment supplï¿½mentaire est external-declarations pour ajouter du script
+supplï¿½mentaire comme de la crï¿½ation d'index. On peut en rajouter plusieurs ce
+qui permet de reconstituer une dï¿½claration de table complï¿½te avec les contraintes
+et les crï¿½ations d'index.
 
 
 
