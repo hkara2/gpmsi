@@ -37,10 +37,21 @@ Ainsi on peut voir du premier coup d'oeil si l'encodage UTF-8 est bien respecté
 
 ## Installation
 
-Récupérer l'archive de distribution `gpmsi-v2.1.zip` depuis GitHub, en allant chercher dans "Releases".
+### Méthode simple utilisant l'installeur
 
-L'installation se fait soit avec l'installeur fourni, soit en dézippant l'archive de distribution
-dans le répertoire `C:\app\gpmsi` (à créer si n'existe pas)
+Vérifier que java est installé (un JRE suffit, OpenJDK fonctionne aussi), minimum version 1.8 .
+
+Récupérer le fichier installeur en allant chercher `gpmsi-2.1.3-install.jar` dans "Releases".
+
+Double-cliquer sur le fichier; cela lancera l'installeur.
+
+### Méthode plus robuste en utilisant le fichier zip de distribution
+
+Récupérer l'archive de distribution `gpmsi-v2.1.3.zip` depuis GitHub, en allant chercher dans "Releases".
+
+Dézipper l'archive de distribution dans le répertoire `C:\app\gpmsi` (à créer si n'existe pas)
+
+Ouvrir le répertoire `C:\app\gpmsi\v2.1` , on doit y trouver un fichier `menu.bat` , double-cliquer sur `menu.bat` cela doit lancer le menu de gpmsi.
 
 Il doit y avoir un JRE installé, au minimum version 1.8.
 
@@ -99,5 +110,6 @@ Comme indiqué dans la license,
 **la responsabilité du ou des auteurs ne saurait être engagée d'aucune façon**
 , et l'utilisation de cet environnement se fait 
 **aux risques et périls de l'utilisateur** qui télécharge et utilise l'environnement gpmsi.
+
 
 
