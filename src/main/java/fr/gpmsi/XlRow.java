@@ -1,5 +1,8 @@
 package fr.gpmsi;
 
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -27,6 +30,8 @@ import fr.gpmsi.poi.ValueWrapper;
  */
 public class XlRow {
   ScriptStep owner;
+  DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //format de date fixe ISO
+  NumberFormat numberFormat = NumberFormat.getInstance(); //format de nombre par défaut
   
   /**
    * Constructeur.
@@ -43,7 +48,9 @@ public class XlRow {
   public ScriptStep getOwner() { return this.owner; }
   
   /**
-   * Retourner la valeur qui est à la colonne dont le numéro est colNrObj.
+   * Retourner la valeur qui est à la colonne dont le numéro est colNrObj, formatée en String.
+   * Le formatage des dates utilise le dateFormat, le formatage des nombre, le numberFormat.
+   * On peut les changer, il suffit de le faire une fois, car l'objet XlRow est réutilisé pour chaque rangée.
    * @param colNrObj le numéro de colonne (commence à 0 (zéro))
    * @return La valeur, renvoie la chaîne vide "" si la ligne ou la cellule n'existe pas.
    */
@@ -52,7 +59,7 @@ public class XlRow {
     if (colNrObj != null) colNr = colNrObj.intValue();
     Row row = owner.sh.getRow(owner.linenr-1); //linenr commence à 1 et pour poi ça commence à 0
     if (row == null) return "";
-    return owner.poiHelper.getCellValueAsString(row.getCell(colNr));
+    return owner.poiHelper.getCellValueAsString(row.getCell(colNr), dateFormat, numberFormat);
   }
   
   /**
@@ -306,5 +313,21 @@ public class XlRow {
    * Si on met cette valeur à chaque ligne, ce n'est pas grave, l'exécution est très rapide.
    */
   public void setNewJavaTimeUsed(boolean b) { owner.poiHelper.setNewJavaTimeUsed(b); }
+
+  public DateFormat getDateFormat() {
+    return dateFormat;
+  }
+
+  public void setDateFormat(DateFormat dateFormat) {
+    this.dateFormat = dateFormat;
+  }
+
+  public NumberFormat getNumberFormat() {
+    return numberFormat;
+  }
+
+  public void setNumberFormat(NumberFormat numberFormat) {
+    this.numberFormat = numberFormat;
+  }
   
 }
