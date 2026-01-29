@@ -31,7 +31,7 @@ import fr.gpmsi.poi.ValueWrapper;
 public class XlRow {
   ScriptStep owner;
   DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //format de date fixe ISO
-  NumberFormat numberFormat = NumberFormat.getInstance(); //format de nombre par défaut
+  NumberFormat numberFormat = StringUtils.makeNewPlainFrenchDecimalFormat(); //format de nombre par défaut : maison pour être utile au PMSI
   
   /**
    * Constructeur.
@@ -314,18 +314,41 @@ public class XlRow {
    */
   public void setNewJavaTimeUsed(boolean b) { owner.poiHelper.setNewJavaTimeUsed(b); }
 
+  /**
+   * Récupérer le DateFormat actuel
+   * @return le DateFormat utilisé actuellement
+   */
   public DateFormat getDateFormat() {
     return dateFormat;
   }
 
+  /**
+   * Mettre le DateFormat à utiliser.
+   * Par défaut le DateFormat est <code>new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")</code>
+   * L'objet XlRow est réutilisé pour chaque rangée, il suffit donc d'appeler <code>setDateFormat</code> une seule fois.
+   * @param dateFormat Le DateFormat à utiliser pour formatter les dates.
+   * @since v2.1.4
+   */
   public void setDateFormat(DateFormat dateFormat) {
     this.dateFormat = dateFormat;
   }
 
+  /**
+   * Récupérer le NumberFormat actuel
+   * @return le NumberFormat utilisé actuellement.
+   */
   public NumberFormat getNumberFormat() {
     return numberFormat;
   }
 
+  /**
+   * Mettre le NumberFormat à utiliser.
+   * Par défaut le NumberFormat est <code>{@link StringUtils#makeNewPlainFrenchDecimalFormat()}</code> qui est un
+   * format de nombre optimisé pour les besoins du PMSI.<br>
+   * L'objet XlRow est réutilisé pour chaque rangée, il suffit donc d'appeler <code>setNumberFormat</code> une seule fois.
+   * @param numberFormat Le NumberFormat à utiliser pour formatter les dates.
+   * @since v2.1.4
+   */
   public void setNumberFormat(NumberFormat numberFormat) {
     this.numberFormat = numberFormat;
   }
