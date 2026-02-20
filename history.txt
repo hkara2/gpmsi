@@ -92,6 +92,7 @@ version date    changements
                 Reprise du chemin du répertoire courant en extracp pour pouvoir plus facilement exécuter
                 des scripts qui sont dans des packages.
                 Ajout d'un script fr/gpmsi/Bonjour2.groovy pour la démonstration simple des scripts en package.
-                                   
+2.1.5  260220   Utilisation de pmsixml 3.1.4 qui intègre VIDHOSP V16
+
 
 
