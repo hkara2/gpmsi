@@ -93,6 +93,7 @@ version date    changements
                 des scripts qui sont dans des packages.
                 Ajout d'un script fr/gpmsi/Bonjour2.groovy pour la démonstration simple des scripts en package.
 2.1.5  260220   Utilisation de pmsixml 3.1.4 qui intègre VIDHOSP V16
-
+2.1.6  260305   Utilisation de pmsixml 3.1.5 qui intègre RSS 123/023
+                Script de migration de RSS 122 vers 123
 
 
