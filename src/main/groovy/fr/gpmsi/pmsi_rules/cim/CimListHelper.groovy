@@ -3,7 +3,7 @@
 package fr.gpmsi.pmsi_rules.cim
 
 class CimListHelper {
-    
+
     /**
      * Méthode utilitaire pour transformer une liste de codes séparée par des
      * espaces ou des retours à la ligne en liste de codes.
