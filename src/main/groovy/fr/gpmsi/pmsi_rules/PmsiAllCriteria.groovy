@@ -16,11 +16,11 @@ class PmsiAllCriteria
         addAll(criteria)
     }
 
-    boolean eval(HashMap context) {
+    boolean eval(Map context, Map outputContext) {
         if (size() == 0) return false
         for (int i = 0; i < size(); i++) {
             PmsiCriterion crit = get(i)
-            if (crit.eval(context) == false) return false
+            if (crit.eval(context, outputContext) == false) return false
         }
         //tous les critères sont vrais, on évalue a "true".
         return true

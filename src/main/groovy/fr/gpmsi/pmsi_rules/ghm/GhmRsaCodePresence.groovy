@@ -45,7 +45,7 @@ implements PmsiCriterion
   }
 
   @Override
-  public boolean eval(HashMap context) {
+  public boolean eval(Map context, Map outputContext) {
     FszGroup rsa = context['rsa']
     
     if (codeExprs == null) {

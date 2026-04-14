@@ -3,34 +3,49 @@ package fr.gpmsi.pmsi_rules
 import fr.gpmsi.pmsixml.FszGroup
 
 /**
- * Moteur de regles tres simpliste pour l'instant que l'on peut appeler pour évaluation de
- * chaque RUM par exemple.<br>
+ * Moteur de regles tres simpliste pour l'instant que l'on peut appeler pour
+ * évaluation de chaque RUM par exemple.<br>
  * On initialise le moteur avec toutes les règles que l'on désire utiliser.<br>
  * On appelle initialize(), ce qui initialise le moteur.<br>
- * Ensuite pour chaque élément que l'on veut évaluer avec le moteur de règles, on appelle la
- * méthode correspondante, par ex. <code>evalRum(rum)</code>.
+ * Ensuite pour chaque élément que l'on veut évaluer avec le moteur de règles,
+ * on appelle la méthode correspondante, par ex. <code>evalRum(rum)</code>.
+ * On peut ajouter des éléments de contexte dans le dictionnaire "context".
+ * A l'intérieur de la règle, on peut ajouter des éléments dans le dictionnaire
+ * "outputContext" Après chaque exécution de règle, le "outputContext" est
+ * sauvegardé dans une liste "outputContexts" et remis ensuite à 0.
+ *
  * <p>
  *
  * Idees futures pour augmenter les possibilités :
  * <ul>
- *   <li> Ajouter une API pour avoir les autres RUMs d'un même RSS, ainsi que le parcours (UMs dans l'ordre chronologique)
- *   <li> Ajouter une API pour avoir les autres RSS pour le même patient, avec requête sur l'ordre (suivant/précédent), et sur le temps (de l'année dernière, par ex.)
- *   <li> Ajouter une API pour avoir les autres RSA pour le même patient, avec requête sur l'ordre (suivant/précédent), et sur le temps (de l'année dernière, par ex.)
+ *   <li> Ajouter une API pour avoir les autres RUMs d'un même RSS, ainsi que
+ *        le parcours (UMs dans l'ordre chronologique)
+ *   <li> Ajouter une API pour avoir les autres RSS pour le même patient, avec
+ *        requête sur l'ordre (suivant/précédent), et sur le temps (de l'année
+ *        dernière, par ex.)
+ *   <li> Ajouter une API pour avoir les autres RSA pour le même patient, avec
+ *        requête sur l'ordre (suivant/précédent), et sur le temps (de l'année
+ *        dernière, par ex.)
  *   <li> API pour collecter diagnostics, actes, sur un ensemble de RUM/RSS/RSA
  * </ul>
- * L'idée étant que l'on donne un ensemble de RSS+VIDHOSP, ou bien un ensemble de RSA+TRA+VIDHOSP, et qu'ensuite
- * on parcourt les données à analyser, mais cette fois avec un contexte riche qui permet d'analyser l'antériorité
- * voire quelque chose qui s'est produit plus tard (par ex. le patient recoit des
- * chimios mais à aucun moment on n'a de DP de cancer).
+ * L'idée étant que l'on donne un ensemble de RSS+VIDHOSP, ou bien un ensemble
+ * de RSA+TRA+VIDHOSP, et qu'ensuite on parcourt les données à analyser, mais
+ * cette fois avec un contexte riche qui permet d'analyser l'antériorité
+ * voire quelque chose qui s'est produit plus tard (par ex. le patient recoit
+ * des chimios mais à aucun moment on n'a de DP de cancer).
+ *
  * <p>
+ *
  * A voir aussi : stockage de valeurs qui contrôlent telle ou telle évaluation
  * pour enlever les faux déclenchements (ex : on n'a pas trouvé de DP de cancer
  * parce que en fait le cancer a été traité à l'extérieur, on ne veut donc pas
  * qu'il y ait un avertissement à chaque fois)
+ *
  * <p>
+ *
  * Exemple (groovy) de script utilisant un PmsiRuleEngine et des critères :
  * <pre>
- * //recherche de rums cancéro dans l'UF de médecine, sortis entre septembre et décembre 2024 
+ * //recherche de rums cancéro dans l'UF de médecine, sortis entre septembre et décembre 2024
  * package pmsi_rules
  * import java.time.LocalDate
  * import fr.gpmsi.DateUtils
@@ -39,37 +54,37 @@ import fr.gpmsi.pmsixml.FszGroup
  * import fr.gpmsi.pmsi_rules.ccam.*
  * import fr.gpmsi.pmsi_rules.ghm.*
  * import fr.gpmsi.pmsi_rules.rss.*
- * 
+ *
  * ufsAutorisees = ['4001'] as Set
- * 
+ *
  * dateSorMin = LocalDate.of(2024,  9,  1)
  * dateSorMax = LocalDate.of(2024, 12, 31)
- * 
+ *
  * critUfAutorisee = new GenericPmsiCriterion({context ->
  *     def rum = context['rum']
  *     ufsAutorisees.contains(rum.txtNUM)
  * })
- * 
+ *
  * //critère dateSorMin <= dateSor <= dateSorMax
  * critDateSorOk  = new GenericPmsiCriterion({context ->
  *     def rum = context['rum']
  *     def dateSor = rum.DSUM.toLocalDate()
  *     dateSor != null && dateSorMin <= dateSor && dateSor <= dateSorMax
  * })
- * 
+ *
  * cimCancers = ("C00:D09").split(',') //liste des expressions de codes de cancer
- * 
+ *
  * critCimDansSelection = new CimCodePresence("DP,DR,DAS", cimCancers) //est-ce que le code CIM du rsa est dans la selection ?
- * 
+ *
  * //règle pour voir si cim dans la sélection et uf est autorisee et date de sortie dans la plage autorisée
  * regleCimDansSelection = new PmsiCriterionRule(critCimDansSelection, critUfAutorisee, critDateSorOk)
- * 
+ *
  * eng = new PmsiRuleEngine(regleCimDansSelection) //moteur de règles basé sur cette règle
- * 
+ *
  * dateSorParNadl = [:]
- * 
+ *
  * nadls = [] as Set
- * 
+ *
  * / ** remplir dates de sortie par nadl * /
  * rss {
  *     input args.input
@@ -83,23 +98,23 @@ import fr.gpmsi.pmsixml.FszGroup
  *         }
  *     }
  * }
- * 
+ *
  * rss {
  *     input args.input
  *     output args.output
- * 
+ *
  *     onInit {
  *         outf = new FileWriter(outputFilePath)
  *         outf << 'NADL\r\n'
  *     }
- * 
+ *
  *     onItem {item->
  *         rum = item.rum
  *         int n = eng.evalRum(rum)
  *         def nadl = rum.txtNADL
  *         if (n > 0) outf << "$nadl\r\n"
  *     }
- * 
+ *
  *     onEnd {
  *         outf.close()
  *     }
@@ -111,6 +126,8 @@ class PmsiRuleEngine {
 
     List<PmsiRule> rules = []
     def context = [:]
+    def outputContext = [:]
+    def outputContexts = []
 
     /**
      * Constructeur simple.
@@ -119,7 +136,7 @@ class PmsiRuleEngine {
         context['engine'] = this
         context['out'] = new PrintWriter(System.out, true)
         context['collect'] = []
-        rules?.each { rule -> add(rule) }      
+        rules?.each { rule -> add(rule) }
     }
 
     /**
@@ -131,7 +148,7 @@ class PmsiRuleEngine {
         context['engine'] = this
         context['out'] = new PrintWriter(System.out, true)
         context['collect'] = []
-        rules?.each { rule -> add(rule) }      
+        rules?.each { rule -> add(rule) }
     }
 
     void add(PmsiRule rule) { rules << rule }
@@ -141,7 +158,7 @@ class PmsiRuleEngine {
      */
     void initialize() {
         rules.each() { rule ->
-            init(context)
+            rule.init(context)
         }
     }
 
@@ -154,10 +171,18 @@ class PmsiRuleEngine {
         int ntrue = 0
         context['rum'] = g
         rules.each() { rule ->
-            if (rule.eval(context)) {
-              rule.action(context)
-              ntrue++
+            if (rule.eval(context, outputContext)) {
+                outputContext['eval'] = true
+                rule.action(context, outputContext)
+                ntrue++
             }
+            else {
+                outputContext['eval'] = false
+            }
+            outputContext['rule'] = rule.class.name
+            //println "'rule':${outputContext['rule']}"
+            outputContexts << outputContext //sauver le contexte de sortie
+            outputContext = [:] //et démarrer un nouveau contexte de sortie
         }
         return ntrue;
     }
@@ -171,10 +196,14 @@ class PmsiRuleEngine {
         int ntrue = 0
         context['rsa'] = rsa
         rules.each() { rule ->
-            if (rule.eval(context)) {
-              rule.action(context)
-              ntrue++
+            if (rule.eval(context, outputContext)) {
+                rule.action(context, outputContext)
+                ntrue++
             }
+            outputContext['rule'] = rule.class.name
+            //println "'rule':${outputContext['rule']}"
+            outputContexts << outputContext //sauver le contexte de sortie
+            outputContext = [:] //et démarrer un nouveau contexte de sortie
         }
         return ntrue;
     }
@@ -184,6 +213,23 @@ class PmsiRuleEngine {
      * @return Le contexte
      */
     Map getContext() { context }
+
+    /**
+     * Retourner la liste des contextes de sortie du moteur
+     * @return La liste des contextes de sortie
+     */
+    List<Map> getOutputContexts() { outputContexts }
+
+    /**
+     * Retourner le dernier contexte de sortie, une fois que la règle a été
+     * exécutée
+     */
+    Map getLastOutputContext() { outputContexts.empty ? [:] : outputContexts.last() }
+
+    /**
+     * Effacer la liste des contextes de sortie
+     */
+    void clearOutputContexts() { outputContexts.clear() }
 
 }
 

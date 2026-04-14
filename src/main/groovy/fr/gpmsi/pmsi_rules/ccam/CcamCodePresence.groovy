@@ -208,7 +208,12 @@ public class CcamCodePresence
   public void setPmsiExtensionIgnored(boolean ignorePmsiExtension) {
       this.ignorePmsiExtension = ignorePmsiExtension
   }
-      
+  
+  /**
+   * appelle eval(context, null)
+   */
+  public boolean eval(Map context) { eval(context, null) }
+  
   /*
    * Date de réalisation
    * Code CCAM
@@ -224,7 +229,7 @@ public class CcamCodePresence
    * Si il y a 'rsa' dans le contexte, recherche dans tous les rums du rsa.
    */
   @Override
-  public boolean eval(HashMap context) {
+  public boolean eval(Map context, Map outputContext) {
 
     FszGroup rum = context['rum']
     FszGroup rsa = context['rsa']

@@ -11,30 +11,38 @@ import fr.gpmsi.pmsi_rules.PmsiCriterion
  * Ou sinon utiliser le constructeur qui prend une Closure en argument
  */
 class RsaRule
-    implements PmsiRule 
+    implements PmsiRule
 {
   PmsiCriterion crit
-  
+
   public RsaRule() {}
-  
+
   public RsaRule(Closure c) { crit = new GenericPmsiCriterion(c) }
-  
-  void init(HashMap context) {
+
+  void init(Map context) {
   }
+
+  boolean eval(Map context) { eval(context, null) }
   
-  boolean eval(HashMap context) {
-      eval(context, context['rsa'])
+  boolean eval(Map context, Map outputContext) {
+      eval(context, outputContext, context['rsa'])
   }
-  
-  boolean eval(HashMap context, FszGroup rsa) {
-      if (crit) return crit.eval(context)
+
+  boolean eval(Map context, FszGroup rsa) { eval(context, null, rsa) }
+      
+  boolean eval(Map context, Map outputContext, FszGroup rsa) {
+      if (crit) return crit.eval(context, outputContext)
       else return false
   }
 
-  void action(HashMap context) {
-      action(context, context['rsa'])
-  }
+  void action(Map context) { action(context, null) }
   
-  void action(HashMap context, FszGroup rsa) {
+  void action(Map context, Map outputContext) {
+      action(context, outputContext, context['rsa'])
+  }
+
+  void action(Map context, FszGroup rsa) { action(context, null, rsa) }
+  
+  void action(Map context, Map outputContext, FszGroup rsa) {
   }
 }
