@@ -110,9 +110,11 @@ import groovy.util.ScriptException;
  * <li>-extracp: définir un élément de classpath supplémentaire. Cette option est à utiliser avec -scripturi pour
  *              donner le point de départ des scripts. C'est nécessaire lorsque l'on définit les scripts
  *              dans des packages, cela permet de définir le répertoire racine des scripts. Le chemin
- *              doit être une URL et se terminer par un slash (s'il n'y a pas de slash à la fin,
+ *              doit être une URI et se terminer par un slash (s'il n'y a pas de slash à la fin,
  *              gpmsi.Groovy en rajoute un d'office et émet un avertissement). On ajouter plusieurs fois
- *              cette option et ainsi ajouter plusieurs extracp.
+ *              cette option et ainsi ajouter plusieurs extracp. Depuis 2.1.4 on peut donner un chemin
+ *              de fichier classique, gpmsi.Groovy se chargera de le convertir en URI. Depuis 2.1.4 le
+ *              chemin courant est toujours ajoute en tant que extracp.
  * </ul>
  *
  * <p>
@@ -176,6 +178,27 @@ public class Groovy {
         return args.next();
     }
 
+    /**
+     * Ajouter l'argument en tant que extraCp
+     * @param arg
+     */
+    private void addExtraCp(String arg) {
+      //si le classpath contient un \, appeler "toUri()" pour le transformer en URI
+      File extracpFile = new File(arg);
+      if (extracpFile.exists()) {
+        //c'est un chemin de fichier classique, le transformer en URI
+        arg = extracpFile.toURI().toString();
+        lg.debug("Transformation du chemin '"+arg+"' en URI '"+arg+"'");
+      }
+      //ajouter un slash à la fin s'il n'y en a pas, sinon le chargement des scripts échoue
+      if (!arg.endsWith("/")) {
+        //trace dans le debug pour que gpmsi.Groovy a fait cette action
+        lg.debug("Forcage du slash final pour le classpath supplementaire "+arg);
+        arg += "/";
+      }
+      extraCps.add(arg);      
+    }
+    
     /**
      * Initialisation
      * @param argsp Arguments
@@ -334,19 +357,14 @@ public class Groovy {
                 throw new Exception("Argument manquant pour '"+arg+"'");
               }
               arg = args.next();
-              //ajouter un slash à la fin s'il n'y en a pas, sinon le chargement des scripts échoue
-              if (!arg.endsWith("/")) {
-                //avertir pour que l'utilisateur soit vigilant la prochaine fois
-                //et pour qu'il sache que gpmsi.Groovy a fait cette action
-                lg.warn("Forcage du slash final pour le classpath supplementaire "+arg);
-                arg += "/";
-              }
-              extraCps.add(arg);
+              addExtraCp(arg);
             }
             else {
                 throw new Exception("Argument illegal : '"+arg+"'");
             }
         }//while
+        //ajout systématique (depuis v2.1.4) du répertoire courant en extracp
+        addExtraCp(System.getProperty("user.dir"));
         if (scriptPath == null && scriptUri == null && runClass == null && !helpRequested) {
             System.err.println("Pas de -script donne, et pas de -run donne non plus, rien ne sera execute ! Utilisez -h pour avoir de l'aide.");
         }

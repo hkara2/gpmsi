@@ -41,12 +41,12 @@ public class PmsiRulesTest {
     CimCodePresence p1 = new CimCodePresence('DP', 'Z511')
     
     @Override
-    public boolean eval(HashMap context) {
+    public boolean eval(Map context, Map outputContext) {
       return p1.eval(context)
     }
     
     @Override
-    public void action(HashMap context) {
+    public void action(Map context, Map outputContext) {
       PrintWriter outPw = context['out']
       outPw.write('code found ! \n')
       System.out.println('code found !!')
@@ -58,17 +58,17 @@ public class PmsiRulesTest {
     CimCodePresence p2 = new CimCodePresence('DR', 'C34.')
     
     @Override
-    public boolean eval(HashMap context) { return p2.eval(context) }
+    public boolean eval(Map context, Map outputContext) { return p2.eval(context, outputContext) }
   }
 
   class RssRuleGhmEstZ extends RssRule {
     GhmCodePresence p1 = new GhmCodePresence('..Z.+')
     
     @Override
-    public boolean eval(HashMap context) { return p1.eval(context); }
+    public boolean eval(Map context, Map outputContext) { return p1.eval(context, outputContext); }
     
     @Override
-    public void action(HashMap context) {
+    public void action(Map context, Map outputContext) {
       PrintWriter outPw = context['out']
       outPw.write('code GHM en Z trouve ! \n')
       System.out.println('code Z trouve !!')
@@ -80,12 +80,12 @@ public class PmsiRulesTest {
     CcamCodePresence cp = new CcamCodePresence(['NBCA006', 'NBCA009', 'NBCA004'] as Set)
     
     @Override
-    public boolean eval(HashMap context) {
+    public boolean eval(Map context, Map outputContext) {
       return cp.eval(context)
     }
     
     @Override
-    public void action(HashMap context) {
+    public void action(Map context, Map outputContext) {
       PrintWriter outPw = context['out']
       outPw.write('code ccam osteosynthese trouve ! \n')
       System.out.println('code ccam osteosynthese trouve !')
@@ -97,12 +97,12 @@ public class PmsiRulesTest {
     CcamCodePresence cp = new CcamCodePresence(['NBCA00.*', 'NAQK072', 'NAQK073'] as Set)
     
     @Override
-    public boolean eval(HashMap context) {
+    public boolean eval(Map context, Map outputContext) {
       return cp.eval(context)
     }
     
     @Override
-    public void action(HashMap context) {
+    public void action(Map context, Map outputContext) {
       PrintWriter outPw = context['out']
       outPw.write('code ccam osteosynthese (code commencant par NBCA00) trouve ! \n')
       System.out.println('code ccam osteosynthese (code commencant par NBCA00) trouve !')
@@ -114,12 +114,12 @@ public class PmsiRulesTest {
     CcamCodePresence cp = new CcamCodePresence(['NDPA002.*', 'NDQK001-01'] as Set, false) //attention indiquer qu'on n'ignore pas l'extension !
     
     @Override
-    public boolean eval(HashMap context) {
+    public boolean eval(Map context, Map outputContext) {
       return cp.eval(context)
     }
     
     @Override
-    public void action(HashMap context) {
+    public void action(Map context, Map outputContext) {
       PrintWriter outPw = context['out']
       outPw.write('code ccam NDPA002 ou NDQK001 trouve ! \n')
       System.out.println('code ccam NDPA002 ou NDQK001 trouve ! ')

@@ -32,9 +32,9 @@ import org.slf4j.LoggerFactory
  * Il y a deux modes de recherche : par intervalle ou par liste de codes.
  * <br>
  * Recherche par intervalle : il faut utiliser le constructeur  #CimCodePresence(String locations, String firstCode, String lastCode, boolean includeLast) ou le constructeur CimCodePresence(String locations, String firstCode, String lastCode) :
- * ce mode de recherche est déconseillé puisque maintenant on peut mettre des intervalles de code dans la liste des codes à rechercher. 
+ * ce mode de recherche est déconseillé puisque maintenant on peut mettre des intervalles de code dans la liste des codes à rechercher.
  * <br>
- * Recherche par liste de codes : il faut utiliser le constructeur CimCodePresence(String locations, String[] codeList) ou le constructeur CimCodePresence(String locations, String uniqueCode)  
+ * Recherche par liste de codes : il faut utiliser le constructeur CimCodePresence(String locations, String[] codeList) ou le constructeur CimCodePresence(String locations, String uniqueCode)
  * <br>
  * Le ou les codes CIM 10 collectés dans les endroits à rechercher seront normalisés avant d'être analysés :
  * <ul>
@@ -45,13 +45,13 @@ import org.slf4j.LoggerFactory
  * <p>
  * <h3>Critère de recherche de codes</h3>
  * <h4>Code CIM-10 normal</h4>
- * Si l'expression à rechercher ne contient que une lettre suivie de chiffres ou de '+', elle est considérée comme un 
+ * Si l'expression à rechercher ne contient que une lettre suivie de chiffres ou de '+', elle est considérée comme un
  * code CIM-10 normal et comparée telle quelle.<br>
  * <h4>Intervalle de codes CIM-10</h4>
  * Si l'expression à rechercher est composée de deux codes CIM-10 séparés par ':', c'est un intervalle. Un code CIM-10
  * sera sélectionné s'il est dans l'intervalle. Bornes hautes et basses sont comprises. Par exemple, pour l'intervalle A00:B94
- * le test sera de voir si le code est &gt;= "A00" et &lt;= "B94999". 
- * <h4>(futur)Expression CIM-10</h4>
+ * le test sera de voir si le code est &gt;= "A00" et &lt;= "B94999".
+ * <h4>Expression CIM-10</h4>
  * Si l'expression contient un caractère '-' et/ou au moins un caractère '_'
  * il s'agit d'une expression CIM-10 telle qu'on la trouve dans les manuels
  * OMS (que ce soit CIM-10 ou aussi CIM-O (oncologique) cette syntaxe se retrouve)
@@ -59,16 +59,20 @@ import org.slf4j.LoggerFactory
  * Ces expressions sont converties en expression régulière, en remplaçant
  * '_' par '.' et '-' par '.*'
  * <h4>Expression régulière</h4>
- * (futur : une expression régulière commence par le caractère '#' qui
+ * Une expression régulière commence par le caractère '#' qui
  * indique qu'il s'agit bien d'une expression régulière, et qu'il ne faut pas
  * traiter les caractères dans le sens CIM-10 mais qu'il faut au contraire
- * laisser telle quelle l'expression régulière)
- * Si l'expression à rechercher n'est ni un intervalle ni un code CIM-10 normal, l'expression à rechercher sera considérée comm une expression régulière (cf. <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">Pattern</a>) :<br>
+ * laisser telle quelle l'expression régulière.
+ * Si l'expression à rechercher n'est ni un intervalle ni un code CIM-10 normal, l'expression
+ * à rechercher sera considérée comm une expression régulière
+ * (cf. <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">Pattern</a>) :<br>
  * Ainsi on peut rechercher 'F01[89]1.' : code qui commence par F01, puis suivi d'un 8 ou d'un 9, puis suivi d'un 1, puis de n'importe quel chiffre.<br>
  * Les autres codes sont recherchés tels quels.<br>
  * Par exemple A03 ne recherche que "Shigellose", et pas les sous-codes.<br>
- * Pour rechercher A03 et ses sous-codes, il faut mettre A03.* (ou A03:A03 qui marche aussi)<br>
+ * Pour rechercher A03 et ses sous-codes, il faut mettre A03.* (qui est équivalent à A03:A03 qui marche aussi)<br>
  * Pour ne recherche <i>que</i> les sous codes (donc sans A03), il faut mettre A03.+<br>
+ * Cela donne beaucoup plus de possibilités de recherche mais au prix d'une syntaxe plus déroutante
+ * (surtout pour ceux qui n'ont jamais entendu parler des expressions régulières).
  * La recherche par expression régulière est forcément un peu plus lente ; si ce
  * point est important et si c'est possible mettre plutôt tous les codes possibles. <br>
  * Par exemple au lieu d'utiliser 'A03.+' on peut mettre à la place
@@ -81,20 +85,22 @@ import org.slf4j.LoggerFactory
  * <li><code>U831\+.</code> pour rechercher le code <code>U831+</code> suivi de exactement un caractère
  * <li><code>U831\+.*</code> pour rechercher le code <code>U831+</code> suivi zéro ou plus caractères
  * <li><code>U831\+.+</code> pour rechercher le code <code>U831+</code> suivi de <b>un</b> caractère ou plus
- * <li><code>U831\+[08]</code>  pour rechercher le code <code>U831+</code> suivi du caractère '0' ou du caractère '8' 
+ * <li><code>U831\+[08]</code>  pour rechercher le code <code>U831+</code> suivi du caractère '0' ou du caractère '8'
  * </ul>
+ * (en se souvenant que dans une chaîne de caractères, il faut doubler l'antislash pour qu'il soit représenté comme tel,
+ * ex : <code>"U831\\+.*"</code>
  * Voir <a href="https://docs.oracle.com/javase/tutorial/essential/regex/">https://docs.oracle.com/javase/tutorial/essential/regex/</a>
  * ou <a href="https://www.jmdoudoux.fr/java/dej/chap-regex.htm">https://www.jmdoudoux.fr/java/dej/chap-regex.htm</a>
  * pour des tutoriels qui permettent de comprendre en profondeur les expressions régulières (on en a rarement besoin pour la CIM-10 !).
  */
 class CimCodePresence
-    implements PmsiCriterion 
+    implements PmsiCriterion
 {
     final static Logger lg = LoggerFactory.getLogger(CimCodePresence.class);
-    
+
     static Pattern cimPattern =  Pattern.compile(/[A-Z][0-9\+]+/) //pattern pour un code CIM10 autorisé
     static Pattern cimRangePattern =  Pattern.compile(/[A-Z][0-9\+]+\:[A-Z][0-9\+]+/) //pattern pour un intervalle de codes CIM10 autorisés
-    
+
     String locations
     String firstCode
     String lastCode
@@ -104,7 +110,7 @@ class CimCodePresence
     Set<Tuple2> ranges = []
     int searchType //0 : liste de codes, 1 : intervalle
     def codeExprs = null //contient les regexps s'il y a lieu
-    
+
     /**
      * Rechercher un code ou une expression régulière
      */
@@ -126,14 +132,14 @@ class CimCodePresence
         this.firstCode = firstCode
         this.lastCode = lastCode
     }
-    
+
     /**
      * Rechercher les codes qui sont compris entre le premier code (inclus) et le dernier code (inclus)
      */
     CimCodePresence(String locations, String firstCode, String lastCode) {
         this(locations, firstCode, lastCode, true)
     }
-    
+
     /**
      * Rechercher une ou plusieurs expressions
      * @param locations Les endroits où chercher
@@ -147,7 +153,7 @@ class CimCodePresence
         analyzeExprs(exprsList)
         //System.out.println("codeList:$codeList")
     }
-    
+
     /**
      * Rechercher une ou plusieurs expressions
      * @param locations Les endroits où chercher
@@ -156,7 +162,7 @@ class CimCodePresence
     CimCodePresence(String locations, String[] exprsList) {
       this(locations, Arrays.asList(exprsList));
     }
-      
+
     /**
      * Normaliser les codes CIM-10 à l'intérieur du tableau
      * @param codes Le tableau qui doit être modifié
@@ -169,39 +175,55 @@ class CimCodePresence
 
     /**
      * Analyser chaque code de la liste transmise, et le ranger dans codes ou patterns ou ranges
-     * @param codeList une liste ou un tableau de codes 
+     * @param codeList une liste ou un tableau de codes
      * @return void
      */
     private void analyzeExprs(exprList) {
-      exprList.each {expr ->
+      exprList.each {String expr ->
         if (expr ==~ cimRangePattern) {
           //c'est un intervalle, de type A00:B19
           def rng = expr.split(':')
-          ranges << new Tuple2(rng[0], (rng[1]+"99999")[0..5])
+          ranges << new Tuple2(rng[0], (rng[1]+"99999")[0..5]) //le code ascii 9 est plus grand que le code +
         }
         else if (expr ==~ cimPattern) {
           //c'est un code CIM-10 normal
           codes << expr
         }
         else {
-          //On suppose que c'est un motif de recherche, par ex B9[12]1\+ 
-          patterns << Pattern.compile(expr)
+          //Soit c'est un motif de type OMS, comme A40.- ou A4_.9, soit c'est un motif regex qui commence alors par '#"
+          if (expr.startsWith('#')) {
+            //On suppose que c'est un motif de recherche, par ex B9[12]1\+
+            patterns << Pattern.compile(expr[1..-1]) //ajouter le motif tel quel, sans le # initial
+          }
+          else {
+            //transformer le motif "OMS" en motif de recherche
+            String e2 = expr.replaceAll('\\.', '') //enlever les .
+            e2 = e2.replaceAll('-', '.*') //remplacer chaque "-" par le motif ".*"
+            e2 = e2.replaceAll('_', '.') //remplacer chaque "_" par un "."
+            patterns << Pattern.compile(e2) //ajouter le motif résultant
+          }
         }
       }
     }
-    
+
+    /**
+     * Appelle eval(context, null)
+     */
+    boolean eval(Map context) { eval(context, null) }
+
     /**
      * Rechercher un ou plusieurs codes CIM 10 avec les critères donnés, dans
      * les emplacements spécifiés
      * Les emplacements disponibles sont :
      * <ul>
-     * <li> DP, DR, DAS pour les RUMs
-     * <li> FPP, MMP, AE, DAS pour les RHS
+     * <li> DP, DR, DAS, DAD pour les RUMs
+     * <li> FPP, MMP, AE, DAS, DAD pour les RHS
      * <li> DPA, DRA, pour les RSAs
-     * <li> RADP, RADR, RADAS, pour les RUMs des RSAs
+     * <li> RADP, RADR, RADAS pour les RUMs des RSAs (n.b. dans un RSA il n'y a plus de DAD,
+     *      c'est pour ça qu'il n'y a pas RADAD dans les emplacements)
      * </ul>
      */
-    boolean eval(HashMap context) {
+    boolean eval(Map context, Map outputContext) {
         FszGroup rum = null
         FszGroup rhs = null
         FszGroup rsa = null
@@ -242,12 +264,17 @@ class CimCodePresence
                   if (rum != null) { readcodes.addAll(rum.DA.txtTDA) }
                   if (rhs != null) { readcodes.addAll(rhs.DA.txtTDA) }
                   break
+                case 'DAD':
+                  if (rum == null) { rum = context['rum'] }
+                  if (rhs == null) { rhs = context['rhs'] }
+                  if (rum != null) { readcodes.addAll(rum.DAD.txtTDAD) }
+                  if (rhs != null) { readcodes.addAll(rhs.DAD.txtTDAD) }
+                  break
                 case 'RADAS': //DAs des RUMs du RSA
                   if (rsa == null) { rsa = context['rsa'] }
-                  if (rsa != null) { 
+                  if (rsa != null) {
                     def radasCodes = (rsa.RU.DA.txtTDA).flatten()
-                    //println("radasCodes:$radasCodes")
-                    readcodes.addAll(radasCodes)                     
+                    readcodes.addAll(radasCodes)
                   }
                   break
                 case 'FPP':
@@ -282,5 +309,5 @@ class CimCodePresence
         }
         else throw new Exception("Erreur interne type de recherche non prevu : "+searchType)
     }
-    
+
 }

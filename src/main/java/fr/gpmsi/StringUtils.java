@@ -1,5 +1,9 @@
 package fr.gpmsi;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 /**
  * Utilitaires de String très fréquemment utilisés pour éviter d'avoir à 
  * les redéclarer à chaque fois.
@@ -143,4 +147,23 @@ public class StringUtils {
     return sb.toString();
   }
   
+  /**
+   * Créer un format simple de format décimal français utilisable facilement pour les besoins du PMSI.
+   * Utilisé notamment dans {@link XlRow} :
+   * <ul>
+   * <li>On part de la {@link Locale#FRANCE} (-&gt; utilisation de la virgule comme séparateur décimal)
+   * <li>12 décimales maximum après la virgule
+   * <li>pas de groupage des chiffres
+   * <li>pas d'utilisation de la virgule s'il n'y a rien derrière la virgule
+   * </ul>
+   * @return le DecimalFormat français utile au PMSI.
+   * @since v2.1.4
+   */
+  public static final DecimalFormat makeNewPlainFrenchDecimalFormat() {
+  //DecimalFormat basé sur le modèle français, avec 12 décimales derrière la virgule
+    DecimalFormat df = new DecimalFormat("#.############",new DecimalFormatSymbols(Locale.FRANCE));
+    df.setDecimalSeparatorAlwaysShown(false); //ne pas utiliser la virgule si ce n'est pas nécessaire
+    df.setGroupingUsed(false); //ne pas grouper les chiffres
+    return df;
+  }
 }

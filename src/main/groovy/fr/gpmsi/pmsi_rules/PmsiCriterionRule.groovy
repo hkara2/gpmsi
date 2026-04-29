@@ -26,8 +26,8 @@ public class PmsiCriterionRule
    * @return un boolean résultant de l'évaluation
    */
   @Override
-  public boolean eval(HashMap context) {
-    return criteria.eval(context);
+  public boolean eval(Map context, Map outputContext) {
+    return criteria.eval(context, outputContext);
   }
 
   /**
@@ -36,7 +36,7 @@ public class PmsiCriterionRule
    * @param context Le contexte
    */
   @Override
-  public void init(HashMap context) { 
+  public void init(Map context) { 
       log.debug("Appel a init, context : "+context)
   }
 
@@ -46,7 +46,7 @@ public class PmsiCriterionRule
    * @param context Le contexte
    */
   @Override
-  public void action(HashMap context) { 
+  public void action(Map context, Map outputContext) { 
       log.debug("Appel a action, context : "+context)
   }
 

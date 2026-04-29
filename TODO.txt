@@ -20,4 +20,14 @@ OK  Ajouter une fonction dans StringTable qui permet d'ajouter une rangée
     Continuer ce qui a été fait avec EntrantDao sur les 3 autres classes de Dao pour
     faire le dump des enregistrements.
     Continuer le dev de CacheCleaner.
-    
+
+260304 hk
+    Documenter la disponibilité des champs "meta" dans ScriptStep.
+
+260304 hk
+    Gérer les erreurs de format dans ScriptStep, avec un gestionnaire
+    utilisateur "onError", et s'il n'existe pas, arrêter le traitement.
+
+260304 hk
+    Dans le script de conversion vidhosp vers xlsx, ajouter une colonne avec
+    toutes les DMT concaténées.

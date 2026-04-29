@@ -12,7 +12,7 @@ class PmsiNotCriterion implements PmsiCriterion {
         this.subcriterion = subcriterion
     }
     
-    boolean eval(HashMap context) {
-        return !subcriterion.eval(context)
+    boolean eval(Map context, Map outputContext) {
+        return !subcriterion.eval(context, outputContext)
     }
 }

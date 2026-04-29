@@ -6,6 +6,9 @@ package fr.gpmsi.pmsi_rules
  * Elle est ensuite appelée pour une évaluation.
  * si l'evaluation est positive ("evaluate" a retourné "true"), la méthode
  * "action" est appelée.
+ * Il y a un contexte en entrée, qui permet de passer des valeurs à la règle,
+ * et un contexte en sortie, qui permet à la règle de passer des valeurs en
+ * sortie au moteur.
  * <p>
  * Les noms utilisables dans "context" sont, à titre d'exemple :
  * <ul>
@@ -16,7 +19,7 @@ package fr.gpmsi.pmsi_rules
  * </ul>
  */
 interface PmsiRule {
-  void init(HashMap context);
-  boolean eval(HashMap context);
-  void action(HashMap context);
+  void init(Map context);
+  boolean eval(Map context, Map outputContext);
+  void action(Map context, Map outputContext);
 }

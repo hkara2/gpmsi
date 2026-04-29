@@ -10,19 +10,27 @@ import fr.gpmsi.pmsixml.FszGroup
 class RssRule
     implements PmsiRule 
 {
-  void init(HashMap context) {
+  void init(Map context) {
   }
 
-  boolean eval(HashMap context) {
-      eval(context, context['rum'])
+  boolean eval(Map context) { eval(context, null) }
+    
+  boolean eval(Map context, Map outputContext) {
+      eval(context, outputContext, context['rum'])
   }
 
-  boolean eval(HashMap context, FszGroup rum) {}
+  boolean eval(Map context, FszGroup rum) { eval(context, null, rum) }
+  
+  boolean eval(Map context, Map outputContext, FszGroup rum) {}
 
-  void action(HashMap context) {
-      action(context, context['rum'])
+  void action(Map context) { action(context, null) }
+  
+  void action(Map context, Map outputContext) {
+      action(context, outputContext, context['rum'])
   }
 
-  void action(HashMap context, FszGroup rum) {
+  void action(Map context, FszGroup rum) { action(context, null, rum) }
+  
+  void action(Map context, Map outputContext, FszGroup rum) {
   }
 }
