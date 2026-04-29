@@ -22,7 +22,7 @@ configurations {
 //apply plugin: 'distribution'
 
 java {
-  //pour java, nous voulons que l'exécution puisse se faire sur java 8
+  //pour java, nous voulons que l'exécution puisse se faire sur java 8 et au delà
   sourceCompatibility = JavaVersion.VERSION_1_8
   targetCompatibility = JavaVersion.VERSION_1_8
   withJavadocJar()
@@ -44,12 +44,12 @@ ext.PROJECT_SUB_VERSION = antprops.PROJECT_SUB_VERSION //ex : .0
 version = ext.PROJECT_VERSION + ext.PROJECT_SUB_VERSION
 
 
-//pas d'effet
+//pas d'effet (mais on laisse, dans le doute)
 tasks.withType(Jar).configureEach {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-//pas d'effet
+//pas d'effet (mais on laisse, dans le doute)
 tasks.withType(AbstractCopyTask).configureEach {
     if(getDuplicatesStrategy() == DuplicatesStrategy.INCLUDE) {
         setDuplicatesStrategy(DuplicatesStrategy.EXCLUDE)
