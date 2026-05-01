@@ -589,11 +589,11 @@ task dist {
 //dist.dependsOn build
 
 task zip(type:Zip, dependsOn :[dist]) {
-    String zipName = "gpmsi-${PROJECT_VERSION}.zip"
+    //String zipName = "gpmsi-${version}.zip"
 
-    from "dist" //la distribution inclut le repertoire avec la version, c'est normal.
+    from "dist" //la distribution inclut le repertoire avec la version du projet (PROJECT_VERSION), c'est normal.
 
-    version = "$PROJECT_VERSION"
+    version = "$version"
     archiveBaseName = "gpmsi"
 }
 
