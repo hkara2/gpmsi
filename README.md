@@ -4,6 +4,8 @@
 
 ## Présentation
 
+(Retrouver la documentation également sur Github : [https://hkara2.github.io/gpmsi/](https://hkara2.github.io/gpmsi/ )
+
 Gpmsi est un environnement (ensemble de programmes, fichiers et librairies) pour
 permettre de scripter (à l'aide de [Groovy](https://groovy-lang.org/)) certaines opérations du PMSI afin de les automatiser. Un des objectifs principaux est de partager facilement les scripts au sein de l'équipe du DIM local ou entre DIMs.
 
@@ -41,13 +43,13 @@ Ainsi on peut voir du premier coup d'oeil si l'encodage UTF-8 est bien respecté
 
 Vérifier que java est installé (un JRE suffit, OpenJDK fonctionne aussi), minimum version 1.8 .
 
-Récupérer le fichier installeur en allant chercher `gpmsi-2.1.3-install.jar` dans "Releases".
+Récupérer le fichier installeur en allant chercher `gpmsi-2.1.6-install.jar` dans "Releases".
 
 Double-cliquer sur le fichier; cela lancera l'installeur.
 
 ### Méthode plus robuste en utilisant le fichier zip de distribution
 
-Récupérer l'archive de distribution `gpmsi-v2.1.3.zip` depuis GitHub, en allant chercher dans "Releases".
+Récupérer l'archive de distribution `gpmsi-v2.1.6.zip` depuis GitHub, en allant chercher dans "Releases".
 
 Dézipper l'archive de distribution dans le répertoire `C:\app\gpmsi` (à créer si n'existe pas)
 
@@ -85,8 +87,6 @@ il y a une copie de la documentation dans [https://hkara2.github.io/gpmsi/](http
 
 Il faut ouvrir le fichier `index.html` dans ce répertoire, il donne accès aux documentations
 javadoc de gpmsi, et aussi des librairies qui le composent. 
-
-On peut depuis peu trouver aussi cet accès sur github pages, à l'adresse [https://hkara2.github.io/gpmsi/](https://hkara2.github.io/gpmsi/) .
 
 Il y a également un livre (gratuit) sur gpmsi, mais ce livre est encore en cours d'écriture.
 
