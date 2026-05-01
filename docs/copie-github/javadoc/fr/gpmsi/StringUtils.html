@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9};
+var data = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9,"i7":9,"i8":9,"i9":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -191,13 +191,20 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/text/DecimalFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">DecimalFormat</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#makeNewPlainFrenchDecimalFormat()">makeNewPlainFrenchDecimalFormat</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Créer un format simple de format décimal français utilisable facilement pour les besoins du PMSI.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#normalizeCode(java.lang.String)">normalizeCode</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;str)</code></th>
 <td class="colLast">
 <div class="block">Normalisation de chaîne de caractère générale.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#normalizeLineSeparators(java.lang.String,java.lang.String)">normalizeLineSeparators</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;str,
                        <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;lsep)</code></th>
@@ -205,14 +212,14 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <div class="block">Normaliser pour que toutes les fin de lignes (\r seul, \n seul, ou \r\n) soient remplacées par le lsep donné.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeExtension(java.lang.String)">removeExtension</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;str)</code></th>
 <td class="colLast">
 <div class="block">Enlever l'extension (quelle qu'elle soit) de la chaîne de caractères.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeExtension(java.lang.String,java.lang.String)">removeExtension</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;str,
                <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;ext)</code></th>
@@ -391,7 +398,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <a id="normalizeLineSeparators(java.lang.String,java.lang.String)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>normalizeLineSeparators</h4>
 <pre class="methodSignature">public static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;normalizeLineSeparators&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;str,
@@ -414,6 +421,29 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <dd><code>lsep</code> - la String à mettre en séparateur de ligne</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>la string normalisée</dd>
+</dl>
+</li>
+</ul>
+<a id="makeNewPlainFrenchDecimalFormat()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>makeNewPlainFrenchDecimalFormat</h4>
+<pre class="methodSignature">public static final&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/text/DecimalFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">DecimalFormat</a>&nbsp;makeNewPlainFrenchDecimalFormat()</pre>
+<div class="block">Créer un format simple de format décimal français utilisable facilement pour les besoins du PMSI.
+ Utilisé notamment dans <a href="XlRow.html" title="class in fr.gpmsi"><code>XlRow</code></a> :
+ <ul>
+ <li>On part de la <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Locale.html?is-external=true#FRANCE" title="class or interface in java.util" class="externalLink"><code>Locale.FRANCE</code></a> (-&gt; utilisation de la virgule comme séparateur décimal)
+ <li>12 décimales maximum après la virgule
+ <li>pas de groupage des chiffres
+ <li>pas d'utilisation de la virgule s'il n'y a rien derrière la virgule
+ </ul></div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>le DecimalFormat français utile au PMSI.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>v2.1.4</dd>
 </dl>
 </li>
 </ul>

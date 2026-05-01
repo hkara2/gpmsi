@@ -906,6 +906,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Méthode de confort pour retourner le DataFormatter sans avoir à en recréer un nouveau.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="fr/gpmsi/XlRow.html#getDateFormat()">getDateFormat()</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/XlRow.html" title="class in fr.gpmsi">XlRow</a></dt>
+<dd>
+<div class="block">Récupérer le DateFormat actuel</div>
+</dd>
 <dt><span class="memberNameLink"><a href="fr/gpmsi/DbfRow.html#getDBFField(int)">getDBFField(int)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/DbfRow.html" title="class in fr.gpmsi">DbfRow</a></dt>
 <dd>
 <div class="block">Retourner la définition de champ pour la colonne donnée</div>
@@ -987,6 +991,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="fr/gpmsi/hapi/v25/segment/ZBE.html#getNatureOfMovement()">getNatureOfMovement()</a></span> - Method in class fr.gpmsi.hapi.v25.segment.<a href="fr/gpmsi/hapi/v25/segment/ZBE.html" title="class in fr.gpmsi.hapi.v25.segment">ZBE</a></dt>
 <dd>
 <div class="block">Create an accessor for each field</div>
+</dd>
+<dt><span class="memberNameLink"><a href="fr/gpmsi/XlRow.html#getNumberFormat()">getNumberFormat()</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/XlRow.html" title="class in fr.gpmsi">XlRow</a></dt>
+<dd>
+<div class="block">Récupérer le NumberFormat actuel</div>
 </dd>
 <dt><span class="memberNameLink"><a href="fr/gpmsi/ScriptStep.html#getOnEnd()">getOnEnd()</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/ScriptStep.html" title="class in fr.gpmsi">ScriptStep</a></dt>
 <dd>
@@ -1086,7 +1094,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><span class="memberNameLink"><a href="fr/gpmsi/XlRow.html#getStringValue(java.lang.Integer)">getStringValue(Integer)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/XlRow.html" title="class in fr.gpmsi">XlRow</a></dt>
 <dd>
-<div class="block">Retourner la valeur qui est à la colonne dont le numéro est colNrObj.</div>
+<div class="block">Retourner la valeur qui est à la colonne dont le numéro est colNrObj, formatée en String.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="fr/gpmsi/XlRow.html#getStringValue(java.lang.String)">getStringValue(String)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/XlRow.html" title="class in fr.gpmsi">XlRow</a></dt>
 <dd>
@@ -1388,6 +1396,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Méthode principale</div>
 </dd>
+<dt><span class="memberNameLink"><a href="fr/gpmsi/StringUtils.html#makeNewPlainFrenchDecimalFormat()">makeNewPlainFrenchDecimalFormat()</a></span> - Static method in class fr.gpmsi.<a href="fr/gpmsi/StringUtils.html" title="class in fr.gpmsi">StringUtils</a></dt>
+<dd>
+<div class="block">Créer un format simple de format décimal français utilisable facilement pour les besoins du PMSI.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="fr/gpmsi/Groovy.html#mandatory(fr.gpmsi.Args,java.lang.String)">mandatory(Args, String)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/Groovy.html" title="class in fr.gpmsi">Groovy</a></dt>
 <dd>
 <div class="block">Traitement d'un argument obligatoire</div>
@@ -1545,11 +1557,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </dd>
 <dt><a href="fr/gpmsi/PreambleRemovedReader.html" title="class in fr.gpmsi"><span class="typeNameLink">PreambleRemovedReader</span></a> - Class in <a href="fr/gpmsi/package-summary.html">fr.gpmsi</a></dt>
 <dd>
-<div class="block">Reader qui ne renvoie des données que après qu'une ligne vide a été rencontrée.</div>
+<div class="block">Reader qui ne renvoie des données que après qu'une ligne spéciale a été rencontrée.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="fr/gpmsi/PreambleRemovedReader.html#%3Cinit%3E(java.io.Reader)">PreambleRemovedReader(Reader)</a></span> - Constructor for class fr.gpmsi.<a href="fr/gpmsi/PreambleRemovedReader.html" title="class in fr.gpmsi">PreambleRemovedReader</a></dt>
 <dd>
-<div class="block">Constructeur qui prend un Reader en entrée</div>
+<div class="block">Constructeur qui prend un Reader en entrée, et reconnaît en ligne "spéciale" une ligne vide.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="fr/gpmsi/PreambleRemovedReader.html#%3Cinit%3E(java.io.Reader,java.lang.String)">PreambleRemovedReader(Reader, String)</a></span> - Constructor for class fr.gpmsi.<a href="fr/gpmsi/PreambleRemovedReader.html" title="class in fr.gpmsi">PreambleRemovedReader</a></dt>
+<dd>
+<div class="block">Constructeur qui prend un Reader en entrée, et reconnaît en ligne "spéciale" une ligne qui répond au motif donné.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="fr/gpmsi/StringTable.html#prettyPrintTo(java.lang.StringBuffer)">prettyPrintTo(StringBuffer)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/StringTable.html" title="class in fr.gpmsi">StringTable</a></dt>
 <dd>
@@ -1840,6 +1856,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dd>
 <div class="block">Définir le séparateur csv</div>
 </dd>
+<dt><span class="memberNameLink"><a href="fr/gpmsi/XlRow.html#setDateFormat(java.text.DateFormat)">setDateFormat(DateFormat)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/XlRow.html" title="class in fr.gpmsi">XlRow</a></dt>
+<dd>
+<div class="block">Mettre le DateFormat à utiliser.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="fr/gpmsi/CsvDestination.html#setFieldSeparator(char)">setFieldSeparator(char)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/CsvDestination.html" title="class in fr.gpmsi">CsvDestination</a></dt>
 <dd>
 <div class="block">Définir le séparateur de champs</div>
@@ -1896,6 +1916,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <dt><span class="memberNameLink"><a href="fr/gpmsi/XlRow.html#setNewJavaTimeUsed(boolean)">setNewJavaTimeUsed(boolean)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/XlRow.html" title="class in fr.gpmsi">XlRow</a></dt>
 <dd>
 <div class="block">Contrôle si les cellules date sont retournées en <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Date</code></a> ou en <a href="https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html?is-external=true" title="class or interface in java.time" class="externalLink"><code>LocalDateTime</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="fr/gpmsi/XlRow.html#setNumberFormat(java.text.NumberFormat)">setNumberFormat(NumberFormat)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/XlRow.html" title="class in fr.gpmsi">XlRow</a></dt>
+<dd>
+<div class="block">Mettre le NumberFormat à utiliser.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="fr/gpmsi/ScriptStep.html#setOnEnd(groovy.lang.Closure)">setOnEnd(Closure&lt;?&gt;)</a></span> - Method in class fr.gpmsi.<a href="fr/gpmsi/ScriptStep.html" title="class in fr.gpmsi">ScriptStep</a></dt>
 <dd>

@@ -147,7 +147,10 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">PreambleRemovedReader</span>
 extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/FilterReader.html?is-external=true" title="class or interface in java.io" class="externalLink">FilterReader</a></pre>
-<div class="block">Reader qui ne renvoie des données que après qu'une ligne vide a été rencontrée.
+<div class="block">Reader qui ne renvoie des données que après qu'une ligne spéciale a été rencontrée.
+ Par défaut la ligne "spéciale" est une ligne vide, mais on peut aussi donner au moment de la construction du
+ Reader une expression régulière pour reconnaître la ligne spéciale.
+ Par exemple si la ligne spéciale est composée de caractères '-', on peut donner l'expression "^-+$"
  Utile pour sauter les premières lignes d'un fichier csv, par exemple.</div>
 </li>
 </ul>
@@ -195,7 +198,14 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/FilterReader.
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.io.Reader)">PreambleRemovedReader</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;in)</code></th>
 <td class="colLast">
-<div class="block">Constructeur qui prend un Reader en entrée</div>
+<div class="block">Constructeur qui prend un Reader en entrée, et reconnaît en ligne "spéciale" une ligne vide.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.io.Reader,java.lang.String)">PreambleRemovedReader</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;in,
+                     <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;motif)</code></th>
+<td class="colLast">
+<div class="block">Constructeur qui prend un Reader en entrée, et reconnaît en ligne "spéciale" une ligne qui répond au motif donné.</div>
 </td>
 </tr>
 </table>
@@ -305,14 +315,31 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/io/FilterReader.
 <a id="&lt;init&gt;(java.io.Reader)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>PreambleRemovedReader</h4>
 <pre>public&nbsp;PreambleRemovedReader&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;in)</pre>
-<div class="block">Constructeur qui prend un Reader en entrée</div>
+<div class="block">Constructeur qui prend un Reader en entrée, et reconnaît en ligne "spéciale" une ligne vide.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>in</code> - le Reader</dd>
+</dl>
+</li>
+</ul>
+<a id="&lt;init&gt;(java.io.Reader,java.lang.String)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>PreambleRemovedReader</h4>
+<pre>public&nbsp;PreambleRemovedReader&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/io/Reader.html?is-external=true" title="class or interface in java.io" class="externalLink">Reader</a>&nbsp;in,
+                             <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;motif)</pre>
+<div class="block">Constructeur qui prend un Reader en entrée, et reconnaît en ligne "spéciale" une ligne qui répond au motif donné.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>in</code> - le Reader</dd>
+<dd><code>motif</code> - le motif Regex pour reconnaître la ligne spéciale, par ex "^-+$" reconnaît comme ligne spéciale une ligne
+     qui est uniquement formée de '-'</dd>
 </dl>
 </li>
 </ul>

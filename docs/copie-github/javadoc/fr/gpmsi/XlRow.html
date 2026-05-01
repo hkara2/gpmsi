@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10,"i24":10,"i25":10,"i26":10,"i27":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -236,122 +236,150 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 </td>
 </tr>
 <tr id="i7" class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/text/DateFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">DateFormat</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getDateFormat()">getDateFormat</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Récupérer le DateFormat actuel</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/text/NumberFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">NumberFormat</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNumberFormat()">getNumberFormat</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Récupérer le NumberFormat actuel</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="ScriptStep.html" title="class in fr.gpmsi">ScriptStep</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getOwner()">getOwner</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Retourner le propriétaire</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code><a href="https://javadoc.io/doc/org.apache.poi/poi/5.2.3/org/apache/poi/ss/usermodel/Row.html?is-external=true" title="class or interface in org.apache.poi.ss.usermodel" class="externalLink">Row</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPoiRow()">getPoiRow</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Ramener l'objet <a href="https://javadoc.io/doc/org.apache.poi/poi/5.2.3/org/apache/poi/ss/usermodel/Row.html?is-external=true" title="class or interface in org.apache.poi.ss.usermodel" class="externalLink"><code>Row</code></a> poi directement.</div>
 </td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code><a href="https://javadoc.io/doc/org.apache.poi/poi/5.2.3/org/apache/poi/ss/usermodel/Sheet.html?is-external=true" title="class or interface in org.apache.poi.ss.usermodel" class="externalLink">Sheet</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPoiSheet()">getPoiSheet</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Ramener l'objet apache poi <a href="https://javadoc.io/doc/org.apache.poi/poi/5.2.3/org/apache/poi/ss/usermodel/Sheet.html?is-external=true" title="class or interface in org.apache.poi.ss.usermodel" class="externalLink"><code>Sheet</code></a> directement.</div>
 </td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRowAsStrings()">getRowAsStrings</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Retourner toutes les valeurs de la rangée en tant que String</div>
 </td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStringValue(java.lang.Integer)">getStringValue</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;colNrObj)</code></th>
 <td class="colLast">
-<div class="block">Retourner la valeur qui est à la colonne dont le numéro est colNrObj.</div>
+<div class="block">Retourner la valeur qui est à la colonne dont le numéro est colNrObj, formatée en String.</div>
 </td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStringValue(java.lang.String)">getStringValue</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;colName)</code></th>
 <td class="colLast">
 <div class="block">Retourne la valeur (en String) qui est à la colonne qui porte le nom colName.</div>
 </td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>[]</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getStringValues()">getStringValues</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Identique a getRow(), mais plus clair</div>
 </td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code><a href="poi/ValueWrapper.html" title="class in fr.gpmsi.poi">ValueWrapper</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValueWrapper(java.lang.Integer)">getValueWrapper</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;colNrObj)</code></th>
 <td class="colLast">
 <div class="block">Récupère un ValueWrapper pour la cellule qui est au numéro donné</div>
 </td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang" class="externalLink">Object</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getValueWrapper(java.lang.String)">getValueWrapper</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;colName)</code></th>
 <td class="colLast">
 <div class="block">Récupère un ValueWrapper pour la cellule qui a le nom donné</div>
 </td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isBlank(java.lang.Integer)">isBlank</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;colNr)</code></th>
 <td class="colLast">
 <div class="block">La cellule est-elle de type BLANK ?</div>
 </td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isBlank(java.lang.String)">isBlank</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;colName)</code></th>
 <td class="colLast">
 <div class="block">La cellule est-elle de type BLANK ?</div>
 </td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isBlankOrEmpty(java.lang.Integer)">isBlankOrEmpty</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;colNr)</code></th>
 <td class="colLast">
 <div class="block">La cellule est elle de type BLANK ou bien vide ?</div>
 </td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isBlankOrEmpty(java.lang.String)">isBlankOrEmpty</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;colName)</code></th>
 <td class="colLast">
 <div class="block">La cellule est-elle de type BLANK ou bien est-elle vide ?</div>
 </td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty()">isEmpty</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Retourner true si toute la rangee est vide.</div>
 </td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty(java.lang.Integer)">isEmpty</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;colNr)</code></th>
 <td class="colLast">
 <div class="block">La cellule est-elle vide ?</div>
 </td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isEmpty(java.lang.String)">isEmpty</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;colName)</code></th>
 <td class="colLast">
 <div class="block">La cellule est-elle vide ?</div>
 </td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i25" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setDateFormat(java.text.DateFormat)">setDateFormat</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/text/DateFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">DateFormat</a>&nbsp;dateFormat)</code></th>
+<td class="colLast">
+<div class="block">Mettre le DateFormat à utiliser.</div>
+</td>
+</tr>
+<tr id="i26" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setNewJavaTimeUsed(boolean)">setNewJavaTimeUsed</a></span>&#8203;(boolean&nbsp;b)</code></th>
 <td class="colLast">
 <div class="block">Contrôle si les cellules date sont retournées en <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Date.html?is-external=true" title="class or interface in java.util" class="externalLink"><code>Date</code></a> ou en <a href="https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html?is-external=true" title="class or interface in java.time" class="externalLink"><code>LocalDateTime</code></a>.</div>
+</td>
+</tr>
+<tr id="i27" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setNumberFormat(java.text.NumberFormat)">setNumberFormat</a></span>&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/text/NumberFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">NumberFormat</a>&nbsp;numberFormat)</code></th>
+<td class="colLast">
+<div class="block">Mettre le NumberFormat à utiliser.</div>
 </td>
 </tr>
 </table>
@@ -423,7 +451,9 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <li class="blockList">
 <h4>getStringValue</h4>
 <pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang" class="externalLink">String</a>&nbsp;getStringValue&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang" class="externalLink">Integer</a>&nbsp;colNrObj)</pre>
-<div class="block">Retourner la valeur qui est à la colonne dont le numéro est colNrObj.</div>
+<div class="block">Retourner la valeur qui est à la colonne dont le numéro est colNrObj, formatée en String.
+ Le formatage des dates utilise le dateFormat, le formatage des nombre, le numberFormat.
+ On peut les changer, il suffit de le faire une fois, car l'objet XlRow est réutilisé pour chaque rangée.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>colNrObj</code> - le numéro de colonne (commence à 0 (zéro))</dd>
@@ -786,7 +816,7 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
 <a id="setNewJavaTimeUsed(boolean)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>setNewJavaTimeUsed</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;setNewJavaTimeUsed&#8203;(boolean&nbsp;b)</pre>
@@ -799,6 +829,71 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
  Si on veut mettre la valeur à true, il suffit de le faire à la première ligne, ce réglage
  reste actif pour les lignes suivantes.
  Si on met cette valeur à chaque ligne, ce n'est pas grave, l'exécution est très rapide.</dd>
+</dl>
+</li>
+</ul>
+<a id="getDateFormat()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDateFormat</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/text/DateFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">DateFormat</a>&nbsp;getDateFormat()</pre>
+<div class="block">Récupérer le DateFormat actuel</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>le DateFormat utilisé actuellement</dd>
+</dl>
+</li>
+</ul>
+<a id="setDateFormat(java.text.DateFormat)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setDateFormat</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setDateFormat&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/text/DateFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">DateFormat</a>&nbsp;dateFormat)</pre>
+<div class="block">Mettre le DateFormat à utiliser.
+ Par défaut le DateFormat est <code>new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")</code>
+ L'objet XlRow est réutilisé pour chaque rangée, il suffit donc d'appeler <code>setDateFormat</code> une seule fois.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>dateFormat</code> - Le DateFormat à utiliser pour formatter les dates.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>v2.1.4</dd>
+</dl>
+</li>
+</ul>
+<a id="getNumberFormat()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNumberFormat</h4>
+<pre class="methodSignature">public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/text/NumberFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">NumberFormat</a>&nbsp;getNumberFormat()</pre>
+<div class="block">Récupérer le NumberFormat actuel</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>le NumberFormat utilisé actuellement.</dd>
+</dl>
+</li>
+</ul>
+<a id="setNumberFormat(java.text.NumberFormat)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setNumberFormat</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setNumberFormat&#8203;(<a href="https://docs.oracle.com/javase/8/docs/api/java/text/NumberFormat.html?is-external=true" title="class or interface in java.text" class="externalLink">NumberFormat</a>&nbsp;numberFormat)</pre>
+<div class="block">Mettre le NumberFormat à utiliser.
+ Par défaut le NumberFormat est <code><a href="StringUtils.html#makeNewPlainFrenchDecimalFormat()"><code>StringUtils.makeNewPlainFrenchDecimalFormat()</code></a></code> qui est un
+ format de nombre optimisé pour les besoins du PMSI.<br>
+ L'objet XlRow est réutilisé pour chaque rangée, il suffit donc d'appeler <code>setNumberFormat</code> une seule fois.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>numberFormat</code> - Le NumberFormat à utiliser pour formatter les dates.</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>v2.1.4</dd>
 </dl>
 </li>
 </ul>

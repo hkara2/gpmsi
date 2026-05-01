@@ -205,9 +205,11 @@ extends <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Object.html
  <li>-extracp: définir un élément de classpath supplémentaire. Cette option est à utiliser avec -scripturi pour
               donner le point de départ des scripts. C'est nécessaire lorsque l'on définit les scripts
               dans des packages, cela permet de définir le répertoire racine des scripts. Le chemin
-              doit être une URL et se terminer par un slash (s'il n'y a pas de slash à la fin,
+              doit être une URI et se terminer par un slash (s'il n'y a pas de slash à la fin,
               gpmsi.Groovy en rajoute un d'office et émet un avertissement). On ajouter plusieurs fois
-              cette option et ainsi ajouter plusieurs extracp.
+              cette option et ainsi ajouter plusieurs extracp. Depuis 2.1.4 on peut donner un chemin
+              de fichier classique, gpmsi.Groovy se chargera de le convertir en URI. Depuis 2.1.4 le
+              chemin courant est toujours ajoute en tant que extracp.
  </ul>
 
  <p>
