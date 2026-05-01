@@ -3,6 +3,8 @@
 //certaines librairies non disponibles via un repository maven (pmsixml, aagbl)
 //sont utilisées localement dans un répertoire
 
+//voir en fin de fichier pour des explications et rappels pour la construction
+
 plugins {
   id 'java'
   //id 'java-library' //genere le jar
@@ -73,7 +75,9 @@ groovydoc {
   source(sourceSets.main.allJava) 
 }
 
-build.dependsOn 'groovydoc'
+//Ligne suivante désactivée car il y a du mélange d'encodage, et il vaut mieux
+//appeler groovydoc séparément, tout à la fin, à main, en faisant gradlew groovydoc.
+//build.dependsOn 'groovydoc'
 
 //A voir si on garde cette tache
 task prepareJavadoc {
@@ -408,10 +412,11 @@ task myJavadocs(type: Javadoc) {
   source = sourceSets.main.allJava
 }
 
+//task clean : on ne définit rien dans ce fichier, on laisse la tâche par défaut,
+//qui ne fait qu'une seule chose : effacer le répertoire build.
 
-//bien nettoyer la distribution
-//pour un nettoyage complet, effacer tout le répertoire $destdir à la main
-//a l'avenir, peut-être fera-t-on cela ici
+//tache supplementaires pour bien nettoyer la distribution
+//efface le répertoire dist/$destdir
 task cleandist {
     doLast {
         ant {
@@ -428,6 +433,8 @@ task cleandist {
                 fileset(dir: "exemples-groovy/tmp")
             }, failonerror: false
             delete(dir: "dist/$destdir/exemples-groovy", failonerror: false)
+            //Finalement, on efface tout le destdir, avec erreur si ça ne marche pas !
+            delete(dir: "dist/$destdir", failonerror: true)
         }
     }
 }
@@ -621,3 +628,23 @@ task downloadJavadocAndSource {
     }
 }
 
+/*------------------------------------------------------------------------------
+Quelques remarques sur l'utilisation de gradlew avec ce fichier de build :
+
+gradlew clean
+    Comportement par défaut : efface le répertoire "buiid"
+gradlew cleandist
+    La tâche cleandist "nettoie" la distribution (dist/v$PROJECT_VERSION)
+gradlew build
+    Lance la construction des classes et des javadocs
+gradlew -Dfile.encoding=utf-8 groovydoc
+    Lancement de groovydoc en indiquant que l'encodage des fichiers est de
+    l'utf-8. Ceci est nécessaire car malheureusement groovydoc n'a pas d'option
+    pour changer l'encodage utilisé (alors que pour javadoc il y a l'option
+    'encoding' qui est mise ici à UTF-8) et il utilise l'encodage par défaut.
+gradlew dist
+    Prépare la distribution
+    
+Pour faire une distribution propre, faire dans l'ordre les 4 commandes ci-dessus
+
+ *----------------------------------------------------------------------------*/
