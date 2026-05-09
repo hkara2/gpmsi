@@ -91,6 +91,7 @@ task prepareJavadoc {
     //if (!pmsixmlJavadocsDirFile.exists()) pmsixmlJavadocsDirFile.mkdir()
     //println pmsixmlJavadocsDir
     FileTree pjd = zipTree(file("lib/${antprops.PMSIXMLLIB}-javadoc.jar"))
+    FileTree ajd = zipTree(file("lib/${antprops.AAGBLLIB}-javadoc.jar"))
     //pjd.copy 
     //println 'javadoc prepared'
 }
@@ -101,9 +102,14 @@ task copyPmsixmlJavadoc(type: Copy) {
     into(layout.buildDirectory.dir('docs/pmsixml-javadoc'))
 }
 //copyPmsixmlJavadoc.dependsOn prepareJavadoc
+task copyAagblJavadoc(type: Copy) {
+    dependsOn prepareJavadoc
+    from(zipTree(file("lib/${antprops.AAGBLLIB}-javadoc.jar")))
+    into(layout.buildDirectory.dir('docs/aagbl-javadoc'))
+}
 
 javadoc {
-    dependsOn copyPmsixmlJavadoc
+    dependsOn copyPmsixmlJavadoc, copyAagblJavadoc
     //cf. https://docs.gradle.org/current/dsl/org.gradle.api.tasks.javadoc.Javadoc.html
     source = sourceSets.main.allJava
     options.overview "$projectDir/src/main/java/overview.html"
@@ -356,7 +362,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.groovy/groovy-yaml
     implementationAndJavadocjars 'org.apache.groovy:groovy-ant:4.0.28'
 
-
+    // Source: https://mvnrepository.com/artifact/org.fhir/ucum
+    implementationAndJavadocjars 'org.fhir:ucum:1.0.10'
+    
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
     // on garde la version qui va avec hapi 2.3 (il y a des vulnérabilités, donc toujours exécuter localement, jamais en serveur avec un accès à distance quelconque)
     testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.10'
@@ -526,23 +534,24 @@ task dist {
             //copier le repertoire de docs
             mkdir(dir: "dist/$destdir/docs")
 
+            //Copier avec filtrage tout ce qui n'est pas pdf, jpg, png, svg, xlsx
             copy(todir: "dist/$destdir/docs", filtering: "true", overwrite: "true", preservelastmodified: true) {
                 fileset(dir: "doc") {
                     exclude(name: "**/*.pdf")
                     exclude(name: "**/*.jpg")
                     exclude(name: "**/*.png")
-                    exclude(name: "**/*.pdf")
                     exclude(name: "**/*.svg")
                     exclude(name: "**/*.xlsx")
                 }
             }
 
+
+            //Copier SANS filtrage tout ce qui est pdf, jpg, png, svg, xlsx
             copy(todir: "dist/$destdir/docs", filtering: "false", overwrite: "true", preservelastmodified: true) {
                 fileset(dir: "doc") {
                     include(name: "**/*.pdf")
                     include(name: "**/*.jpg")
                     include(name: "**/*.png")
-                    include(name: "**/*.pdf")
                     include(name: "**/*.svg")
                     include(name: "**/*.xlsx")
                 }
@@ -551,17 +560,23 @@ task dist {
             //copier les repertoires des javadocs dans les docs de sortie
             mkdir(dir: "dist/$destdir/docs/javadoc")
             mkdir(dir: "dist/$destdir/docs/pmsixml-javadoc")
-
+            mkdir(dir: "dist/$destdir/docs/aagbl-javadoc")
+            
             //les créer au cas où ils n'existeraient pas encore (si "javadoc" n'a pas été lancé)
             mkdir(dir: "build/docs/javadoc/")
             mkdir(dir: "build/docs/pmsixml-javadoc/")
-
+            mkdir(dir: "build/docs/aagbl-javadoc/")
+            
             copy(todir: "dist/$destdir/docs/javadoc", filtering: "false", overwrite: "true", preservelastmodified: true) {
                 fileset(dir: "build/docs/javadoc/")
             }
 
             copy(todir: "dist/$destdir/docs/pmsixml-javadoc", filtering: "false", overwrite: "true", preservelastmodified: true) {
                 fileset(dir: "build/docs/pmsixml-javadoc/")
+            }
+
+            copy(todir: "dist/$destdir/docs/aagbl-javadoc", filtering: "false", overwrite: "true", preservelastmodified: true) {
+                fileset(dir: "build/docs/aagbl-javadoc/")
             }
 
             //copier les repertoires des groovydocs dans les docs de sortie
@@ -644,7 +659,9 @@ gradlew -Dfile.encoding=utf-8 groovydoc
     'encoding' qui est mise ici à UTF-8) et il utilise l'encodage par défaut.
 gradlew dist
     Prépare la distribution
+gradlew zip
+    Prépare le zip qui contient la distribution
     
-Pour faire une distribution propre, faire dans l'ordre les 4 commandes ci-dessus
+Pour faire une distribution propre, faire dans l'ordre les 5 commandes ci-dessus
 
  *----------------------------------------------------------------------------*/
