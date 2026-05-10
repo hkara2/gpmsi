@@ -160,12 +160,11 @@ Lors du lancement du script, les classes java compilées (.class) <b>et
 également les classes groovy (.groovy)</b> sont recherchées dans tous les
 emplacements du classpath. 
 <br>
-Pour voir tous les emplacements mentionnés dans le classpath, il suffit 
-d'exécuter la commande suivante :
+Pour voir tous les emplacements mentionnés dans le classpath, il y a une 
+commande que l'on peut lancer :
 <pre>
-C:\app\pmsixml\1.12\scripts\pmsixml.bat ShowEnv
+%GPMSI_BASE%\v@PROJECT_VERSION@\gpmsi -run fr.gpmsi.show_env
 </pre>
-(à adapter selon l'endroit et la version de pmsixml installée).
 La sortie de cette commande liste le classpath utilisé ainsi que d'autres
 informations qui peuvent servir à vérifier que l'environnement d'exécution
 est correct.
@@ -180,9 +179,9 @@ recherche. C'est le cas lorsque l'on utilise des librairies supplémentaires,
 typiquement un pilote jdbc de base de données telle que Postgresql ou Oracle.
 On peut y ajouter ce qu'on veut, pourquoi pas des classes .groovy supplémentaires</dd>
 
-<dt><code>%USERPROFILE%\.pmsixml\resources</code></dt>
+<dt><code>%USERPROFILE%\.gpmsi\resources</code></dt>
 <dd>On peut mettre dans le répertoire utilisateur, à l'intérieur du
-répertoire .pmsixml\resources, des classes ou des fichiers .groovy 
+répertoire .gpmsi\resources, des classes ou des fichiers .groovy 
 supplémentaires, ils seront alors disponibles pour tous les scripts
 lançés. On peut aussi y mettre des ressources supplémentaires, si on
 veut ajouter des métadonnées pour des fichiers de type RSS, RHS, ou autre.</dd>
