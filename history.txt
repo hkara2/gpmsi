@@ -98,4 +98,4 @@ version date    changements
                 Ajout dans le PreambleRemovedReader de la possibilité de finir le préambule en utilisant un motif regexp.
                 Scripts de traitement de fichiers issus de "Alice" (ATIH)
 2.1.7  260509   Utilisation aagbl-1.1
-                
+                Ajout librairie Ucum-java
