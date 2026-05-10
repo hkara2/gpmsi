@@ -4,24 +4,31 @@
 L'import et l'export de données est peu fiable en csv, notamment à cause de
 toutes les variations possibles dans les formats de date, de nombre, etc.
 
-Cette partie est donc un ensemble de conventions pour exporter une table
-dans un fichier XML avec une structure rigide.
+Il y a des exports de type apache parquet qui peuvent faire face à
+pratiquement tous les cas de figure, mais c'est assez complexe pour les
+fichiers simples que nous avons dans le PMSI.
+
+Cette partie est donc un ensemble de conventions pour exporter une ou
+plusieurs tables dans un fichier XML avec une structure rigide, qui devrait
+permettre de remettre les données dans une table relationnelle.
 Chaque rangée est dans un élément "r".
 Chaque colonne est stockée dans un attribut de "r". La première colonne est
 dans l'attribut "a", la deuxième colonne dans l'attribut "b", etc. 
 Quand on est arrivé à z, on recommence avec aa, ab, etc. (comme dans Excel).
 De cette manière, on n'a que 4 caractères supplémentaires par colonne (contre
-1 pour le format csv)
+1 pour le format csv).
+De plus si l'attribut est absent, on assume qu'il a la valeur null, ce qui
+fait gagner de la place supplémentaire.
 
 Exemple :
 <xmltd>
-<column-defs>
-  <column letters="a" name="MyNumber" type="integer"/>
-  <column letters="b" name="Greeting" type="varchar" max-size="64"/>
-  <column letters="c" name="GreetingDate" type="date"/>
-</column-defs>
-<table name="MyGreetings">
-<r a="3.14"b="Bonjour !"c="deux&#10;lignes"d="2019-20-02"/>
+<table name="MyGreetings" nrows="1">
+  <column-defs>
+    <column letter="a" name="MyNumber" type="integer"/>
+    <column letter="b" name="Greeting" type="varchar" max-size="64"/>
+    <column letter="c" name="GreetingDate" type="date"/>
+  </column-defs>
+  <r a="3.14"b="Bonjour !"c="deux&#10;lignes"d="2019-20-02"/>
 </table>
 </xmltd>
 
