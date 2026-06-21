@@ -1,7 +1,10 @@
 package fr.gpmsi.da
 
 import java.sql.ResultSet
+import java.sql.SQLType
+import java.sql.Types
 
+import fr.gpmsi.ObjectUtils
 import groovy.transform.EqualsAndHashCode
 
 import java.sql.PreparedStatement
@@ -9,7 +12,6 @@ import java.sql.PreparedStatement
 /**
  * Définition d'une colonne de type Varchar
  */
-@EqualsAndHashCode
 class CVarchar extends ColumnDef {
   int maxlen;
 
@@ -18,6 +20,7 @@ class CVarchar extends ColumnDef {
   CVarchar(String name, int maxlen) {
     setName(name)
     this.maxlen = maxlen
+    this.setSqlType(Types.VARCHAR)
   }
 
   int getMaxLength() { return maxlen; }
@@ -56,5 +59,12 @@ class CVarchar extends ColumnDef {
     else return "Dialecte non pris en charge : $dialect"
   }
 
+  @Override
+  public boolean equals(ColumnDef cd2) {
+    if (cd2 == null) return false
+    if (!ObjectUtils.safeEquals(getName(), cd2.getName())) return false
+    if (!(cd2 instanceof CVarchar)) return false;
+    return getMaxlen() == ((CVarchar)cd2).getMaxlen()
+  }
 
 }
