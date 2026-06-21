@@ -1,6 +1,7 @@
 package fr.gpmsi.da
 
 import java.sql.ResultSet
+import java.sql.Types
 import java.sql.PreparedStatement
 import java.text.NumberFormat
 import java.text.ParseException
@@ -10,23 +11,26 @@ import groovy.transform.EqualsAndHashCode
 /**
  * Définition d'une colonne de type Numeric (représenté en java par un BigDecimal)
  */
-@EqualsAndHashCode
-class CNumeric extends ColumnDef {
+@EqualsAndHashCode(callSuper = true)
+class CNumeric extends ColumnDef implements IZeroForNullAllowed {
     int precision = 15
     int scale = 0
     NumberFormat nf
+    boolean zeroForNullAllowed = true    
 
-    CNumeric(String name_p) { setName(name_p) }
+    CNumeric(String name_p) { setName(name_p); setSqlType(Types.NUMERIC) }
 
     CNumeric(String name_p, int precision) { 
         setName(name_p)
         this.precision = precision
+        setSqlType(Types.NUMERIC)
     }
     
     CNumeric(String name_p, int precision, int scale) { 
         setName(name_p)
         this.precision = precision
         this.scale = scale
+        setSqlType(Types.NUMERIC)
     }
     
     CNumeric setNumberFormat(NumberFormat nf) { this.nf = nf; return this }
@@ -71,5 +75,19 @@ class CNumeric extends ColumnDef {
       else return "Dialecte non pris en charge : $dialect"
     }
 
+    /**
+     * Est-ce que si NULL n'est pas autorisé, on peut envoyer 0 à la place ?
+     * @return true si zero est autorise à la place de null
+     */
+    boolean isZeroForNullAllowed() { return zeroForNullAllowed; }
+
+    /**
+     * Définir si lorsque NULL n'est pas autorisé, on peut envoyer 0 à la place
+     * @param zeroForNullAllowed true si lorsque NULL n'est pas autorisé, on peut envoyer 0 à la place
+     */
+    void setZeroForNullAllowed(boolean zeroForNullAllowed) { this.zeroForNullAllowed = zeroForNullAllowed }
+
+    @Override
+    public Object getObjectForZero() { return BigDecimal.ZERO }
 
 }
