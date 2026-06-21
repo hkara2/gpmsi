@@ -1,0 +1,52 @@
+:encoding=UTF-8:
+REFLEXIONS SUR CLASSES FUTURES
+
+Ceci n'est pas implémenté, ce sont juste des pistes de réflexion.
+
+Implémenter des classes "Data Access" (DA) pour pouvoir stocker des éléments
+PMSI dans une base de données H2, et ainsi pouvoir requêter en SQL.
+Ces classes forment un mini ORM juste suffisant pour les fichiers PMSI et
+spécialisés pour la base H2.
+
+-> des classes existent déjà dans la partie Groovy ; voir ce qui ici pourrait
+inspirer des améliorations dans la partie Groovy.
+
+CRUD
+Create : insert
+Read   : select
+Update : update
+Delete : delete
+
+Primary key :
+
+DbDataType :
+  DbTypeInteger
+  DbTypeVarchar(maxlength)
+  DbTypeDate
+  DbTypeDatetime
+  DbTypeNumeric(precision, scale)
+
+DbColumn :
+- name
+- DbDataType
+
+DbTable :
+- name
+- primaryKey : DbColumn
+- columnNames : [name]
+- columnTypes : [DbColumn]
+- columnIndexByName : [name:index]
+
+DbRecord :
+- table : DbTable
+- pk : Object
+- values : [Object]
+
+DbRelation :
+- sourceTable : DbTable
+- primaryKey : DbColumn
+- destTable : DbTable
+- foreignKey : DbColumn
+- joinType : inner, left, full
+
+
