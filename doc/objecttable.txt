@@ -1,0 +1,29 @@
+
+L'idée est d'avoir une table avec des objets primitifs au lieu de juste des Strings
+(toujours sans aller jusqu'au Dataframe)
+
+source type : always String for csv.
+
+target type :
+- string :
+  - max length
+  - missing allowed
+- number (int (integer also works), long, float, double, decimal) :
+  - integer number : int, long
+  - floating point number : float, double
+  - decimal number : Decimal
+  - numeric patterns
+  - missing allowed
+- date, time, datetime :
+  - patterns
+  - missing allowed
+x
+
+<table_def source_name="" target_name="">
+  <column source_name="" target_name="" target_type="decimal" empty_allowed="true">
+    <format ds="," gs=".">#.#########</format>
+  </column>
+  <column source_name="" target_name="" target_type="datetime" empty_allowed="true">
+    <format>yyyy-MM-dd'T'HH:mm:ss.f</format>
+  </column>
+</table>
