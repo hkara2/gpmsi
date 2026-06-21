@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
@@ -47,6 +50,10 @@ public class PoiHelperTestsTest {
     File testFilesDir = new File("test-files");
     File inDir = new File(testFilesDir, "in");
     File xl1_xlsxFile = new File(inDir, "xl1.xlsx");
+    //faire un backup, car la manipulation change le fichier, bien que les seules opérations faites soient en lecture !
+    File xl1_xlsxBackupFile = new File(inDir, "xl1_backup.xlsx");
+    Files.copy(xl1_xlsxFile.toPath(), xl1_xlsxBackupFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+    //test proprement dit
     Workbook wb = WorkbookFactory.create(xl1_xlsxFile);
     PoiHelper poih = new PoiHelper();
     StringTable stbl = poih.sheetToStringTable(wb.getSheetAt(0), null, null);
@@ -54,7 +61,10 @@ public class PoiHelperTestsTest {
     assertEquals(6, stbl.getColumnCount());
     assertEquals("d with space", stbl.getColumnName(3));
     assertEquals("1,29E+130", stbl.getValue(2, 3)); //(2, 3) au lieu de (3, 3) depuis modification de sheetToStringTable
-    wb.close();
+    wb.close(); //noter que le fichier va être altéré ici !
+    //remettre l'ancien fichier
+    Files.copy(xl1_xlsxBackupFile.toPath(), xl1_xlsxFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+    xl1_xlsxBackupFile.delete(); //effacer le backup
   }
   
   @Test
@@ -64,6 +74,10 @@ public class PoiHelperTestsTest {
     File testFilesDir = new File("test-files");
     File inDir = new File(testFilesDir, "in");
     File xl1_xlsxFile = new File(inDir, "xl1.xlsx");
+    //faire un backup, car la manipulation change le fichier, bien que les seules opérations faites soient en lecture !
+    File xl1_xlsxBackupFile = new File(inDir, "xl1_backup.xlsx");
+    Files.copy(xl1_xlsxFile.toPath(), xl1_xlsxBackupFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+    //test proprement dit
     Workbook wb = WorkbookFactory.create(xl1_xlsxFile);
     //now let's change a value
     wb.getSheetAt(0).getRow(3).getCell(4).setCellValue(0.0000012345); //getRow(2) au lieu de getRow(3) depuis modification de sheetToStringTable
@@ -75,6 +89,9 @@ public class PoiHelperTestsTest {
     assertEquals("\u00e9", stbl.getColumnName(4)); //&eacute;
     assertEquals("1,2345E-6", stbl.getValue(2, 4)); //getValue(2, 4) au lieu de getValue(3, 4) depuis modification de sheetToStringTable
     wb.close();
+    //remettre l'ancien fichier
+    Files.copy(xl1_xlsxBackupFile.toPath(), xl1_xlsxFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES, StandardCopyOption.REPLACE_EXISTING);
+    xl1_xlsxBackupFile.delete(); //effacer le backup
   }
   
 }
