@@ -1,6 +1,7 @@
 package fr.gpmsi.da
 
 import java.sql.Timestamp
+import java.sql.Types
 import java.sql.ResultSet
 import java.sql.PreparedStatement
 import java.text.SimpleDateFormat
@@ -12,12 +13,12 @@ import java.text.DateFormat
 /**
  * Définition d'une colonne de type Timestamp
  */
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 class CTimestamp extends ColumnDef {
     static SimpleDateFormat sdf = new SimpleDateFormat('yyyy-mm-dd HH:MM:ss')
     DateFormat df = sdf
     
-    CTimestamp(String name) { setName(name) }
+    CTimestamp(String name) { setName(name); setSqlType(Types.TIMESTAMP) }
     
     CTimestamp setDateFormat(DateFormat newDateFormat) {
         df = newDateFormat
