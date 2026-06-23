@@ -12,6 +12,7 @@ import org.junit.Before
 import org.junit.Test;
 
 import fr.gpmsi.da.Dao
+import fr.gpmsi.da.rss.Injrss
 import fr.gpmsi.da.rss.Nadlr
 import fr.gpmsi.da.rss.Rss
 import fr.gpmsi.da.rss.Rum
@@ -63,6 +64,8 @@ public class H2DaoTest {
     //Dao.emitInsertDebugPrints = true
     boolean debugPrints = false //mettre à true pour envoyer des messages de débogage
     createTables()
+    def vals = Injrss.instance.insertInjrss(gsql, 'For tests')
+    def injrssId = Injrss.instance.getValue(vals, Injrss.instance.getColumn('INJRSS_ID'))
     ResultSet rs = gsql.eachRow("select * from RUM") {row->
       if (debugPrints) println "$row"
     }
@@ -73,7 +76,7 @@ public class H2DaoTest {
     tf.eachLine {line->
       if (line.length() == 0) return
       FszNode nd = rdr.readOne(line)
-      rda.insertRum(gsql, nd)
+      rda.insertRum(gsql, nd, injrssId)
     }
     rs = gsql.eachRow("select * from RUM") {row->
       if (debugPrints) println "row: $row"      
@@ -152,6 +155,9 @@ group by nrss
   void testNadlFill() {
     boolean debugPrints = true //mettre à true pour envoyer des messages de débogage
     createTables()
+    Injrss injrss = new Injrss()
+    def vals = injrss.insertInjrss(gsql, 'For testNadlFill')
+    def injrssId = injrss.getValue(vals, 'INJRSS_ID')
     if (debugPrints) println "Remplissage RUM..."
     Rum rda = new Rum()
     RssReader rdr = new RssReader();
@@ -159,7 +165,7 @@ group by nrss
     tf.eachLine {line->
       if (line.length() == 0) return
       FszNode nd = rdr.readOne(line)
-      rda.insertRum(gsql, nd)
+      rda.insertRum(gsql, nd, injrssId)
     }
     if (debugPrints) println "Remplissage NADLR avec les NADLs des RUMs..."
     Nadlr.insertNewNadlsFromRum(gsql)
