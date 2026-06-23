@@ -7,19 +7,28 @@ import fr.gpmsi.da.CVarchar
 import fr.gpmsi.da.Dao
 import groovy.sql.Sql
 
-/*
-*/
-
+/**
+ * Table qui contient des enregistrements représentant des RSS, refaits en utilisant les enregistrements RUM.
+ * @author hkaradimas
+ *
+ */
 class Rss 
   extends Dao 
 {
+    /**
+     * Instance partagée pour utilisation facilitée
+     */
     static Rss instance = new Rss()
 
+    /**
+     * Constructeur
+     */
     Rss() {
       super("RSS")
       
       pkcol(new CVarchar('NRSS', 20)) //  String nrss //BIGINT, N° de RSS (Equivalent de HOSP-PMSI)
       
+      colInteger('INJRSS_ID').setExtraDdl('REFERENCES INJRSS')
       colVarchar('GVC', 2) //String  gvc //VARCHAR(2), Groupage : version de la classification
       colVarchar('NCMD', 2) //String  ncmd //VARCHAR(2), Groupage : n° de GHM N° CMD
       colVarchar('NGHM', 4) //String  nghm //VARCHAR(4), N° GHM
@@ -61,6 +70,10 @@ class Rss
       colVarchar('PSUR', 1)
     }    
     
+    /**
+     * Crée un index sur RSS(PREM_RUM)
+     * @param gsql la connexion
+     */
     void createIndexes(Sql gsql) {
       gsql.execute("create index if not exists RSS_PREM_RUM on RSS(PREM_RUM)")
     }
@@ -105,8 +118,9 @@ from RUM r1
 group by NRSS
        */
       Chrono ch = new Chrono()
-      gsql.execute("""INSERT INTO RSS(NRSS, PREM_RUM, DERN_RUM, DEH, DSH, DURSEJ, NB_RUMS, MEH, PROV, MSH, DEST, PSUR)
+      gsql.execute("""INSERT INTO RSS(NRSS, INJRSS_ID, PREM_RUM, DERN_RUM, DEH, DSH, DURSEJ, NB_RUMS, MEH, PROV, MSH, DEST, PSUR)
  select NRSS,
+        INJRSS_ID,
         (select NRUM from RUM R2 where R1.NRSS = R2.NRSS order by DEUM, NRUM fetch first row only) PREM_RUM, 
         (select NRUM from RUM R2 where R1.NRSS = R2.NRSS order by DEUM desc, NRUM desc fetch first row only) DERN_RUM,
         (select DEUM from RUM R2 where R1.NRSS = R2.NRSS order by DEUM, NRUM fetch first row only) DEH, 
@@ -146,9 +160,9 @@ join RSS on RUM.NRUM = RSS.PREM_RUM
       //Pour éviter ce problème on ajoute la clause "
       gsql.execute("""
 update RSS
-set   (    PREM_RUM,        GVC, NCMD, NGHM, VRSS, GCR, FINESS, VRUM, NADL, DNAIS, SEXE,
+set   (    INJRSS_ID, PREM_RUM,        GVC, NCMD, NGHM, VRSS, GCR, FINESS, VRUM, NADL, DNAIS, SEXE,
            CPRE, PNNE, AGEG, DDR, NBSE, CCRS, TYMA, TYDO, NUMI, CONVHC, PECRAAC, CTXPSP, ADMPRH, RESCRT, CATNIT, NP) = 
-  (select NRUM PREM_RUM,    GVC, NCMD, NGHM, VRSS, GCR, FINESS, VRUM, NADL, DNAIS, SEXE,
+  (select INJRSS_ID, NRUM PREM_RUM,    GVC, NCMD, NGHM, VRSS, GCR, FINESS, VRUM, NADL, DNAIS, SEXE,
            CPRE, PNNE, AGEG, DDR, NBSE, CCRS, TYMA, TYDO, NUMI, CONVHC, PECRAAC, CTXPSP, ADMPRH, RESCRT, CATNIT, NP
   from RUM 
   where RSS.PREM_RUM = RUM.NRUM
