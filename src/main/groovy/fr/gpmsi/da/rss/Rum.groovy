@@ -20,6 +20,7 @@ extends Dao
   public Rum() {
     super("RUM");
     pkcol(new CInteger('RUM_ID', true)) //Integer rumg_id //BIGINT PRIMARY KEY, cle numero sequentiel unique
+    colInteger('INJRSS_ID').setExtraDdl('REFERENCES INJRSS')
     //,   , , , , , , , convhc, pecraac, ctxpsp, admprh, rescrt, catnit, np, psur,
     // -- Integer rsa_inj_id //BIGINT, numero de l injection de RSA
     colVarchar('GVC', 2) //String  gvc //VARCHAR(2), Groupage : version de la classification
@@ -73,9 +74,10 @@ extends Dao
    * @param rumNode le noeud FszNode
    * @return Le tableau de valeurs (permet d'accéder au RUM_ID qui a été généré
    */
-  def insertRum(Sql gsql, FszNode rumNode) {
+  def insertRum(Sql gsql, FszNode rumNode, BigDecimal rssinjId) {
     FszGroup rumGroup = rumNode
     def values = makeValues(rumGroup)
+    setValue(values, 'INJRSS_ID', rssinjId) //ajouter la clé vers l'injection de RSS
     insertInDb(gsql, values)
     Integer rum_id = getValue(values, 'RUM_ID') //récupérer la clé primaire qui vient d'être créée
     //println "rum_id:$rum_id"
