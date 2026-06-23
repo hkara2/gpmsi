@@ -12,9 +12,9 @@ extends Dao
 
   public Za() {
     super("ZA")
-    pkcol(new CInteger('ZA_ID', true))   //BIGINT PRIMARY KEY, cle numero sequentiel unique
+    pkcol(new CInteger('ZA_ID', true))   //BIGINT PRIMARY KEY, cle numero sequentiel unique    
     
-    colInteger('RUM_ID')       //BIGINT, lien vers RUM_GP parent
+    colInteger('RUM_ID').setExtraDdl('REFERENCES RUM')       //BIGINT, lien vers RUM_GP parent
 
     colDate('DR')              //DATE, Date de réalisation
     colVarchar('CCCA', 10)     //VARCHAR(10),  Code CCAM
