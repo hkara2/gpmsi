@@ -47,7 +47,8 @@ class CChar extends ColumnDef {
     
     String getDdl(String dialect) {
       if (dialect.equalsIgnoreCase("H2")) {
-        return "$name CHAR($maxlen)"
+        if (extraDdl) return "$name CHAR($maxlen) $extraDdl"          
+        else return "$name CHAR($maxlen)"
       }
       else return "Dialecte non pris en charge : $dialect"
     }

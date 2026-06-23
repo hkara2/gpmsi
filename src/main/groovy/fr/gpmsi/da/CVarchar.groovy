@@ -54,7 +54,8 @@ class CVarchar extends ColumnDef {
 
   String getDdl(String dialect) {
     if (dialect.equalsIgnoreCase("H2")) {
-      return "$name VARCHAR($maxlen)"
+      String eddl = extraDdl ? '' + extraDdl : ''
+      return "$name VARCHAR($maxlen)$eddl"
     }
     else return "Dialecte non pris en charge : $dialect"
   }

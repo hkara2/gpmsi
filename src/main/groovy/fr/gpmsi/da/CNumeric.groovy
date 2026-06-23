@@ -68,9 +68,10 @@ class CNumeric extends ColumnDef implements IZeroForNullAllowed {
     }
 
     String getDdl(String dialect) {
+      String eddl = extraDdl ? ' ' + extraDdl : ''
       if (dialect.equalsIgnoreCase("H2")) {
-        if (scale == 0) return "$name NUMERIC($precision)"
-        else return "$name NUMERIC($precision, $scale)"
+        if (scale == 0) return "$name NUMERIC($precision)$eddl"
+        else return "$name NUMERIC($precision, $scale)$eddl"
       }
       else return "Dialecte non pris en charge : $dialect"
     }

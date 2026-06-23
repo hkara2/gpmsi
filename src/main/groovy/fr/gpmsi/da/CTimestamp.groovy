@@ -67,7 +67,8 @@ class CTimestamp extends ColumnDef {
 
     String getDdl(String dialect) {
       if (dialect.equalsIgnoreCase("H2")) {
-        return "$name TIMESTAMP"
+        String eddl = extraDdl ? ' ' + extraDdl : '' 
+        return "$name TIMESTAMP$eddl"
       }
       else return "Dialecte non pris en charge : $dialect"
     }

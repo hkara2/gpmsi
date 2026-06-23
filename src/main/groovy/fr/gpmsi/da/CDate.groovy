@@ -77,7 +77,8 @@ class CDate extends ColumnDef {
     
     String getDdl(String dialect) {
       if (dialect.equalsIgnoreCase("H2")) {
-        return "$name DATE"
+        if (extraDdl) return "$name DATE $extraDdl"
+        else return "$name DATE"
       }
       else return "Dialecte non pris en charge : $dialect"
     }
