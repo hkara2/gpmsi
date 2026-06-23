@@ -19,7 +19,7 @@ extends Dao
     super("DA")
     pkcol(new CInteger('DA_ID', true))   //BIGINT PRIMARY KEY, cle numero sequentiel unique
     
-    colInteger('RUM_ID')       //BIGINT, lien vers RUM parent
+    colInteger('RUM_ID').setExtraDdl('REFERENCES RUM')       //BIGINT, lien vers RUM parent
     colVarchar('TDA', 8)       //VARCHAR(8),  texte du code de diagnostic associé
   }
   
