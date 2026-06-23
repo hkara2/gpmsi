@@ -12,6 +12,11 @@ class RssTables {
    * @param gsql
    */
   static void createTables(Sql gsql) {
+    Injrss injrss = new Injrss()
+    def injrssDdl = injrss.makeTableDdl("", "H2")
+    if (printDebugMessages) println "injrssDdl: $injrssDdl"
+    gsql.execute(injrssDdl)
+
     Rum rum = new Rum()
     def rumDdl = rum.makeTableDdl("", "H2")
     if (printDebugMessages) println "rumDdl: $rumDdl"
