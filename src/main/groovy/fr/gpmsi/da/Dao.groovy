@@ -610,4 +610,12 @@ class Dao {
       this.dialect = dialect;
     }
 
+    /**
+     * Créer les index. Cette méthode ne fait rien, mais est définie pour que après la création des tables, on puisse toujours faire un appel 
+     * à createIndexes.
+     * A sucharger pour les classes enfant pour produire les index réels nécessaires (en général clés étrangères)
+     */
+    void createIndexes() {
+      
+    }
 }
