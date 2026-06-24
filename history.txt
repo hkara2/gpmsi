@@ -99,3 +99,5 @@ version date    changements
                 Scripts de traitement de fichiers issus de "Alice" (ATIH)
 2.1.7  260509   Utilisation aagbl-1.1
                 Ajout librairie Ucum-java
+                Ajout de nombreuses classes et méthodes dans fr.gpmsi.da pour pouvoir y stocker plus facilement des RUMs
+                
