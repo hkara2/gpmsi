@@ -4,6 +4,7 @@ import groovy.sql.Sql
 
 import java.sql.Connection
 import java.sql.ResultSet
+import java.sql.Time
 import java.sql.Types
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -95,6 +96,26 @@ class Dao {
     /** Déclarer une colonne de type date */
     ColumnDef colDate(String name) {
       ColumnDef cd = new CDate(name)
+      col(cd)
+      return cd
+    }
+    
+    /** Déclarer une colonne de type time */
+    ColumnDef colTime(String name) {
+      ColumnDef cd = new CTime(name)
+      col(cd)
+      return cd
+    }
+    
+    /** Déclarer une colonne de type time
+     * mais avec une précision
+     * @param name
+     * @param precision
+     * @return la définition de colonne
+     */
+    ColumnDef colTime(String name, int precision) {
+      CTime cd = new CTime(name)
+      cd.setPrecision(precision)
       col(cd)
       return cd
     }
@@ -212,6 +233,26 @@ class Dao {
         int index = columnDefIndexesByName[name]
         values.set(index, value)
         this
+    }
+    
+    /**
+     * Définit la bonne valeur (en temps UTC) à partir des infos heures, minutes, secondes, millisecondes de l'heure locale.
+     * Utilise Calendar pour créer l'objet Time correctement.
+     * @param values les valeurs de l'enregistrement
+     * @param name le nom de la colonne
+     * @param hour heures
+     * @param minute minutes
+     * @param second secondes
+     * @param ms millisecondes
+     * @return this
+     */
+    def setTimeValue(List values, String name, int hour, int minute, int second, int ms) {
+      int index = columnDefIndexesByName[name]
+      Calendar cal = Calendar.getInstance()
+      cal.clear()
+      cal.set(1970, 0, 1, hour, minute, second)
+      cal.set(Calendar.MILLISECOND, ms)
+      values.set(index, new Time(cal.getTimeInMillis()))
     }
     
     /**
@@ -570,6 +611,9 @@ class Dao {
             break;
             case Types.NUMERIC:
             setValue(values, colDef.name, ((FszField)nd).correctedValue) //Renvoie la vraie valeur numérique, par exemple si le type est 5+3 renvoie 1234.567 pour 1234567
+            break;
+            case Types.INTEGER:
+            setValue(values, colDef.name, ((FszField)nd).valueAsInt) //Renvoie la valeur numérique entière
             break;
             case Types.DATE:
             case Types.TIMESTAMP: //il n'y a jamais de TIMESTAMPs dans les données PMSI
