@@ -44,5 +44,23 @@ extends Dao
     return values
   }
 
+  Long getInjrssId(List values) {
+    return getValue(values, 'INJRSS_ID')
+  }
+  
+  void updateInjrss(Sql gsql, Long injrssId) {
+    gsql.executeUpdate("""
+update INJRSS
+set DEUM_MIN = (select min(deum) from RUM where INJRSS_ID=?),
+    DSUM_MIN = (select min(dsum) from RUM where INJRSS_ID=?),
+    DEUM_MAX = (select max(deum) from RUM where INJRSS_ID=?),
+    DSUM_MAX = (select max(dsum) from RUM where INJRSS_ID=?),
+    NB_RUM = (select count(RUM_ID) from RUM where INJRSS_ID=?),
+    NB_RSS = (select count(distinct NRSS) from RUM where INJRSS_ID=?),
+    NB_DA = (select count(DA_ID) from DA join RUM on DA.RUM_ID = RUM.RUM_ID where RUM.INJRSS_ID=?),
+    NB_ZA = (select count(ZA_ID) from ZA join RUM on ZA.RUM_ID = RUM.RUM_ID where RUM.INJRSS_ID=?)  
+where INJRSS_ID=?
+""", [injrssId] * 9)
+  }
 
 }    
