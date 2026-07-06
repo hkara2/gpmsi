@@ -2,7 +2,7 @@ package fr.gpmsi.da
 
 /**
  * Classe utilitaire pour gérer la correspondance entre un nom de colonne et
- * un autre
+ * un autre, par exemple un nom de colonne Excel et un nom de colonne de base de données
  */
 class ColumnMapper {
     String[] sourceColumnNames
