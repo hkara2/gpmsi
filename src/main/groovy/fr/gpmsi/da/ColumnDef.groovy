@@ -80,7 +80,7 @@ abstract class ColumnDef {
       * Si la longueur maximum est dépassée, et que les préférences ne contiennent
       * par cutWhenOverflow, une exception est lancée.
       * @param str La chaîne à convertir
-      * @param prefs Les préférences
+      * @param prefs Les préférences (peut être null)
       * @return L'objet du bon type
       * @throws MaximumSizeExceededException Si la taille maximum a été dépassée
       */
