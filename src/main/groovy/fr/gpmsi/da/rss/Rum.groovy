@@ -72,12 +72,13 @@ extends Dao
    * Insère le noeud RUM en tant qu'enregistrement dans la table
    * @param gsql La connexion
    * @param rumNode le noeud FszNode
+   * @param injrssId le numéro de INJRSS auquel ce RUM est rattaché
    * @return Le tableau de valeurs (permet d'accéder au RUM_ID qui a été généré
    */
-  def insertRum(Sql gsql, FszNode rumNode, BigDecimal rssinjId) {
+  def insertRum(Sql gsql, FszNode rumNode, Long injrssId) {
     FszGroup rumGroup = rumNode
     def values = makeValues(rumGroup)
-    setValue(values, 'INJRSS_ID', rssinjId) //ajouter la clé vers l'injection de RSS
+    setValue(values, 'INJRSS_ID', injrssId) //ajouter la clé vers l'injection de RSS
     insertInDb(gsql, values)
     Integer rum_id = getValue(values, 'RUM_ID') //récupérer la clé primaire qui vient d'être créée
     //println "rum_id:$rum_id"
