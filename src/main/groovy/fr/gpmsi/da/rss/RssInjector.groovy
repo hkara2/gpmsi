@@ -16,7 +16,7 @@ class RssInjector {
   
   Sql connection
   
-  void injectRss(Reader rdr) {
+  void injectRss(Reader rdr, Long injrssId) {
     Rum rum = new Rum()
     RssReader rssrdr = new RssReader();
     rdr.eachLine {line->
