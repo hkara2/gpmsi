@@ -1,5 +1,7 @@
 package fr.gpmsi.da.rss
 
+import org.apache.log4j.LogManager
+
 import fr.gpmsi.Chrono
 import fr.gpmsi.da.CInteger
 import fr.gpmsi.da.CNumeric
@@ -15,6 +17,8 @@ import groovy.sql.Sql
 class Rss 
   extends Dao 
 {
+    static org.apache.log4j.Logger lg = LogManager.getLogger(Rss.class)
+    
     /**
      * Instance partagée pour utilisation facilitée
      */
@@ -136,7 +140,7 @@ from RUM R1
 group by NRSS
 """)
       long elapsed = ch.elapsed()
-      println "Temps de construction de RSS : $elapsed"
+      lg.debug("Temps de construction de RSS : $elapsed")
       
       ch.mark()
       /* Ce code est beaucoup trop lent ; apparemment en H2 avant la v. 2.2.224 il y aurait des problèmes de performance avec "merge". 
@@ -170,7 +174,7 @@ set   (    INJRSS_ID, PREM_RUM,        GVC, NCMD, NGHM, VRSS, GCR, FINESS, VRUM,
   )
 """)
       elapsed = ch.elapsed()
-      println "Temps de complement de RSS : $elapsed"
+      lg.debug "Temps de complement de RSS : $elapsed"
       
   }
     
