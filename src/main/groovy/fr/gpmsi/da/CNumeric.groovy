@@ -91,4 +91,38 @@ class CNumeric extends ColumnDef implements IZeroForNullAllowed {
     @Override
     public Object getObjectForZero() { return BigDecimal.ZERO }
 
+    /**
+     * Retourne le nombre total de chiffres décimaux. Par exemple pour enregistrer 1234.56 il faut setPrecision(6) au minimum.
+     * @return Le nombre total de chiffres décimaux
+     */
+    public int getPrecision() {
+      return precision;
+    }
+
+    /**
+     * Définit le nombre total de chiffres décimaux. Par exemple pour enregistrer 1234.56 il faut setPrecision(6) au minimum.
+     * @param precision Le nombre total de chiffres décimaux
+     */
+    public void setPrecision(int precision) {
+      this.precision = precision;
+    }
+
+    /**
+     * Retourne le nombre de chiffre derrière la virgule à enregistrer. Par exemple pour enregistrer 1234.56 il faut setScale(2) au minimum.
+     * Par défaut à 0.
+     * @return Le nombre de chiffres derrière la virgule
+     */
+    public int getScale() {
+      return scale;
+    }
+
+    /**
+     * Définit le nombre de chiffre derrière la virgule à enregistrer. Par exemple pour enregistrer 1234.56 il faut setScale(2) au minimum.
+     * Par défaut à 0.
+     * @param scale Le nombre de chiffres derrière la virgule
+     */
+    public void setScale(int scale) {
+      this.scale = scale;
+    }
+
 }
