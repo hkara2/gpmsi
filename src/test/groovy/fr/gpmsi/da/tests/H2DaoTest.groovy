@@ -5,12 +5,15 @@ import static org.junit.Assert.*;
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
+import java.sql.Time
+import java.util.Calendar
 
 import org.h2.tools.Server
 import org.junit.After
 import org.junit.Before
 import org.junit.Test;
 
+import fr.gpmsi.da.CInteger
 import fr.gpmsi.da.Dao
 import fr.gpmsi.da.rss.Injrss
 import fr.gpmsi.da.rss.Nadlr
@@ -173,7 +176,7 @@ group by nrss
       if (debugPrints) println "$row.NADL , $row.NADLR"
     }
     if (debugPrints) println "Création des nouveaux NADLRs..."
-    Nadlr.insertNewNadlrs(gsql)
+    Nadlr.insertNewNadlrs(gsql, injrssId)
     gsql.eachRow("select NADL, NADLR from NADLR") { row ->
       if (debugPrints) println "$row.NADL , $row.NADLR"
     }
@@ -190,4 +193,98 @@ group by nrss
     */
   }
   
+  /**
+   * Test qui illustre une erreur dans le calcul, où on donne directement un nombre de millisecondes à Time(),
+   * mais ensuite c'est affiché en heure locale, donc avec un décalage.
+   */
+  @Test
+  void testCTime1() {
+    Dao t1 = new Dao('T1')
+    t1.pkcol(new CInteger('T1_ID', true))
+    t1.colTime('TIM')
+    gsql.execute(t1.makeTableDdl("", "H2", true))
+    def t1Rec = t1.makeEmptyValueList()
+    t1.setValue(t1Rec, 'TIM', new Time( 23*60*60000 + 59*60000 +  59*1000 +11)) //23:59:59.011
+    t1.insertInDb(gsql, t1Rec)
+    Long t1Id = t1.getValue(t1Rec, 'T1_ID')
+    gsql.eachRow("select '>' || TIM TIMSTR from T1 where T1_ID=?", [t1Id]) {row -> 
+      def timstr = row.TIMSTR
+      //println "tim : $timstr"
+      assertEquals('>00:59:59', timstr)
+    }
+  }
+  
+  /**
+   * Test qui montre aussi qu'il y a une erreur
+   */
+  @Test
+  void testCTime2() {
+    Dao t1 = new Dao('T1')
+    t1.pkcol(new CInteger('T1_ID', true))
+    t1.colTime('TIM', 2)
+    gsql.execute(t1.makeTableDdl("", "H2", true))
+    def t1Rec = t1.makeEmptyValueList()
+    t1.setValue(t1Rec, 'TIM', new Time( 23*60*60000 + 59*60000 +  59*1000 +11)) //23:59:59.011
+    t1.insertInDb(gsql, t1Rec)
+    Long t1Id = t1.getValue(t1Rec, 'T1_ID')
+    gsql.eachRow("select '>' || TIM TIMSTR from T1 where T1_ID=?", [t1Id]) {row ->
+      def timstr = row.TIMSTR
+      println "tim : $timstr"
+      assertEquals('>00:59:59.01', timstr) //incorrect, on s'attendait à 23:59:59.01
+    }
+  }
+
+  /**
+   * Test qui fait le bon calcul, on rentre l'heure voulue via un Calendar, qui est dans le fuseau horaire local, et c'est lui qui donne
+   * le bon nombre de millisecondes qu'il faut mettre dans Time()
+   */
+  @Test
+  void testCTime3() {
+    println "In testCTime3..."
+    Dao t1 = new Dao('T1')
+    t1.pkcol(new CInteger('T1_ID', true))
+    t1.colTime('TIM', 4)
+    gsql.execute(t1.makeTableDdl("", "H2", true))
+    def t1Rec = t1.makeEmptyValueList()
+    def timeVal = new Time(0) // new Time(0*60*60*1000 + 59*60*1000 + 59*1000 + 11)
+    def cal = Calendar.getInstance()
+    cal.set(1970, 0, 1, 23, 59, 59)
+    cal.set(Calendar.MILLISECOND, 11)
+    timeVal = new Time(cal.getTimeInMillis())
+    println "timeVal : $timeVal"
+    t1.setValue(t1Rec, 'TIM', timeVal) //23:59:59.011
+    t1.insertInDb(gsql, t1Rec)
+    Long t1Id = t1.getValue(t1Rec, 'T1_ID')
+    gsql.eachRow("select '>' || TIM TIMSTR, TIM from T1 where T1_ID=?", [t1Id]) {row ->
+      def timstr = row.TIMSTR
+      def tim = row.TIM
+      println "timstr : $timstr"
+      //assertEquals('>00:59:59.011', timstr)
+      println "tim : $tim (class ${tim.class.name})"
+    }
+  }
+
+  /**
+   * Test qui utilise la fonction setTimeValue() pour mettre la bonne valeur dans une colonne TIME
+   */
+  @Test
+  void testCTime4() {
+    println "In testCTime4..."
+    Dao t1 = new Dao('T1')
+    t1.pkcol(new CInteger('T1_ID', true))
+    t1.colTime('TIM', 4)
+    gsql.execute(t1.makeTableDdl("", "H2", true))
+    def t1Rec = t1.makeEmptyValueList()
+    t1.setTimeValue(t1Rec, 'TIM', 23, 59, 59, 11) //23:59:59.011
+    t1.insertInDb(gsql, t1Rec)
+    Long t1Id = t1.getValue(t1Rec, 'T1_ID')
+    gsql.eachRow("select '>' || TIM TIMSTR, TIM from T1 where T1_ID=?", [t1Id]) {row ->
+      def timstr = row.TIMSTR
+      def tim = row.TIM
+      println "timstr : $timstr"
+      //assertEquals('>00:59:59.011', timstr)
+      println "tim : $tim (class ${tim.class.name})"
+    }
+  }
+
 }
