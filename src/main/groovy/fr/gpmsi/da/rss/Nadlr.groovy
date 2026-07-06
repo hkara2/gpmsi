@@ -60,7 +60,7 @@ extends Dao
   static void insertNewNadlrs(Sql gsql, long injrssId) {
     Nadlr nadlr = new Nadlr()
     while (true) {
-      def row = gsql.firstRow("select NADL from NADLR where NADLR is null and injrssId = ? fetch first row only", [injrssId]) 
+      def row = gsql.firstRow("select NADL from NADLR where NADLR is null and INJRSS_ID = ? fetch first row only", [injrssId]) 
       String nadl = row ? row.NADL : null
       if (nadl == null) break //c'est bon, il n'y a plus de NADLR null, on peut sortir de la boucle
       else {
@@ -78,13 +78,13 @@ extends Dao
     super("NADLR")
     pkcol(new CVarchar('NADL', 20))   //BIGINT PRIMARY KEY, cle numero sequentiel unique
     
-    colInteger('INJRSS_ID').extraDdl('REFERENCES INJRSS')
+    colInteger('INJRSS_ID').setExtraDdl('REFERENCES INJRSS')
     colVarchar('NADLR', 20)       //VARCHAR(20), NADL "randomise", sur 11 digits, commence par un 2
   }
   
   void createIndexes(Sql gsql) {
-    gsql.execute("create index if not exists NADLR_INJRSS_ID_NADL on NADLR(INJRSS8ID, NADL)")
-    gsql.execute("create index if not exists NADLR_INJRSS_ID_NADLR on NADLR(INJRSS8ID, NADLR)")
+    gsql.execute("create index if not exists NADLR_INJRSS_ID_NADL on NADLR(INJRSS_ID, NADL)")
+    gsql.execute("create index if not exists NADLR_INJRSS_ID_NADLR on NADLR(INJRSS_ID, NADLR)")
   }
 
 
