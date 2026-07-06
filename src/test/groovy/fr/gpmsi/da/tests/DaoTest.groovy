@@ -2,12 +2,15 @@ package fr.gpmsi.da.tests
 
 import static org.junit.Assert.*
 
+import java.sql.Time
+
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
 import fr.gpmsi.da.CDate
 import fr.gpmsi.da.CInteger
+import fr.gpmsi.da.CTime
 import fr.gpmsi.da.CVarchar
 import fr.gpmsi.da.Dao
 import fr.gpmsi.StringUtils
@@ -97,4 +100,24 @@ BIRTHDATE DATE
     assertEquals(StringUtils.normalizeLineSeparators(expected, System.lineSeparator()), str)
   }
 
+  @Test
+  public void testTimeCalc1() {
+    Time t1 = new Time(0)
+    //println "t1 : $t1" //mauvaise valeur, on s'attend à 00:00:00 mais c'est 01:00:00 qui s'affiche
+    TimeZone tz = TimeZone.getDefault()
+    int offset = tz.getOffset(0)
+    //println "Current TimeZone : $tz, offset : $offset"
+    Time t2 = CTime.makeTime(0, 0, 0, 0)
+    //println "t2 : $t2"
+    //test pour l'heure d'été à Paris, offset de 1 heure
+    if (offset == 3600000) {
+      assertEquals("Le calcul du temps a échoué", "t1 : 01:00:00", "t1 : $t1".toString())
+      assertEquals("Le calcul du temps a échoué", "t2 : 00:00:00", "t2 : $t2".toString())
+    }
+    else if (offset == 7200000) {
+      //test hors heure d'été à Paris, offset de 2 heure
+      assertEquals("Le calcul du temps a échoué", "t1 : 02:00:00", "t1 : $t1".toString())
+      assertEquals("Le calcul du temps a échoué", "t2 : 00:00:00", "t2 : $t2".toString())
+    } 
+  }
 }
