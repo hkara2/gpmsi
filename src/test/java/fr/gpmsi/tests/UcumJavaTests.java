@@ -1,19 +1,16 @@
 package fr.gpmsi.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URL;
 
 import org.fhir.ucum.Decimal;
 import org.fhir.ucum.UcumEssenceService;
 import org.fhir.ucum.UcumException;
 import org.fhir.ucum.UcumService;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test Ucum
