@@ -140,7 +140,7 @@ public class Groovy {
     Object returnedObject; //l'objet retourné par le script
     //la Map des arguments par nom, la valeur est soit String, soit List<String> si l'argument a été ajouté plusieurs fois
     HashMap<String, Object> scriptArgs = new HashMap<>(); 
-    HashSet<String> scriptFlags = new HashSet<>();
+    Flags scriptFlags = new Flags();
     ArrayList<String> extraCps = new ArrayList<>();
 
     String encoding = "UTF-8"; //encodage des scripts, par défaut UTF-8
