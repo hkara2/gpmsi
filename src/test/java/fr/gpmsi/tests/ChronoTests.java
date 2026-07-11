@@ -1,7 +1,5 @@
 package fr.gpmsi.tests;
 
-import static org.junit.Assert.*;
-
 import java.time.temporal.ChronoUnit;
 
 import org.junit.Test;
