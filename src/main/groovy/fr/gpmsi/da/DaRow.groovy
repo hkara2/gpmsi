@@ -105,6 +105,28 @@ class DaRow {
     }
     
     /**
+     * Attribuer les valeurs depuis la rangée csv, mais via un objet DaoCsvAssociation,
+     * qui permet des noms différents
+     * @param row La rangée csv
+     * @param assoc L'association csv - dao
+     * @param prefs les préférences
+     * @return rien
+     */
+    def setValuesFromCsvRow(CsvRow row, DaoCsvAssociation assoc, DaPreferences prefs) {
+        assoc.writeCsvToDao(row, values, dao)
+    }
+    
+    /**
+     * Appelle setValuesFromCsvRow(row, assoc, null)
+     * @param row La rangée csv
+     * @param assoc L'association csv - dao
+     * @return rien
+     */
+    def setValuesFromCsvRow(CsvRow row, DaoCsvAssociation assoc) {
+        setValuesFromCsvRow(row, assoc, null)
+    }
+    
+    /**
      * Mettre les valeurs du tableau d'un seul coup, à l'aide d'un nouveau 
      * tableau qui viendra prendre la place de l'ancien (pas de copie ici)
      */
