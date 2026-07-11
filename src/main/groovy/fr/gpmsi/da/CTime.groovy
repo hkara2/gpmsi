@@ -83,7 +83,8 @@ class CTime extends ColumnDef {
                 return new java.sql.Time(df.parse(str).getTime()) //use supplied DateFormat
             }
             catch (ParseException pex3) {
-                if (prefs?.illegalDatesToNull) return null else throw pex3
+                if (prefs?.illegalDatesToNull) return null 
+                else throw new Exception("original String '$str'", pex3)
             }
         }
     }

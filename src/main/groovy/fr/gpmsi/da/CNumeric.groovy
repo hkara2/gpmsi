@@ -43,10 +43,16 @@ class CNumeric extends ColumnDef implements IZeroForNullAllowed {
                 return nf.parse(str) //use supplied NumberFormat
             }
             catch (ParseException pex3) {
-                if (prefs.illegalDatesToNull) return null else throw pex3
+                if (prefs.illegalDatesToNull) return null
+                else throw new Exception("original string '$str'", pex3)
             }
         }
-        return NumUtils.parse(str) //elimine les z�ros initiaux et convertit en BigDecimal
+        try {
+            return NumUtils.parse(str) //elimine les zéros initiaux et convertit en BigDecimal
+        }
+        catch (NumberFormatException nfex) {
+            throw new Exception("original String '$str'", nfex)
+        }
     }
     
     //make a String from the given value

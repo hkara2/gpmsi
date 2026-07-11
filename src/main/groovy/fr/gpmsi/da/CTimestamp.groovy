@@ -33,7 +33,8 @@ class CTimestamp extends ColumnDef {
         else {
             try { return new Timestamp(df.parse(str).getTime()) }
             catch (IllegalArgumentException iaex) {
-                if (prefs.illegalDatesToNull) return null else throw iaex
+                if (prefs.illegalDatesToNull) return null
+                else throw new Exception("original String '$str'", iaex)
             }
         }
     }

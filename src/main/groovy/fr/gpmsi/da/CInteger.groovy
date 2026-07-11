@@ -45,12 +45,20 @@ class CInteger
     Object stringToValue(String str, DaPreferences prefs) {
         //println("In CInteger#stringToValue(), str:$str")
         if (isEmpty(str)) return null
-        if (nf == null) return Long.valueOf(str)
+        if (nf == null) {
+          try {
+              return Long.valueOf(str)
+          }
+          catch (NumberFormatException nfex) {
+              throw new Exception("original String '$str'", nfex)
+          }
+        }
         try {
             return nf.parse(str) 
         }
         catch (ParseException pex) {
-            if (prefs.illegalDatesToNull) return null else throw pex
+            if (prefs.illegalDatesToNull) return null
+            else throw new Exception("original String '$str'", pex)
         }
     }
     

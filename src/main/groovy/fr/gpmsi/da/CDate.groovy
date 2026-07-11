@@ -38,7 +38,8 @@ class CDate extends ColumnDef {
                 return new java.sql.Date(df.parse(str).getTime()) //use supplied DateFormat
             }
             catch (ParseException pex3) {
-                if (prefs.illegalDatesToNull) return null else throw pex3
+                if (prefs.illegalDatesToNull) return null 
+                else throw new Exception("original String '$str'", pex3)
             }
         }
         //Pas de format identifie. Essayer Iso, et si cela ne fonctionne pas, 
@@ -47,7 +48,8 @@ class CDate extends ColumnDef {
         catch (ParseException pex) {
             try { return new java.sql.Date(frSdf.parse(str).getTime()) }
             catch (ParseException pex2) { 
-                if (prefs.illegalDatesToNull) return null else throw pex2
+                if (prefs.illegalDatesToNull) return null 
+                else throw new Exception("original String '$str'", pex2)
             }
         }
     }
