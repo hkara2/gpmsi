@@ -31,3 +31,7 @@ OK  Ajouter une fonction dans StringTable qui permet d'ajouter une rangée
 260304 hk
     Dans le script de conversion vidhosp vers xlsx, ajouter une colonne avec
     toutes les DMT concaténées.
+    
+260708 hk
+    rajouter doc pour constructions flags['foo'] et 'foo' in flags
+    
