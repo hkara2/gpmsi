@@ -15,6 +15,9 @@ extends Dao
 {
   static Da instance = new Da()
   
+  /**
+   * Constructeur normal
+   */
   public Da() {
     super("DA")
     pkcol(new CInteger('DA_ID', true))   //BIGINT PRIMARY KEY, cle numero sequentiel unique
@@ -50,6 +53,10 @@ extends Dao
     updateToDb(gsql, values)
   }
 
+  /**
+   * Créer les index
+   * @param gsql La connection à utiliser
+   */
   void createIndexes(Sql gsql) {
     gsql.execute("create index if not exists DA_RUM_ID on DA(RUM_ID)")
   }
