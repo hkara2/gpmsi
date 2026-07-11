@@ -59,7 +59,7 @@ public class XlRow {
     if (colNrObj != null) colNr = colNrObj.intValue();
     Row row = owner.sh.getRow(owner.linenr-1); //linenr commence à 1 et pour poi ça commence à 0
     if (row == null) return "";
-    return owner.poiHelper.getCellValueAsString(row.getCell(colNr), dateFormat, numberFormat);
+    return PoiHelper.getCellValueAsString(row.getCell(colNr), dateFormat, numberFormat);
   }
   
   /**
