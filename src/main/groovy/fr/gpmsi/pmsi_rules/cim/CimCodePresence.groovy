@@ -156,7 +156,7 @@ class CimCodePresence
 
     /**
      * Rechercher une ou plusieurs expressions
-     * @param locations Les endroits où chercher
+     * @param locations Les endroits où chercher (mettre une chaîne vide si on utilise l'objet CimCodePresence hors d'un contexte de RUM ou de RSA)
      * @param exprsList Les expressions à rechercher
      */
     CimCodePresence(String locations, String[] exprsList) {
@@ -175,7 +175,7 @@ class CimCodePresence
 
     /**
      * Analyser chaque code de la liste transmise, et le ranger dans codes ou patterns ou ranges
-     * @param codeList une liste ou un tableau de codes
+     * @param exprList une liste ou un array de codes ou d'expression de code (intervalle, motif OMS, ou Regexp)
      * @return void
      */
     private void analyzeExprs(exprList) {
@@ -302,12 +302,37 @@ class CimCodePresence
             if (patterns.any { p -> readcodes.any { c -> c =~ p }}) return true
         }
         else if (searchType == 1) { //intervalle individuel, avec possibilité de ne pas inclure la borne sup
-            codes.any { code ->
+            if (readcodes.any { code ->
                 if (includeLast) firstCode <= code && code <= lastCode
                 else firstCode <= code && code < lastCode
-            }
+            }) return true
         }
         else throw new Exception("Erreur interne type de recherche non prevu : "+searchType)
     }
 
+    /**
+     * Tester individuellement le code CIM passé en argument pour voir s'il
+     * fait partie de des codes validés par ce test.
+     * Cette méthode permet d'utiliser un objet CimCodePresence hors des
+     * règles PmsiRule.
+     * @param le code à tester (sera normalisé avant d'être traité)
+     * @return true si le code est présent dans cet ensemble, false sinon
+     */
+    boolean isCodePresent(String cimCode) {
+        if (cimCode == null) return false
+        cimCode = SharedCim10.normalizeCode(cimCode)
+        if (searchType == 0) { //liste de codes, intervalles et expressions régulières
+            //regarder si la liste des codes à chercher contient ce code
+            if (codes.contains(cimCode)) return true
+            //regarder si le code est parmis les intervalles permis
+            if (ranges.any {r -> r[0] <= cimCode && cimCode <= r[1]}) return true
+            //regarder si le code répond à au moins une des expressions régulières (on fait ce test en dernier car c'est le plus coûteux)
+            if (patterns.any { p -> cimCode =~ p }) return true
+        }
+        else if (searchType == 1) { //intervalle individuel, avec possibilité de ne pas inclure la borne sup
+            if (includeLast) return firstCode <= cimCode && cimCode <= lastCode
+            else return firstCode <= cimCode && cimCode < lastCode
+        }
+        else throw new Exception("Erreur interne type de recherche non prevu : "+searchType)
+    }
 }
