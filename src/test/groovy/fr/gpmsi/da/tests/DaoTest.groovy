@@ -120,4 +120,54 @@ BIRTHDATE DATE
       assertEquals("Le calcul du temps a échoué", "t2 : 00:00:00", "t2 : $t2".toString())
     } 
   }
+  
+  /**
+   * 
+   */
+  @Test
+  public void testDeclareColumn1() {
+    def dao = new Dao("FOO")
+    def colDecl = dao.makeColumnDef("BAR", "TIME(1)")
+    assertTrue(colDecl instanceof fr.gpmsi.da.CTime)
+    assertEquals(1, colDecl.precision)
+    //println "colDecl : ${colDecl.precision}"
+  }
+  
+  /**
+   *
+   */
+  @Test
+  public void testDeclareCharColumn() {
+    def dao = new Dao("FOO")
+    def colDecl = dao.makeColumnDef("BAR", "CHAR(19)")
+    assertTrue(colDecl instanceof fr.gpmsi.da.CChar)
+    assertEquals(19, colDecl.maxLength)
+    //println "colDecl : ${colDecl.precision}"
+  }
+
+  /**
+   *
+   */
+  @Test
+  public void testDeclareNumericColumn1() {
+    def dao = new Dao("FOO")
+    def colDecl = dao.makeColumnDef("BAR", "NUMERIC(12)")
+    assertTrue(colDecl instanceof fr.gpmsi.da.CNumeric)
+    assertEquals(12, colDecl.precision)
+    //println "colDecl : ${colDecl.precision}"
+  }
+
+  /**
+   *
+   */
+  @Test
+  public void testDeclareNumericColumn2() {
+    def dao = new Dao("FOO")
+    def colDecl = dao.makeColumnDef("BAR", "NUMERIC(12,4)")
+    assertTrue(colDecl instanceof fr.gpmsi.da.CNumeric)
+    assertEquals(12, colDecl.precision)
+    assertEquals(4, colDecl.scale)
+    //println "colDecl : ${colDecl.precision}"
+  }
+
 }
