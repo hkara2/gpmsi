@@ -388,9 +388,10 @@ implements Iterable<StringTableRow>
      * Mettre la valeur à jour. Met aussi l'index de la colonne à jour s'il y a un index pour cette colonne.
      * @param rowNr Numéro de rangée (commence à 0)
      * @param colNr Numéro de colonne (commence à 0)
-     * @param val Valeur à mettre à jour (peut être null)
+     * @param val Valeur à mettre à jour (peut être null, mais sera alors remplacé par "")
      */
 	public void setValue(int rowNr, int colNr, String val) {
+	    if (val == null) val = ""; 
 		String[] rowa = getRow(rowNr);
 		if (rowa == null) return;
 		if (colNr < 0 || colNr >= rowa.length) return;
@@ -446,6 +447,7 @@ implements Iterable<StringTableRow>
 	    if (colNr < 0) throw new ColumnNotFoundException("Anomalie d'index "+colNr+" pour la colonne '"+entry.getKey()+"'");
         if (colNr >= cc) throw new ColumnNotFoundException("Anomalie d'index "+colNr+" pour la colonne '"+entry.getKey()+"'");
 	    newRow[colNr] = entry.getValue();
+	    if (newRow[colNr] == null) newRow[colNr] = ""; 
 	  }
 	  addRow(newRow);
 	}
@@ -468,6 +470,17 @@ implements Iterable<StringTableRow>
 		}		
 		//maj de maxColumnCount
 		if (rowa.length > maxColumnCount) maxColumnCount = rowa.length;
+	}
+	
+	/**
+	 * Ajouter une liste de rangées en une seule fois.
+	 * @param rows Une liste de listes de String
+	 */
+	public void addRows(List<List<String>> rows) {
+	  for (Iterator<List<String>> rowsIter = rows.iterator(); rowsIter.hasNext();) {
+        List<String> row = rowsIter.next();
+        addRow(row);
+      }
 	}
 	
 	/**
@@ -795,6 +808,20 @@ implements Iterable<StringTableRow>
      * peuvent être contrôlés.
      * La première ligne du Reader doit contenir les noms de colonne.
      * 
+     * On peut utiliser cette méthode pour fabriquer rapidement une StringTable à partir
+     * d'une String, ex :
+     * 
+     * <pre>
+     * Reader rdr = new StringReader(
+     *   "NOM    | PRENOM        | DATE NAISSANCE   \n"+
+     *   "DALTON | JOE           | 12/10/1852       \n"+
+     *   "DALTON | AVERELL       | 01/09/1849       \n"
+     * );
+     * 
+     * StringTable stbl = new StringTable("DALTONS");
+     * stbl.readFrom(rdr, "|");
+     * stbl.trimAll();
+     * </pre>
      * @param rdr Le {@link Reader} à utiliser
      * @param separator le séparateur à utiliser
      * @throws IOException Si erreur E/S
@@ -1015,6 +1042,23 @@ implements Iterable<StringTableRow>
 	public void readFrom(ResultSet rs) throws SQLException
 	{
 	  readFrom(rs, ObjectFormatter.defaultFormatter);
+	}
+	
+	/**
+	 * Lire depuis une liste de listes de String, le premier élément contient les noms de colonne.
+	 * C'est ce qui se rapproche le plus d'une table excel ou csv
+	 * @param lines Une liste de listes de String
+	 */
+	public void readFrom(List<List<String>> lines) {
+	  boolean titleRowDeclared = false;
+	  for (Iterator<List<String>> rowsIter = lines.iterator(); rowsIter.hasNext();) {
+	    List<String> row = rowsIter.next();
+	    if (titleRowDeclared) addRow(row);
+	    else {
+	      declareColumnNames(row);
+	      titleRowDeclared = true;
+	    }
+	  }
 	}
 	
 	/**
@@ -1407,6 +1451,32 @@ implements Iterable<StringTableRow>
 		this.name = name;
 	}
 
+	/**
+	 * Pour toutes les cellules, remplacer leur valeur par la même après appel à trim().
+	 * Si des valeurs étaient null, elles seront remplacées par "".
+	 * Met à jour les index si ils existent.
+	 * Fait aussi un trim sur les titres.
+	 */
+	public void trimAll() {
+	  int rowCount = rows.size();
+	  int colCount = getColumnCount();
+	  for (int i = 0; i < rowCount; i++) {
+        for (int j = 0; j < colCount; j++) {
+          String val = getValue(i, j);
+          if (val == null) val = ""; else val = val.trim();
+          setValue(i, j, val); //gère la mise à jour des index
+        }
+      }
+	  for (int j = 0; j < colCount; j++) {
+	    String colName = getColumnName(j);
+	    colNumbersByName.remove(colName);
+	    if (colName == null) colName = "";
+	    else colName = colName.trim();
+        colNamesByNumber.put(j, colName);
+        colNumbersByName.put(colName, j);
+      }
+	}
+	
 	/**
 	 * Envoyer en formaté au {@link StringBuffer}, utilisé pour imprimer de facon agréable la table.
 	 * @param sb Le {@link StringBuffer} à utiliser
