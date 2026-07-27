@@ -9,6 +9,10 @@ import com.linuxense.javadbf.DBFField;
  * Encapsulation d'une rangée de fichier dbf pour pouvoir utiliser les noms de colonne qui sont dans le ScriptStep de type dbf.
  * On peut utiliser en groovy des expressions telles que (s'il y a une colonne qui s'appelle codepostal) :
  * <code>row.codepostal</code>.
+ * Attention aux Strings ; elles sont lues avec l'encodage qui est dans "inputEncoding", ou
+ * si "inputEncoding" n'est pas défini, "iso-8859-1" (latin-1).
+ * Bien essayer de déterminer en quel encodage est la table dbf pour que les valeurs
+ * textuelles correpondent bien.
  * @author hkaradimas
  */
 public class DbfRow {
@@ -118,4 +122,21 @@ public class DbfRow {
     return owner.dbfrdr.getField(ix);
   }
   
+  /**
+   * Teste si la colonne avec le numéro donné existe
+   * @param columnNr Le numéro de colonne (commence à 0)
+   * @return true si la colonne existe
+   */
+  public boolean isColumnPresent(int columnNr) {
+      return 0 <= columnNr && columnNr < getColumnCount();            
+  }
+  
+  /**
+   * Teste si la colonne avec le nom donné existe
+   * @param columnName Le nom de la colonne
+   * @return true si la colonne existe
+   */
+  public boolean isColumnPresent(String columnName) {
+      return owner.getCsvColumnIndex(columnName) >= 0;
+  }
 }
