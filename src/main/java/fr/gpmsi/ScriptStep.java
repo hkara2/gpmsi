@@ -284,7 +284,7 @@ public class ScriptStep {
     /**
      * Définit la closure (fonction) qui est appelée pour chaque élément.
      * Synonyme de {@link #setOnItem(Closure)}.
-     * @param dcl La closure
+     * @param dcl La closure, qui doit avoir un paramètre qui sera l'item qui est passé à chaque itération
      */
     public void onItem(Closure<?> dcl) {
         onItem = dcl.rehydrate(this, owner, this);
@@ -1046,13 +1046,13 @@ public class ScriptStep {
   }
   
   /**
-   * Retourner le tableau des colonnes d'en-tête
+   * Retourner le tableau des colonnes d'en-tête pour les fichiers .csv (pour excel utiliser {@link #getXlpoiHeaderRow()} )
    * @return Le tableau des titres de colonne
    */
   public String[] getCsvHeaderRow() { return csvHeaderRow; }
   
   /**
-   * Retourner le nombre de colonnes Csv
+   * Retourner le nombre de colonnes Csv (pour excel utiliser {@link #getXlpoiColumnCount()} )
    * @return Le nombre de colonnes
    */
   public int getCsvColumnCount() { return csvHeaderRow.length; }
@@ -1092,7 +1092,8 @@ public class ScriptStep {
   }
   
   /**
-   * Renvoyer l'index de la colonne csv (ou xl) qui a le nom donné ou -1 si il n'y a pas de colonne avec ce nom. 
+   * Renvoyer l'index de la colonne csv qui a le nom donné ou -1 si il n'y a pas de colonne avec ce nom.
+   * Pour Excel utiliser {@link #getXlpoiColumnIndex(String)} 
    * @param name Le nom de la colonne
    * @return le numéro de colonne (commence à 0), -1 si non trouvé
    */
@@ -1258,7 +1259,5 @@ public class ScriptStep {
   public void sheetName(String sheetName) {
     this.sheetName = sheetName;
   }
-  
-  
 
 }
