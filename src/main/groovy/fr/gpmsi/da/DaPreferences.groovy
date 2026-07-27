@@ -5,6 +5,7 @@ import java.text.NumberFormat
 
 /**
  * Préférences pour le DA (Database Access).
+ * Cela donne la "permessivité", c'est à dire que fait-on pour les valeurs illégales (trop longues, pas au bon format ...)
  * A noter qu'il n'y a pas de format par défaut pour les nombres ; c'est défini par colonne.
  */
 class DaPreferences {
