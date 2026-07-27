@@ -12,6 +12,7 @@ import java.util.HashSet;
 public class Flags
     extends HashSet<String> 
 {
+  static final long serialVersionUID = 0xF00001;
   
   /**
    * Constructeur par défaut

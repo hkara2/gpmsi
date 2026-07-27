@@ -12,6 +12,7 @@ import java.io.PipedReader;
 import java.io.PipedWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -60,12 +61,14 @@ import groovy.lang.Closure;
  *   <li>VIDHOSP : 'vidhosp', 'line', 'linenr'
  *   <li>RSFACE : 'RSF' (ou 'rsf'), 'line', 'linenr'
  *   <li>MONO : 'MONO' (ou 'mono'), 'line', 'linenr'
- *   <li>XLPOI : 'row' , 'linenr' (EN COURS DE DEV)
- *   <li>DBF : 'row', 'linenr' (EN COURS DE DEV)
+ *   <li>XLPOI : 'row' , 'linenr' 
+ *   <li>DBF : 'row', 'linenr' 
  * </ul>
  * En entrée on déclare soit un <code>inputReader</code>, soit un <code>inputFilePath</code>. Le 
  * <code>inputReader</code> a priorité sur le <code>inputFilePath</code>.
  * <p>
+ * On peut aussi déclarer un <code>inputEncoding</code>, lorsque l'encodage est différent
+ * de l'encodage natif; c'est utile pour CSV, mais aussi pour DBF, LINE.
  * ScriptStep n'envoie rien par défaut sur la sortie standard, 
  * mais permet de déclarer un
  * outputWriter via un  appel à <code>outputWriter</code> ou un 
@@ -142,7 +145,7 @@ public class ScriptStep {
     static String[] emptyRow = {};
     
     String inputFilePath;
-    String inputEncoding;
+    private String _inputEncoding; //renommé avec underscore, sinon inputEncoding = "xyz" était masqué par ce nom
     Reader inputReader; //si non null, a priorite sur inputFilePath
     InputStream inputStream; //si non null, a priorité sur inputFilePath pour les fichiers Excel POI
     String outputFilePath;
@@ -226,7 +229,7 @@ public class ScriptStep {
         rsfaceRdr = new RsfaceReader();
         //(hk 230907 1.3.1) si on est sous windows, mettre par défaut l'encodage windows-1252 pour les fichiers texte (cela comprend le csv).
         String os = System.getProperty("os.name").toLowerCase();
-        if (os.indexOf("win") >= 0) { inputEncoding = "windows-1252"; } 
+        if (os.indexOf("win") >= 0) { _inputEncoding = "windows-1252"; } 
     }
     
     /**
@@ -243,14 +246,14 @@ public class ScriptStep {
      */
     public void input(String path, String encoding) {
         inputFilePath = path;
-        inputEncoding = encoding;
+        _inputEncoding = encoding;
     }
     
     /**
      * définir l'encodage. Synonyme de {@link #setInputEncoding(String)}
      * @param enc L'encodage
      */
-    public void inputEncoding(String enc) { inputEncoding = enc; }
+    public void inputEncoding(String enc) { _inputEncoding = enc; }
     
     /**
      * Définit l'encodage utilisé par le fichier d'entrée. N.B. :
@@ -259,7 +262,13 @@ public class ScriptStep {
      * (Byte Order Mark).
      * @param enc L'encodage (par ex. "UTF-8" ou "windows-1252")
      */
-    public void setInputEncoding(String enc) { inputEncoding = enc; }
+    public void setInputEncoding(String enc) { _inputEncoding = enc; }
+    
+    /**
+     * Retourner l'encodage de l'entrée
+     * @return la string courante de inputEncoding (peut être null)
+     */
+    public String getInputEncoding() { return _inputEncoding; }
     
     /**
      * Définir le chemin du fichier de sortie. Synonyme de {@link #setOutputFilePath(String)}.
@@ -606,7 +615,11 @@ public class ScriptStep {
             if (inputFilePath == null) throw new FileNotFoundException("Erreur lors de l'ouverture de dbf : ni input, ni inputStream trouve.");
             inputStream = new FileInputStream(inputFilePath);
           }
-          dbfrdr = new DBFReader(inputStream);
+          String charset = _inputEncoding;
+          if (StringUtils.isEmpty(charset)) charset = "iso-8859-1"; //charset par défaut pour les dbase "modernes"
+          Charset cs = Charset.forName(charset);
+          //S ystem.out.println("charset"+charset+"="+cs);
+          dbfrdr = new DBFReader(inputStream, cs, false, false);
           int ncols = dbfrdr.getFieldCount();
           String[] _tmpCsvHeaderRow = new String[ncols];
           for (int i = 0; i < ncols; i++) { 
@@ -618,11 +631,11 @@ public class ScriptStep {
         }
         else {
           if (inputReader == null && inputFilePath != null) {
-            if (inputEncoding == null) inputReader = new FileReader(inputFilePath); //pas d'encodage specifie -> utiliser encodage par defaut.
+            if (_inputEncoding == null) inputReader = new FileReader(inputFilePath); //pas d'encodage specifie -> utiliser encodage par defaut.
             else {
               FileInputStream fis = new FileInputStream(inputFilePath);
               BOMInputStream bomis = new BOMInputStream(fis); //221027 hk ajout de BOMInputStream car java ne detecte pas de BOM automatiquement (alors que c'est possible pour UTF-8) et du coup un "?" est lu en 1er caractere là où il y a un BOM.
-              inputReader = new InputStreamReader(bomis, inputEncoding);
+              inputReader = new InputStreamReader(bomis, _inputEncoding);
             }
           }
           if (inputReader != null) br = new BufferedReader(inputReader);

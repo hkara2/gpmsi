@@ -1,0 +1,68 @@
+(NON TERMINE)
+
+
+
+
+
+
+
+
+
+
+nom_nx;nom_oracle
+Table de codification des contextes PS 085-01-01;R_CONTEXT_PS
+Table de codification des contextes Bénéficiaires 086-01-01;R_CONTEXT_BN
+CODE DE L'ACTE 101-01 + 101-02 + 101-03;R_ACTE
+CODE DE L'ACTE 101-04 [>101-01];R_ACTE_CLASSE_DMT
+Historique niveau code de l’acte 110-01 [>101-01];R_ACTE
+Procédures 120-01 [>110-01];
+Incompatibilités 130-01 [>110-01];
+FORFAITS CMUC 140-01 [>110-01];R_ACTE_CMUC
+CODE ACTIVITE 201-01;
+Historique niveau code de l’acte/activité 210-01 [>201-01];
+Associabilités 220-01 [>210-01];
+PHASE DE TRAITEMENT 301-01 [>201-01];
+Dents incompatibles 301-02 [>201-01];R_ACTIVITE_PHASE_DENT
+Historique niveau code de l’acte/activité/phase 310-01 [>201-01]:
+PU de base 320 [>310-01];
+Fin code phase de traitement 399
+Fin code activité 299
+Fin code de l'acte CCAM 199
+Fin de fichier 999
+
+Table de codification des types de note;R_TYPE_NOTE
+Table de codification des conditions générales;R_COND_GEN
+Table de codification des classes de DMT;
+Table de codification des exonérations TM
+Table de codification des natures d'assurance;
+Table de codification des codes admission au remboursement;
+Table de codification des frais de déplacement;
+Table de codification des types d'acte;
+Table de codification des types de forfait;
+Table de codification des extensions documentaires;
+Table de codification des activités;
+Table de codification des catégories médicales;
+Table de codification des codes regroupement;
+Table de codification des catégories de spécialités;
+Table de codification des agréments radio;
+Table de codification des codes paiement séance/période;
+Table de codification des codes phase de traitement;
+Table de codification des numéros de dents incompatibles;
+Table de codification des caisses des départements d'outre-mer;
+Table de codification des codes association non prévue;
+Table de codification des règles tarifaires;
+Table de codification des spécialités;
+Table de codification des modificateurs;
+Table de codification des DMT;
+Table de compatibilité des exonérations TM;
+Table détaillée de l'arborescence;
+Table des notes d'arborescence;
+Table des valeurs d'unité d'oeuvre;
+Liste des mots;
+CODE DE L'ACTE 101-50;(libellé long)
+CODE DE L'ACTE 101-52;(notes)
+CODE ACTIVITE 201-50;(recommandation médicale)
+PHASE DE TRAITEMENT 301-50;(ICR et caractère classant)
+Historique complémentaire niveau code de l’acte/activité/phase 350-01;
+
+

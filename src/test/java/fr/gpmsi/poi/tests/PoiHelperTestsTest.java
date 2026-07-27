@@ -42,6 +42,12 @@ public class PoiHelperTestsTest {
     assertEquals("colonne XFC devrait etre 16382", 16382, PoiHelper.getColumnNumber("XFC")); //16383-1
   }
 
+  /**
+   * Test de la fonction sheetToStringTable
+   * 
+   * @throws EncryptedDocumentException _
+   * @throws IOException _
+   */
   @Test
   public void testSheetToStringTable()
       throws EncryptedDocumentException, IOException 
@@ -66,6 +72,11 @@ public class PoiHelperTestsTest {
     xl1_xlsxBackupFile.delete(); //effacer le backup
   }
   
+  /**
+   * Test 2 de la fonction sheetToStringTable 
+   * @throws EncryptedDocumentException _
+   * @throws IOException _
+   */
   @Test
   public void testSheetToStringTable2()
       throws EncryptedDocumentException, IOException 

@@ -18,6 +18,8 @@ import groovy.lang.Script;
  * specific language).
  * Maintenant après avoir enregistré chaque Closure, elle est exécutée directement plutôt qu'être
  * juste stockée dans "steps". Ainsi le déroulement du script paraît plus naturel.
+ * C'est l'objet {@link Groovy} gui déclare comme classe parente du script cette classe, avant de 
+ * lancer le script.
  * @see ScriptStep pour plus d'informations.
  * @author hkaradimas
  */
