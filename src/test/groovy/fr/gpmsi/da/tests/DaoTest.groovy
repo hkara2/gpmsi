@@ -8,6 +8,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
+import fr.gpmsi.da.CBigint
 import fr.gpmsi.da.CDate
 import fr.gpmsi.da.CInteger
 import fr.gpmsi.da.CTime
@@ -33,7 +34,7 @@ class DaoTest {
     d1.col(new CVarchar('CITY', 64))
     def str = d1.makeTableDdl(nl+'/* extra SQL */', 'H2')
     //println str
-    assertEquals("CREATE TABLE IF NOT EXISTS ADDRESS (${nl}ADDRESS_ID BIGINT PRIMARY KEY,${nl}CITY VARCHAR(64)$nl/* extra SQL */$nl)" as String, str)
+    assertEquals("CREATE TABLE IF NOT EXISTS ADDRESS (${nl}ADDRESS_ID INTEGER PRIMARY KEY,${nl}CITY VARCHAR(64)$nl/* extra SQL */$nl)" as String, str)
   }
 
   @Test
@@ -70,7 +71,7 @@ class DaoTest {
     def str = d1.makeTableDdl(null, 'H2')
     //println str
     def expected = """CREATE TABLE IF NOT EXISTS PERSON (
-PERSON_ID BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+PERSON_ID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 LAST_NAME VARCHAR(64),
 FIRST_NAME VARCHAR(64),
 BIRTHDATE DATE
@@ -80,10 +81,13 @@ BIRTHDATE DATE
     assertEquals(StringUtils.normalizeLineSeparators(expected, System.lineSeparator()), str)
   }
 
+  /**
+   * Cet test utilise bigint au lieu de integer
+   */
   @Test
   public void testDdlGen5() {
     Dao d1 = new Dao('PERSON')
-    d1.col(new CInteger(  'PERSON_ID'      ))
+    d1.col(new CBigint(     'PERSON_ID'      ))
     d1.col(new CVarchar(    'LAST_NAME',   64))
     d1.col(new CVarchar(    'FIRST_NAME',  64))
     d1.col(new CDate(       'BIRTHDATE'      ))
@@ -127,7 +131,7 @@ BIRTHDATE DATE
   @Test
   public void testDeclareColumn1() {
     def dao = new Dao("FOO")
-    def colDecl = dao.makeColumnDef("BAR", "TIME(1)")
+    def colDecl = dao.col("BAR", "TIME(1)")
     assertTrue(colDecl instanceof fr.gpmsi.da.CTime)
     assertEquals(1, colDecl.precision)
     //println "colDecl : ${colDecl.precision}"
@@ -139,7 +143,7 @@ BIRTHDATE DATE
   @Test
   public void testDeclareCharColumn() {
     def dao = new Dao("FOO")
-    def colDecl = dao.makeColumnDef("BAR", "CHAR(19)")
+    def colDecl = dao.col("BAR", "CHAR(19)")
     assertTrue(colDecl instanceof fr.gpmsi.da.CChar)
     assertEquals(19, colDecl.maxLength)
     //println "colDecl : ${colDecl.precision}"
@@ -151,7 +155,7 @@ BIRTHDATE DATE
   @Test
   public void testDeclareNumericColumn1() {
     def dao = new Dao("FOO")
-    def colDecl = dao.makeColumnDef("BAR", "NUMERIC(12)")
+    def colDecl = dao.col("BAR", "NUMERIC(12)")
     assertTrue(colDecl instanceof fr.gpmsi.da.CNumeric)
     assertEquals(12, colDecl.precision)
     //println "colDecl : ${colDecl.precision}"
@@ -163,7 +167,7 @@ BIRTHDATE DATE
   @Test
   public void testDeclareNumericColumn2() {
     def dao = new Dao("FOO")
-    def colDecl = dao.makeColumnDef("BAR", "NUMERIC(12,4)")
+    def colDecl = dao.col("BAR", "NUMERIC(12,4)")
     assertTrue(colDecl instanceof fr.gpmsi.da.CNumeric)
     assertEquals(12, colDecl.precision)
     assertEquals(4, colDecl.scale)
