@@ -13,7 +13,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -133,6 +132,7 @@ import groovy.util.ScriptException;
 public class Groovy {
     static Logger lg = LogManager.getLogger(Groovy.class);
     static Binding binding;
+    static Groovy app;
 
     String scriptPath; //chemin de fichier pour le script
     String scriptUri; //uri pour le script si on définit un chemin relatif
@@ -156,6 +156,12 @@ public class Groovy {
      */
     public static Binding getBinding() { return binding; }
 
+    /**
+     * Retourner l'objet qui a été lancé en tant qu'application
+     * @return l'objet Groovy instancié et lancé par "main()"
+     */
+    public static Groovy getApp() { return app; }
+    
     /**
      * Constructeur par défaut
      */
@@ -515,7 +521,7 @@ public class Groovy {
     public static void main(String[] argsp)
             throws Exception
     {
-        Groovy app = new Groovy();
+        app = new Groovy();
         app.init(argsp);
         int exitCode = app.run();
         if (exitCode != 0) System.exit(exitCode);
