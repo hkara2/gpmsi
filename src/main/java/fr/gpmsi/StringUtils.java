@@ -1,8 +1,14 @@
 package fr.gpmsi;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * Utilitaires de String très fréquemment utilisés pour éviter d'avoir à 
@@ -166,4 +172,22 @@ public class StringUtils {
     df.setGroupingUsed(false); //ne pas grouper les chiffres
     return df;
   }
+  
+  /**
+   * Lire une resource textuelle (encodage utf-8).
+   * @param resourcePath Le chemin de la resource, par ex. "/fr/gpmsi/pmsixml/vidhospV016.csv"
+   * @return une String qui contient le texte de la resource
+   * @throws IOException Si erreur E/S (ne devrait jamais se produire ici)
+   */
+  public static String getUtf8StringResource(String resourcePath)
+          throws IOException
+  {
+      InputStream is = StringUtils.class.getResourceAsStream(resourcePath);
+      if (is == null) return null; //pas trouvé
+      InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+      StringWriter sw = new StringWriter();
+      IOUtils.copy(isr, sw); //la méthode copy des utilitaires apache fait ce qu'il faut pour la copie rapide
+      return sw.toString();
+  }
+  
 }
