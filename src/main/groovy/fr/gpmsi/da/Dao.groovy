@@ -7,12 +7,16 @@ import java.sql.ResultSet
 import java.sql.Time
 import java.sql.Types
 import java.text.NumberFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 import org.apache.log4j.LogManager
 
 import com.graphbuilder.math.func.LgFunction
 
+import fr.gpmsi.StringTable
 import fr.gpmsi.StringUtils
 import fr.gpmsi.pmsixml.FszField
 import fr.gpmsi.pmsixml.FszNode
@@ -62,6 +66,11 @@ class Dao {
     List<ColumnDef> pkDefs = [] //les définitions de clé primaire. Si vide -> pas de clé primaire. Si plus de 1 -> clé primaire composite
     def tableName = "?"
     String dialect = "H2"
+    private Pattern timePattern = ~/TIME\((\d)+\)/
+    private Pattern varcharPattern = ~/VARCHAR\((\d+)\)/
+    private Pattern charPattern = ~/CHAR\((\d+)\)/
+    private Pattern numericPattern = ~/NUMERIC\((\d+)\)/
+    private Pattern numeric2Pattern = ~/NUMERIC\((\d+),(\d+)\)/
     
     /**
      * Constructeur avec nom de la table
@@ -72,8 +81,15 @@ class Dao {
     /** Retourner le nom de la table */
     def getTableName() { tableName } 
     
+    /**
+     * nom plus "officiel" pour col()
+     * @param cd La définition de colonne à ajouter
+     */
+    void addColumnDef(ColumnDef cd) { col(cd) }
+    
     /** Déclarer une colonne à partir de sa définition */
-    ColumnDef col(ColumnDef cd) { 
+    ColumnDef col(ColumnDef cd) {
+        if (cd == null) throw new NullPointerException("Le paramètre cd ne peut pas être null") 
         columnDefsByName.put(cd.getName(), cd)
         cd.owner = this
         cd.index = columnDefs.size()
@@ -127,6 +143,13 @@ class Dao {
       return cd
     }
     
+    /** Déclarer une colonne de type bigint (64 bits signés dans h2) */
+    ColumnDef colBigint(String name) {
+      ColumnDef cd = new CBigint(name)
+      col(cd)
+      return cd
+    }
+    
     /** Déclarer une colonne de type numeric (correspond à BigDecimal dans h2) */
     ColumnDef colNumeric(String name, int precision, int scale) {
       ColumnDef cd = new CNumeric(name, precision, scale)
@@ -141,10 +164,83 @@ class Dao {
       return cd
     }
     
+    /** Déclarer une colonne de type datetime */
+    ColumnDef colDatetime(String name) {
+      ColumnDef cd = new CDatetime(name)
+      col(cd)
+      return cd
+    }
+    
     /** Déclarer une colonne de type varchar */
     ColumnDef colVarchar(String name, int maxLength) {
       ColumnDef cd = new CVarchar(name, maxLength)
       col(cd)
+      return cd
+    }
+    
+    /**
+     * Déclaration de colonne. Décode le type sql et appelle colInteger, colDate, etc. selon le type qui a été trouvé.
+     * @param name Nom de la colonne
+     * @param sqlType Type sql, comprend les tailles, précision, etc. N'admet pas les espaces, par ex. NUMERIC(12, 4) est incorrect.
+     * @return La colonne qui vient d'être définie
+     */
+    ColumnDef col(String name, String sqlType) {
+      return addColumnDef(name, sqlType, false);
+    }
+    
+    /**
+     * Déclaration de colonne qui fait partie de la clé primaire.
+     * Décode le type sql et appelle colInteger, colDate, etc. selon le type qui a été trouvé.
+     * @param name Nom de la colonne
+     * @param sqlType Type sql, comprend les tailles, précision, etc. N'admet pas les espaces, par ex. NUMERIC(12, 4) est incorrect.
+     * @return La colonne qui vient d'être définie
+     */
+    ColumnDef pkcol(String name, String sqlType) {
+      return addColumnDef(name, sqlType, true);
+    }
+    
+    /**
+     * Déclaration de colonne. Décode le type sql et appelle colInteger, colDate, etc. selon le type qui a été trouvé.
+     * @param name Nom de la colonne
+     * @param sqlType Type sql, comprend les tailles, précision, etc. N'admet pas les espaces, par ex. NUMERIC(12, 4) est incorrect.
+     * @return La colonne qui vient d'être définie
+     */
+    ColumnDef addColumnDef(String name, String sqlType, boolean primaryKey) {
+      ColumnDef cd = null
+      if (sqlType == null || sqlType.trim() == '') throw new ParseException('sqlType ne peut pas etre vide', 0)
+      
+      Matcher timeMatcher = timePattern.matcher(sqlType)
+      Matcher charMatcher = charPattern.matcher(sqlType)
+      Matcher varcharMatcher = varcharPattern.matcher(sqlType)
+      Matcher numericMatcher = numericPattern.matcher(sqlType)
+      Matcher numeric2Matcher = numeric2Pattern.matcher(sqlType)
+      sqlType = sqlType.toUpperCase()
+      if (sqlType == 'INTEGER') cd = colInteger(name)
+      else if (sqlType == 'BIGINT') cd = colInteger(name)
+      else if (sqlType == 'DATE') cd = colDate(name)
+      else if (sqlType == 'DATETIME') cd = colDate(name)
+      else if (sqlType == 'TIME') cd = colTime(name)
+      else if (sqlType == 'TIMESTAMP') cd = colTime(name)
+      else if (timeMatcher.matches()) {
+        cd = colTime(name, timeMatcher.group(1) as int)
+      }
+      else if (charMatcher.matches()) {
+        cd = colChar(name, charMatcher.group(1) as int)
+      }
+      else if (varcharMatcher.matches()) {
+        cd = colVarchar(name, varcharMatcher.group(1) as int)
+      }
+      else if (numericMatcher.matches()) {
+        cd = colNumeric(name, numericMatcher.group(1) as int, 0)
+      }
+      else if (numeric2Matcher.matches()) {
+        cd = colNumeric(name, numeric2Matcher.group(1) as int, numeric2Matcher.group(2) as int)
+      }
+      else throw new ParseException("type SQL non géré '$sqlType'")
+      if (primaryKey) {
+        pkDefs << cd
+        cd.setPrimaryKey(true)
+      }
       return cd
     }
     
@@ -633,6 +729,33 @@ class Dao {
       return values
     }
 
+    /**
+     * Ajouter les colonnes. Les clés primaires commencent par "#"
+     * @param stbl
+     * @param nameColumn
+     * @param typeColumn
+     */
+    void addColumns(StringTable stbl, String nameColumn, String typeColumn) {
+      int rowCount = stbl.getRowCount();
+      for (int i = 0; i < rowCount; i++) {
+        String colName = stbl.getValue(i, nameColumn);
+        String typeDecl = stbl.getValue(i, typeColumn);
+        if (!StringUtils.isTrimEmpty(colName)) {
+          if (colName.startsWith('#')) pkcol(colName.substring(1), typeDecl)
+          else col(colName, typeDecl) //n'ajouter que les colonnes qui ont un nom non vide
+        }
+      }
+    }
+    
+    /**
+     * Méthode de confort pour déclarer rapidement une colonne "autogenerated" via son nom.
+     * @param name Le nom de la colonne qui aura autogenerated = true
+     */
+    void autogenerated(String name) {
+      ColumnDef cd = columnDefsByName.get(name)
+      if (cd != null) cd.setAutogenerated(true)
+    }
+    
     String toString() {
       def s = "Dao($tableName,${pkDefs.size()},${columnDefs.size()})"
       return s.toString()
