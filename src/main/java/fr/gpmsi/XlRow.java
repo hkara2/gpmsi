@@ -5,6 +5,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -351,6 +353,23 @@ public class XlRow {
    */
   public void setNumberFormat(NumberFormat numberFormat) {
     this.numberFormat = numberFormat;
+  }
+  
+  /**
+   * Retourner cette rangée sous forme de Map. Les cellules vides ont la valeur null dans la Map, sinon elles ont la valeur obtenue par getCellObject.
+   * Les clés sont les noms de colonne.
+   * @return La Map qui correspond à cette rangée
+   */
+  public Map<String, Object> getRowObjectsMap() {
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    String[] colNames = owner.getCsvHeaderRow();
+    for (int i = 0; i < colNames.length; i++) {
+      String colName = colNames[i];
+      Object obj = null;
+      if (!isBlank(i)) obj = getCellObject(i);
+      map.put(colName, obj);
+    }
+    return map;
   }
   
 }
