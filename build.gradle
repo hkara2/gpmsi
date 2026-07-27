@@ -647,9 +647,10 @@ task downloadJavadocAndSource {
 Quelques remarques sur l'utilisation de gradlew avec ce fichier de build :
 
 gradlew clean
-    Comportement par défaut : efface le répertoire "buiid"
+    Comportement par défaut : efface le répertoire "build"
 gradlew cleandist
-    La tâche cleandist "nettoie" la distribution (dist/v$PROJECT_VERSION)
+    La tâche cleandist "nettoie" la distribution (dist/v$PROJECT_VERSION).
+    A FAIRE A CHAQUE FOIS QU'ON A CHANGE DE NUMERO DE VERSION !
 gradlew build
     Lance la construction des classes et des javadocs
 gradlew -Dfile.encoding=utf-8 groovydoc
