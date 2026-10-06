@@ -53,7 +53,7 @@ import fr.gpmsi.pmsixml.FszGroup;
  * <br>
  * L'expression est expr_ou :
  * <pre>
- * expr_ou : 
+ * expr_ou :
  *   expr_et ',' expr_et
  *   expr_et
  * expr_et :
@@ -76,6 +76,7 @@ import fr.gpmsi.pmsixml.FszGroup;
  * <li> tous les codes CCAM de JQGD002 à JQGD010 
  * <li> ils doivent avoir à la fois une activité 1 ET une activité 4
  * </ul>
+ * Autre exemple :<br>
  * <code>JQGD002,JQGD004,JQGD010/a:1,4/p:0,.</code>  :
  * <ul>
  * <li> les codes CCAM de JQGD002 ou JQGD004 ou JQGD010
@@ -208,12 +209,12 @@ public class CcamCodePresence
   public void setPmsiExtensionIgnored(boolean ignorePmsiExtension) {
       this.ignorePmsiExtension = ignorePmsiExtension
   }
-  
+
   /**
    * appelle eval(context, null)
    */
   public boolean eval(Map context) { eval(context, null) }
-  
+
   /*
    * Date de réalisation
    * Code CCAM
