@@ -6,7 +6,7 @@
  * cd C:\Local\e-pmsi\fichiers-rss-mco\2024\M12\RSS+VH\INOUT
  * %GPMSI_BASE%\v2.1\gpmsi -extracp file:/C:/hkchse/dev/chse-gpmsi/scripts -scripturi pmsi_rules/selection_actes_irm_2026.groovy -a:input 910019447.2024.12.rsa -a:output rsas-cures-prolapsus.csv
  */
-package pmsi_rules
+package regles
 import java.time.LocalDate
 import fr.gpmsi.DateUtils
 import fr.gpmsi.StringTable
