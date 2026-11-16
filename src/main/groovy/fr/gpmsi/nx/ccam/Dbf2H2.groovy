@@ -1,3 +1,6 @@
+/**:encoding=UTF-8:
+ * class Dbf2H2
+ */
 package fr.gpmsi.nx.ccam;
 
 import org.apache.log4j.LogManager
@@ -17,17 +20,27 @@ import groovy.xml.XmlSlurper
  * Taille de la base H2 à la fin : 131 MO, avec 7-zip compression zip ultra : 33 MO
  */
 
+/**
+ * Classe de creation des tables CCAM dans une base H2, à partir de fichiers
+ * dbf fournis par l'assurance maladie.
+ * Les chemins des "resources" à utiliser sont dans les champs :
+ * - tablesCreationResourceName
+ * - tablesXmlResourceName
+ * Ils sont initialisés avec des valeurs par défaut valides (au 13/11/2026)
+ *
+ */
 class Dbf2H2 {
-    private static final String TABLES_DDL_RESOURCE = '/fr/gpmsi/pmsixml/nx/tables-nx-DBF201301v9_h2_create.ddl'
-    private static final String TABLES_XML_RESOURCE = '/fr/gpmsi/pmsixml/nx/tables-nx-DBF201301v9.xml'
+    private static final String DEF_TABLES_DDL_RESOURCE = '/fr/gpmsi/pmsixml/nx/tables-nx-DBF201301v9_h2_create.ddl'
+    private static final String DEF_TABLES_XML_RESOURCE = '/fr/gpmsi/pmsixml/nx/tables-nx-DBF201301v9.xml'
     private static Logger lg = LogManager.getLogger(Dbf2H2.class)
-     
+
     File dbfDir
     Sql gsql
-    String tableCreationResourceName = '/fr/gpmsi/pmsixml/nx/tables-nx-DBF201301v9_h2_create.ddl'
+    String tablesCreationResourceName = DEF_TABLES_DDL_RESOURCE
+    String tablesXmlResourceName = DEF_TABLES_XML_RESOURCE
     List<TableMeta> tableMetas = []
     boolean printFeedback = true
-    
+
     class ColumnMeta {
         String name
         String type
@@ -35,21 +48,21 @@ class Dbf2H2 {
         int precision
         int scale
     }
-    
+
     class TableMeta {
         String name
         List<ColumnMeta> columnMetas = []
     }
-    
+
     class CcamScriptBase extends  GroovyScriptsBase {
 
         @Override
         public Object run() {
             return null;
         }
-        
+
     }
-    
+
     def tableNames = [
         'R_AAP_PMSI',
         'R_ACTE',
@@ -124,26 +137,26 @@ class Dbf2H2 {
         'R_TYPE_NOTE',
         'R_UNITE_OEUVRE'
         ]
-    
+
     Sql connectH2(url, user, password) {
         gsql = Sql.newInstance(url, user, password)
         return gsql
     }
-    
+
     void dropTables() {
         println "DROP des tables"
         tableNames.each {tn->
             gsql.execute("DROP TABLE IF EXISTS $tn" as String)
         }
-    }        
-    
+    }
+
     void createTables() {
         println "Creation des tables"
-        def ddlScript = StringUtils.getUtf8StringResource(TABLES_DDL_RESOURCE);
+        def ddlScript = StringUtils.getUtf8StringResource(tablesCreationResourceName);
         //println ddlScript
         gsql.execute(ddlScript)
     }
-    
+
     /**
      * Tronquer à 10 caractères (pour avoir le nom de la colonne DBF à partir de
      * la colonne oracle
@@ -155,7 +168,7 @@ class Dbf2H2 {
         if (str.length() < 10) return str;
         return str.substring(0, 10);
     }
-    
+
     /**
      * Tronquer à 9 caractères (pour avoir le nom de la colonne DBF "extension" à partir de
      * la colonne oracle
@@ -167,7 +180,7 @@ class Dbf2H2 {
         if (str.length() < 10) return str;
         return str.substring(0, 9);
     }
-    
+
     /**
      * Transférer les tables Ccam (traitement spécial des tables textuelles) de dbf vers
      * la base H2. Ici les noms de colonne sont bien tronqués à 10 caractères avant d'être
@@ -179,7 +192,7 @@ class Dbf2H2 {
         Chrono totalChrono = new Chrono()
         long nrecords = 0
         //reconstruire en mémoire les métadonnées à partir du fichier XML
-        String xmlStr = StringUtils.getUtf8StringResource(TABLES_XML_RESOURCE);
+        String xmlStr = StringUtils.getUtf8StringResource(tablesXmlResourceName);
         XmlSlurper xslu = new XmlSlurper()
         def tablesRoot = xslu.parseText(xmlStr)
         tablesRoot.children().each {table->
@@ -189,11 +202,11 @@ class Dbf2H2 {
                 //println "Column : ${column.@NAME}"
                 ColumnMeta cm = new ColumnMeta(name: column.@NAME, type: column.@TYPE)
                 String maxLength = column.'@MAX-LENGTH'
-                if (maxLength.length() > 0) { cm.maxLength = maxLength as int } 
+                if (maxLength.length() > 0) { cm.maxLength = maxLength as int }
                 String precision = column.'@PRECISION'
-                if (precision.length() > 0) { cm.precision = precision as int } 
+                if (precision.length() > 0) { cm.precision = precision as int }
                 String scale = column.'@SCALE'
-                if (scale.length() > 0) { cm.scale = scale as int } 
+                if (scale.length() > 0) { cm.scale = scale as int }
                 tm.columnMetas << cm
             }
             tableMetas << tm
@@ -208,7 +221,7 @@ class Dbf2H2 {
                 lg.warn("table $tableFileName non trouvée.")
                 return
             }
-            gsb.dbf { 
+            gsb.dbf {
                 input tableFile.getAbsolutePath()
                 inputEncoding 'cp850' //le DbaseIII est encodé en DOS, qui est le codepage 850
                 onItem {item->
@@ -227,11 +240,11 @@ class Dbf2H2 {
                         }
                         else if (colType == 'NUMBER'
                               || colType == 'DATE'
-                              || colType == 'TIME' 
-                              || colType == 'DATETIME' 
+                              || colType == 'TIME'
+                              || colType == 'DATETIME'
                               || colType == 'TIMESTAMP') {
                             valuesByColName[colName] = row.getValue(trunc10ColName)
-                        } 
+                        }
                         else if (colType == 'VARCHAR') {
                             //reconstruire la valeur découpée
                             String textVal = row.getValue(trunc10ColName)
@@ -254,7 +267,7 @@ class Dbf2H2 {
                     nrecords++
                     if (exeChrono.elapsed() > 1000) {
                         //toutes les secondes, donner le nombre d'enregistrements transférés
-                        print "\r             \r$nrecords"
+                        print "\r                        \r$nrecords enregistrements"
                         exeChrono.resetMark()
                     }
                 }//onItem
@@ -263,11 +276,153 @@ class Dbf2H2 {
         println ""
         println "Transfert terminé"
         println "$nrecords enregistrements transférés en ${totalChrono.elapsed()/1000.0} secondes"
+        println ""
+        println "Ajout colonne R_ACTE(DT_FIN_EFFET) ..."
+        exeChrono.resetMark()
+        gsql.execute('ALTER TABLE r_acte ADD dt_fin_effet DATE')
+        println "... en ${exeChrono.elapsed()/1000.0} secondes"
+        println ""
+        println "Ajout index sur R_ACTE(COD_ACTE) ..."
+        exeChrono.resetMark()
+        gsql.execute('CREATE INDEX r_acte_cod_acte ON r_acte(cod_acte)')
+        println "... en ${exeChrono.elapsed()/1000.0} secondes"
+        println ""
+        println "Ajout index sur R_ACTE(COD_ACTE, DT_EFFET) ..."
+        exeChrono.resetMark()
+        gsql.execute('CREATE INDEX r_acte_cod_acte_dt_effet ON r_acte(cod_acte, dt_effet)')
+        println "... en ${exeChrono.elapsed()/1000.0} secondes"
+        println ""
+        println "Ajout valeurs dans R_ACTE(DT_FIN_EFFET) ..."
+        exeChrono.resetMark()
+        gsql.execute('''
+UPDATE r_acte ra1 SET ra1.dt_fin_effet = (
+  SELECT DATEADD(DAY, -1, MIN(dt_effet))
+  FROM r_acte ra2
+  WHERE ra2.cod_acte = ra1.cod_acte AND ra2.dt_effet > ra1.dt_effet
+)
+        ''')
+        println "... en ${exeChrono.elapsed()/1000.0} secondes"
+        println ""
+        println "Ajout valeurs de fin 2099-12-31 dans R_ACTE(DT_FIN_EFFET) ..."
+        exeChrono.resetMark()
+        gsql.execute("UPDATE r_acte SET dt_fin_effet = DATE '2099-12-31' WHERE dt_fin_effet IS NULL")
+        println "... en ${exeChrono.elapsed()/1000.0} secondes"
+        println ""
+        println "Compactage de la base ..."
+        exeChrono.resetMark()
+        //faire une fermeture avec compactage de la base
+        try {
+          gsql.getConnection().execute('SHUTDOWN COMPACT') //ferme et compacte. Envoie une exception que l'on ignore, le compactage est bien fonctionnel.
+        }
+        catch (org.h2.jdbc.JdbcSQLNonTransientConnectionException ignored) {}
+        println "... en ${exeChrono.elapsed()/1000.0} secondes"
+        println ""
+        println "Temps total d'execution : ${totalChrono.elapsed()/1000.0} secondes"
     }
-    
+
     void destructiveCopy() {
         dropTables()
         createTables()
         transferCcamTables()
-    } 
+    }
 }
+
+/*
+Notes sur manipulations de table pour avoir calcul dt_fin_effet
+
+create index r_acte_cod_acte on r_acte(cod_acte)  -- 2.7 s
+
+update r_acte ra1 set ra1.dt_fin_effet = (
+    select lead(dt_effet, 1) ignore nulls over (partition by cod_acte order by dt_effet)
+      from r_acte ra2
+    where ra2.cod_acte = ra1.cod_acte and ra2.dt_effet = ra1.dt_effet
+  )
+
+246 s
+
+-> finit mais ne marche pas (dt_fin_effet est toujours null)
+
+update r_acte ra1 set ra1.dt_fin_effet = (
+  select min(dt_effet)
+  from r_acte ra2
+  where ra2.cod_acte = ra1.cod_acte and ra2.dt_effet > ra1.dt_effet
+)
+
+128 s
+
+OK fonctionne.
+Même requête mais pour avoir la veille, ce qui permet d'utiliser "between"
+
+update r_acte ra1 set ra1.dt_fin_effet = (
+  select dateadd(DAY, -1, min(dt_effet) )
+  from r_acte ra2
+  where ra2.cod_acte = ra1.cod_acte and ra2.dt_effet > ra1.dt_effet
+)
+
+528 s
+
+update r_acte set dt_fin_effet = DATE '2099-12-31' where dt_fin_effet is null
+
+1.2 s
+
+select * from r_acte order by cod_acte, dt_effet
+
+create index r_acte_cod_acte_dt_effet on r_acte(cod_acte, dt_effet)
+
+0.84 s
+
+update r_acte ra1 set ra1.dt_fin_effet = (
+  select dateadd(DAY, -1, min(dt_effet) )
+  from r_acte ra2
+  where ra2.cod_acte = ra1.cod_acte and ra2.dt_effet > ra1.dt_effet
+)
+
+107 s -> mieux !
+
+select * from r_acte where cod_acte = 'AAFA001' and DATE '2024-12-31' between dt_effet and dt_fin_effet
+   ID  COD_ACTE   DT_MODIF   MENU_COD  FRAIDP_COD  TYPE_COD  COD_STRUCT  NOM_COURT                                  NOM_LONG                                                             SEXE  DT_CREATION  DT_FIN  ENTENTE   DT_EFFET   DT_ARRETE     DT_JO     MFIC_PLACE  PRECEDENT  SUIVANT  REMBOU_COD  DT_FIN_EFFET
+-----  --------  ----------  --------  ----------  --------  ----------  -----------------------------------------  -------------------------------------------------------------------  ----  -----------  ------  -------  ----------  ----------  ----------  ----------  ---------  -------  ----------  ------------
+18314  AAFA001   2022-03-03        44  N                  0              exérèse T. intraparench cervelet craniot.  Exérèse de tumeur intraparenchymateuse du cervelet, par craniotomie     0  2005-03-01   <null>  N        2022-04-01  2021-09-22  2021-09-25    1.000000                               1   2024-12-31 
+
+select * from r_acte where cod_acte = 'AAFA001' and DATE '2025-01-01' between dt_effet and dt_fin_effet
+   ID  COD_ACTE   DT_MODIF   MENU_COD  FRAIDP_COD  TYPE_COD  COD_STRUCT  NOM_COURT                                  NOM_LONG                                                             SEXE  DT_CREATION  DT_FIN  ENTENTE   DT_EFFET   DT_ARRETE     DT_JO     MFIC_PLACE  PRECEDENT  SUIVANT  REMBOU_COD  DT_FIN_EFFET
+-----  --------  ----------  --------  ----------  --------  ----------  -----------------------------------------  -------------------------------------------------------------------  ----  -----------  ------  -------  ----------  ----------  ----------  ----------  ---------  -------  ----------  ------------
+15930  AAFA001   2024-11-04        44  N                  0              exérèse T. intraparench cervelet craniot.  Exérèse de tumeur intraparenchymateuse du cervelet, par craniotomie     0  2005-03-01   <null>  N        2025-01-01  2024-06-20  2024-06-21    1.000000                               1   2099-12-31 
+
+----------------------------------
+
+C:\Local\CCAM\v78\dbf>%GPMSI_BASE%\v2.1\gpmsi -script %GPMSI_BASE%\v2.1\scripts\groovy\dbf_ccam_tout_vers_h2.groovy  -a:h2uri jdbc:h2:file:./ccam
+C:\Local\CCAM\v78\dbf
+DROP des tables
+Creation des tables
+Transfert des dbf vers les tables
+3896998 enregistrements
+Transfert terminé
+3899416 enregistrements transférés en 688.26 secondes
+
+Ajout colonne R_ACTE(DT_FIN_EFFET) ...
+... en 2.203 secondes
+
+Ajout index sur R_ACTE(COD_ACTE) ...
+... en 0.656 secondes
+
+Ajout index sur R_ACTE(COD_ACTE, DT_EFFET) ...
+... en 0.875 secondes
+
+Ajout valeurs dans R_ACTE(DT_FIN_EFFET) ...
+... en 69.348 secondes
+
+Ajout valeurs de fin 2099-12-31 dans R_ACTE(DT_FIN_EFFET) ...
+... en 4.062 secondes
+
+Compactage de la base ...
+nov. 13, 2026 7:28:11 PM groovy.sql.Sql execute
+AVERTISSEMENT: Failed to execute: SHUTDOWN COMPACT because: La base de donnÚes est dÚjÓ fermÚe (pour dÚsactiver la fermeture automatique Ó l'arrÛt de la VM, ajoutez "; DB_CLOSE_ON_EXIT = FALSE" Ó l'URL db)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]
+... en 35.799 secondes
+
+Temps total d'execution : 801.25 secondes
+
+
+
+*/
