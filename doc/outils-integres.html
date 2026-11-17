@@ -1,0 +1,228 @@
+<html>
+<head>
+  <title>Outils intégrés</title>
+</head>
+<body>
+<h1>Outils intégrés</h1>
+
+<h2>Introduction</h2>
+<p>Depuis Gpmsi 2.1.8 il y a la possibilité d'appeler directement une application
+java (donc une classe qui a une méthode <code>main(String[])</code> ).</p>
+
+<p>Cela se fait via la commande <code>runjava</code> de la façon suivante :</p>
+
+<pre>
+%GPMSI_BASE%\v2.1\scripts\runjava <nom_de_la_classe> [ arguments ]
+</pre>
+
+<p>Un certain nombre de librairies possèdent ainsi des commandes intégrées, voici
+plusieurs exemples.</p>
+
+<h2>H2 Console</h2>
+<p>La base H2 permet de lancer une console qui s'ouvre dans le navigateur local,
+que l'on peut démarrer de la façon suivante :</p>
+
+<pre>
+cd C:\Local\CCAM\v78\dbf
+%GPMSI_BASE%\v2.1\scripts\runjava org.h2.tools.Console
+</pre>
+
+<p>Par contre cette console tourne en permanence, pour l'arrêter il faut faire CTRL-C dans la fenêtre de ligne de commande.</p>
+
+<h2>H2 Backup</h2>
+<p>La base H2 a une commande de backup qui permet de faire une sauvegarde en SQL d'une base.
+Si on lance cette commande depuis le répertoire qui contient la base, et qu'il n'y a qu'une seule
+base H2 dans le répertoire, la commande fait la sauvegarde dans le fichier backup.zip dans ce
+même répertoire. Ex :</p>
+
+<pre>
+cd C:\Local\CCAM\v78\dbf
+%GPMSI_BASE%\v2.1\scripts\runjava org.h2.tools.Backup
+</pre>
+
+<h2>Restore</h2>
+<p>La commande Restore de la base H2 restaure une base de données H2 d'après son backup. Ex :</p>
+
+<pre>
+cd C:\Local\CCAM\v78\dbf
+%GPMSI_BASE%\v2.1\scripts\runjava org.h2.tools.Restore
+</pre>
+
+<h2>Autres outils de la base H2</h2>
+<p>La base H2 est livrée avec de nombreux autres outils que l'on peut utiliser en ligne de commande.</p>
+<p>Il y a :<br>
+<b>
+ChangeFileEncryption, CompressTool, ConvertTraceFile, CreateCluster, Csv, DeleteDbFiles,
+DirectRecover, GUIConsole, MultiDimension, Recover, RunScript, Script, Server, Shell, Upgrade</b>     
+</p>
+<p>
+Voir pour plus d'informations : 
+<a href="https://www.h2database.com/javadoc/org/h2/tools/package-summary.html">
+https://www.h2database.com/javadoc/org/h2/tools/package-summary.html
+</a>
+</p>
+
+<h2>Phonex</h2>
+<p>La classe Phonex peut être utilisée pour une recherche phonétique, en transformant un texte en français en une écriture phonétique, qui rapproche
+les mots de prononciation similaire. On peut l'utiliser également en commande, pour voir comment est représentée une chaîne particulière.</p>
+
+Ex : 
+<pre>
+cd C:\Local\CCAM\v78\dbf
+%GPMSI_BASE%\v2.1\scripts\runjava fr.gpmsi.Phonex
+</pre>
+
+<pre>
+Utilisation :
+Phonex <algorithme> <chaine>
+Algorithmes possibles : P phonex, E phonex sans espaces, S phonex apres standardisation
+</pre>
+
+<pre>
+%GPMSI_BASE%\v2.1\scripts\runjava fr.gpmsi.Phonex P jean
+</pre>
+
+<pre>
+GE1
+</pre>
+
+<pre>
+%GPMSI_BASE%\v2.1\scripts\runjava fr.gpmsi.Phonex P jean-paul
+</pre>
+
+<pre>
+GE1-TOL
+</pre>
+
+<pre>
+%GPMSI_BASE%\v2.1\scripts\runjava fr.gpmsi.Phonex P jeanpaul
+</pre>
+
+<pre>
+GE1TOL
+</pre>
+
+<pre>
+%GPMSI_BASE%\v2.1\scripts\runjava fr.gpmsi.Phonex S jean-paul
+</pre>
+
+<pre>
+GE1TOL
+</pre>
+
+<pre>
+%GPMSI_BASE%\v2.1\scripts\runjava fr.gpmsi.Phonex S "jean paul"
+</pre>
+
+<pre>
+GE1TOL
+</pre>
+
+<h2>Environnement java</h2>
+<p>La commande ShowEnv permet d'afficher dans la fenêtre de commande les principales propriété java qui ont été chargées.
+Cela permet de voir si il y a un problème de version de java, ou bien de classpath.</p>
+
+<pre>
+%GPMSI_BASE%\v2.1\scripts\runjava fr.gpmsi.ShowEnv
+</pre>
+
+<pre>
+java.class.path :
+        C:\Users\hkaradimas\.gpmsi\resources
+        C:\app\gpmsi\v2.1\lib\aagbl-1.1-javadoc.jar
+        C:\app\gpmsi\v2.1\lib\aagbl-1.1.jar
+        C:\app\gpmsi\v2.1\lib\ant-1.10.15.jar
+        C:\app\gpmsi\v2.1\lib\ant-antlr-1.10.15.jar
+        C:\app\gpmsi\v2.1\lib\ant-junit-1.10.15.jar
+        C:\app\gpmsi\v2.1\lib\ant-launcher-1.10.15.jar
+        C:\app\gpmsi\v2.1\lib\asm-9.8.jar
+        C:\app\gpmsi\v2.1\lib\asm-analysis-9.8.jar
+        C:\app\gpmsi\v2.1\lib\asm-tree-9.8.jar
+        C:\app\gpmsi\v2.1\lib\asm-util-9.8.jar
+        C:\app\gpmsi\v2.1\lib\commons-beanutils-1.9.3.jar
+        C:\app\gpmsi\v2.1\lib\commons-cli-1.6.0.jar
+        C:\app\gpmsi\v2.1\lib\commons-codec-1.15.jar
+        C:\app\gpmsi\v2.1\lib\commons-collections-3.2.2.jar
+        C:\app\gpmsi\v2.1\lib\commons-collections4-4.4.jar
+        C:\app\gpmsi\v2.1\lib\commons-compress-1.23.0.jar
+        C:\app\gpmsi\v2.1\lib\commons-io-2.11.0.jar
+        C:\app\gpmsi\v2.1\lib\commons-lang3-3.6.jar
+        C:\app\gpmsi\v2.1\lib\commons-logging-1.2.jar
+        C:\app\gpmsi\v2.1\lib\commons-math3-3.6.1.jar
+        C:\app\gpmsi\v2.1\lib\commons-net-3.9.0.jar
+        C:\app\gpmsi\v2.1\lib\commons-text-1.1.jar
+        C:\app\gpmsi\v2.1\lib\curvesapi-1.07.jar
+        C:\app\gpmsi\v2.1\lib\gpmsi-2.1.8.jar
+        C:\app\gpmsi\v2.1\lib\groovy-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-ant-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-astbuilder-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-cli-commons-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-cli-picocli-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-console-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-datetime-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-dateutil-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-groovydoc-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-groovysh-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-json-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-macro-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-macro-library-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-nio-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-sql-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-swing-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-templates-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-xml-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\groovy-yaml-4.0.28.jar
+        C:\app\gpmsi\v2.1\lib\h2-2.1.214.jar
+        C:\app\gpmsi\v2.1\lib\hamcrest-core-1.3.jar
+        C:\app\gpmsi\v2.1\lib\hapi-base-2.3.jar
+        C:\app\gpmsi\v2.1\lib\hapi-structures-v23-2.3.jar
+        C:\app\gpmsi\v2.1\lib\hapi-structures-v231-2.3.jar
+        C:\app\gpmsi\v2.1\lib\hapi-structures-v24-2.3.jar
+        C:\app\gpmsi\v2.1\lib\hapi-structures-v25-2.3.jar
+        C:\app\gpmsi\v2.1\lib\hapi-structures-v251-2.3.jar
+        C:\app\gpmsi\v2.1\lib\ivy-2.5.3.jar
+        C:\app\gpmsi\v2.1\lib\jackson-annotations-2.19.2.jar
+        C:\app\gpmsi\v2.1\lib\jackson-core-2.19.2.jar
+        C:\app\gpmsi\v2.1\lib\jackson-databind-2.19.2.jar
+        C:\app\gpmsi\v2.1\lib\jackson-dataformat-yaml-2.19.2.jar
+        C:\app\gpmsi\v2.1\lib\javadbf-1.14.0.jar
+        C:\app\gpmsi\v2.1\lib\javaparser-core-3.27.0.jar
+        C:\app\gpmsi\v2.1\lib\jline-2.14.6.jar
+        C:\app\gpmsi\v2.1\lib\joda-time-2.1.jar
+        C:\app\gpmsi\v2.1\lib\junit-4.12.jar
+        C:\app\gpmsi\v2.1\lib\log4j-1.2-api-2.20.0.jar
+        C:\app\gpmsi\v2.1\lib\log4j-api-2.20.0.jar
+        C:\app\gpmsi\v2.1\lib\log4j-core-2.20.0.jar
+        C:\app\gpmsi\v2.1\lib\opencsv-3.9.jar
+        C:\app\gpmsi\v2.1\lib\org.abego.treelayout.core-1.0.3.jar
+        C:\app\gpmsi\v2.1\lib\picocli-4.7.7.jar
+        C:\app\gpmsi\v2.1\lib\pmsixml-3.1.5-javadoc.jar
+        C:\app\gpmsi\v2.1\lib\pmsixml-3.1.5-sources.jar
+        C:\app\gpmsi\v2.1\lib\pmsixml-3.1.5.jar
+        C:\app\gpmsi\v2.1\lib\poi-5.2.3.jar
+        C:\app\gpmsi\v2.1\lib\poi-ooxml-5.2.3.jar
+        C:\app\gpmsi\v2.1\lib\poi-ooxml-lite-5.2.3.jar
+        C:\app\gpmsi\v2.1\lib\poi-scratchpad-5.2.3.jar
+        C:\app\gpmsi\v2.1\lib\slf4j-api-2.0.6.jar
+        C:\app\gpmsi\v2.1\lib\slf4j-simple-2.0.6.jar
+        C:\app\gpmsi\v2.1\lib\snakeyaml-2.4.jar
+        C:\app\gpmsi\v2.1\lib\SparseBitSet-1.2.jar
+        C:\app\gpmsi\v2.1\lib\ucum-1.0.10.jar
+        C:\app\gpmsi\v2.1\lib\xmlbeans-5.1.1.jar
+java.home : C:\jdk1.8\jre
+java.version : 1.8.0_112
+java.vendor : Oracle Corporation
+java.vendor.url : http://java.oracle.com/
+os.arch : amd64
+os.name : Windows 10
+os.version : 10.0
+user.name : hkaradimas
+user.home : C:\Users\hkaradimas
+user.dir : C:\Local\CCAM\v78\dbf
+</pre>
+
+
+</body>
+</html>
+
+
