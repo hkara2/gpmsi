@@ -1,0 +1,26 @@
+
+Requête pour explorer les codes qui ont une date de fin :
+
+select *
+from r_acte
+where r_acte.cod_acte in (select cod_acte from r_acte r2 where r2.dt_fin is not null)
+order by cod_acte, dt_modif
+
+On voit bien qu'aucun code n'a été "réactivé", la fin est bien définitive.
+
+Affichage des hiérarchies de menu :
+
+select cod_acte, dt_modif,
+  concat( case when m1.rang is null then '' else m1.rang || '.' end , case when m2.rang is null then '' else m2.rang || '.' end, case when m3.rang is null then '' else m3.rang || '.' end, case when m4.rang is null then '' else m4.rang end) menu, 
+  m1.rang as menu_r1, m1.libelle as menu_l1, m2.rang as menu_r2, m2.libelle as menu_l2, m3.rang as menu_r3, m3.libelle as menu_l3, m4.rang as menu_r4, m4.libelle as menu_l4,
+  dt_effet, dt_fin_effet
+from r_acte
+ left join r_menu m4 on m4.cod_menu = r_acte.menu_cod
+ left join r_menu m3 on m3.cod_menu = m4.cod_pere
+ left join r_menu m2 on m2.cod_menu = m3.cod_pere
+ left join r_menu m1 on m1.cod_menu = m2.cod_pere
+where DATE '2026-01-01' between r_acte.dt_effet and r_acte.dt_fin_effet 
+
+
+
+
