@@ -277,12 +277,12 @@ class Dbf2H2 {
         println "Transfert terminé"
         println "$nrecords enregistrements transférés en ${totalChrono.elapsed()/1000.0} secondes"
         println ""
-        println "Ajout colonne R_ACTE(DT_FIN_EFFET) ..."
+        println "Ajout colonne R_ACTE.DT_FIN_EFFET ..."
         exeChrono.resetMark()
         gsql.execute('ALTER TABLE r_acte ADD dt_fin_effet DATE')
         println "... en ${exeChrono.elapsed()/1000.0} secondes"
         println ""
-        println "Ajout index sur R_ACTE(COD_ACTE) ..."
+        println "Ajout index sur R_ACTE.COD_ACTE ..."
         exeChrono.resetMark()
         gsql.execute('CREATE INDEX r_acte_cod_acte ON r_acte(cod_acte)')
         println "... en ${exeChrono.elapsed()/1000.0} secondes"
@@ -292,7 +292,7 @@ class Dbf2H2 {
         gsql.execute('CREATE INDEX r_acte_cod_acte_dt_effet ON r_acte(cod_acte, dt_effet)')
         println "... en ${exeChrono.elapsed()/1000.0} secondes"
         println ""
-        println "Ajout valeurs dans R_ACTE(DT_FIN_EFFET) ..."
+        println "Ajout valeurs dans R_ACTE.DT_FIN_EFFET ..."
         exeChrono.resetMark()
         gsql.execute('''
 UPDATE r_acte ra1 SET ra1.dt_fin_effet = (
@@ -303,7 +303,12 @@ UPDATE r_acte ra1 SET ra1.dt_fin_effet = (
         ''')
         println "... en ${exeChrono.elapsed()/1000.0} secondes"
         println ""
-        println "Ajout valeurs de fin 2099-12-31 dans R_ACTE(DT_FIN_EFFET) ..."
+        println "Repercussions de R_ACTE.DT_FIN dans R_ACTE.DT_FIN_EFFET ..."
+        exeChrono.resetMark()
+        gsql.execute('UPDATE r_acte SET dt_fin_effet = dt_fin WHERE dt_fin is not null')
+        println "... en ${exeChrono.elapsed()/1000.0} secondes"
+        println ""
+        println "Ajout valeurs de fin 2099-12-31 dans R_ACTE.DT_FIN_EFFET ..."
         exeChrono.resetMark()
         gsql.execute("UPDATE r_acte SET dt_fin_effet = DATE '2099-12-31' WHERE dt_fin_effet IS NULL")
         println "... en ${exeChrono.elapsed()/1000.0} secondes"
@@ -332,101 +337,57 @@ UPDATE r_acte ra1 SET ra1.dt_fin_effet = (
 }
 
 /*
-Notes sur manipulations de table pour avoir calcul dt_fin_effet
 
-create index r_acte_cod_acte on r_acte(cod_acte)  -- 2.7 s
+----dbf-ccam-tout-vers-h2.bat---------------------------------------------------
+rem Appel au script GPMSI groovy dbf_ccam_tout_vers_h2.groovy
+rem A copier-coller dans le repertoire qui contient les fichiers dbf
+rem A la fin il y a une base "ccam" (user "sa", mot de passe vide)
+rem dans le r├®pertoire, avec le contenu des tables dbf
 
-update r_acte ra1 set ra1.dt_fin_effet = (
-    select lead(dt_effet, 1) ignore nulls over (partition by cod_acte order by dt_effet)
-      from r_acte ra2
-    where ra2.cod_acte = ra1.cod_acte and ra2.dt_effet = ra1.dt_effet
-  )
+setlocal EnableExtensions
 
-246 s
+if not defined GPMSI_HOME set GPMSI_HOME=%GPMSI_BASE%\v2.1
 
--> finit mais ne marche pas (dt_fin_effet est toujours null)
+set APP=%GPMSI_HOME%\gpmsi.bat
+set SCRIPT=%GPMSI_HOME%\scripts\groovy\dbf_ccam_tout_vers_h2.groovy
 
-update r_acte ra1 set ra1.dt_fin_effet = (
-  select min(dt_effet)
-  from r_acte ra2
-  where ra2.cod_acte = ra1.cod_acte and ra2.dt_effet > ra1.dt_effet
-)
+set INFILE=%~1
+set MYARG=%~2
+set OUTFILE=%~3
+call "%APP%" -script "%SCRIPT%" -a:h2url jdbc:h2:file:./ccam
+if errorlevel 1 pause
+--------------------------------------------------------------------------------
 
-128 s
-
-OK fonctionne.
-Même requête mais pour avoir la veille, ce qui permet d'utiliser "between"
-
-update r_acte ra1 set ra1.dt_fin_effet = (
-  select dateadd(DAY, -1, min(dt_effet) )
-  from r_acte ra2
-  where ra2.cod_acte = ra1.cod_acte and ra2.dt_effet > ra1.dt_effet
-)
-
-528 s
-
-update r_acte set dt_fin_effet = DATE '2099-12-31' where dt_fin_effet is null
-
-1.2 s
-
-select * from r_acte order by cod_acte, dt_effet
-
-create index r_acte_cod_acte_dt_effet on r_acte(cod_acte, dt_effet)
-
-0.84 s
-
-update r_acte ra1 set ra1.dt_fin_effet = (
-  select dateadd(DAY, -1, min(dt_effet) )
-  from r_acte ra2
-  where ra2.cod_acte = ra1.cod_acte and ra2.dt_effet > ra1.dt_effet
-)
-
-107 s -> mieux !
-
-select * from r_acte where cod_acte = 'AAFA001' and DATE '2024-12-31' between dt_effet and dt_fin_effet
-   ID  COD_ACTE   DT_MODIF   MENU_COD  FRAIDP_COD  TYPE_COD  COD_STRUCT  NOM_COURT                                  NOM_LONG                                                             SEXE  DT_CREATION  DT_FIN  ENTENTE   DT_EFFET   DT_ARRETE     DT_JO     MFIC_PLACE  PRECEDENT  SUIVANT  REMBOU_COD  DT_FIN_EFFET
------  --------  ----------  --------  ----------  --------  ----------  -----------------------------------------  -------------------------------------------------------------------  ----  -----------  ------  -------  ----------  ----------  ----------  ----------  ---------  -------  ----------  ------------
-18314  AAFA001   2022-03-03        44  N                  0              exérèse T. intraparench cervelet craniot.  Exérèse de tumeur intraparenchymateuse du cervelet, par craniotomie     0  2005-03-01   <null>  N        2022-04-01  2021-09-22  2021-09-25    1.000000                               1   2024-12-31 
-
-select * from r_acte where cod_acte = 'AAFA001' and DATE '2025-01-01' between dt_effet and dt_fin_effet
-   ID  COD_ACTE   DT_MODIF   MENU_COD  FRAIDP_COD  TYPE_COD  COD_STRUCT  NOM_COURT                                  NOM_LONG                                                             SEXE  DT_CREATION  DT_FIN  ENTENTE   DT_EFFET   DT_ARRETE     DT_JO     MFIC_PLACE  PRECEDENT  SUIVANT  REMBOU_COD  DT_FIN_EFFET
------  --------  ----------  --------  ----------  --------  ----------  -----------------------------------------  -------------------------------------------------------------------  ----  -----------  ------  -------  ----------  ----------  ----------  ----------  ---------  -------  ----------  ------------
-15930  AAFA001   2024-11-04        44  N                  0              exérèse T. intraparench cervelet craniot.  Exérèse de tumeur intraparenchymateuse du cervelet, par craniotomie     0  2005-03-01   <null>  N        2025-01-01  2024-06-20  2024-06-21    1.000000                               1   2099-12-31 
-
-----------------------------------
-
-C:\Local\CCAM\v78\dbf>%GPMSI_BASE%\v2.1\gpmsi -script %GPMSI_BASE%\v2.1\scripts\groovy\dbf_ccam_tout_vers_h2.groovy  -a:h2uri jdbc:h2:file:./ccam
+C:\Local\CCAM\v78\dbf>dbf-ccam-tout-vers-h2.bat
 C:\Local\CCAM\v78\dbf
 DROP des tables
 Creation des tables
 Transfert des dbf vers les tables
-3896998 enregistrements
+3898058 enregistrements
 Transfert terminé
-3899416 enregistrements transférés en 688.26 secondes
+3899416 enregistrements transférés en 633.697 secondes
 
-Ajout colonne R_ACTE(DT_FIN_EFFET) ...
-... en 2.203 secondes
+Ajout colonne R_ACTE.DT_FIN_EFFET ...
+... en 3.355 secondes
 
-Ajout index sur R_ACTE(COD_ACTE) ...
-... en 0.656 secondes
+Ajout index sur R_ACTE.COD_ACTE ...
+... en 1.645 secondes
 
 Ajout index sur R_ACTE(COD_ACTE, DT_EFFET) ...
-... en 0.875 secondes
+... en 0.903 secondes
 
-Ajout valeurs dans R_ACTE(DT_FIN_EFFET) ...
-... en 69.348 secondes
+Ajout valeurs dans R_ACTE.DT_FIN_EFFET ...
+... en 140.733 secondes
 
-Ajout valeurs de fin 2099-12-31 dans R_ACTE(DT_FIN_EFFET) ...
-... en 4.062 secondes
+Repercussions de R_ACTE.DT_FIN dans R_ACTE.DT_FIN_EFFET ...
+... en 1.161 secondes
+
+Ajout valeurs de fin 2099-12-31 dans R_ACTE.DT_FIN_EFFET ...
+... en 5.684 secondes
 
 Compactage de la base ...
-nov. 13, 2026 7:28:11 PM groovy.sql.Sql execute
-AVERTISSEMENT: Failed to execute: SHUTDOWN COMPACT because: La base de donnÚes est dÚjÓ fermÚe (pour dÚsactiver la fermeture automatique Ó l'arrÛt de la VM, ajoutez "; DB_CLOSE_ON_EXIT = FALSE" Ó l'URL db)
-Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]
-... en 35.799 secondes
+... en 85.712 secondes
 
-Temps total d'execution : 801.25 secondes
-
-
+Temps total d'execution : 872.916 secondes
 
 */
