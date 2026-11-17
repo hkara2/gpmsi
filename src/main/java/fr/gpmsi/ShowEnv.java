@@ -25,7 +25,7 @@ public class ShowEnv {
   public static void main(String[] args)
   throws Exception
   {
-    //special printing of class path for more readabilit
+    //impression spéciale du classpath pour une meilleure lecture
     String cp = System.getProperty("java.class.path");
     cp = cp.replace(System.getProperty("path.separator"), "\n\t");
     System.out.println("java.class.path : \n\t" + cp);
