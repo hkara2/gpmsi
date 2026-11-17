@@ -312,7 +312,11 @@ UPDATE r_acte ra1 SET ra1.dt_fin_effet = (
         exeChrono.resetMark()
         //faire une fermeture avec compactage de la base
         try {
-          gsql.getConnection().execute('SHUTDOWN COMPACT') //ferme et compacte. Envoie une exception que l'on ignore, le compactage est bien fonctionnel.
+          //ferme et compacte.
+          //si on passe par gsql.execute(), cela envoie une exception que
+          //l'on ignore, le compactage est bien fonctionnel.
+          //en passant par un statement créé par la connexion directe, il n'y a aucun avertissement.
+          gsql.getConnection().createStatement().execute('SHUTDOWN COMPACT') 
         }
         catch (org.h2.jdbc.JdbcSQLNonTransientConnectionException ignored) {}
         println "... en ${exeChrono.elapsed()/1000.0} secondes"
