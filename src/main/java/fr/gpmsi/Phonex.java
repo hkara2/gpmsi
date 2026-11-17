@@ -159,5 +159,34 @@ public class Phonex {
     return result;
   }
 
+  /**
+   * Fonctionnement en mode application pour pouvoir tester directement la transformation en Phonex
+   * @param args il doit y avoir au moins deux arguments : l'algorithme et la chaîne à transformer.
+   *   Algorithmes possibles : P phonex, E phonex sans espaces, S phonex apres standardisation
+   */
+  public static void main(String[] args) {
+    if (args.length < 2) {
+      System.out.println("Utilisation :");
+      System.out.println("Phonex <algorithme> <chaine>");
+      System.out.println("Algorithmes possibles : P phonex, E phonex sans espaces, S phonex apres standardisation");
+      return;
+    }
+    String algo = args[0];
+    String str = args[1];
+    switch (algo) {
+    case "E":
+      System.out.println(toPhonexWithoutSpaces(str));
+      break;
+    case "P":
+      System.out.println(toPhonex(str));
+      break;
+    case "S":
+      System.out.println(toPhonexStandard1(str));
+      break;
+    default:
+      System.out.println("Algorithme inconnu : "+algo);
+    
+    }
+  }
 }
 
